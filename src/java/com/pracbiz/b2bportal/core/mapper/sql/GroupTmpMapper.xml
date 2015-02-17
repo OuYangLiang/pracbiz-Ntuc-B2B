@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.GroupTmpMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.GroupTmpHolder" >
+    <id column="GROUP_OID" property="groupOid" jdbcType="DECIMAL" />
+    <result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+    <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+    <result column="GROUP_TYPE" property="groupType" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="USER_TYPE_OID" property="userTypeOid" jdbcType="DECIMAL" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="ACTOR" property="actor" jdbcType="VARCHAR" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="CTRL_STATUS" property="ctrlStatus" jdbcType="CHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    GROUP_OID, GROUP_ID, GROUP_NAME, GROUP_TYPE, CREATE_DATE, CREATE_BY, UPDATE_DATE, 
+    UPDATE_BY, USER_TYPE_OID, BUYER_OID, SUPPLIER_OID, ACTOR, ACTION_TYPE, ACTION_DATE, 
+    CTRL_STATUS
+  </sql>
+
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.GroupTmpHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_GROUP
+    <where>
+      <if test="groupOid != null" >
+        GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+      </if>
+      <if test="groupId != null" >
+        AND GROUP_ID = #{groupId,jdbcType=VARCHAR}
+      </if>
+      <if test="groupName != null" >
+        AND GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+      </if>
+      <if test="groupType != null" >
+        AND GROUP_TYPE = #{groupType,jdbcType=CHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actor != null" >
+        AND ACTOR = #{actor,jdbcType=VARCHAR}
+      </if>
+      <if test="actionType != null" >
+        AND ACTION_TYPE = #{actionType,jdbcType=CHAR}
+      </if>
+      <if test="actionDate != null" >
+        AND ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.GroupTmpHolder" >
+    delete from T_GROUP
+	<where>
+      <if test="groupOid != null" >
+        GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+      </if>
+      <if test="groupId != null" >
+        AND GROUP_ID = #{groupId,jdbcType=VARCHAR}
+      </if>
+      <if test="groupName != null" >
+        AND GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+      </if>
+      <if test="groupType != null" >
+        AND GROUP_TYPE = #{groupType,jdbcType=CHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actor != null" >
+        AND ACTOR = #{actor,jdbcType=VARCHAR}
+      </if>
+      <if test="actionType != null" >
+        AND ACTION_TYPE = #{actionType,jdbcType=CHAR}
+      </if>
+      <if test="actionDate != null" >
+        AND ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.GroupTmpHolder" >
+    insert into T_GROUP (GROUP_OID, GROUP_ID, GROUP_NAME, 
+      GROUP_TYPE, CREATE_DATE, CREATE_BY, 
+      UPDATE_DATE, UPDATE_BY, USER_TYPE_OID, 
+      BUYER_OID, SUPPLIER_OID, ACTOR, 
+      ACTION_TYPE, ACTION_DATE, CTRL_STATUS
+      )
+    values (#{groupOid,jdbcType=DECIMAL}, #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
+      #{groupType,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{userTypeOid,jdbcType=DECIMAL}, 
+      #{buyerOid,jdbcType=DECIMAL}, #{supplierOid,jdbcType=DECIMAL}, #{actor,jdbcType=VARCHAR}, 
+      #{actionType,jdbcType=CHAR}, #{actionDate,jdbcType=TIMESTAMP}, #{ctrlStatus,jdbcType=CHAR}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.GroupTmpHolder" >
+    update T_GROUP
+    <set >
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null" >
+        GROUP_TYPE = #{groupType,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="userTypeOid != null" >
+        USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+      <if test="actor != null" >
+        ACTOR = #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="actionType != null" >
+        ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      </if>
+      <if test="actionDate != null" >
+        ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctrlStatus != null" >
+        CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.GroupTmpHolder" >
+    update T_GROUP
+    set GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      GROUP_TYPE = #{groupType,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      ACTOR = #{actor,jdbcType=VARCHAR},
+      ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR}
+    where GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectGroupTmpByUserOid" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    G.GROUP_OID, GROUP_ID,  G.GROUP_NAME,  G.GROUP_TYPE,  G.CREATE_DATE,  G.CREATE_BY,  G.UPDATE_DATE, 
+    G.UPDATE_BY, G.USER_TYPE_OID, G.BUYER_OID, G.SUPPLIER_OID, G.ACTOR, G.ACTION_TYPE, G.ACTION_DATE, 
+    G.CTRL_STATUS
+    from T_GROUP G, T_GROUP_USER GU
+    where G.GROUP_OID = GU.GROUP_OID
+    AND GU.USER_OID = #{userOid,jdbcType=DECIMAL}
+  </select>
+</mapper>

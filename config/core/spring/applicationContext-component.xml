@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    
+    
+    <bean id="outboundFileArrivalNoticeComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.FileArrivalNoticeComp">
+    </bean>
+    
+    <bean id="outboundBatchSplitterComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.BatchSplitterComp">
+    </bean>
+    
+    <bean id="outboundDocTransformerComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.DocTransformerComp">
+    </bean>
+    
+    <bean id="outboundAggregatorComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.AggregatorComp">
+    </bean>
+    
+    <bean id="outboundTxnLoggingComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.TxnLoggingComp">
+    </bean>
+    
+    <bean id="outboundDistributionComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.DistributionComp">
+    </bean>
+    
+    <bean id="outboundAcknowledgementComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.AcknowledgementComp">
+    </bean>
+    
+    <bean id="outboundHousekeepingComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.HousekeepingComp">
+    </bean>
+    
+    <bean id="outboundNotificationComp"
+        class="com.pracbiz.b2bportal.core.eai.component.outbound.NotificationComp">
+    </bean>
+    
+    <bean id="inboundFileArrivalNoticeComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.FileArrivalNoticeComp">
+    </bean>
+    
+    <bean id="inboundBatchSplitterComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.BatchSplitterComp">
+    </bean>
+    
+    <bean id="inboundDocTransformerComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.DocTransformerComp">
+    </bean>
+    
+    <bean id="inboundAggregatorComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.AggregatorComp">
+    </bean>
+    
+    <bean id="inboundTxnLoggingComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.TxnLoggingComp">
+    </bean>
+    
+    <bean id="inboundDistributionComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.DistributionComp">
+    </bean>
+    
+    <bean id="inboundAcknowledgementComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.AcknowledgementComp">
+    </bean>
+    
+    <bean id="inboundHousekeepingComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.HousekeepingComp">
+    </bean>
+    
+    <bean id="inboundNotificationComp"
+        class="com.pracbiz.b2bportal.core.eai.component.inbound.NotificationComp">
+    </bean>
+</beans>

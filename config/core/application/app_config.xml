@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appConfig>
+    <site>
+    	<!-- System date-time format definitions -->
+    	<sysDateTime>
+    		<date>
+    			<delimiter>/</delimiter>
+    			<inputFormat>dd/MM/yyyy</inputFormat>
+    			<displayFormat>dd/MM/yyyy</displayFormat>
+    		</date>
+    		<time>
+    			<delimiter>:</delimiter>
+    			<inputFormat>HHmm</inputFormat>
+    			<displayFormat>HH:mm:ss</displayFormat>
+    		</time>
+    	</sysDateTime>
+    	
+    	<!-- Max length of identifier is 10 -->
+    	<identifier>unity</identifier>
+    	<serverUrl>http://localhost:8081/b2bportal</serverUrl>
+    </site>
+
+	<login-model>
+		<value>
+			PASSWORD
+		</value>
+		<value>
+			AD
+		</value>
+	</login-model>
+	<!-- 
+        ##
+        ## NTLM
+        ##
+        # Set this to true to enable NTLM single sign on. NTLM will work only if
+        # LDAP authentication is also enabled and the authentication is made by
+        # screen name. If set to true, then the property "auto.login.hooks" must
+        # contain a reference to the class
+        # com.liferay.portal.security.auth.NtlmAutoLogin and the filter
+        # com.pracbiz.b2bportal.core.ntlm2.filter.NtlmFilter must be referenced
+        # in web.xml.
+        #
+        # Negotiate flags are set according to the the client's requested
+        # capabilities and the server's ServerCapabilities.
+        #
+        # See the following link:
+        #     http://msdn.microsoft.com/en-us/library/cc717152%28v=PROT.10%29.aspx
+        #
+     -->
+	<auth autoLogin="N">
+	  <!-- The Windows domain name -->
+	  <ntlm-auth-domain>pracbiz.com</ntlm-auth-domain>
+	  <!-- The domain controller IP address -->
+	  <ntlm-auth-domain-controller>192.168.0.151</ntlm-auth-domain-controller>
+	  <!-- The domain controller hostname -->
+	  <ntlm-auth-domain-controller-name>nj</ntlm-auth-domain-controller-name>
+	  <!-- The computer account for the connection to the DC -->
+	  <ntlm-auth-service-account>PRACBIZ-JM$@pracbiz.com</ntlm-auth-service-account>
+	  <!-- The password of the computer account -->
+	  <ntlm-auth-service-account-password>jiang_19860378m</ntlm-auth-service-account-password>
+	</auth>
+	<!-- 
+	    #
+        # See http://jcifs.samba.org/src/docs/ntlmhttpauth.html for more available
+        # properties.
+        #
+     -->
+     <jcifs>
+        <netbios-cachePolicy>30</netbios-cachePolicy>
+        <smb-client-soTimeout>35000</smb-client-soTimeout>
+     </jcifs>
+     
+     <generic>
+        <msgType-config>
+            <msgType name="PO">
+                <doc-format-list default="FP-Idoc">
+                    <value>canonical</value>
+                    <value>ebxml</value>
+                    <value>FP-Idoc</value>
+                    <value>watsons</value>
+                </doc-format-list>
+                <subTypes default="SOR">
+                    <value>SOR</value>
+                    <value>CON</value>
+                </subTypes>
+            </msgType>
+            <msgType name="GRN">
+                <doc-format-list default="fairprice">
+                    <value>canonical</value>
+					<value>fairprice</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="RTV">
+                <doc-format-list default="FP-Idoc">
+                    <value>canonical</value>
+					<value>FP-Idoc</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="DN">
+                <doc-format-list default="FP-Idoc">
+                    <value>canonical</value>
+                    <value>FP-Idoc</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="PN">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="INV">
+                <doc-format-list default="FP-Idoc">
+                    <value>canonical</value>
+                    <value>ebxml</value>
+                    <value>FP-Idoc</value>
+                    <value>watsons</value>
+                    <value>tangs</value>
+                </doc-format-list>
+                <subTypes default="SOR">
+                    <value>SOR</value>
+                    <value>CON</value>
+                </subTypes>
+            </msgType>
+            <msgType name="DO">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="SM" basicData="Y">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="ST" basicData="Y">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="UM" basicData="Y">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="SA" basicData="Y">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="SL" basicData="Y">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="DPR">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="ITEMIN">
+                <doc-format-list default="cktang">
+                    <value>cktang</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="POCN">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="IM" basicData="Y">
+                <doc-format-list default="fairprice">
+                    <value>canonical</value>
+                    <value>fairprice</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+			<msgType name="GI">
+                <doc-format-list default="fairprice">
+                    <value>fairprice</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="CC">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="DSD">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                </doc-format-list>
+                <subTypes default="default">
+                    <value>default</value>
+                </subTypes>
+            </msgType>
+            <msgType name="CN">
+                <doc-format-list default="canonical">
+                    <value>canonical</value>
+                    <value>tangs</value>
+                </doc-format-list>
+                <subTypes default="CON">
+                    <value>CON</value>
+                </subTypes>
+            </msgType>
+        </msgType-config>
+    </generic>
+    
+    <dispatchSetting>
+    	<maxFilesPerZip>5</maxFilesPerZip>
+    	<maxSizeOfUploaded>4194304</maxSizeOfUploaded>
+    </dispatchSetting>
+    
+    <attachmentsForSAJob>
+        <attachment>d:/readme.pdf</attachment>
+        <attachment>d:/TheJasperReportsUltimateGuide.1.0.pdf</attachment>
+    </attachmentsForSAJob>
+    
+    <supplierMasterGstConfig>
+        <buyer name="UNITY" type="UNITY"></buyer>
+    </supplierMasterGstConfig>
+    
+    <maxInvNoLength>16</maxInvNoLength>
+    
+    <!-- prefix code of store or warehouse -->
+    <prefix>
+    	<store>ST</store>
+    	<warehouse>WH</warehouse>
+    </prefix>
+    <matchingResolutionReportOrder>
+    	<buyer code="FP">supplierCode</buyer>
+    	<buyer code="CH">storeCode</buyer>
+    </matchingResolutionReportOrder>
+    
+    <pre-processing-translator>
+		<buyer id="CKT">
+			<msgType type="PO">
+				<translator bean="tangsPoTranslator"/>
+			</msgType>
+			<msgType type="GRN">
+				<translator bean="tangsGrnTranslator"/>
+			</msgType>
+			<msgType type="CON">
+				<translator bean="tangsConPoTranslator"/>
+			</msgType>
+		</buyer>
+		<buyer id="FP">
+			<msgType type="PO">
+				<translator bean="fpIdocPoTranslator"/>
+			</msgType>
+			<msgType type="RTV">
+				<translator bean="fpIdocRtvTranslator"/>
+			</msgType>
+			<msgType type="GRN">
+				<translator bean="fpGrTranslator"/>
+			</msgType>
+			<msgType type="GI">
+				<translator bean="fpGiTranslator"/>
+			</msgType>
+			<msgType type="DSD">
+				<translator bean="tangsSalesDataTranslator"/>
+			</msgType>
+			<msgType type="CON">
+				<translator bean="tangsConPoTranslator"/>
+			</msgType>
+		</buyer>
+	</pre-processing-translator>
+</appConfig>

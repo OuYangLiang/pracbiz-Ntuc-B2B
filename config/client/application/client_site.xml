@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appConfig>
+    <local-mailbox-root>d:/mailbox/client</local-mailbox-root>
+    
+    <dispersion auto-dispersion="Y" dispatchPdf="Y">
+        <privateIn>d:/mailbox/client/private_in</privateIn>
+        <privateOut>d:/mailbox/client/private_out</privateOut>
+        <doc>d:/mailbox/client/doc</doc>
+    
+        <setting buyerCode="UNITY" supplierCode="52261" portalId="unity" mailbox="52261" />
+        <setting buyerCode="UNITY" supplierCode="52186" portalId="unity" mailbox="52186" />
+    </dispersion>
+
+	<proxySetting useProxy="N" useNTLM="N" proxyConfig="AUTO">
+		<manual>
+			<host>127.0.0.1</host>
+			<port>8443</port>
+			<username>oyl</username>
+			<password>123</password>
+			<proxyNtlmDomain>domain</proxyNtlmDomain>
+		</manual>
+		<auto>
+			<username>oyl</username>
+			<password>123</password>
+		</auto>
+	</proxySetting>
+</appConfig>

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SalesDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SalesDetailHolder" >
+    <id column="SALES_OID" property="salesOid" jdbcType="DECIMAL" />
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <result column="POS_ID" property="posId" jdbcType="VARCHAR" />
+    <result column="RECEIPT_NO" property="receiptNo" jdbcType="VARCHAR" />
+    <result column="RECEIPT_DATE" property="receiptDate" jdbcType="TIMESTAMP" />
+    <result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ITEM_CODE" property="supplierItemCode" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="ITEM_DESC" property="itemDesc" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="DEPT_CODE" property="deptCode" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="SUB_DEPT_CODE" property="subDeptCode" jdbcType="VARCHAR" />
+    <result column="SUB_DEPT_NAME" property="subDeptName" jdbcType="VARCHAR" />
+    <result column="COLOUR_CODE" property="colourCode" jdbcType="VARCHAR" />
+    <result column="COLOUR_DESC" property="colourDesc" jdbcType="VARCHAR" />
+    <result column="SIZE_CODE" property="sizeCode" jdbcType="VARCHAR" />
+    <result column="SIZE_DESC" property="sizeDesc" jdbcType="VARCHAR" />
+    <result column="PACKING_FACTOR" property="packingFactor" jdbcType="DECIMAL" />
+    <result column="SALES_BASE_UNIT" property="salesBaseUnit" jdbcType="VARCHAR" />
+    <result column="SALES_UOM" property="salesUom" jdbcType="VARCHAR" />
+    <result column="SALES_QTY" property="salesQty" jdbcType="DECIMAL" />
+    <result column="ITEM_COST" property="itemCost" jdbcType="DECIMAL" />
+    <result column="ITEM_SALES_AMOUNT" property="itemSalesAmount" jdbcType="DECIMAL" />
+    <result column="SALES_DISCOUNT_AMOUNT" property="salesDiscountAmount" jdbcType="DECIMAL" />
+    <result column="VAT_AMOUNT" property="vatAmount" jdbcType="DECIMAL" />
+    <result column="ITEM_NET_SALES_AMOUNT" property="itemNetSalesAmount" jdbcType="DECIMAL" />
+    <result column="ITEM_REMARKS" property="itemRemarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SALES_OID, LINE_SEQ_NO, POS_ID, RECEIPT_NO, RECEIPT_DATE, BUYER_ITEM_CODE, 
+    SUPPLIER_ITEM_CODE, BARCODE, ITEM_DESC, BRAND, DEPT_CODE, DEPT_NAME, SUB_DEPT_CODE, 
+    SUB_DEPT_NAME, COLOUR_CODE, COLOUR_DESC, SIZE_CODE, SIZE_DESC, PACKING_FACTOR, SALES_BASE_UNIT, 
+    SALES_UOM, SALES_QTY, ITEM_COST, ITEM_SALES_AMOUNT, SALES_DISCOUNT_AMOUNT, 
+    VAT_AMOUNT, ITEM_NET_SALES_AMOUNT, ITEM_REMARKS
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SalesDetailHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SALES_DETAIL
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null">
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="posId != null" >
+        and POS_ID = #{posId,jdbcType=VARCHAR}
+      </if>
+      <if test="receiptNo != null" >
+        and RECEIPT_NO = #{receiptNo,jdbcType=VARCHAR}
+      </if>
+      <if test="receiptDate != null" >
+        and RECEIPT_DATE = #{receiptDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="deptCode != null" >
+        and DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deptName != null" >
+        and DEPT_NAME = #{deptName,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptCode != null" >
+        and SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptName != null" >
+        and SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="packingFactor != null" >
+        and PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="salesBaseUnit != null" >
+        and SALES_BASE_UNIT = #{salesBaseUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="salesUom != null" >
+        and SALES_UOM = #{salesUom,jdbcType=VARCHAR}
+      </if>
+      <if test="salesQty != null" >
+        and SALES_QTY = #{salesQty,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null" >
+        and ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemSalesAmount != null" >
+        and ITEM_SALES_AMOUNT = #{itemSalesAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="salesDiscountAmount != null" >
+        and SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="vatAmount != null" >
+        and VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemNetSalesAmount != null" >
+        and ITEM_NET_SALES_AMOUNT = #{itemNetSalesAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRemarks != null" >
+        and ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SalesDetailHolder" >
+    delete from SALES_DETAIL
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null">
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="posId != null" >
+        and POS_ID = #{posId,jdbcType=VARCHAR}
+      </if>
+      <if test="receiptNo != null" >
+        and RECEIPT_NO = #{receiptNo,jdbcType=VARCHAR}
+      </if>
+      <if test="receiptDate != null" >
+        and RECEIPT_DATE = #{receiptDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="deptCode != null" >
+        and DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deptName != null" >
+        and DEPT_NAME = #{deptName,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptCode != null" >
+        and SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptName != null" >
+        and SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="packingFactor != null" >
+        and PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="salesBaseUnit != null" >
+        and SALES_BASE_UNIT = #{salesBaseUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="salesUom != null" >
+        and SALES_UOM = #{salesUom,jdbcType=VARCHAR}
+      </if>
+      <if test="salesQty != null" >
+        and SALES_QTY = #{salesQty,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null" >
+        and ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemSalesAmount != null" >
+        and ITEM_SALES_AMOUNT = #{itemSalesAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="salesDiscountAmount != null" >
+        and SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="vatAmount != null" >
+        and VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemNetSalesAmount != null" >
+        and ITEM_NET_SALES_AMOUNT = #{itemNetSalesAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRemarks != null" >
+        and ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SalesDetailHolder" >
+    insert into SALES_DETAIL (SALES_OID, LINE_SEQ_NO, POS_ID, 
+      RECEIPT_NO, RECEIPT_DATE, 
+      BUYER_ITEM_CODE, SUPPLIER_ITEM_CODE, BARCODE, 
+      ITEM_DESC, BRAND, DEPT_CODE, 
+      DEPT_NAME, SUB_DEPT_CODE, SUB_DEPT_NAME, 
+      COLOUR_CODE, COLOUR_DESC, SIZE_CODE, 
+      SIZE_DESC, PACKING_FACTOR, SALES_BASE_UNIT, 
+      SALES_UOM, SALES_QTY, ITEM_COST, 
+      ITEM_SALES_AMOUNT, SALES_DISCOUNT_AMOUNT, 
+      VAT_AMOUNT, ITEM_NET_SALES_AMOUNT, ITEM_REMARKS
+      )
+    values (#{salesOid,jdbcType=DECIMAL}, #{lineSeqNo,jdbcType=INTEGER}, #{posId,jdbcType=VARCHAR}, 
+      #{receiptNo,jdbcType=VARCHAR}, #{receiptDate,jdbcType=TIMESTAMP},
+      #{buyerItemCode,jdbcType=VARCHAR}, #{supplierItemCode,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, 
+      #{itemDesc,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR}, 
+      #{deptName,jdbcType=VARCHAR}, #{subDeptCode,jdbcType=VARCHAR}, #{subDeptName,jdbcType=VARCHAR}, 
+      #{colourCode,jdbcType=VARCHAR}, #{colourDesc,jdbcType=VARCHAR}, #{sizeCode,jdbcType=VARCHAR}, 
+      #{sizeDesc,jdbcType=VARCHAR}, #{packingFactor,jdbcType=DECIMAL}, #{salesBaseUnit,jdbcType=VARCHAR}, 
+      #{salesUom,jdbcType=VARCHAR}, #{salesQty,jdbcType=DECIMAL}, #{itemCost,jdbcType=DECIMAL}, 
+      #{itemSalesAmount,jdbcType=DECIMAL}, #{salesDiscountAmount,jdbcType=DECIMAL}, 
+      #{vatAmount,jdbcType=DECIMAL}, #{itemNetSalesAmount,jdbcType=DECIMAL}, #{itemRemarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SalesDetailHolder" >
+    update SALES_DETAIL
+    <set >
+      <if test="posId != null" >
+        POS_ID = #{posId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptNo != null" >
+        RECEIPT_NO = #{receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptDate != null" >
+        RECEIPT_DATE = #{receiptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyerItemCode != null" >
+        BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierItemCode != null" >
+        SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        BARCODE = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null" >
+        ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null" >
+        DEPT_CODE = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="subDeptCode != null" >
+        SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subDeptName != null" >
+        SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourCode != null" >
+        COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      </if>
+      <if test="colourDesc != null" >
+        COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeCode != null" >
+        SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeDesc != null" >
+        SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="packingFactor != null" >
+        PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      </if>
+      <if test="salesBaseUnit != null" >
+        SALES_BASE_UNIT = #{salesBaseUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="salesUom != null" >
+        SALES_UOM = #{salesUom,jdbcType=VARCHAR},
+      </if>
+      <if test="salesQty != null" >
+        SALES_QTY = #{salesQty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemCost != null" >
+        ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+      </if>
+      <if test="itemSalesAmount != null" >
+        ITEM_SALES_AMOUNT = #{itemSalesAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="salesDiscountAmount != null" >
+        SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="vatAmount != null" >
+        VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="itemNetSalesAmount != null" >
+        ITEM_NET_SALES_AMOUNT = #{itemNetSalesAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="itemRemarks != null" >
+        ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SalesDetailHolder" >
+    update SALES_DETAIL
+    set POS_ID = #{posId,jdbcType=VARCHAR},
+      RECEIPT_NO = #{receiptNo,jdbcType=VARCHAR},
+      RECEIPT_DATE = #{receiptDate,jdbcType=TIMESTAMP},
+      BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      BARCODE = #{barcode,jdbcType=VARCHAR},
+      ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      DEPT_CODE = #{deptCode,jdbcType=VARCHAR},
+      DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR},
+      SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR},
+      COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      SALES_BASE_UNIT = #{salesBaseUnit,jdbcType=VARCHAR},
+      SALES_UOM = #{salesUom,jdbcType=VARCHAR},
+      SALES_QTY = #{salesQty,jdbcType=DECIMAL},
+      ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+      ITEM_SALES_AMOUNT = #{itemSalesAmount,jdbcType=DECIMAL},
+      SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL},
+      VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL},
+      ITEM_NET_SALES_AMOUNT = #{itemNetSalesAmount,jdbcType=DECIMAL},
+      ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR}
+    where SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+</mapper>

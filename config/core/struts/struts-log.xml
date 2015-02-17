@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="log" extends="pracbiz-default" namespace="/log"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.LogFileAction" method="init">
+            <result>/WEB-INF/views/core/logFile/summary.jsp</result>
+        </action>
+        
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.LogFileAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+            <result name="input">/WEB-INF/views/core/logFile/summary.jsp</result>
+        </action>
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.LogFileAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.LogFileAction" method="putParamIntoSession">
+			<result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+		</action>
+		
+        <action name="saveDownload" class="com.pracbiz.b2bportal.core.action.LogFileAction" method="saveDownload">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+        	<result name="success" type="stream">
+				<param name="contentType">${contentType}</param>
+				<param name="inputName">logResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">
+					attachment;filename="${logFileName}"</param>
+			</result>
+        </action>
+		
+        <action name="view" class="com.pracbiz.b2bportal.core.action.LogFileAction" method="view">
+        	<result>/WEB-INF/views/core/logFile/view.jsp</result>
+        	<result name="input">/WEB-INF/views/core/logFile/summary.jsp</result>
+        </action>
+        
+        <action name="ajaxView" class="com.pracbiz.b2bportal.core.action.LogFileAction" method="view">
+            <result type="json">
+                <param name="root">logFile</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+    </package>
+</struts>

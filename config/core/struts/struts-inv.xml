@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="inv" extends="pracbiz-default" namespace="/inv">
+		<action name="init" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="init">
+			<result>/WEB-INF/views/core/eInvoice/summary.jsp</result>
+		</action>
+		
+		<action name="search" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+		
+		<action name="data" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="data">
+			<result type="json">
+				<param name="root">gridRlt</param>
+				<param name="ignoreHierarchy">false</param>
+			</result>
+		</action>
+		
+		<action name="print" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+			<result name="PO"  type="redirect">/po/print.action</result>
+		</action>
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+		
+		<action name="sent" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="sent" >
+            <result name="success" >/WEB-INF/views/core/eInvoice/summary.jsp</result>
+			<result name="input" >/WEB-INF/views/core/eInvoice/summary.jsp</result>
+        </action>
+        
+        <action name="checkInvoiceStatus" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="checkInvoiceStatus">
+            <result type="json">
+                <param name="root">errorMsg</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+
+		<action name="initEdit" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="initEdit" >
+            <result name="SOR" type="chain">initEdtSorInv</result>
+            <result name="CON" type="chain">initEdtCnInv</result>
+        </action>
+		
+		<action name="initEdtSorInv" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="initEdtSorInv" >
+            <result name="success" >/WEB-INF/views/core/eInvoice/editSorInv.jsp</result>
+        </action>
+        
+        <action name="initEdtCnInv" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="initEdtCnInv" >
+            <result name="success" >/WEB-INF/views/core/eInvoice/editCnInv.jsp</result>
+        </action>
+        
+        <action name="save" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="save">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveAndSent" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="saveAndSent">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+             <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initGenerateInv" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="initGenerateInv" >
+            <result name="success" >/WEB-INF/views/core/eInvoice/generateInv.jsp</result>
+        </action>
+        
+        <action name="saveGenerateInv" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="saveGenerateInv">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveAndSentGenerateInv" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="saveAndSentGenerateInv">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+             <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="voidInvoice" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="voidInvoice">
+        </action>
+        
+        <action name="checkMatchingRecordExist" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="checkMatchingRecordExist">
+        	<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+			<result type="json">
+                <param name="root">errorMsg</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="exportExcel" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="exportExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+        </action>
+        
+        <action name="exportSummaryExcel" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="exportSummaryExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+			<result name="input" type="redirect">init.action?keepSp=Y</result>
+        </action>
+	</package>
+</struts>

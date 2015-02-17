@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SummaryFieldMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.extension.SummaryFieldExHolder" >
+    <id column="FIELD_OID" property="fieldOid" jdbcType="DECIMAL" />
+    <result column="FIELD_ID" property="fieldId" jdbcType="VARCHAR" />
+    <result column="FIELD_COLUMN" property="fieldColumn" jdbcType="VARCHAR" />
+    <result column="FIELD_LABEL_KEY" property="fieldLabelKey" jdbcType="VARCHAR" />
+    <result column="AVAILABLE" property="available" jdbcType="BIT" />
+    <result column="FIELD_WIDTH" property="fieldWidth" jdbcType="DECIMAL" />
+    <result column="SORTABLE" property="sortable" jdbcType="BIT" />
+    <result column="SHOW_ORDER" property="showOrder" jdbcType="INTEGER" />
+    <result column="SETTING_OID" property="settingOid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, 
+    SETTING_OID
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SummaryFieldHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUMMARY_FIELD
+    <where>
+      <if test="fieldOid != null" >
+        FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+      </if>
+      <if test="fieldId != null" >
+        and FIELD_ID = #{fieldId,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldColumn != null" >
+        and FIELD_COLUMN = #{fieldColumn,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldLabelKey != null" >
+        and FIELD_LABEL_KEY = #{fieldLabelKey,jdbcType=VARCHAR}
+      </if>
+      <if test="available != null" >
+        and AVAILABLE = #{available,jdbcType=BIT}
+      </if>
+      <if test="fieldWidth != null" >
+        and FIELD_WIDTH = #{fieldWidth,jdbcType=DECIMAL}
+      </if>
+      <if test="sortable != null" >
+        and SORTABLE = #{sortable,jdbcType=BIT}
+      </if>
+      <if test="showOrder != null" >
+        and SHOW_ORDER = #{showOrder,jdbcType=INTEGER}
+      </if>
+      <if test="settingOid != null" >
+        and SETTING_OID = #{settingOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+    order by AVAILABLE desc, SHOW_ORDER asc;
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SummaryFieldHolder" >
+    delete from SUMMARY_FIELD
+    <where>
+     <if test="fieldOid != null" >
+        FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+      </if>
+      <if test="fieldId != null" >
+        and FIELD_ID = #{fieldId,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldColumn != null" >
+        and FIELD_COLUMN = #{fieldColumn,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldLabelKey != null" >
+        and FIELD_LABEL_KEY = #{fieldLabelKey,jdbcType=VARCHAR}
+      </if>
+      <if test="available != null" >
+        and AVAILABLE = #{available,jdbcType=BIT}
+      </if>
+      <if test="fieldWidth != null" >
+        and FIELD_WIDTH = #{fieldWidth,jdbcType=DECIMAL}
+      </if>
+      <if test="sortable != null" >
+        and SORTABLE = #{sortable,jdbcType=BIT}
+      </if>
+      <if test="showOrder != null" >
+        and SHOW_ORDER = #{showOrder,jdbcType=INTEGER}
+      </if>
+      <if test="settingOid != null" >
+        and SETTING_OID = #{settingOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SummaryFieldHolder" >
+    insert into SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, 
+      AVAILABLE, FIELD_WIDTH, SORTABLE, 
+      SHOW_ORDER, SETTING_OID)
+    values (#{fieldOid,jdbcType=DECIMAL},#{fieldId,jdbcType=VARCHAR}, #{fieldColumn,jdbcType=VARCHAR}, #{fieldLabelKey,jdbcType=VARCHAR}, 
+      #{available,jdbcType=BIT}, #{fieldWidth,jdbcType=DECIMAL}, #{sortable,jdbcType=BIT}, 
+      #{showOrder,jdbcType=INTEGER}, #{settingOid,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SummaryFieldHolder" >
+    update SUMMARY_FIELD
+    <set >
+      <if test="fieldId != null" >
+        FIELD_ID = #{fieldId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldColumn != null" >
+        FIELD_COLUMN = #{fieldColumn,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLabelKey != null" >
+        FIELD_LABEL_KEY = #{fieldLabelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        AVAILABLE = #{available,jdbcType=BIT},
+      </if>
+      <if test="fieldWidth != null" >
+        FIELD_WIDTH = #{fieldWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="sortable != null" >
+        SORTABLE = #{sortable,jdbcType=BIT},
+      </if>
+      <if test="showOrder != null" >
+        SHOW_ORDER = #{showOrder,jdbcType=INTEGER},
+      </if>
+      <if test="settingOid != null" >
+        SETTING_OID = #{settingOid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SummaryFieldHolder" >
+    update SUMMARY_FIELD
+    set FIELD_COLUMN = #{fieldColumn,jdbcType=VARCHAR},
+      FIELD_LABEL_KEY = #{fieldLabelKey,jdbcType=VARCHAR},
+      AVAILABLE = #{available,jdbcType=BIT},
+      FIELD_WIDTH = #{fieldWidth,jdbcType=DECIMAL},
+      SORTABLE = #{sortable,jdbcType=BIT},
+      SHOW_ORDER = #{showOrder,jdbcType=INTEGER},
+      SETTING_OID = #{settingOid,jdbcType=DECIMAL}
+      FIELD_ID = #{fieldId,jdbcType=VARCHAR}
+    where FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="selectAvailableSummaryFields" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.SummaryFieldExHolder" >
+    select S.FIELD_ID, S.FIELD_COLUMN, S.FIELD_LABEL_KEY, 
+    	S.AVAILABLE, S.FIELD_WIDTH, S.SORTABLE, S.SHOW_ORDER, 
+    	S.SETTING_OID
+    from SUMMARY_FIELD S, SUMMARY_PAGE_SETTING SP
+    where S.SETTING_OID = SP.SETTING_OID 
+    and SP.PAGE_ID = #{pageId,jdbcType=CHAR}
+    and SP.ACCESS_TYPE = #{accessType,jdbcType=CHAR}
+    and S.AVAILABLE = #{available,jdbcType=BIT}
+    order by S.SHOW_ORDER asc;
+  </select>
+</mapper>

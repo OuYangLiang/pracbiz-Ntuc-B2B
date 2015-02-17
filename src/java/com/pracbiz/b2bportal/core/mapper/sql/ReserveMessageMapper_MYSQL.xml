@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.ReserveMessageMapper" >
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder"
+    resultType="int">
+    SELECT COUNT(*) FROM RESERVE_MESSAGE 
+    <where>
+      <if test="title != null" >
+        AND TITLE like concat('%',#{title,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="validFrom != null" >
+        <![CDATA[AND VALID_FROM >= #{validFrom,jdbcType=DATE}]]>
+      </if>
+      <if test="validTo != null" >
+        <![CDATA[AND VALID_TO <= #{validTo,jdbcType=DATE}]]>
+      </if>
+      <if test="announcementType != null and announcementType != '-1'">
+      	AND ANNOUNCEMENT_TYPE = #{announcementType,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  <select id="getListOfSummary" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder" >
+    SELECT 
+    <include refid="Base_Column_List" /> 
+    FROM RESERVE_MESSAGE 
+    <where>
+      <if test="title != null" >
+        AND TITLE like concat('%',#{title,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="validFrom != null" >
+        <![CDATA[AND VALID_FROM >= #{validFrom,jdbcType=DATE}]]>
+      </if>
+      <if test="validTo != null" >
+        <![CDATA[AND VALID_TO <= #{validTo,jdbcType=DATE}]]>
+      </if>
+      <if test="announcementType != null and announcementType != '-1'">
+      	AND ANNOUNCEMENT_TYPE = #{announcementType,jdbcType=VARCHAR}
+      </if>
+    </where>
+    <if test="sortField != null" >
+      order by ${sortField} ${sortOrder}
+    </if>
+      limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>

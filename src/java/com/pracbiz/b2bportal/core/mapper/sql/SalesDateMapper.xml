@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SalesDateMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SalesDateHolder" >
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <id column="SALES_OID" property="salesOid" jdbcType="DECIMAL" />
+    <result column="SALES_DATE" property="salesDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LINE_SEQ_NO, SALES_OID, SALES_DATE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SALES_DATE
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null">
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="salesDate != null">
+        and SALES_DATE = #{salesDate,jdbcType=DATE}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateHolder" >
+    delete from SALES_DATE
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null">
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="salesDate != null">
+        and SALES_DATE = #{salesDate,jdbcType=DATE}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateHolder" >
+    insert into SALES_DATE (LINE_SEQ_NO, SALES_OID, SALES_DATE
+      )
+    values (#{lineSeqNo,jdbcType=INTEGER}, #{salesOid,jdbcType=DECIMAL}, #{salesDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateHolder" >
+    update SALES_DATE
+    <set >
+      <if test="salesDate != null" >
+        SALES_DATE = #{salesDate,jdbcType=DATE},
+      </if>
+    </set>
+    where LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateHolder" >
+    update SALES_DATE
+    set SALES_DATE = #{salesDate,jdbcType=DATE}
+    where LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

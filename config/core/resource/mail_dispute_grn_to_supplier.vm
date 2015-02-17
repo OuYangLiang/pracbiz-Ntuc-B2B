@@ -1,0 +1,14 @@
+<html>
+    <head>
+        Hi ${SUPPLIER_CODE} (${SUPPLIER_NAME}),
+        <br/><br/><br/>
+        This is Goods Receipt Note Dispute Summary Report. 
+        <br/><br/><br/>
+		<p/>
+		** This is a system-generated mail. Please do not reply to this mail. **
+    </head>
+    <body>
+	<p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

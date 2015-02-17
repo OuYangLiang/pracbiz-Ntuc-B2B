@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.PoInvGrnDnMatchingGrnMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingGrnHolder" >
+    <id column="MATCHING_OID" property="matchingOid" jdbcType="DECIMAL" />
+    <id column="GRN_OID" property="grnOid" jdbcType="DECIMAL" />
+    <result column="GRN_NO" property="grnNo" jdbcType="VARCHAR" />
+    <result column="GRN_DATE" property="grnDate" jdbcType="TIMESTAMP" />
+    <result column="GRN_AMT" property="grnAmt" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MATCHING_OID, GRN_OID, GRN_NO, GRN_DATE, GRN_AMT
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingGrnHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from PO_INV_GRN_DN_MATCHING_GRN
+    <where>
+      <if test="matchingOid != null" >
+        MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+      </if>
+      <if test="grnOid != null" >
+        GRN_OID = #{grnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="grnNo != null" >
+        GRN_NO = #{grnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="grnAmt != null" >
+        GRN_AMT = #{grnAmt,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingGrnHolder" >
+    delete from PO_INV_GRN_DN_MATCHING_GRN
+    <where>
+      <if test="matchingOid != null" >
+        MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+      </if>
+      <if test="grnOid != null" >
+        GRN_OID = #{grnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="grnNo != null" >
+        GRN_NO = #{grnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="grnAmt != null" >
+        GRN_AMT = #{grnAmt,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingGrnHolder" >
+    insert into PO_INV_GRN_DN_MATCHING_GRN (MATCHING_OID, GRN_OID, GRN_NO, GRN_DATE,
+      GRN_AMT)
+    values (#{matchingOid,jdbcType=DECIMAL}, #{grnOid,jdbcType=DECIMAL}, #{grnNo,jdbcType=VARCHAR}, 
+      #{grnDate,jdbcType=TIMESTAMP}, #{grnAmt,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingGrnHolder" >
+    update PO_INV_GRN_DN_MATCHING_GRN
+    <set >
+      <if test="grnNo != null" >
+        GRN_NO = #{grnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="grnDate != null" >
+        GRN_DATE = #{grnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grnAmt != null" >
+        GRN_AMT = #{grnAmt,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+      and GRN_OID = #{grnOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingGrnHolder" >
+    update PO_INV_GRN_DN_MATCHING_GRN
+    set GRN_NO = #{grnNo,jdbcType=VARCHAR},
+      GRN_DATE = #{grnDate,jdbcType=TIMESTAMP},
+      GRN_AMT = #{grnAmt,jdbcType=DECIMAL}
+    where MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+      and GRN_OID = #{grnOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectUnclosedMatchingForDisputeGrn"  resultType="java.lang.Integer" parameterType="java.util.Map">
+	<![CDATA[select count(1) from (select distinct 1 from PO_INV_GRN_DN_MATCHING_GRN MG
+   	 where exists (
+		select * from PO_INV_GRN_DN_MATCHING M where CLOSED = false
+		and MATCHING_STATUS IN ('QTY_UNMATCHED','UNMATCHED')
+		and BUYER_STATUS = 'PENDING'
+		and SUPPLIER_STATUS != 'ACCEPTED'
+		and datediff(now(), CREATE_DATE) <= ]]>
+		#{toleranceDays,jdbcType=INTEGER}
+		and MG.MATCHING_OID = M.MATCHING_OID
+		)
+    and MG.GRN_OID=#{grnOid, jdbcType=DECIMAL}) A;
+  </select>
+</mapper>

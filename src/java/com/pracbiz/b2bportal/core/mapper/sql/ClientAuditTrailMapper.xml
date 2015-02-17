@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.ClientAuditTrailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.ClientAuditTrailHolder" >
+    <id column="ADT_OID" property="auditOid" jdbcType="DECIMAL" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="ACTION_STATUS" property="actionStatus" jdbcType="BIT" />
+    <result column="ACTION_SUMMARY" property="actionSummary" jdbcType="VARCHAR" />
+    <result column="CLIENT_IP" property="clientIp" jdbcType="VARCHAR" />
+    <result column="BATCH_FILE_NAME" property="batchFileName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.pracbiz.b2bportal.core.holder.ClientAuditTrailHolder" extends="BaseResultMap" >
+    <result column="XML_CONTENT" property="xmlContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ADT_OID, ACTION_DATE, ACTION_TYPE, ACTION_STATUS, ACTION_SUMMARY, CLIENT_IP, BATCH_FILE_NAME
+  </sql>
+  
+  <sql id="Blob_Column_List" >
+    XML_CONTENT
+  </sql>
+  
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.ClientAuditTrailHolder" >
+    insert into CLIENT_AUDIT_TRAIL (ADT_OID, ACTION_DATE, ACTION_TYPE, 
+      ACTION_STATUS, ACTION_SUMMARY, CLIENT_IP, BATCH_FILE_NAME, 
+      XML_CONTENT)
+    values (#{auditOid,jdbcType=DECIMAL}, #{actionDate,jdbcType=TIMESTAMP},
+      #{actionType,jdbcType=CHAR}, #{actionStatus,jdbcType=BIT},
+      #{actionSummary,jdbcType=VARCHAR},#{clientIp,jdbcType=VARCHAR},
+      #{batchFileName,jdbcType=VARCHAR}, #{xmlContent,jdbcType=LONGVARCHAR})
+  </insert>
+</mapper>

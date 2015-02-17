@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="myProfile" extends="pracbiz-default" namespace="/myprofile">
+    
+        <action name="initEdit" class="com.pracbiz.b2bportal.core.action.MyProfileAction" method="initEdit">
+            <result>/WEB-INF/views/core/myprofile/viewMyProfile.jsp</result>
+        </action>
+        
+        <action name="saveEdit" class="com.pracbiz.b2bportal.core.action.MyProfileAction" method="saveEdit">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+        	<result name="input">/WEB-INF/views/core/myprofile/viewMyProfile.jsp</result>
+        </action>
+        
+    </package>
+</struts>

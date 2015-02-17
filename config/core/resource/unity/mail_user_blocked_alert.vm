@@ -1,0 +1,24 @@
+<html>
+<body>
+Dear $name,<br/><br/>
+	Your portal login ID  $loginId has been blocked for the sake of security due to repeated login attempt failure.<br/><br/>
+
+#if($userType==3)
+	Please contact helpdesk by phone $helpdeskNumber or email address $helpdeskEmail for assistance to unblock your account.<br/><br/>
+#end
+
+#if($userType==5)
+	Please contact your assigned company administrator for assistance to unblock your account.<br/><br/>
+#end
+
+#if($userType !=3 && $userType !=5)
+	Please contact UNITY IT Department for assistance to unblock your account.<br/><br/>
+#end
+
+NTUC UNITY Supplier Portal System<br/><br/>
+Customer Support<br/><br/>
+
+Server Url: <a href="$serverUrl">$serverUrl</a>
+
+</body>
+</html>

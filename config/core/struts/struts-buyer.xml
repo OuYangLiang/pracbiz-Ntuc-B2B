@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="buyer" extends="pracbiz-default" namespace="/buyer"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="init">
+            <result>/WEB-INF/views/core/buyer/summary.jsp</result>
+        </action>
+        
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        
+        <action name="initAdd" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="initAdd">
+            <result>/WEB-INF/views/core/buyer/create.jsp</result>
+        </action>
+        
+        
+        <action name="saveAdd" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="saveAdd">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/buyer/create.jsp</result>
+            <result type="redirect">/buyer/init.action?keepSp=Y</result>
+        </action>
+        
+        
+        <action name="view" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="initViewOrEdit">
+            <result>/WEB-INF/views/core/buyer/view.jsp</result>
+        </action>
+        
+        
+        <action name="initEdit" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="initViewOrEdit">
+            <result>/WEB-INF/views/core/buyer/edit.jsp</result>
+        </action>
+        
+        
+        <action name="saveEdit" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="saveEdit">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/buyer/edit.jsp</result>
+            <result type="redirect">/buyer/init.action?keepSp=Y</result>
+        </action>
+        
+        
+        <action name="viewLogoImage" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="viewImage">
+			<result name="success" type="stream">
+				<param name="contentType">${contentType}</param>
+				<param name="inputName">imageResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">
+					inline;filename="logo.jpg"</param>
+			</result>
+		</action>
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="saveDelete" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="saveDelete">
+        </action>
+        
+		<action name="initViewMsgSetting" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="initEditMsgSetting">
+            <result>/WEB-INF/views/core/buyer/viewMsgSetting.jsp</result>
+        </action>
+        
+		<action name="initEditMsgSetting" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="initEditMsgSetting">
+            <result>/WEB-INF/views/core/buyer/editMsgSetting.jsp</result>
+        </action>
+        
+		<action name="saveEditMsgSetting" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="saveEditMsgSetting">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>          
+            <result name="input">/WEB-INF/views/core/buyer/editMsgSetting.jsp</result>
+        </action>
+        
+        <action name="initEditBusinessRule" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="initEditBusinessRule">
+            <result>/WEB-INF/views/core/buyer/editBusinessRule.jsp</result>
+        </action>
+        
+        <action name="getFuncIdSByGroup" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="getFuncIdSByGroup">
+            <result type="json">
+                <param name="root">funcIds</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveBusinessRule" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="saveBusinessRule">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>       
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="checkGlobal" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="checkGlobal">
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="checkPoInvGrnDnMatching" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="checkPoInvGrnDnMatching">
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="checkImportMatching" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="checkImportMatching">
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="checkPoGlobal" class="com.pracbiz.b2bportal.core.action.BuyerAction" method="checkPoGlobal">
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+    </package>
+</struts>

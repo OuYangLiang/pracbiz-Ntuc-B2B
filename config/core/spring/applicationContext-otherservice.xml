@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+         
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host"><value>localhost</value></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <!--<prop key="mail.smtp.from">no-reply-b2bops@pracbiz.com</prop>-->
+            </props>
+        </property> 
+    </bean>
+    
+    <!-- <bean id="mailMessage"
+        class="org.springframework.mail.SimpleMailMessage"
+        scope="prototype">
+        <property name="from">
+            <value>support@pracbiz.com</value>
+        </property>
+    </bean> -->
+    
+    <bean id="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>message-global</value>
+                <value>message-pagelabel</value>
+                <value>message-code</value>
+                <value>web-title</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Configure Velocity for sending e-mail -->
+    <bean id="velocityEngine"
+        class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">class</prop>
+                <prop key="class.resource.loader.class">
+                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+                </prop>
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+    </bean>  
+    
+    <bean id="secureRandom" class="java.security.SecureRandom" />
+    <bean id="emailEngine" class="com.pracbiz.b2bportal.base.email.EmailEngine" />
+    <bean id="passwordValidateHelper" class="com.pracbiz.b2bportal.core.util.PasswordValidateHelper" />
+    <bean id="velocityHelper" class="com.pracbiz.b2bportal.core.util.VelocityHelper"/>
+    <bean id="standardEmailSender" class="com.pracbiz.b2bportal.base.util.StandardEmailSender"/>
+    <bean id="errorFileEmailSender" class="com.pracbiz.b2bportal.base.util.ErrorFileEmailSender" />
+     <bean id="ldapUtil" class="com.pracbiz.b2bportal.core.util.LDAPUtil" />
+    <bean id="gnupgUtil" class="com.pracbiz.b2bportal.core.util.GnupgUtil" >
+        <property name="commandPath">
+            <value>${gnupg.command.path}</value>
+        </property>
+        <property name="defaultKeyServer">
+            <value>${gnupg.keyserver.url}</value>
+        </property>
+        <property name="useKeyServer">
+            <value>${gnupg.use.keyserver}</value>
+        </property>
+        <property name="homedir">
+            <value>${gnupg.key.homedir}</value>
+        </property>
+    </bean>
+	<bean id="mboxUtil" class="com.pracbiz.b2bportal.core.util.MailBoxUtil" >
+        <property name="buyerMboxRoot">
+            <value>${mailbox.root.buyer}</value>
+        </property>
+        <property name="supplierMboxRoot">
+            <value>${mailbox.root.supplier}</value>
+        </property>
+		<property name="channelMboxRoot">
+            <value>${mailbox.root.channel}</value>
+        </property>
+    </bean>
+</beans>

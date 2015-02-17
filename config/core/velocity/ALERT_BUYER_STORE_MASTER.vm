@@ -1,0 +1,131 @@
+<html>
+    <head>
+        Batch Run Status Report
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Buyer</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">${BUYER_NAME} (${BUYER_CODE})</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Store File</td>
+                    <td align="right">:</td>
+                    <td align="left">${STORE_FILE_NAME}</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> New Count</td>
+                    <td align="right">:</td>
+                    <td align="left">$NEW_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Update Count</td>
+                    <td align="right">:</td>
+                    <td align="left">$UPDATE_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Delete Count</td>
+                    <td align="right">:</td>
+                    <td align="left">$DELETE_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Unhandled Count</td>
+                    <td align="right">:</td>
+                    <td align="left">$UNHANDELED_LIST.size()</td>
+                </tr>
+            </table>
+            <p/>
+            <table>
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            New List
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $NEW_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        #if(!$o.storeName)
+							<td align="left">($o.storeCode)</td>
+						#else
+							<td align="left">$o.storeName ($o.storeCode)</td>
+						#end
+                    </tr>
+                #end
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            Update List
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $UPDATE_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        #if(!$o.storeName)
+							<td align="left">($o.storeCode)</td>
+						#else
+							<td align="left">$o.storeName ($o.storeCode)</td>
+						#end
+                    </tr>
+                #end
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            Deleting List
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $DELETE_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        #if(!$o.storeName)
+							<td align="left">($o.storeCode)</td>
+						#else
+							<td align="left">$o.storeName ($o.storeCode)</td>
+						#end
+                    </tr>
+                #end
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            Unhandled Lines
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $UNHANDELED_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        <td align="left">$o</td>
+                    </tr>
+                #end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         PracBiz B2B Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+            <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+        </form>
+    </body>
+</html>

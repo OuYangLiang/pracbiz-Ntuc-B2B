@@ -1,0 +1,10 @@
+<html>
+    <head>
+        Hi ${BUYER_NAME}(${BUYER_CODE})
+        <br/><br/><br/>
+        This is PO Summary Report for batch (${BATCH_FILE}).
+        <br/><br/><br/>
+    </head>
+    <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+</html>

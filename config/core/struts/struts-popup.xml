@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="popup" extends="pracbiz-default" namespace="/popup"> 
+  
+        <action name="popupViewUser" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initViewUser">
+            <result>/WEB-INF/views/core/popup/popupUsers.jsp</result>
+        </action>
+        
+        <action name="searchUsers" class="com.pracbiz.b2bportal.core.action.GroupAction" method="searchUser" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="userData" class="com.pracbiz.b2bportal.core.action.GroupAction" method="userData">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="popupViewSupplier" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initViewSupplier">
+            <result>/WEB-INF/views/core/popup/popupSuppliers.jsp</result>
+        </action>
+        
+        <action name="searchSuppliers" class="com.pracbiz.b2bportal.core.action.GroupAction" method="searchSupplier" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="searchAllSuppliersForGroup" class="com.pracbiz.b2bportal.core.action.GroupAction" method="searchAllSuppliersForGroup" >
+            <result type="json">
+                <param name="root">suppliers</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="supplierData" class="com.pracbiz.b2bportal.core.action.GroupAction" method="supplierData">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="popupViewSupplierForDn" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initViewSupplier">
+            <result>/WEB-INF/views/core/popup/popupSuppliersForDn.jsp</result>
+        </action>
+        
+        <action name="searchSuppliersForDn" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="searchSupplier" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="supplierDataForDn" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="supplierData">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        
+        <action name="popupViewTradingPartner" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initViewTradingPartner">
+            <result>/WEB-INF/views/core/popup/popupTradingPartners.jsp</result>
+        </action>
+        
+        
+        <action name="popupViewTradingPartnerForItemIn" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initViewTradingPartner">
+            <result>/WEB-INF/views/core/popup/popupTradingPartnersForItemIn.jsp</result>
+        </action>
+      
+        <action name="searchTradingPartners" class="com.pracbiz.b2bportal.core.action.GroupAction" method="searchTradingPartner" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="tradingPartnerData" class="com.pracbiz.b2bportal.core.action.GroupAction" method="tradingPartnerData">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="searchAllTradingPartnersForGroup" class="com.pracbiz.b2bportal.core.action.GroupAction" method="searchAllTradingPartnersForGroup" >
+            <result type="json">
+                <param name="root">tradingPartners</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="popupViewTermCondition" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="viewTermCondition">
+            <result>/WEB-INF/views/core/popup/popupTermsConditions.jsp</result>
+        </action>
+        
+        <action name="popupViewTermConditionForInv" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="viewTermCondition">
+            <result>/WEB-INF/views/core/popup/popupTermsConditionsForInv.jsp</result>
+        </action>
+        
+        <action name="viewSession" class="com.pracbiz.b2bportal.core.action.AuditTrailAction" method="initSession">
+            <result>/WEB-INF/views/core/auditTrail/viewSession.jsp</result>
+        </action>
+        
+        <action name="showXmlContent" class="com.pracbiz.b2bportal.core.action.AuditTrailAction" method="showXmlContent">
+            <result>/WEB-INF/views/core/auditTrail/viewXmlContent.jsp</result>
+        </action>
+    </package>
+</struts>

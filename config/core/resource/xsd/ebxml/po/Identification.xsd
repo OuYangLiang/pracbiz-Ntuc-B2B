@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.sanc.org.sg/schemas/ean" xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+	    <xsd:documentation>
+	Singapore Adopted version
+	      Version Information:
+        	Version Number: S1.1
+	        Date of creation: June, 2004
+	    </xsd:documentation>
+	</xsd:annotation>
+  <xsd:include schemaLocation="ExtendedTypes.xsd"/>
+  <xsd:include schemaLocation="Components.xsd"/>
+  <!--Entity Identification -->
+  <xsd:complexType name="EntityIdentificationType">
+    <xsd:sequence>
+      <xsd:element name="uniqueCreatorIdentification">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="80"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="contentOwner" type="PartyIdentificationType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--Typed Entity Identification -->
+  <xsd:simpleType name="EntityTypeListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BILL_OF_LADING"/>
+      <xsd:enumeration value="BOOKING_REQUEST"/>
+      <xsd:enumeration value="BOOKING_REQUEST_ACK"/>
+      <xsd:enumeration value="CONTROL_TOTAL"/>
+      <xsd:enumeration value="DEBIT_CREDIT_MESSAGE_ADVICE"/>
+      <xsd:enumeration value="DESPATCH_ADVICE"/>
+      <xsd:enumeration value="FULL_TRUCKLOAD_TENDER"/>
+      <xsd:enumeration value="ORDER"/>
+      <xsd:enumeration value="PICKUP_MANIFEST"/>
+      <xsd:enumeration value="PICKUP_NOTIFICATION_LTL"/>
+      <xsd:enumeration value="RECEIVING_ADVICE"/>
+      <xsd:enumeration value="REQUEST_FOR_PAYMENT"/>
+      <xsd:enumeration value="SETTLEMENT"/>
+      <xsd:enumeration value="WAREHOUSE_SHIPPING_ORDER"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="TypedEntityIdentificationType">
+    <xsd:sequence>
+      <xsd:element name="entityIdentification" type="EntityIdentificationType"/>
+    </xsd:sequence>
+    <xsd:attribute name="entityType" type="EntityTypeListType" use="required"/>
+  </xsd:complexType>
+  <!--Party Identification -->
+  <xsd:simpleType name="AlternatePartyIdentificationListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BUYER_ASSIGNED_IDENTIFIER_FOR_PARTY"/>
+      <xsd:enumeration value="DEA_DRUG_ENFORCEMENT_AGENCY"/>
+      <xsd:enumeration value="DUNS"/>
+      <xsd:enumeration value="DUNS_PLUS_FOUR"/>
+      <xsd:enumeration value="HIN_CANADIAN_HEALTHCARE_IDENTIFICATION_NUMBER"/>
+      <xsd:enumeration value="SCAC"/>
+      <xsd:enumeration value="SELLER_ASSIGNED_IDENTIFIER_FOR_PARTY"/>
+      <xsd:enumeration value="TD_LINK_TRADE_DIMENSIONS"/>
+      <xsd:enumeration value="UCC_COMMUNICATION_IDENTIFICATION"/>
+      <xsd:enumeration value="UN_LOCATION_CODE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="AlternatePartyIdentificationType">
+    <xsd:simpleContent>
+      <xsd:extension base="AlternatePartyIdentificationContentType">
+        <xsd:attribute name="type" type="AlternatePartyIdentificationListType" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="AlternatePartyIdentificationContentType">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="35"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PartyIdentificationType">
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:element name="gln" type="GlobalLocationNumberType"/>
+        <xsd:element name="alternatePartyIdentification" type="AlternatePartyIdentificationType"/>
+      </xsd:choice>
+      <xsd:element name="additionalPartyIdentification" type="AlternatePartyIdentificationType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="GlobalLocationNumberType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{13}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--Item Identification -->
+  <xsd:complexType name="TradeItemIdentificationType">
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:element name="gtin" type="GlobalTradeItemNumberType"/>
+        <xsd:element name="alternateItemIdentification" type="AlternateItemIdentificationType"/>
+      </xsd:choice>
+      <xsd:element name="additionalItemIdentification" type="AlternateItemIdentificationType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="AlternateItemIdentificationType">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="15"/>
+    </xsd:restriction>
+  </xsd:simpleType>	
+  <xsd:simpleType name="GlobalTradeItemNumberType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{14}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CommonAlternateTradeItemIdentificationType">
+    <xsd:sequence>
+      <xsd:element name="value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="80"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="type" type="AlternateTradeItemIdentificationListType" use="required"/>
+  </xsd:complexType>
+  <xsd:simpleType name="AlternateTradeItemIdentificationListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BUYER_ASSIGNED"/>
+      <xsd:enumeration value="SELLER_ASSIGNED"/>
+      <xsd:enumeration value="INDUSTRY_ASSIGNED"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- Document Identification-->
+  <xsd:complexType name="DocumentIdentifierListType">
+    <xsd:sequence>
+      <xsd:element name="documentIdentifier" type="DocumentIdentifierType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DocumentIdentifierType">
+    <xsd:sequence>
+      <xsd:group ref="DocumentIdentifierTypeGroupType"/>
+    </xsd:sequence>
+    <xsd:attribute name="contentVersion" type="VersionType"/>
+  </xsd:complexType>
+  <xsd:group name="DocumentIdentifierTypeGroupType">
+    <xsd:choice>
+      <xsd:element name="partyIdentification" type="PartyIdentificationType"/>
+      <xsd:element name="itemIdentification" type="TradeItemIdentificationType"/>
+      <xsd:element name="typedEntityIdentification" type="TypedEntityIdentificationType"/>
+    </xsd:choice>
+  </xsd:group>
+</xsd:schema>

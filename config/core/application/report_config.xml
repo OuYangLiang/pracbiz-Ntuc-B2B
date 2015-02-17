@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appConfig>
+    <report-config>
+        <standard-report>
+            <report type="PO">
+                <subType name="SOR" default="std_w_color_size">
+                    <reportTemplate name="std_w_color_size" bean="standardPODefaultEngine" />
+                </subType>
+                <subType name="CON" default="std_w_color_size">
+                    <reportTemplate name="std_w_color_size" bean="standardPODefaultEngine" />
+                </subType>
+            </report>
+            <report type="GRN">
+                <subType name="default" default="std_w_color_size">
+	                <reportTemplate name="std_w_color_size" bean="standardGRNDefaultEngine" />
+					<reportTemplate name="std_wo_color_size" bean="standardGRN2DefaultEngine" />
+				</subType>
+            </report>
+            <report type="INV">
+                <subType name="SOR" default="std_w_color_size">
+	                <reportTemplate name="std_w_color_size" bean="standardINVDefaultEngine" />
+					<reportTemplate name="std_wo_color_size" bean="standardINV2DefaultEngine" />
+                </subType>
+                <subType name="CON" default="std_w_color_size">
+	                <reportTemplate name="std_w_color_size" bean="standardINVDefaultEngine" />
+					<reportTemplate name="std_wo_color_size" bean="standardINV2DefaultEngine" />
+                </subType>
+            </report>
+			<report type="RTV">
+			     <subType name="default" default="std_w_color_size">
+	                 <reportTemplate name="std_w_color_size" bean="standardRTVDefaultEngine" />
+					 <reportTemplate name="std_wo_color_size" bean="standardRTV2DefaultEngine" />
+			     </subType>
+            </report>
+			<report type="DN">
+				<subType name="default" default="std_w_color_size">
+	                <reportTemplate name="std_w_color_size" bean="standardDNDefaultEngine" />
+					<reportTemplate name="std_wo_color_size" bean="standardDN2DefaultEngine" />
+				 </subType>
+            </report>
+			<report type="PN">
+				<subType name="default" default="normal">
+	                 <reportTemplate name="normal" bean="standardPNDefaultEngine" />
+	            </subType>
+            </report>
+            <report type="GI">
+	            <subType name="default" default="std_w_color_size">
+	                <reportTemplate name="std_w_color_size" bean="standardGiDefaultEngine" />
+	                <reportTemplate name="std_wo_color_size" bean="standardGi2DefaultEngine" />
+                 </subType>
+            </report>
+            <report type="CC">
+	            <subType name="default" default="normal">
+		            <reportTemplate name="normal" bean="standardCcDefaultEngine" />
+		        </subType>
+	        </report>	
+            <report type="DSD">
+                <subType name="default" default="std_w_color_size">
+            	    <reportTemplate name="std_w_color_size" bean="standardSalesDefaultEngine" />
+            	</subType>
+        	</report>
+            <report type="CN">
+                <subType name="CON" default="std_w_color_size">
+            	    <reportTemplate name="std_w_color_size" bean="standardCnDefaultEngine" />
+            	</subType>
+        	</report>
+        </standard-report>
+        
+        <customized-report>
+        	<!-- Unity Customized Pdf Engine -->
+            <buyer id="UNITY">
+                <report type="PO">
+                    <subType name="SOR" default="PO1">
+	                    <reportTemplate name="PO1" bean="customizedUnityPO1Engine" />
+	                </subType>
+	            </report>
+	            <report type="GRN">
+	                <subType name="default" default="GRN1">
+	                    <reportTemplate name="GRN1" bean="customizedUnityGRN1Engine" />
+	                </subType>
+	            </report>
+ 				<report type="PN">
+ 				    <subType name="default" default="PN1">
+	                    <reportTemplate name="PN1" bean="customizedUnityPN1Engine" />
+	                </subType>
+	            </report>
+				<report type="RTV">
+				    <subType name="default" default="RTV1">
+	                    <reportTemplate name="RTV1" bean="customizedUnityRTV1Engine" />
+	                </subType>
+	            </report>
+	            <report type="CC">
+	                <subType name="default" default="CC1">
+	                    <reportTemplate name="CC1" bean="customizedUnityCC1Engine" />
+	                </subType>
+	            </report>
+            </buyer>
+            
+            <!-- FairPrice Customized Pdf Engine -->
+			<buyer id="FairPrice">
+                <report type="PO">
+                    <subType name="SOR" default="PO1">
+	                    <reportTemplate name="PO1" bean="customizedFairPricePO1Engine" />
+	                </subType>
+	            </report>
+				<report type="RTV">
+				    <subType name="default" default="RTV1">
+	                    <reportTemplate name="RTV1" bean="customizedFairPriceRTV1Engine"/>
+	                </subType>
+	            </report>
+            </buyer>	
+            
+            <!-- CkTangs Customized Pdf Engine -->	
+            <buyer id="CKT">
+                <report type="PO">
+                    <subType name="SOR" default="PO1">
+		                <reportTemplate name="PO1" bean="customizedTangsPO1Engine" />
+						<reportTemplate name="PO2" bean="customizedUnityPO1Engine" />
+						<reportTemplate name="WATSONS" bean="customizedWatsonsPO1Engine" />
+					</subType>
+					<subType name="CON" default="TANGS">
+		                <reportTemplate name="TANGS" bean="customizedTangsPO1Engine" />
+					</subType>
+	            </report>
+	            <report type="GRN">
+	                <subType name="default" default="GRN1">
+	                    <reportTemplate name="GRN1" bean="customizedTangsGr1Engine" />
+	                </subType>
+	            </report>	
+				<report type="RTV">
+				    <subType name="default" default="RTV1">
+	                    <reportTemplate name="RTV1" bean="customizedFairPriceRTV1Engine"/>
+                    </subType>
+	            </report>	
+	            <report type="INV">
+	                <subType name="CON" default="TANGS">
+	                    <reportTemplate name="TANGS" bean="customizedTangsInv1Engine" />
+	                </subType>
+	            </report>	
+	            <report type="CN">
+	                <subType name="CON" default="CN1">
+	                    <reportTemplate name="CN1" bean="customizedTangsCn1Engine" />
+	                </subType>
+	            </report>	
+            </buyer>
+            
+            <!-- Watsons Customized Pdf Engine -->	
+            <buyer id="WATSONS">
+                <report type="PO">
+                    <subType name="SOR" default="PO1">
+	                    <reportTemplate name="PO1" bean="customizedWatsonsPO1Engine" />
+	                </subType>
+	            </report>
+            </buyer>
+        </customized-report>
+    </report-config>
+</appConfig>

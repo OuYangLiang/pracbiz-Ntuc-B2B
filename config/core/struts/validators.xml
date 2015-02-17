@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator Definition 1.0//EN"
+        "http://struts.apache.org/dtds/xwork-validator-definition-1.0.dtd">
+
+<validators>
+	<!-- START SNIPPET: validators-default -->
+    <validator name="required" class="com.opensymphony.xwork2.validator.validators.RequiredFieldValidator"/>
+    <validator name="requiredstring" class="com.opensymphony.xwork2.validator.validators.RequiredStringValidator"/>
+    <validator name="int" class="com.opensymphony.xwork2.validator.validators.IntRangeFieldValidator"/>
+    <validator name="double" class="com.opensymphony.xwork2.validator.validators.DoubleRangeFieldValidator"/>
+    <validator name="date" class="com.opensymphony.xwork2.validator.validators.DateRangeFieldValidator"/>
+    <validator name="expression" class="com.opensymphony.xwork2.validator.validators.ExpressionValidator"/>
+    <validator name="fieldexpression" class="com.opensymphony.xwork2.validator.validators.FieldExpressionValidator"/>
+
+    <validator name="url" class="com.opensymphony.xwork2.validator.validators.URLValidator"/>
+    <validator name="visitor" class="com.opensymphony.xwork2.validator.validators.VisitorFieldValidator"/>
+    <validator name="conversion" class="com.opensymphony.xwork2.validator.validators.ConversionErrorFieldValidator"/>
+    <validator name="stringlength" class="com.opensymphony.xwork2.validator.validators.StringLengthFieldValidator"/>
+    <validator name="regex" class="com.opensymphony.xwork2.validator.validators.RegexFieldValidator"/>
+    <!--  END SNIPPET: validators-default -->
+    
+    <!-- START SNIPPET: validators-customs -->
+    
+	<validator name="roleId" class="com.pracbiz.b2bportal.core.type.validator.RoleIdDefaultValidation" />
+	<validator name="emailAddress" class="com.pracbiz.b2bportal.core.type.validator.EmailAddressDefaultValidation" />
+	<validator name="loginId" class="com.pracbiz.b2bportal.core.type.validator.LoginIdDefaultValidation" />
+	<validator name="loginPwd" class="com.pracbiz.b2bportal.core.type.validator.LoginPasswordDefaultValidation" />
+	<validator name="number" class="com.pracbiz.b2bportal.core.type.validator.NumberDefaultValidation" />
+	<validator name="phonenumber" class="com.pracbiz.b2bportal.core.type.validator.PhoneNumberDefaultValidation" />
+	<validator name="faxnumber" class="com.pracbiz.b2bportal.core.type.validator.FaxNumberDefaultValidation" />
+	<validator name="mobilenumber" class="com.pracbiz.b2bportal.core.type.validator.MobileNumberDefaultValidation" />
+	<validator name="groupId" class="com.pracbiz.b2bportal.core.type.validator.GroupIdDefaultValidation" />
+	<validator name="postalCode" class="com.pracbiz.b2bportal.core.type.validator.PostalCodeDefaultValidation" />
+    <validator name="supplierCode" class="com.pracbiz.b2bportal.core.type.validator.SupplierCodeDefaultValidation" />
+    <validator name="buyerCode" class="com.pracbiz.b2bportal.core.type.validator.BuyerCodeDefaultValidation" />
+    <validator name="mbox" class="com.pracbiz.b2bportal.core.type.validator.MailBoxDefaultValidation" />
+    <!--  END SNIPPET: validators-custom -->
+</validators>

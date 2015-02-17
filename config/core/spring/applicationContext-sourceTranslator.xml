@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="tangsConPoTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.TangsConPoTranslator" />
+    <bean id="fpGiTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.FpGiTranslator" />
+    <bean id="fpGrTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.FpGrTranslator" />
+    <bean id="fpIdocPoTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.FpIdocPoTranslator" />
+    <bean id="fpIdocRtvTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.FpIdocRtvTranslator" />
+    <bean id="tangsSalesDataTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.TangsSalesDataTranslator" />
+    <bean id="tangsGrnTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.TangsGrnTranslator" />
+    <bean id="tangsPoTranslator" class="com.pracbiz.b2bportal.core.eai.file.translator.TangsPoTranslator" />
+</beans>

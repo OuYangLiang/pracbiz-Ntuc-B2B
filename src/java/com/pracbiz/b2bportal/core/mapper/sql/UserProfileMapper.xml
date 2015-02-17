@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.UserProfileMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.UserProfileHolder" >
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="SALUTATION" property="salutation" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="LOGIN_MODE" property="loginMode" jdbcType="CHAR" />
+    <result column="GENDER" property="gender" jdbcType="CHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="FAIL_ATTEMPTS" property="failAttempts" jdbcType="INTEGER" />
+    <result column="LAST_RESET_PWD_DATE" property="lastResetPwdDate" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_DATE" property="lastLoginDate" jdbcType="TIMESTAMP" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="BLOCKED" property="blocked" jdbcType="BIT" />
+    <result column="BLOCK_REMARKS" property="blockRemarks" jdbcType="VARCHAR" />
+    <result column="INIT" property="init" jdbcType="BIT" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="BLOCK_DATE" property="blockDate" jdbcType="TIMESTAMP" />
+    <result column="BLOCK_BY" property="blockBy" jdbcType="VARCHAR" />
+    <result column="INACTIVATE_DATE" property="inactivateDate" jdbcType="TIMESTAMP" />
+    <result column="INACTIVATE_BY" property="inactivateBy" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="DECIMAL" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="ExResultMap" type="com.pracbiz.b2bportal.core.holder.extension.UserProfileExHolder" >
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="SALUTATION" property="salutation" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="LOGIN_MODE" property="loginMode" jdbcType="CHAR" />
+    <result column="GENDER" property="gender" jdbcType="CHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="FAIL_ATTEMPTS" property="failAttempts" jdbcType="INTEGER" />
+    <result column="LAST_RESET_PWD_DATE" property="lastResetPwdDate" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_DATE" property="lastLoginDate" jdbcType="TIMESTAMP" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="BLOCKED" property="blocked" jdbcType="BIT" />
+    <result column="BLOCK_REMARKS" property="blockRemarks" jdbcType="VARCHAR" />
+    <result column="INIT" property="init" jdbcType="BIT" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="BLOCK_DATE" property="blockDate" jdbcType="TIMESTAMP" />
+    <result column="BLOCK_BY" property="blockBy" jdbcType="VARCHAR" />
+    <result column="INACTIVATE_DATE" property="inactivateDate" jdbcType="TIMESTAMP" />
+    <result column="INACTIVATE_BY" property="inactivateBy" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="DECIMAL" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="USER_TYPE_ID" property="userTypeDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    USER_OID, USER_NAME, SALUTATION, LOGIN_ID, LOGIN_PWD, LOGIN_MODE, GENDER, TEL, MOBILE, 
+    FAX, EMAIL, FAIL_ATTEMPTS, LAST_RESET_PWD_DATE, LAST_LOGIN_DATE, ACTIVE, BLOCKED, 
+    BLOCK_REMARKS, INIT, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, BLOCK_DATE, 
+    BLOCK_BY, INACTIVATE_DATE, INACTIVATE_BY, USER_TYPE, BUYER_OID, SUPPLIER_OID
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from USER_PROFILE
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="salutation != null" >
+        AND SALUTATION = #{salutation,jdbcType=VARCHAR}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+      </if>
+      <if test="loginPwd != null" >
+        AND LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR}
+      </if>
+      <if test="loginMode != null" >
+        AND LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+      </if>
+      <if test="gender != null" >
+        AND GENDER = #{gender,jdbcType=CHAR}
+      </if>
+      <if test="tel != null" >
+        AND TEL = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+        AND MOBILE = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="fax != null" >
+        AND FAX = #{fax,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null" >
+        AND EMAIL = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="failAttempts != null" >
+        AND FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER}
+      </if>
+      <if test="lastResetPwdDate != null" >
+        AND LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="lastLoginDate != null" >
+        AND LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="init != null" >
+        AND INIT = #{init,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="inactivateDate != null" >
+        AND INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="inactivateBy != null" >
+        AND INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="userType != null" >
+        AND USER_TYPE = #{userType,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileHolder" >
+    delete from USER_PROFILE
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="salutation != null" >
+        AND SALUTATION = #{salutation,jdbcType=VARCHAR}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+      </if>
+      <if test="loginPwd != null" >
+        AND LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR}
+      </if>
+      <if test="loginMode != null" >
+        AND LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+      </if>
+      <if test="gender != null" >
+        AND GENDER = #{gender,jdbcType=CHAR}
+      </if>
+      <if test="tel != null" >
+        AND TEL = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+        AND MOBILE = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="fax != null" >
+        AND FAX = #{fax,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null" >
+        AND EMAIL = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="failAttempts != null" >
+        AND FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER}
+      </if>
+      <if test="lastResetPwdDate != null" >
+        AND LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="lastLoginDate != null" >
+        AND LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="init != null" >
+        AND INIT = #{init,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="inactivateDate != null" >
+        AND INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="inactivateBy != null" >
+        AND INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="userType != null" >
+        AND USER_TYPE = #{userType,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileHolder" >
+    insert into USER_PROFILE (USER_OID, USER_NAME, SALUTATION, 
+      LOGIN_ID, LOGIN_PWD, LOGIN_MODE, 
+      GENDER, TEL, MOBILE, FAX, 
+      EMAIL, FAIL_ATTEMPTS, LAST_RESET_PWD_DATE, 
+      LAST_LOGIN_DATE, ACTIVE, BLOCKED, 
+      BLOCK_REMARKS, INIT, CREATE_DATE, 
+      CREATE_BY, UPDATE_DATE, UPDATE_BY, 
+      BLOCK_DATE, BLOCK_BY, INACTIVATE_DATE, 
+      INACTIVATE_BY, USER_TYPE, BUYER_OID, 
+      SUPPLIER_OID)
+    values (#{userOid,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, #{salutation,jdbcType=VARCHAR}, 
+      #{loginId,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, #{loginMode,jdbcType=CHAR}, 
+      #{gender,jdbcType=CHAR}, #{tel,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{failAttempts,jdbcType=INTEGER}, #{lastResetPwdDate,jdbcType=TIMESTAMP}, 
+      #{lastLoginDate,jdbcType=TIMESTAMP}, #{active,jdbcType=BIT}, #{blocked,jdbcType=BIT}, 
+      #{blockRemarks,jdbcType=VARCHAR}, #{init,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{blockDate,jdbcType=TIMESTAMP}, #{blockBy,jdbcType=VARCHAR}, #{inactivateDate,jdbcType=TIMESTAMP}, 
+      #{inactivateBy,jdbcType=VARCHAR}, #{userType,jdbcType=DECIMAL}, #{buyerOid,jdbcType=DECIMAL}, 
+      #{supplierOid,jdbcType=DECIMAL})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileHolder" >
+    update USER_PROFILE
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="salutation != null" >
+        SALUTATION = #{salutation,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="loginMode != null" >
+        LOGIN_MODE = #{loginMode,jdbcType=CHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="failAttempts != null" >
+        FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER},
+      </if>
+      <if test="lastResetPwdDate != null" >
+        LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginDate != null" >
+        LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null" >
+        ACTIVE = #{active,jdbcType=BIT},
+      </if>
+      <if test="blocked != null" >
+        BLOCKED = #{blocked,jdbcType=BIT},
+      </if>
+      <if test="blockRemarks != null" >
+        BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="init != null" >
+        INIT = #{init,jdbcType=BIT},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="blockDate != null" >
+        BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blockBy != null" >
+        BLOCK_BY = #{blockBy,jdbcType=VARCHAR},
+      </if>
+      <if test="inactivateDate != null" >
+        INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inactivateBy != null" >
+        INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where USER_OID = #{userOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileHolder" >
+    update USER_PROFILE
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      SALUTATION = #{salutation,jdbcType=VARCHAR},
+      LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      LOGIN_MODE = #{loginMode,jdbcType=CHAR},
+      GENDER = #{gender,jdbcType=CHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER},
+      LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP},
+      LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP},
+      ACTIVE = #{active,jdbcType=BIT},
+      BLOCKED = #{blocked,jdbcType=BIT},
+      BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR},
+      INIT = #{init,jdbcType=BIT},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP},
+      BLOCK_BY = #{blockBy,jdbcType=VARCHAR},
+      INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP},
+      INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=DECIMAL},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    where USER_OID = #{userOid,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="selectUsersByGroupOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT 
+			U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+    		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    		U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    		U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    		U.BUYER_OID, SUPPLIER_OID
+        FROM GROUP_USER GU, USER_PROFILE U 
+        WHERE U.USER_OID =GU.USER_OID 
+        AND GU.GROUP_OID = #{groupOid,jdbcType=DECIMAL} 
+   </select>
+   
+   <select id="selectUsersByTmpGroupOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT 
+		 U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER,
+    	 U.TEL, U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE,
+    	 U.ACTIVE, U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE,
+    	 U.UPDATE_BY, U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    	 U.BUYER_OID, U.SUPPLIER_OID
+        FROM T_GROUP_USER GU, USER_PROFILE U 
+        WHERE U.USER_OID =GU.USER_OID 
+        AND GU.GROUP_OID = #{groupOid,jdbcType=DECIMAL} 
+   </select>
+   
+   <select id="selectUsersByStoreOidAndUserTypes" resultMap="ExResultMap" parameterType="java.util.HashMap" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID
+        FROM (SELECT USER_OID FROM BUYER_STORE_USER WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}
+        UNION ALL
+        SELECT USER_OID STORE_OID FROM BUYER_STORE_USER WHERE
+        CASE (SELECT IS_WAREHOUSE FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL})
+        WHEN 1 THEN STORE_OID=-4 ELSE STORE_OID=-3 END) S, 
+        USER_PROFILE U, USER_TYPE T WHERE U.USER_OID = S.USER_OID AND U.USER_TYPE = T.USER_TYPE_OID 
+        <if test="userTypeList != null">
+        	AND U.USER_TYPE IN
+			<foreach collection="userTypeList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+   </select>
+   
+   <select id="selectUsersByTmpStoreOidAndUserTypes" resultMap="ExResultMap" parameterType="java.util.HashMap" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID
+        FROM (SELECT USER_OID FROM T_BUYER_STORE_USER WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}
+        UNION ALL
+        SELECT USER_OID STORE_OID FROM T_BUYER_STORE_USER WHERE
+        CASE (SELECT IS_WAREHOUSE FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL})
+        WHEN 1 THEN STORE_OID=-4 ELSE STORE_OID=-3 END) S, 
+        USER_PROFILE U, USER_TYPE T WHERE U.USER_OID = S.USER_OID AND U.USER_TYPE = T.USER_TYPE_OID 
+        <if test="userTypeList != null">
+            AND U.USER_TYPE IN
+            <foreach collection="userTypeList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+   </select>
+   
+   <select id="selectUsersByAreaOidAndUserTypes" resultMap="ExResultMap" parameterType="java.util.HashMap" >
+        SELECT 
+		VIEW1.USER_OID, VIEW1.USER_NAME, VIEW1.SALUTATION, VIEW1.LOGIN_ID, VIEW1.LOGIN_PWD, VIEW1.LOGIN_MODE, VIEW1.GENDER, VIEW1.TEL,
+   		VIEW1.MOBILE, VIEW1.FAX, VIEW1.EMAIL, VIEW1.FAIL_ATTEMPTS, VIEW1.LAST_RESET_PWD_DATE, VIEW1.LAST_LOGIN_DATE, VIEW1.ACTIVE,
+    	VIEW1.BLOCKED, VIEW1.BLOCK_REMARKS, VIEW1.INIT, VIEW1.CREATE_DATE, VIEW1.CREATE_BY, VIEW1.UPDATE_DATE, VIEW1.UPDATE_BY,
+    	VIEW1.BLOCK_DATE, VIEW1.BLOCK_BY, VIEW1.INACTIVATE_DATE, VIEW1.INACTIVATE_BY, VIEW1.USER_TYPE, VIEW1.BUYER_OID, VIEW1.SUPPLIER_OID,
+    	VIEW1.USER_TYPE_ID
+	    FROM (
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID
+        FROM BUYER_STORE_AREA_USER A, USER_PROFILE U, USER_TYPE T  
+        WHERE U.USER_OID = A.USER_OID AND U.USER_TYPE = T.USER_TYPE_OID 
+        AND A.AREA_OID = #{areaOid,jdbcType=DECIMAL} 
+        UNION ALL
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID FROM USER_PROFILE U, BUYER_STORE_AREA_USER B,USER_TYPE T WHERE U.USER_OID = B.USER_OID
+        AND U.USER_TYPE = T.USER_TYPE_OID AND B.AREA_OID = -2 ) VIEW1
+        WHERE 1=1 
+        <if test="userTypeList != null">
+            AND VIEW1.USER_TYPE IN
+            <foreach collection="userTypeList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+   </select>
+   
+   <select id="selectUsersByTmpAreaOidAndUserTypes" resultMap="ExResultMap" parameterType="java.util.HashMap" >
+        SELECT 
+		VIEW1.USER_OID, VIEW1.USER_NAME, VIEW1.SALUTATION, VIEW1.LOGIN_ID, VIEW1.LOGIN_PWD, VIEW1.LOGIN_MODE, VIEW1.GENDER, VIEW1.TEL,
+   		VIEW1.MOBILE, VIEW1.FAX, VIEW1.EMAIL, VIEW1.FAIL_ATTEMPTS, VIEW1.LAST_RESET_PWD_DATE, VIEW1.LAST_LOGIN_DATE, VIEW1.ACTIVE,
+    	VIEW1.BLOCKED, VIEW1.BLOCK_REMARKS, VIEW1.INIT, VIEW1.CREATE_DATE, VIEW1.CREATE_BY, VIEW1.UPDATE_DATE, VIEW1.UPDATE_BY,
+    	VIEW1.BLOCK_DATE, VIEW1.BLOCK_BY, VIEW1.INACTIVATE_DATE, VIEW1.INACTIVATE_BY, VIEW1.USER_TYPE, VIEW1.BUYER_OID, VIEW1.SUPPLIER_OID,
+    	VIEW1.USER_TYPE_ID
+		FROM (
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID
+        FROM T_BUYER_STORE_AREA_USER A, USER_PROFILE U, USER_TYPE T  
+        WHERE U.USER_OID = A.USER_OID AND U.USER_TYPE = T.USER_TYPE_OID 
+        AND A.AREA_OID = #{areaOid,jdbcType=DECIMAL} 
+        UNION ALL
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID FROM USER_PROFILE U, T_BUYER_STORE_AREA_USER B,USER_TYPE T WHERE U.USER_OID = B.USER_OID
+        AND U.USER_TYPE = T.USER_TYPE_OID AND B.AREA_OID = -2 )VIEW1
+        WHERE 1=1 
+        <if test="userTypeList != null">
+            AND VIEW1.USER_TYPE IN
+            <foreach collection="userTypeList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+   </select>
+   
+   <select id="selectUsersByBuyerAndUserType" resultMap="ExResultMap" parameterType="java.util.HashMap" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID
+        FROM USER_PROFILE U, USER_TYPE T  
+        WHERE U.USER_TYPE = T.USER_TYPE_OID 
+        AND U.USER_TYPE = #{userTypeOid,jdbcType=DECIMAL} 
+        AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL} 
+   </select>
+   
+   <select id="selectUsersByBuyerAndUserTypes" resultMap="ExResultMap" parameterType="java.util.HashMap" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+   		U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+    	U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+    	U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    	T.USER_TYPE_ID
+        FROM USER_PROFILE U, USER_TYPE T  
+        WHERE U.USER_TYPE = T.USER_TYPE_OID 
+        AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL} 
+        AND U.USER_TYPE IN
+            <foreach collection="userTypes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+   </select>
+   
+   <select id="selectPriceAuditUsersByMatchingOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+		SELECT UP.USER_OID FROM USER_CLASS UC, USER_PROFILE UP, PO_INV_GRN_DN_MATCHING P WHERE UC.USER_OID = UP.USER_OID
+		AND P.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL} AND UC.CLASS_OID = -1
+		UNION
+		SELECT UP.USER_OID FROM USER_SUBCLASS US, USER_PROFILE UP, PO_INV_GRN_DN_MATCHING P WHERE US.USER_OID = UP.USER_OID
+		AND P.MATCHING_OID =#{matchingOid,jdbcType=DECIMAL} AND US.SUBCLASS_OID = -1
+		UNION
+		SELECT USER_OID FROM USER_CLASS UC, CLASS C, PO_INV_GRN_DN_MATCHING P, PO_INV_GRN_DN_MATCHING_DETAIL PD, ITEM I
+		WHERE UC.CLASS_OID = C.CLASS_OID
+		AND C.CLASS_CODE = I.CLASS_CODE
+		AND C.BUYER_OID = I.BUYER_OID
+		AND PD.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE
+		AND PD.PRICE_STATUS = 'PENDING'
+		AND P.MATCHING_OID = PD.MATCHING_OID
+		AND P.BUYER_OID = I.BUYER_OID
+		AND P.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL}
+		UNION
+		SELECT USER_OID FROM USER_SUBCLASS US, SUBCLASS S, CLASS C ,PO_INV_GRN_DN_MATCHING P, PO_INV_GRN_DN_MATCHING_DETAIL PD, ITEM I
+		WHERE US.SUBCLASS_OID = S.SUBCLASS_OID
+		AND S.SUBCLASS_CODE = I.SUBCLASS_CODE
+		AND S.CLASS_OID = C.CLASS_OID
+		AND C.BUYER_OID = I.BUYER_OID
+		AND C.CLASS_CODE = I.CLASS_CODE
+		AND PD.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE
+		AND PD.PRICE_STATUS = 'PENDING'
+		AND P.MATCHING_OID = PD.MATCHING_OID
+		AND P.BUYER_OID = I.BUYER_OID
+		AND P.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL}) VIEW1, 
+		(SELECT GU.USER_OID FROM GROUP_USER GU, `GROUP` G, ROLE_GROUP RG,OPERATION_URL OU,ROLE_OPERATION RO, GROUP_SUPPLIER GS, PO_INV_GRN_DN_MATCHING P 
+		WHERE GU.GROUP_OID = RG.GROUP_OID AND RG.ROLE_OID = RO.ROLE_OID
+		AND GU.GROUP_OID = G.GROUP_OID AND (G.IGNORE_NOTIFICATION IS NULL OR G.IGNORE_NOTIFICATION = FALSE)
+		AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/poInvGrnDnMatching/initAuditPrice.action'
+		AND GU.GROUP_OID = GS.GROUP_OID AND GS.SUPPLIER_OID = P.SUPPLIER_OID AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}) VIEW2,
+		(SELECT DISTINCT BSU.USER_OID FROM BUYER_STORE_USER BSU, BUYER_STORE BS, PO_INV_GRN_DN_MATCHING P
+        WHERE (BSU.STORE_OID = BS.STORE_OID OR IF (BS.IS_WAREHOUSE = TRUE, BSU.STORE_OID = -4, BSU.STORE_OID = -3))
+        AND BS.STORE_CODE = P.PO_STORE_CODE AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+        UNION
+        SELECT DISTINCT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU, 
+        BUYER_STORE_AREA BSA, BUYER_STORE BS, PO_INV_GRN_DN_MATCHING P
+        WHERE  IF (BS.AREA_OID IS NULL, 1=2, (BSAU.AREA_OID = BS.AREA_OID) OR BSAU.AREA_OID = -2)
+        AND BS.STORE_CODE = P.PO_STORE_CODE
+        AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}) VIEW3,
+        PO_INV_GRN_DN_MATCHING VIEW4
+		WHERE VIEW4.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL} AND U.USER_OID  = VIEW1.USER_OID 
+		AND U.USER_OID = VIEW2.USER_OID 
+		AND U.USER_OID = VIEW3.USER_OID
+		AND (U.BUYER_OID = VIEW4.BUYER_OID OR VIEW4.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID = U.USER_OID))
+		AND U.USER_TYPE IN (2,4)
+		AND U.ACTIVE = true
+		AND VIEW4.MATCHING_STATUS IN('UNMATCHED','PRICE_UNMATCHED');
+   </select>
+   
+   <select id="selectQtyAuditUsersByMatchingOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+        SELECT DISTINCT BSU.USER_OID FROM BUYER_STORE_USER BSU, BUYER_STORE BS, PO_INV_GRN_DN_MATCHING P
+        WHERE (BSU.STORE_OID = BS.STORE_OID OR IF (BS.IS_WAREHOUSE = TRUE, BSU.STORE_OID = -4, BSU.STORE_OID = -3))
+        AND BS.STORE_CODE = P.PO_STORE_CODE AND P.QTY_STATUS = 'PENDING' AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+		UNION
+		SELECT DISTINCT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU, 
+		BUYER_STORE_AREA BSA, BUYER_STORE BS, PO_INV_GRN_DN_MATCHING P
+        WHERE  IF (BS.AREA_OID IS NULL, 1=2, (BSAU.AREA_OID = BS.AREA_OID) OR BSAU.AREA_OID = -2)
+        AND BS.STORE_CODE = P.PO_STORE_CODE AND P.QTY_STATUS = 'PENDING'
+		AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}) VIEW1,
+		(SELECT GU.USER_OID FROM GROUP_USER GU, `GROUP` G, ROLE_GROUP RG,OPERATION_URL OU,ROLE_OPERATION RO, GROUP_SUPPLIER GS, PO_INV_GRN_DN_MATCHING P
+        WHERE GU.GROUP_OID = RG.GROUP_OID AND RG.ROLE_OID = RO.ROLE_OID
+        AND GU.GROUP_OID = G.GROUP_OID AND (G.IGNORE_NOTIFICATION IS NULL OR G.IGNORE_NOTIFICATION = FALSE)
+        AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/poInvGrnDnMatching/initAuditQty.action'
+        AND GU.GROUP_OID = GS.GROUP_OID AND GS.SUPPLIER_OID = P.SUPPLIER_OID AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+        UNION
+        SELECT RU.USER_OID FROM ROLE_USER RU, ROLE_OPERATION RO, OPERATION_URL OU 
+        WHERE NOT EXISTS (SELECT 1 FROM GROUP_USER GU WHERE GU.USER_OID = RU.USER_OID) AND 
+        RU.ROLE_OID = RO.ROLE_OID AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/poInvGrnDnMatching/initAuditQty.action') VIEW2,
+        (SELECT U.USER_OID FROM USER_PROFILE U, PO_INV_GRN_DN_MATCHING P WHERE U.USER_TYPE IN (6,7) AND P.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL}
+		UNION
+		SELECT UP.USER_OID FROM USER_CLASS UC, USER_PROFILE UP, PO_INV_GRN_DN_MATCHING P WHERE UC.USER_OID = UP.USER_OID
+        AND P.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL} AND UC.CLASS_OID = -1
+        UNION
+        SELECT UP.USER_OID FROM USER_SUBCLASS US, USER_PROFILE UP, PO_INV_GRN_DN_MATCHING P WHERE US.USER_OID = UP.USER_OID
+        AND P.MATCHING_OID =#{matchingOid,jdbcType=DECIMAL} AND US.SUBCLASS_OID = -1
+        UNION
+        SELECT USER_OID FROM USER_CLASS UC, CLASS C, PO_INV_GRN_DN_MATCHING P, PO_INV_GRN_DN_MATCHING_DETAIL PD, ITEM I
+        WHERE UC.CLASS_OID = C.CLASS_OID
+        AND C.CLASS_CODE = I.CLASS_CODE
+        AND C.BUYER_OID = I.BUYER_OID
+        AND PD.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE
+        AND PD.QTY_STATUS = 'PENDING'
+        AND P.MATCHING_OID = PD.MATCHING_OID
+        AND P.BUYER_OID = I.BUYER_OID
+        AND P.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL}
+        UNION
+        SELECT USER_OID FROM USER_SUBCLASS US, SUBCLASS S, CLASS C ,PO_INV_GRN_DN_MATCHING P, PO_INV_GRN_DN_MATCHING_DETAIL PD, ITEM I
+        WHERE US.SUBCLASS_OID = S.SUBCLASS_OID
+        AND S.SUBCLASS_CODE = I.SUBCLASS_CODE
+        AND S.CLASS_OID = C.CLASS_OID
+        AND C.BUYER_OID = I.BUYER_OID
+        AND C.CLASS_CODE = I.CLASS_CODE
+        AND PD.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE
+        AND PD.QTY_STATUS = 'PENDING'
+        AND P.MATCHING_OID = PD.MATCHING_OID
+        AND P.BUYER_OID = I.BUYER_OID
+        AND P.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL}
+        ) VIEW3,
+        PO_INV_GRN_DN_MATCHING VIEW4
+		WHERE VIEW4.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL} AND U.USER_OID = VIEW1.USER_OID AND U.USER_OID = VIEW2.USER_OID AND U.USER_OID = VIEW3.USER_OID AND U.ACTIVE = true
+		AND U.USER_TYPE IN (2,4,6,7) 
+		AND (U.BUYER_OID = VIEW4.BUYER_OID OR VIEW4.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID = U.USER_OID)) 
+		AND VIEW4.MATCHING_STATUS IN('UNMATCHED','QTY_UNMATCHED');
+   </select>
+   
+   <select id="selectCanCloseUsersByMatchingOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+        SELECT DISTINCT BSU.USER_OID FROM BUYER_STORE_USER BSU, BUYER_STORE BS, PO_INV_GRN_DN_MATCHING P
+        WHERE (BSU.STORE_OID = BS.STORE_OID OR IF (BS.IS_WAREHOUSE = TRUE, BSU.STORE_OID = -4, BSU.STORE_OID = -3))
+        AND BS.STORE_CODE = P.PO_STORE_CODE AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+		UNION
+		SELECT DISTINCT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU, 
+		BUYER_STORE_AREA BSA, BUYER_STORE BS, PO_INV_GRN_DN_MATCHING P
+        WHERE  IF (BS.AREA_OID IS NULL, 1=2, (BSAU.AREA_OID = BS.AREA_OID) OR BSAU.AREA_OID = -2)
+        AND BS.STORE_CODE = P.PO_STORE_CODE
+		AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}) VIEW1,
+		(SELECT GU.USER_OID FROM GROUP_USER GU, `GROUP` G, ROLE_GROUP RG,OPERATION_URL OU,ROLE_OPERATION RO, GROUP_SUPPLIER GS, PO_INV_GRN_DN_MATCHING P 
+        WHERE GU.GROUP_OID = RG.GROUP_OID AND RG.ROLE_OID = RO.ROLE_OID 
+        AND GU.GROUP_OID = G.GROUP_OID AND (G.IGNORE_NOTIFICATION IS NULL OR G.IGNORE_NOTIFICATION = FALSE)
+        AND RO.OPN_ID = OU.OPN_ID AND GU.GROUP_OID = GS.GROUP_OID AND GS.SUPPLIER_OID = P.SUPPLIER_OID 
+        AND P.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL} AND OU.ACCESS_URL = '/poInvGrnDnMatching/initClose.action') VIEW2,
+        PO_INV_GRN_DN_MATCHING VIEW4
+		WHERE VIEW4.MATCHING_OID=#{matchingOid,jdbcType=DECIMAL} AND U.USER_OID = VIEW1.USER_OID AND U.USER_OID = VIEW2.USER_OID AND U.ACTIVE = true
+		AND U.USER_TYPE IN (2,4) 
+		AND (U.BUYER_OID = VIEW4.BUYER_OID OR VIEW4.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID = U.USER_OID));
+   </select>
+   
+   
+   <select id="selectPriceAuditUsersByDnOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+        SELECT UP.USER_OID FROM USER_CLASS UC, USER_PROFILE UP, DN_HEADER P WHERE UC.USER_OID = UP.USER_OID
+        AND P.DN_OID=#{dnOid,jdbcType=DECIMAL} AND UC.CLASS_OID = -1
+        UNION
+        SELECT UP.USER_OID FROM USER_SUBCLASS US, USER_PROFILE UP, DN_HEADER P WHERE US.USER_OID = UP.USER_OID
+        AND P.DN_OID =#{dnOid,jdbcType=DECIMAL} AND US.SUBCLASS_OID = -1
+        UNION
+        SELECT USER_OID FROM USER_CLASS UC, CLASS C, DN_HEADER P, DN_DETAIL PD, ITEM I
+        WHERE UC.CLASS_OID = C.CLASS_OID
+        AND C.CLASS_CODE = I.CLASS_CODE
+        AND C.BUYER_OID = I.BUYER_OID
+        AND PD.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE
+        AND P.DN_OID = PD.DN_OID
+        AND P.BUYER_OID = I.BUYER_OID
+        AND PD.PRICE_STATUS = 'PENDING'
+        AND PD.UNIT_COST != PD.DISPUTE_PRICE
+        AND P.DN_OID=#{dnOid,jdbcType=DECIMAL}
+        UNION
+        SELECT USER_OID FROM USER_SUBCLASS US, SUBCLASS S, CLASS C ,DN_HEADER P, DN_DETAIL PD, ITEM I
+        WHERE US.SUBCLASS_OID = S.SUBCLASS_OID
+        AND S.SUBCLASS_CODE = I.SUBCLASS_CODE
+        AND S.CLASS_OID = C.CLASS_OID
+        AND C.BUYER_OID = I.BUYER_OID
+        AND C.CLASS_CODE = I.CLASS_CODE
+        AND PD.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE
+        AND P.DN_OID = PD.DN_OID
+        AND PD.PRICE_STATUS = 'PENDING'
+        AND PD.UNIT_COST != PD.DISPUTE_PRICE
+        AND P.BUYER_OID = I.BUYER_OID
+        AND P.DN_OID=#{dnOid,jdbcType=DECIMAL}) VIEW1,
+        (SELECT GU.USER_OID FROM GROUP_USER GU, `GROUP` G, ROLE_GROUP RG,OPERATION_URL OU,ROLE_OPERATION RO, GROUP_SUPPLIER GS, DN_HEADER DH
+        WHERE GU.GROUP_OID = RG.GROUP_OID AND RG.ROLE_OID = RO.ROLE_OID
+        AND GU.GROUP_OID = G.GROUP_OID AND (G.IGNORE_NOTIFICATION IS NULL OR G.IGNORE_NOTIFICATION = FALSE)
+        AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/dn/initAuditPrice.action' AND GU.GROUP_OID = GS.GROUP_OID 
+        AND GS.SUPPLIER_OID = DH.SUPPLIER_OID AND DH.DN_OID = #{dnOid,jdbcType=DECIMAL}) VIEW2,
+        (SELECT DISTINCT BSU.USER_OID FROM BUYER_STORE_USER BSU, BUYER_STORE BS, DN_HEADER P
+        WHERE (BSU.STORE_OID = BS.STORE_OID OR IF (BS.IS_WAREHOUSE = TRUE, BSU.STORE_OID = -4, BSU.STORE_OID = -3))
+        AND BS.STORE_CODE = P.STORE_CODE AND P.DN_OID = #{dnOid,jdbcType=DECIMAL}
+        UNION
+        SELECT DISTINCT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU,
+        BUYER_STORE_AREA BSA, BUYER_STORE BS, DN_HEADER P
+        WHERE  IF (BS.AREA_OID IS NULL, 1=2, (BSAU.AREA_OID = BS.AREA_OID) OR BSAU.AREA_OID = -2)
+        AND BS.STORE_CODE = P.STORE_CODE
+        AND P.DN_OID = #{dnOid,jdbcType=DECIMAL}
+        UNION 
+        SELECT U.USER_OID FROM USER_PROFILE U, DN_HEADER D WHERE 
+        IF (D.STORE_CODE IS NULL, D.DN_OID=#{dnOid,jdbcType=DECIMAL}
+        AND U.USER_TYPE IN (2,4), 1=2)) VIEW3, DN_HEADER VIEW4
+        WHERE VIEW4.DN_OID=#{dnOid,jdbcType=DECIMAL} AND U.USER_OID  = VIEW1.USER_OID
+        AND U.USER_OID = VIEW2.USER_OID
+        AND U.USER_OID = VIEW3.USER_OID
+        AND (U.BUYER_OID = VIEW4.BUYER_OID OR VIEW4.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID = U.USER_OID))
+        AND U.ACTIVE = true
+        AND U.USER_TYPE IN (2,4);
+   </select>
+   
+   <select id="selectQtyAuditUsersByDnOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+        SELECT DISTINCT BSU.USER_OID FROM BUYER_STORE_USER BSU, BUYER_STORE BS, DN_HEADER P
+        WHERE (BSU.STORE_OID = BS.STORE_OID OR IF (BS.IS_WAREHOUSE = TRUE, BSU.STORE_OID = -4, BSU.STORE_OID = -3))
+        AND BS.STORE_CODE = P.STORE_CODE AND P.DN_OID = #{dnOid,jdbcType=DECIMAL}
+        UNION
+        SELECT DISTINCT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU,
+        BUYER_STORE_AREA BSA, BUYER_STORE BS, DN_HEADER P
+        WHERE  IF (BS.AREA_OID IS NULL, 1=2, (BSAU.AREA_OID = BS.AREA_OID) OR BSAU.AREA_OID = -2)
+        AND BS.STORE_CODE = P.STORE_CODE
+        AND P.DN_OID = #{dnOid,jdbcType=DECIMAL}
+        UNION SELECT U.USER_OID FROM USER_PROFILE U, DN_HEADER D WHERE 
+        IF (D.STORE_CODE IS NULL, D.DN_OID=#{dnOid,jdbcType=DECIMAL}, 1=2)) VIEW1,
+        (SELECT GU.USER_OID FROM GROUP_USER GU, `GROUP` G, ROLE_GROUP RG,OPERATION_URL OU,ROLE_OPERATION RO, GROUP_SUPPLIER GS, DN_HEADER DH
+        WHERE GU.GROUP_OID = RG.GROUP_OID AND RG.ROLE_OID = RO.ROLE_OID
+        AND GU.GROUP_OID = G.GROUP_OID AND (G.IGNORE_NOTIFICATION IS NULL OR G.IGNORE_NOTIFICATION = FALSE)
+        AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/dn/initAuditQty.action' AND GU.GROUP_OID = GS.GROUP_OID 
+        AND GS.SUPPLIER_OID = DH.SUPPLIER_OID AND DH.DN_OID = #{dnOid,jdbcType=DECIMAL}
+        UNION
+        SELECT RU.USER_OID FROM ROLE_USER RU, ROLE_OPERATION RO, OPERATION_URL OU
+        WHERE NOT EXISTS (SELECT 1 FROM GROUP_USER GU WHERE GU.USER_OID = RU.USER_OID) AND 
+        RU.ROLE_OID = RO.ROLE_OID AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/dn/initAuditQty.action') VIEW2, DN_HEADER VIEW3
+        WHERE VIEW3.DN_OID=#{dnOid,jdbcType=DECIMAL} AND U.USER_OID = VIEW1.USER_OID AND U.USER_OID = VIEW2.USER_OID
+        AND (U.BUYER_OID = VIEW3.BUYER_OID OR VIEW3.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID = U.USER_OID))
+        AND U.ACTIVE = true;
+   </select>
+   
+   <select id="selectCanCloseUsersByDnOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+        SELECT DISTINCT BSU.USER_OID FROM BUYER_STORE_USER BSU, BUYER_STORE BS, DN_HEADER P
+        WHERE (BSU.STORE_OID = BS.STORE_OID OR IF (BS.IS_WAREHOUSE = TRUE, BSU.STORE_OID = -4, BSU.STORE_OID = -3))
+        AND BS.STORE_CODE = P.STORE_CODE AND P.DN_OID = #{dnOid,jdbcType=DECIMAL}
+        UNION
+        SELECT DISTINCT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU,
+        BUYER_STORE_AREA BSA, BUYER_STORE BS, DN_HEADER P
+        WHERE  IF (BS.AREA_OID IS NULL, 1=2, (BSAU.AREA_OID = BS.AREA_OID) OR BSAU.AREA_OID = -2)
+        AND BS.STORE_CODE = P.STORE_CODE
+        AND P.DN_OID = #{dnOid,jdbcType=DECIMAL}
+        UNION SELECT U.USER_OID FROM USER_PROFILE U, DN_HEADER D WHERE 
+        IF (D.STORE_CODE IS NULL, D.DN_OID=#{dnOid,jdbcType=DECIMAL}, 1=2)) VIEW1,
+        (SELECT GU.USER_OID FROM GROUP_USER GU, `GROUP` G, ROLE_GROUP RG,OPERATION_URL OU,ROLE_OPERATION RO, GROUP_SUPPLIER GS, DN_HEADER DH
+        WHERE GU.GROUP_OID = RG.GROUP_OID AND RG.ROLE_OID = RO.ROLE_OID
+        AND GU.GROUP_OID = G.GROUP_OID AND (G.IGNORE_NOTIFICATION IS NULL OR G.IGNORE_NOTIFICATION = FALSE)
+        AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/dn/saveClose.action' AND GU.GROUP_OID = GS.GROUP_OID 
+        AND GS.SUPPLIER_OID = DH.SUPPLIER_OID AND DH.DN_OID = #{dnOid,jdbcType=DECIMAL}) VIEW2, DN_HEADER VIEW3
+        WHERE VIEW3.DN_OID=#{dnOid,jdbcType=DECIMAL} AND U.USER_OID = VIEW1.USER_OID AND U.USER_OID = VIEW2.USER_OID
+        AND (U.BUYER_OID = VIEW3.BUYER_OID OR VIEW3.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID = U.USER_OID))
+        AND U.ACTIVE = true;
+   </select>
+   
+   <select id="selectStoreUsersByBuyerOidAndStoreOid" resultMap="ExResultMap" parameterType="java.util.Map" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+        SELECT USER_OID FROM BUYER_STORE_USER WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}
+		UNION
+		SELECT U.USER_OID FROM BUYER_STORE_USER  BSU,USER_PROFILE U WHERE STORE_OID= -3
+		AND U.USER_OID = BSU.USER_OID AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+		UNION
+		SELECT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU, BUYER_STORE BS WHERE BSAU.AREA_OID = BS.AREA_OID 
+		AND BS.STORE_OID=#{storeOid,jdbcType=DECIMAL}
+		UNION
+		SELECT U.USER_OID FROM BUYER_STORE_AREA_USER BSAU, USER_PROFILE U WHERE 
+		IF ((SELECT AREA_OID FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}) IS NOT NULL, 1=1, 1=2)
+		AND BSAU.AREA_OID = -2 AND BSAU.USER_OID = U.USER_OID 
+		AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+		) VIEW1,
+		(SELECT RU.USER_OID FROM ROLE_USER RU, ROLE_OPERATION RO, OPERATION_URL OU
+        WHERE NOT EXISTS (SELECT 1 FROM GROUP_USER GU WHERE GU.USER_OID = RU.USER_OID) AND 
+        RU.ROLE_OID = RO.ROLE_OID AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/poInvGrnDnMatching/initAuditQty.action') VIEW2
+		WHERE U.USER_OID = VIEW1.USER_OID
+		AND VIEW1.USER_OID = VIEW2.USER_OID
+		AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+		AND U.USER_TYPE IN (6,7)
+        AND U.ACTIVE = true;
+   </select>
+   
+   <select id="selectWarehouseUsersByBuyerOidAndStoreOid" resultMap="ExResultMap" parameterType="java.util.Map" >
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER, U.TEL,
+        U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE, U.ACTIVE,
+        U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE, U.UPDATE_BY,
+        U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID FROM USER_PROFILE U,(
+        SELECT USER_OID FROM BUYER_STORE_USER WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}
+		UNION
+		SELECT U.USER_OID FROM BUYER_STORE_USER  BSU,USER_PROFILE U WHERE STORE_OID= -3
+		AND U.USER_OID = BSU.USER_OID AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+		UNION
+		SELECT BSAU.USER_OID FROM BUYER_STORE_AREA_USER BSAU, BUYER_STORE BS WHERE BSAU.AREA_OID = BS.AREA_OID 
+		AND BS.STORE_OID=#{storeOid,jdbcType=DECIMAL}
+		UNION
+		SELECT U.USER_OID FROM BUYER_STORE_AREA_USER BSAU, USER_PROFILE U WHERE 
+		IF ((SELECT AREA_OID FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}) IS NOT NULL, 1=1, 1=2)
+		AND BSAU.AREA_OID = -2 AND BSAU.USER_OID = U.USER_OID 
+		AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+		) VIEW1,
+		(SELECT GU.USER_OID FROM GROUP_USER GU, ROLE_GROUP RG,OPERATION_URL OU,ROLE_OPERATION RO
+        WHERE GU.GROUP_OID = RG.GROUP_OID AND RG.ROLE_OID = RO.ROLE_OID
+        AND RO.OPN_ID = OU.OPN_ID AND OU.ACCESS_URL = '/poInvGrnDnMatching/initAuditQty.action') VIEW2
+		WHERE U.USER_OID = VIEW1.USER_OID
+		AND VIEW1.USER_OID = VIEW2.USER_OID
+		AND U.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+		AND U.USER_TYPE IN (2,4)
+        AND U.ACTIVE = true;
+   </select>
+</mapper>

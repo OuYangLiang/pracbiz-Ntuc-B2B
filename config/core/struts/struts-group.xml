@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="group" extends="pracbiz-default" namespace="/group"> 
+        <action name="init" class="com.pracbiz.b2bportal.core.action.GroupAction" method="init">
+            <result>/WEB-INF/views/core/group/summary.jsp</result>
+        </action>
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.GroupAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.GroupAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initAdd" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initAdd">
+            <result>/WEB-INF/views/core/group/create.jsp</result>
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+        </action>
+        
+        <action name="saveAdd" class="com.pracbiz.b2bportal.core.action.GroupAction" method="saveAdd">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/group/create.jsp</result>
+            <result type="redirect">/group/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="view" class="com.pracbiz.b2bportal.core.action.GroupAction" method="view">
+            <result name="view">/WEB-INF/views/core/group/view.jsp</result>
+            <result name="viewPending">/WEB-INF/views/core/group/viewPending.jsp</result>
+            <result name="viewPendingUpdate">/WEB-INF/views/core/group/viewPendingUpdate.jsp</result>
+        </action>
+        
+        <action name="initEdit" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initEdit">
+            <result>/WEB-INF/views/core/group/edit.jsp</result>
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+        </action>
+        
+         <action name="saveEdit" class="com.pracbiz.b2bportal.core.action.GroupAction" method="saveEdit">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/group/edit.jsp</result>
+            <result type="redirect">/group/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.GroupAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="checkConfirm" class="com.pracbiz.b2bportal.core.action.GroupAction" method="checkConfirm">
+            <result type="json">
+                <param name="root">ajaxMsg</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="saveDelete" class="com.pracbiz.b2bportal.core.action.GroupAction" method="saveDelete">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+        </action>
+        
+        <action name="initApprove" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initConfirm">
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+            <result>/WEB-INF/views/core/group/confirm.jsp</result>
+        </action>
+        
+        <action name="saveApprove" class="com.pracbiz.b2bportal.core.action.GroupAction" method="saveApprove">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+        </action>
+        
+        <action name="initReject" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initConfirm">
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+            <result>/WEB-INF/views/core/group/confirm.jsp</result>
+        </action>
+        
+        <action name="saveReject" class="com.pracbiz.b2bportal.core.action.GroupAction" method="saveReject">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+        </action>
+        
+        <action name="initWithdraw" class="com.pracbiz.b2bportal.core.action.GroupAction" method="initConfirm">
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+            <result>/WEB-INF/views/core/group/confirm.jsp</result>
+        </action>
+        
+        <action name="saveWithdraw" class="com.pracbiz.b2bportal.core.action.GroupAction" method="saveWithdraw">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/group/summary.jsp</result>
+        </action>
+    </package>
+</struts>

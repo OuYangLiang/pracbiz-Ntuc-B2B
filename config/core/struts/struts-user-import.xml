@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="userImport" extends="pracbiz-default" namespace="/userImport"> 
+        <action name="init" class="com.pracbiz.b2bportal.core.action.ADUserImportAction" method="init">
+            <result>/WEB-INF/views/core/userImport/import.jsp</result>
+        </action>
+        
+        <action name="initGroupData" class="com.pracbiz.b2bportal.core.action.ADUserImportAction" method="initGroupData">
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.ADUserImportAction" method="putParamIntoSession">
+			<result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+            <result name="error" type="json">
+                <param name="root">mkErrorInfo</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+		</action>
+		
+		<action name="import" class="com.pracbiz.b2bportal.core.action.ADUserImportAction" method="importUsers">
+			<result name="input">/WEB-INF/views/core/userImport/import.jsp</result>
+        </action>
+    </package>
+</struts>

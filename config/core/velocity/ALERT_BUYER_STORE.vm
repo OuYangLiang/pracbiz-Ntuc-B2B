@@ -1,0 +1,35 @@
+<html>
+    <head>
+        Hi ${STORE_CODE},
+        <br/><br/><br/>
+        The following Puchase Order has been sent :
+        <br/><br/><br/>
+    </head>
+    <body>
+        #if($SUCC_LIST.size() > 0)
+        <table>
+            #foreach($o in $SUCC_LIST)
+                <tr>
+                    <td width="30" align="left">$velocityCount.</td>
+                    <td align="left">Ref # $o</td>
+                </tr>
+            #end
+            </table>
+			#end
+        <p/>
+		<table>
+             <tr>
+                 <td colspan="2">
+                     PracBiz B2B Portal System
+                 </td>
+             </tr>
+             <tr>
+                 <td colspan="2">
+                     Customer Support
+                 </td>
+             </tr>
+        </table>
+		<p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

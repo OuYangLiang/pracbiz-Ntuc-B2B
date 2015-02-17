@@ -1,0 +1,215 @@
+<html>
+    <head>
+        Batch Run Status Report
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Buyer</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">${BUYER_NAME} (${BUYER_CODE})</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> User File</td>
+                    <td align="right">:</td>
+                    <td align="left">${USER_FILE_NAME}</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> New Count</td>
+                    <td align="right">:</td>
+                    <td align="left">$NEW_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Update Count</td>
+                    <td align="right">:</td>
+                    <td align="left">$UPDATE_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> UnProcess Count</td>
+                    <td align="right">:</td>
+                    <td align="left">$UNPROCESS_COUNT</td>
+                </tr>
+            </table>
+            <p/>
+            <table>
+                #if($NEW_LIST.size() > 0)
+                    <tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                New List
+                            </strong>
+                        </td>
+                    </tr>
+                    #foreach($o in $NEW_LIST)
+                        <tr>
+                            <td width="30" align="left">$velocityCount.</td>
+                            <td align="left">$o</td>
+                        </tr>
+                    #end
+                #end
+                
+                #if($UPDATE_LIST.size() > 0)
+                    <tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                Update List
+                            </strong>
+                        </td>
+                    </tr>
+                    #foreach($o in $UPDATE_LIST)
+                        <tr>
+                            <td width="30" align="left">$velocityCount.</td>
+                            <td align="left">$o</td>
+                        </tr>
+                    #end
+                #end
+                
+                #if($LENGTH_ERROR_LIST.size() > 0 || $USER_TYPE_ERROR_LIST.size() > 0 || $USER_NAME_ERROR_LIST.size() > 0 || $LOGIN_ID_ERROR_LIST.size() > 0 
+                    || $LOGIN_ID_DUPLICATE_LIST.size() > 0 || $EMAIL_EMPTY_LIST.size() > 0 
+                    || $EMAIL_INVALID_LIST.size() > 0 || $ROLE_ERROR_LIST.size() > 0 || $GROUP_ERROR_LIST.size() > 0 || $USER_PENDING_LIST.size() > 0)
+                    <tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                UnProcess List
+                            </strong>
+                        </td>
+                    </tr>
+                    #if($LENGTH_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Field length must be 12</td>
+                        </tr>
+                        #foreach($o in $LENGTH_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($USER_TYPE_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">User type is required and must in (BA,BU,STA,STU)</td>
+                        </tr>
+                        #foreach($o in $USER_TYPE_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($USER_NAME_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">User name is required and its length must be between 0,50</td>
+                        </tr>
+                        #foreach($o in $USER_NAME_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($LOGIN_ID_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Login Id is required and its length must be between 0,50</td>
+                        </tr>
+                        #foreach($o in $LOGIN_ID_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($LOGIN_ID_DUPLICATE_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Login Id is duplicate in file</td>
+                        </tr>
+                        #foreach($o in $LOGIN_ID_DUPLICATE_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($EMAIL_EMPTY_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Email Address is required and its length must be between 0,100</td>
+                        </tr>
+                        #foreach($o in $EMAIL_EMPTY_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($EMAIL_INVALID_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Email Address is invalid</td>
+                        </tr>
+                        #foreach($o in $EMAIL_INVALID_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($ROLE_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Role is required and must at least has one  role existing in system</td>
+                        </tr>
+                        #foreach($o in $ROLE_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($GROUP_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Group must exist in system</td>
+                        </tr>
+                        #foreach($o in $GROUP_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($USER_PENDING_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">User is pending in system</td>
+                        </tr>
+                        #foreach($o in $USER_PENDING_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                #end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         PracBiz B2B Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+            <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+        </form>
+    </body>
+</html>

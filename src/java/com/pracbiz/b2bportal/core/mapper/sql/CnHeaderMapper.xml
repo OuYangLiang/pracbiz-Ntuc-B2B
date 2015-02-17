@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.CnHeaderMapper">
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.CnHeaderHolder">
+    <id column="CN_OID" jdbcType="DECIMAL" property="cnOid" />
+    <result column="CN_NO" jdbcType="VARCHAR" property="cnNo" />
+    <result column="DOC_ACTION" jdbcType="CHAR" property="docAction" />
+    <result column="ACTION_DATE" jdbcType="TIMESTAMP" property="actionDate" />
+    <result column="CN_TYPE" jdbcType="CHAR" property="cnType" />
+    <result column="CN_TYPE_DESC" jdbcType="VARCHAR" property="cnTypeDesc" />
+    <result column="CN_DATE" jdbcType="DATE" property="cnDate" />
+    <result column="PO_NO" jdbcType="VARCHAR" property="poNo" />
+    <result column="PO_DATE" jdbcType="DATE" property="poDate" />
+    <result column="INV_NO" jdbcType="VARCHAR" property="invNo" />
+    <result column="INV_DATE" jdbcType="DATE" property="invDate" />
+    <result column="RTV_NO" jdbcType="VARCHAR" property="rtvNo" />
+    <result column="RTV_DATE" jdbcType="DATE" property="rtvDate" />
+    <result column="GI_NO" jdbcType="VARCHAR" property="giNo" />
+    <result column="GI_DATE" jdbcType="DATE" property="giDate" />
+    <result column="BUYER_OID" jdbcType="DECIMAL" property="buyerOid" />
+    <result column="BUYER_CODE" jdbcType="VARCHAR" property="buyerCode" />
+    <result column="BUYER_NAME" jdbcType="VARCHAR" property="buyerName" />
+    <result column="BUYER_ADDR1" jdbcType="VARCHAR" property="buyerAddr1" />
+    <result column="BUYER_ADDR2" jdbcType="VARCHAR" property="buyerAddr2" />
+    <result column="BUYER_ADDR3" jdbcType="VARCHAR" property="buyerAddr3" />
+    <result column="BUYER_ADDR4" jdbcType="VARCHAR" property="buyerAddr4" />
+    <result column="BUYER_CITY" jdbcType="VARCHAR" property="buyerCity" />
+    <result column="BUYER_STATE" jdbcType="VARCHAR" property="buyerState" />
+    <result column="BUYER_CTRY_CODE" jdbcType="CHAR" property="buyerCtryCode" />
+    <result column="BUYER_POSTAL_CODE" jdbcType="VARCHAR" property="buyerPostalCode" />
+    <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="SUB_DEPT_CODE" jdbcType="VARCHAR" property="subDeptCode" />
+    <result column="SUB_DEPT_NAME" jdbcType="VARCHAR" property="subDeptName" />
+    <result column="SUPPLIER_OID" jdbcType="DECIMAL" property="supplierOid" />
+    <result column="SUPPLIER_CODE" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
+    <result column="SUPPLIER_ADDR1" jdbcType="VARCHAR" property="supplierAddr1" />
+    <result column="SUPPLIER_ADDR2" jdbcType="VARCHAR" property="supplierAddr2" />
+    <result column="SUPPLIER_ADDR3" jdbcType="VARCHAR" property="supplierAddr3" />
+    <result column="SUPPLIER_ADDR4" jdbcType="VARCHAR" property="supplierAddr4" />
+    <result column="SUPPLIER_CITY" jdbcType="VARCHAR" property="supplierCity" />
+    <result column="SUPPLIER_STATE" jdbcType="VARCHAR" property="supplierState" />
+    <result column="SUPPLIER_CTRY_CODE" jdbcType="CHAR" property="supplierCtryCode" />
+    <result column="SUPPLIER_POSTAL_CODE" jdbcType="VARCHAR" property="supplierPostalCode" />
+    <result column="STORE_CODE" jdbcType="VARCHAR" property="storeCode" />
+    <result column="STORE_NAME" jdbcType="VARCHAR" property="storeName" />
+    <result column="STORE_ADDR1" jdbcType="VARCHAR" property="storeAddr1" />
+    <result column="STORE_ADDR2" jdbcType="VARCHAR" property="storeAddr2" />
+    <result column="STORE_ADDR3" jdbcType="VARCHAR" property="storeAddr3" />
+    <result column="STORE_ADDR4" jdbcType="VARCHAR" property="storeAddr4" />
+    <result column="STORE_CITY" jdbcType="VARCHAR" property="storeCity" />
+    <result column="STORE_STATE" jdbcType="VARCHAR" property="storeState" />
+    <result column="STORE_CTRY_CODE" jdbcType="CHAR" property="storeCtryCode" />
+    <result column="STORE_POSTAL_CODE" jdbcType="VARCHAR" property="storePostalCode" />
+    <result column="TOTAL_COST" jdbcType="DECIMAL" property="totalCost" />
+    <result column="TOTAL_VAT" jdbcType="DECIMAL" property="totalVat" />
+    <result column="TOTAL_COST_WITH_VAT" jdbcType="DECIMAL" property="totalCostWithVat" />
+    <result column="VAT_RATE" jdbcType="DECIMAL" property="vatRate" />
+    <result column="REASON_CODE" jdbcType="VARCHAR" property="reasonCode" />
+    <result column="REASON_DESC" jdbcType="VARCHAR" property="reasonDesc" />
+    <result column="CN_REMARKS" jdbcType="VARCHAR" property="cnRemarks" />
+    <result column="CTRL_STATUS" jdbcType="CHAR" property="ctrlStatus" />
+    <result column="DUPLICATE" jdbcType="BIT" property="duplicate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CN_OID, CN_NO, DOC_ACTION, ACTION_DATE, CN_TYPE, CN_TYPE_DESC, CN_DATE, PO_NO, PO_DATE, 
+    INV_NO, INV_DATE, RTV_NO, RTV_DATE, GI_NO, GI_DATE, BUYER_OID, BUYER_CODE, BUYER_NAME, 
+    BUYER_ADDR1, BUYER_ADDR2, BUYER_ADDR3, BUYER_ADDR4, BUYER_CITY, BUYER_STATE, BUYER_CTRY_CODE, 
+    BUYER_POSTAL_CODE, DEPT_CODE, DEPT_NAME, SUB_DEPT_CODE, SUB_DEPT_NAME, SUPPLIER_OID, 
+    SUPPLIER_CODE, SUPPLIER_NAME, SUPPLIER_ADDR1, SUPPLIER_ADDR2, SUPPLIER_ADDR3, SUPPLIER_ADDR4, 
+    SUPPLIER_CITY, SUPPLIER_STATE, SUPPLIER_CTRY_CODE, SUPPLIER_POSTAL_CODE, STORE_CODE, 
+    STORE_NAME, STORE_ADDR1, STORE_ADDR2, STORE_ADDR3, STORE_ADDR4, STORE_CITY, STORE_STATE, 
+    STORE_CTRY_CODE, STORE_POSTAL_CODE, TOTAL_COST, TOTAL_VAT, TOTAL_COST_WITH_VAT, VAT_RATE, 
+    REASON_CODE, REASON_DESC, CN_REMARKS, CTRL_STATUS, DUPLICATE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.CnHeaderHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from CN_HEADER
+    <where>
+      <if test="cnOid != null" >
+        CN_OID = #{cnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="cnNo != null" >
+        and CN_NO = #{cnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="docAction != null" >
+        and DOC_ACTION = #{docAction,jdbcType=CHAR}
+      </if>
+      <if test="actionDate != null" >
+        and ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cnType != null" >
+        and DN_TYPE = #{cnType,jdbcType=VARCHAR}
+      </if>
+      <if test="cnTypeDesc != null" >
+        and CN_TYPE = #{cnTypeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="cnDate != null" >
+        and CN_DATE = #{cnDate,jdbcType=DATE}
+      </if>
+      <if test="poNo != null" >
+        and PO_NO = #{poNo,jdbcType=VARCHAR}
+      </if>
+      <if test="poDate != null" >
+        and PO_DATE = #{poDate,jdbcType=DATE}
+      </if>
+      <if test="invNo != null" >
+        and INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invDate != null" >
+        and INV_DATE = #{invDate,jdbcType=DATE}
+      </if>
+      <if test="rtvNo != null" >
+        and RTV_NO = #{rtvNo,jdbcType=VARCHAR}
+      </if>
+      <if test="rtvDate != null" >
+        and RTV_DATE = #{rtvDate,jdbcType=DATE}
+      </if>
+      <if test="giNo != null" >
+        and GI_NO = #{giNo,jdbcType=VARCHAR}
+      </if>
+      <if test="giDate != null" >
+        and GI_DATE = #{giDate,jdbcType=DATE}
+      </if>
+      <if test="buyerOid != null" >
+        and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr1 != null" >
+        and BUYER_ADDR1 = #{buyerAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr2 != null" >
+        and BUYER_ADDR2 = #{buyerAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr3 != null" >
+        and BUYER_ADDR3 = #{buyerAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr4 != null" >
+        and BUYER_ADDR4 = #{buyerAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerCity != null" >
+        and BUYER_CITY = #{buyerCity,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerState != null" >
+        and BUYER_STATE = #{buyerState,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerCtryCode != null" >
+        and BUYER_CTRY_CODE = #{buyerCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="buyerPostalCode != null" >
+        and BUYER_POSTAL_CODE = #{buyerPostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deptCode != null" >
+        and DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deptName != null" >
+        and DEPT_NAME = #{deptName,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptCode != null" >
+        and SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptName != null" >
+        and SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        and SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr1 != null" >
+        and SUPPLIER_ADDR1 = #{supplierAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr2 != null" >
+        and SUPPLIER_ADDR2 = #{supplierAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr3 != null" >
+        and SUPPLIER_ADDR3 = #{supplierAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr4 != null" >
+        and SUPPLIER_ADDR4 = #{supplierAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierCity != null" >
+        and SUPPLIER_CITY = #{supplierCity,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierState != null" >
+        and SUPPLIER_STATE = #{supplierState,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierCtryCode != null" >
+        and SUPPLIER_CTRY_CODE = #{supplierCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="supplierPostalCode != null" >
+        and SUPPLIER_POSTAL_CODE = #{supplierPostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCode != null">
+        and STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeName != null">
+        and STORE_NAME = #{storeName,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr1 != null">
+        and STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr2 != null">
+        and STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr3 != null">
+        and STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr4 != null">
+        and STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCity != null">
+        and STORE_CITY = #{storeCity,jdbcType=VARCHAR}
+      </if>
+      <if test="storeState != null">
+        and STORE_STATE = #{storeState,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCtryCode != null">
+       and  STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="storePostalCode != null">
+        and STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="totalCost != null" >
+        and TOTAL_COST = #{totalCost,jdbcType=DECIMAL}
+      </if>
+      <if test="totalVat != null" >
+        and TOTAL_VAT = #{totalVat,jdbcType=DECIMAL}
+      </if>
+      <if test="totalCostWithVat != null" >
+        and TOTAL_COST_WITH_VAT = #{totalCostWithVat,jdbcType=DECIMAL}
+      </if>
+      <if test="vatRate != null" >
+        and VAT_RATE = #{vatRate,jdbcType=DECIMAL}
+      </if>
+      <if test="reasonCode != null" >
+        and REASON_CODE = #{reasonCode,jdbcType=VARCHAR}
+      </if>
+      <if test="reasonDesc != null" >
+        and REASON_DESC = #{reasonDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="cnRemarks != null" >
+        and CN_REMARKS = #{cnRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="ctrlStatus != null" >
+        and CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="duplicate != null" >
+        and DUPLICATE = #{duplicate,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.CnHeaderHolder" >
+    delete from CN_HEADER
+    <where>
+      <if test="cnOid != null" >
+        CN_OID = #{cnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="cnNo != null" >
+        and CN_NO = #{cnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="docAction != null" >
+        and DOC_ACTION = #{docAction,jdbcType=CHAR}
+      </if>
+      <if test="actionDate != null" >
+        and ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cnType != null" >
+        and DN_TYPE = #{cnType,jdbcType=VARCHAR}
+      </if>
+      <if test="cnTypeDesc != null" >
+        and CN_TYPE = #{cnTypeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="cnDate != null" >
+        and CN_DATE = #{cnDate,jdbcType=DATE}
+      </if>
+      <if test="poNo != null" >
+        and PO_NO = #{poNo,jdbcType=VARCHAR}
+      </if>
+      <if test="poDate != null" >
+        and PO_DATE = #{poDate,jdbcType=DATE}
+      </if>
+      <if test="invNo != null" >
+        and INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invDate != null" >
+        and INV_DATE = #{invDate,jdbcType=DATE}
+      </if>
+      <if test="rtvNo != null" >
+        and RTV_NO = #{rtvNo,jdbcType=VARCHAR}
+      </if>
+      <if test="rtvDate != null" >
+        and RTV_DATE = #{rtvDate,jdbcType=DATE}
+      </if>
+      <if test="giNo != null" >
+        and GI_NO = #{giNo,jdbcType=VARCHAR}
+      </if>
+      <if test="giDate != null" >
+        and GI_DATE = #{giDate,jdbcType=DATE}
+      </if>
+      <if test="buyerOid != null" >
+        and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr1 != null" >
+        and BUYER_ADDR1 = #{buyerAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr2 != null" >
+        and BUYER_ADDR2 = #{buyerAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr3 != null" >
+        and BUYER_ADDR3 = #{buyerAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerAddr4 != null" >
+        and BUYER_ADDR4 = #{buyerAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerCity != null" >
+        and BUYER_CITY = #{buyerCity,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerState != null" >
+        and BUYER_STATE = #{buyerState,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerCtryCode != null" >
+        and BUYER_CTRY_CODE = #{buyerCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="buyerPostalCode != null" >
+        and BUYER_POSTAL_CODE = #{buyerPostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deptCode != null" >
+        and DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deptName != null" >
+        and DEPT_NAME = #{deptName,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptCode != null" >
+        and SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subDeptName != null" >
+        and SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        and SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr1 != null" >
+        and SUPPLIER_ADDR1 = #{supplierAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr2 != null" >
+        and SUPPLIER_ADDR2 = #{supplierAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr3 != null" >
+        and SUPPLIER_ADDR3 = #{supplierAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAddr4 != null" >
+        and SUPPLIER_ADDR4 = #{supplierAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierCity != null" >
+        and SUPPLIER_CITY = #{supplierCity,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierState != null" >
+        and SUPPLIER_STATE = #{supplierState,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierCtryCode != null" >
+        and SUPPLIER_CTRY_CODE = #{supplierCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="supplierPostalCode != null" >
+        and SUPPLIER_POSTAL_CODE = #{supplierPostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCode != null">
+        and STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeName != null">
+        and STORE_NAME = #{storeName,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr1 != null">
+        and STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr2 != null">
+        and STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr3 != null">
+        and STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr4 != null">
+        and STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCity != null">
+        and STORE_CITY = #{storeCity,jdbcType=VARCHAR}
+      </if>
+      <if test="storeState != null">
+        and STORE_STATE = #{storeState,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCtryCode != null">
+       and  STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="storePostalCode != null">
+        and STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="totalCost != null" >
+        and TOTAL_COST = #{totalCost,jdbcType=DECIMAL}
+      </if>
+      <if test="totalVat != null" >
+        and TOTAL_VAT = #{totalVat,jdbcType=DECIMAL}
+      </if>
+      <if test="totalCostWithVat != null" >
+        and TOTAL_COST_WITH_VAT = #{totalCostWithVat,jdbcType=DECIMAL}
+      </if>
+      <if test="vatRate != null" >
+        and VAT_RATE = #{vatRate,jdbcType=DECIMAL}
+      </if>
+      <if test="reasonCode != null" >
+        and REASON_CODE = #{reasonCode,jdbcType=VARCHAR}
+      </if>
+      <if test="reasonDesc != null" >
+        and REASON_DESC = #{reasonDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="cnRemarks != null" >
+        and CN_REMARKS = #{cnRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="ctrlStatus != null" >
+        and CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="duplicate != null" >
+        and DUPLICATE = #{duplicate,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.CnHeaderHolder">
+    insert into CN_HEADER (CN_OID, CN_NO, DOC_ACTION, 
+      ACTION_DATE, CN_TYPE, CN_TYPE_DESC, 
+      CN_DATE, PO_NO, PO_DATE, INV_NO, 
+      INV_DATE, RTV_NO, RTV_DATE, 
+      GI_NO, GI_DATE, BUYER_OID, 
+      BUYER_CODE, BUYER_NAME, BUYER_ADDR1, 
+      BUYER_ADDR2, BUYER_ADDR3, BUYER_ADDR4, 
+      BUYER_CITY, BUYER_STATE, BUYER_CTRY_CODE, 
+      BUYER_POSTAL_CODE, DEPT_CODE, DEPT_NAME, 
+      SUB_DEPT_CODE, SUB_DEPT_NAME, SUPPLIER_OID, 
+      SUPPLIER_CODE, SUPPLIER_NAME, SUPPLIER_ADDR1, 
+      SUPPLIER_ADDR2, SUPPLIER_ADDR3, SUPPLIER_ADDR4, 
+      SUPPLIER_CITY, SUPPLIER_STATE, SUPPLIER_CTRY_CODE, 
+      SUPPLIER_POSTAL_CODE, STORE_CODE, STORE_NAME, 
+      STORE_ADDR1, STORE_ADDR2, STORE_ADDR3, 
+      STORE_ADDR4, STORE_CITY, STORE_STATE, 
+      STORE_CTRY_CODE, STORE_POSTAL_CODE, TOTAL_COST, 
+      TOTAL_VAT, TOTAL_COST_WITH_VAT, VAT_RATE, 
+      REASON_CODE, REASON_DESC, CN_REMARKS, 
+      CTRL_STATUS, DUPLICATE)
+    values (#{cnOid,jdbcType=DECIMAL}, #{cnNo,jdbcType=VARCHAR}, #{docAction,jdbcType=CHAR}, 
+      #{actionDate,jdbcType=TIMESTAMP}, #{cnType,jdbcType=CHAR}, #{cnTypeDesc,jdbcType=VARCHAR}, 
+      #{cnDate,jdbcType=DATE}, #{poNo,jdbcType=VARCHAR}, #{poDate,jdbcType=DATE}, #{invNo,jdbcType=VARCHAR}, 
+      #{invDate,jdbcType=DATE}, #{rtvNo,jdbcType=VARCHAR}, #{rtvDate,jdbcType=DATE}, 
+      #{giNo,jdbcType=VARCHAR}, #{giDate,jdbcType=DATE}, #{buyerOid,jdbcType=DECIMAL}, 
+      #{buyerCode,jdbcType=VARCHAR}, #{buyerName,jdbcType=VARCHAR}, #{buyerAddr1,jdbcType=VARCHAR}, 
+      #{buyerAddr2,jdbcType=VARCHAR}, #{buyerAddr3,jdbcType=VARCHAR}, #{buyerAddr4,jdbcType=VARCHAR}, 
+      #{buyerCity,jdbcType=VARCHAR}, #{buyerState,jdbcType=VARCHAR}, #{buyerCtryCode,jdbcType=CHAR}, 
+      #{buyerPostalCode,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{subDeptCode,jdbcType=VARCHAR}, #{subDeptName,jdbcType=VARCHAR}, #{supplierOid,jdbcType=DECIMAL}, 
+      #{supplierCode,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierAddr1,jdbcType=VARCHAR}, 
+      #{supplierAddr2,jdbcType=VARCHAR}, #{supplierAddr3,jdbcType=VARCHAR}, #{supplierAddr4,jdbcType=VARCHAR}, 
+      #{supplierCity,jdbcType=VARCHAR}, #{supplierState,jdbcType=VARCHAR}, #{supplierCtryCode,jdbcType=CHAR}, 
+      #{supplierPostalCode,jdbcType=VARCHAR}, #{storeCode,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, 
+      #{storeAddr1,jdbcType=VARCHAR}, #{storeAddr2,jdbcType=VARCHAR}, #{storeAddr3,jdbcType=VARCHAR}, 
+      #{storeAddr4,jdbcType=VARCHAR}, #{storeCity,jdbcType=VARCHAR}, #{storeState,jdbcType=VARCHAR}, 
+      #{storeCtryCode,jdbcType=CHAR}, #{storePostalCode,jdbcType=VARCHAR}, #{totalCost,jdbcType=DECIMAL}, 
+      #{totalVat,jdbcType=DECIMAL}, #{totalCostWithVat,jdbcType=DECIMAL}, #{vatRate,jdbcType=DECIMAL}, 
+      #{reasonCode,jdbcType=VARCHAR}, #{reasonDesc,jdbcType=VARCHAR}, #{cnRemarks,jdbcType=VARCHAR}, 
+      #{ctrlStatus,jdbcType=CHAR}, #{duplicate,jdbcType=BIT})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.CnHeaderHolder">
+    update CN_HEADER
+    <set>
+      <if test="cnNo != null">
+        CN_NO = #{cnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="docAction != null">
+        DOC_ACTION = #{docAction,jdbcType=CHAR},
+      </if>
+      <if test="actionDate != null">
+        ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cnType != null">
+        CN_TYPE = #{cnType,jdbcType=CHAR},
+      </if>
+      <if test="cnTypeDesc != null">
+        CN_TYPE_DESC = #{cnTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="cnDate != null">
+        CN_DATE = #{cnDate,jdbcType=DATE},
+      </if>
+      <if test="poNo != null">
+        PO_NO = #{poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poDate != null">
+        PO_DATE = #{poDate,jdbcType=DATE},
+      </if>
+      <if test="invNo != null">
+        INV_NO = #{invNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invDate != null">
+        INV_DATE = #{invDate,jdbcType=DATE},
+      </if>
+      <if test="rtvNo != null">
+        RTV_NO = #{rtvNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rtvDate != null">
+        RTV_DATE = #{rtvDate,jdbcType=DATE},
+      </if>
+      <if test="giNo != null">
+        GI_NO = #{giNo,jdbcType=VARCHAR},
+      </if>
+      <if test="giDate != null">
+        GI_DATE = #{giDate,jdbcType=DATE},
+      </if>
+      <if test="buyerOid != null">
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerCode != null">
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null">
+        BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerAddr1 != null">
+        BUYER_ADDR1 = #{buyerAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerAddr2 != null">
+        BUYER_ADDR2 = #{buyerAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerAddr3 != null">
+        BUYER_ADDR3 = #{buyerAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerAddr4 != null">
+        BUYER_ADDR4 = #{buyerAddr4,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerCity != null">
+        BUYER_CITY = #{buyerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerState != null">
+        BUYER_STATE = #{buyerState,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerCtryCode != null">
+        BUYER_CTRY_CODE = #{buyerCtryCode,jdbcType=CHAR},
+      </if>
+      <if test="buyerPostalCode != null">
+        BUYER_POSTAL_CODE = #{buyerPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        DEPT_CODE = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="subDeptCode != null">
+        SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subDeptName != null">
+        SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOid != null">
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierCode != null">
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddr1 != null">
+        SUPPLIER_ADDR1 = #{supplierAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddr2 != null">
+        SUPPLIER_ADDR2 = #{supplierAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddr3 != null">
+        SUPPLIER_ADDR3 = #{supplierAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddr4 != null">
+        SUPPLIER_ADDR4 = #{supplierAddr4,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCity != null">
+        SUPPLIER_CITY = #{supplierCity,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierState != null">
+        SUPPLIER_STATE = #{supplierState,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCtryCode != null">
+        SUPPLIER_CTRY_CODE = #{supplierCtryCode,jdbcType=CHAR},
+      </if>
+      <if test="supplierPostalCode != null">
+        SUPPLIER_POSTAL_CODE = #{supplierPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCode != null">
+        STORE_CODE = #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null">
+        STORE_NAME = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr1 != null">
+        STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr2 != null">
+        STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr3 != null">
+        STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr4 != null">
+        STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCity != null">
+        STORE_CITY = #{storeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="storeState != null">
+        STORE_STATE = #{storeState,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCtryCode != null">
+        STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR},
+      </if>
+      <if test="storePostalCode != null">
+        STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCost != null">
+        TOTAL_COST = #{totalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalVat != null">
+        TOTAL_VAT = #{totalVat,jdbcType=DECIMAL},
+      </if>
+      <if test="totalCostWithVat != null">
+        TOTAL_COST_WITH_VAT = #{totalCostWithVat,jdbcType=DECIMAL},
+      </if>
+      <if test="vatRate != null">
+        VAT_RATE = #{vatRate,jdbcType=DECIMAL},
+      </if>
+      <if test="reasonCode != null">
+        REASON_CODE = #{reasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonDesc != null">
+        REASON_DESC = #{reasonDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="cnRemarks != null">
+        CN_REMARKS = #{cnRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrlStatus != null">
+        CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR},
+      </if>
+      <if test="duplicate != null">
+        DUPLICATE = #{duplicate,jdbcType=BIT},
+      </if>
+    </set>
+    where CN_OID = #{cnOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.CnHeaderHolder">
+    update CN_HEADER
+    set CN_NO = #{cnNo,jdbcType=VARCHAR},
+      DOC_ACTION = #{docAction,jdbcType=CHAR},
+      ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      CN_TYPE = #{cnType,jdbcType=CHAR},
+      CN_TYPE_DESC = #{cnTypeDesc,jdbcType=VARCHAR},
+      CN_DATE = #{cnDate,jdbcType=DATE},
+      PO_NO = #{poNo,jdbcType=VARCHAR},
+      PO_DATE = #{poDate,jdbcType=DATE},
+      INV_NO = #{invNo,jdbcType=VARCHAR},
+      INV_DATE = #{invDate,jdbcType=DATE},
+      RTV_NO = #{rtvNo,jdbcType=VARCHAR},
+      RTV_DATE = #{rtvDate,jdbcType=DATE},
+      GI_NO = #{giNo,jdbcType=VARCHAR},
+      GI_DATE = #{giDate,jdbcType=DATE},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      BUYER_ADDR1 = #{buyerAddr1,jdbcType=VARCHAR},
+      BUYER_ADDR2 = #{buyerAddr2,jdbcType=VARCHAR},
+      BUYER_ADDR3 = #{buyerAddr3,jdbcType=VARCHAR},
+      BUYER_ADDR4 = #{buyerAddr4,jdbcType=VARCHAR},
+      BUYER_CITY = #{buyerCity,jdbcType=VARCHAR},
+      BUYER_STATE = #{buyerState,jdbcType=VARCHAR},
+      BUYER_CTRY_CODE = #{buyerCtryCode,jdbcType=CHAR},
+      BUYER_POSTAL_CODE = #{buyerPostalCode,jdbcType=VARCHAR},
+      DEPT_CODE = #{deptCode,jdbcType=VARCHAR},
+      DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      SUB_DEPT_CODE = #{subDeptCode,jdbcType=VARCHAR},
+      SUB_DEPT_NAME = #{subDeptName,jdbcType=VARCHAR},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      SUPPLIER_ADDR1 = #{supplierAddr1,jdbcType=VARCHAR},
+      SUPPLIER_ADDR2 = #{supplierAddr2,jdbcType=VARCHAR},
+      SUPPLIER_ADDR3 = #{supplierAddr3,jdbcType=VARCHAR},
+      SUPPLIER_ADDR4 = #{supplierAddr4,jdbcType=VARCHAR},
+      SUPPLIER_CITY = #{supplierCity,jdbcType=VARCHAR},
+      SUPPLIER_STATE = #{supplierState,jdbcType=VARCHAR},
+      SUPPLIER_CTRY_CODE = #{supplierCtryCode,jdbcType=CHAR},
+      SUPPLIER_POSTAL_CODE = #{supplierPostalCode,jdbcType=VARCHAR},
+      STORE_CODE = #{storeCode,jdbcType=VARCHAR},
+      STORE_NAME = #{storeName,jdbcType=VARCHAR},
+      STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR},
+      STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR},
+      STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR},
+      STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR},
+      STORE_CITY = #{storeCity,jdbcType=VARCHAR},
+      STORE_STATE = #{storeState,jdbcType=VARCHAR},
+      STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR},
+      STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR},
+      TOTAL_COST = #{totalCost,jdbcType=DECIMAL},
+      TOTAL_VAT = #{totalVat,jdbcType=DECIMAL},
+      TOTAL_COST_WITH_VAT = #{totalCostWithVat,jdbcType=DECIMAL},
+      VAT_RATE = #{vatRate,jdbcType=DECIMAL},
+      REASON_CODE = #{reasonCode,jdbcType=VARCHAR},
+      REASON_DESC = #{reasonDesc,jdbcType=VARCHAR},
+      CN_REMARKS = #{cnRemarks,jdbcType=VARCHAR},
+      CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR},
+      DUPLICATE = #{duplicate,jdbcType=BIT}
+    where CN_OID = #{cnOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectAllRecordToExport" parameterType="com.pracbiz.b2bportal.core.holder.extension.CnSummaryHolder" resultMap="summaryResultMap">
+        SELECT 
+        <include refid="Grid_Column_List"/> 
+        FROM MSG_TRANSACTIONS M, CN_HEADER C
+        <!-- handle group constraint for buyer user. -->
+        <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+             <if test="listOid != null">
+             ,FAVOURITE_LIST_SUPPLIER FLS
+             </if>
+             <if test="listOid == null">
+             ,GROUP_SUPPLIER GS 
+             </if>
+        </if>
+        <!-- handle group constraint for supplier user. -->
+        <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+            ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+        </if>
+        <!-- handle supplier set --> 
+        <if test="setOid != null and validSupplierSet == true ">
+            , SUPPLIER S
+        </if>
+        WHERE M.DOC_OID = C.CN_OID
+        <if test="cnDateFrom != null">
+            <![CDATA[
+            AND C.CN_DATE >= #{cnDateFrom,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="cnDateTo != null">
+            <![CDATA[
+            AND C.CN_DATE <= #{cnDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="sentDateFrom != null">
+            <![CDATA[
+            AND M.SENT_DATE >= #{sentDateFrom,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="sentDateTo != null">
+            <![CDATA[
+            AND M.SENT_DATE <= #{sentDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="receivedDateFrom != null">
+            <![CDATA[
+            AND M.CREATE_DATE >= #{receivedDateFrom,jdbcType=TIMESTAMP}
+             ]]>
+        </if>
+        <if test="receivedDateTo != null">
+            <![CDATA[
+            AND M.CREATE_DATE <= #{receivedDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="poNo != null">
+            AND C.PO_NO like concat('%',#{poNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="cnNo != null">
+            AND C.CN_NO like concat('%',#{cnNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="storeCode != null">
+            AND C.STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="readStatus != null" >
+            AND M.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="ctrlStatus != null" >
+            AND C.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="duplicate != null" >
+            AND C.DUPLICATE = #{duplicate,jdbcType=BIT}
+        </if>
+        <!-- handle group constraint for buyer user. -->
+        <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+           <if test="listOid != null">
+               AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+               AND C.SUPPLIER_OID = FLS.SUPPLIER_OID
+           </if>
+           <if test="listOid == null">
+                AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+                AND C.SUPPLIER_OID = GS.SUPPLIER_OID
+           </if>
+        </if>
+        <!-- handle group constraint for supplier user. -->
+        <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+            AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+            AND GTP.TP_OID = TP.TP_OID
+            AND TP.BUYER_SUPPLIER_CODE = C.SUPPLIER_CODE
+            AND TP.BUYER_OID = C.BUYER_OID
+        </if>
+        <if test="visiable == false">
+           AND 1 = 2
+        </if>
+        <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+        <if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+          <if test="buyerStoreAccessList != null">
+              AND (C.STORE_CODE IN
+              <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+              OR C.STORE_CODE IS NULL)
+          </if>
+          <if test="buyerStoreAccessList == null">
+              AND 1=2
+          </if>
+        </if>
+        <if test="currentUserBuyerOid != null">
+            AND C.CTRL_STATUS != 'NEW'
+            AND (M.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} OR M.BUYER_OID IN 
+            (SELECT AAC.COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID=#{currentUserOid,jdbcType=DECIMAL}))
+        </if>
+        <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false">
+            AND M.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+        </if>
+        <if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+            AND M.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+        </if>
+        <if test="buyerOid != null and buyerOid != -1">
+            AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+        </if>
+        <if test="supplierCode != null">
+            AND M.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="setOid != null and validSupplierSet == true ">
+            AND S.SUPPLIER_OID = C.SUPPLIER_OID
+            AND S.SET_OID = #{setOid,jdbcType=DECIMAL} 
+            <if test="supplierOid != null and supplierOid != -1">
+                AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+            </if>
+        </if>
+        <if test="supplierName != null">
+            AND M.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="sortField != null" >
+            order by ${sortField} ${sortOrder}
+        </if>
+    </select>	
+</mapper>

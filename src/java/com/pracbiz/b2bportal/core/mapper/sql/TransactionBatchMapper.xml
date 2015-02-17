@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.TransactionBatchMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.TransactionBatchHolder" >
+    <id column="BATCH_OID" property="batchOid" jdbcType="DECIMAL" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="BATCH_FILENAME" property="batchFilename" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="ALERT_SENDER_DATE" property="alertSenderDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BATCH_OID, BATCH_NO, BATCH_FILENAME, CREATE_DATE, ALERT_SENDER_DATE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.TransactionBatchHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from TRANSACTION_BATCH
+    <where>
+      <if test="batchOid != null" >
+        BATCH_OID = #{batchOid,jdbcType=DECIMAL}
+      </if>
+      <if test="batchNo != null" >
+        and BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+      </if>
+      <if test="batchFilename != null" >
+        and BATCH_FILENAME = #{batchFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="alertSenderDate != null" >
+        and ALERT_SENDER_DATE = #{alertSenderDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.TransactionBatchHolder" >
+    delete from TRANSACTION_BATCH
+    <where>
+      <if test="batchOid != null" >
+        BATCH_OID = #{batchOid,jdbcType=DECIMAL}
+      </if>
+      <if test="batchNo != null" >
+        and BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+      </if>
+      <if test="batchFilename != null" >
+        and BATCH_FILENAME = #{batchFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="alertSenderDate != null" >
+        and ALERT_SENDER_DATE = #{alertSenderDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.TransactionBatchHolder" >
+    insert into TRANSACTION_BATCH (BATCH_OID, BATCH_NO, BATCH_FILENAME, 
+      CREATE_DATE, ALERT_SENDER_DATE)
+    values (#{batchOid,jdbcType=DECIMAL}, #{batchNo,jdbcType=VARCHAR}, #{batchFilename,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{alertSenderDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.TransactionBatchHolder" >
+    update TRANSACTION_BATCH
+    <set >
+      <if test="batchNo != null" >
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="batchFilename != null" >
+        BATCH_FILENAME = #{batchFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alertSenderDate != null" >
+        ALERT_SENDER_DATE = #{alertSenderDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BATCH_OID = #{batchOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.TransactionBatchHolder" >
+    update TRANSACTION_BATCH
+    set BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      BATCH_FILENAME = #{batchFilename,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      ALERT_SENDER_DATE = #{alertSenderDate,jdbcType=TIMESTAMP}
+    where BATCH_OID = #{batchOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+ 	<include file="struts-common-constants.xml"/>
+    
+    <package name="pracbiz-default" extends="struts-default,json-default" namespace="/">
+        <interceptors>
+            <interceptor name="initSession"
+                class="com.pracbiz.b2bportal.core.interceptor.InitSessionInterceptor" />
+                
+            <interceptor name="responseHeaderSetting"
+                class="com.pracbiz.b2bportal.core.interceptor.ResponseHeaderSettingInterceptor" />     
+            
+            <interceptor name="authority"
+                class="com.pracbiz.b2bportal.core.interceptor.AuthorityInterceptor" />
+                
+            <interceptor name="checkUser"
+                class="com.pracbiz.b2bportal.core.interceptor.CheckUserLoginInterceptor" />
+            
+            <interceptor name="checkAdUser"
+                class="com.pracbiz.b2bportal.core.interceptor.ADuserInterceptor" />
+            
+            <interceptor name="security"
+                class="com.pracbiz.b2bportal.core.interceptor.SecurityInterceptor" />
+
+		    <interceptor name="csrfProtection"
+                class="com.pracbiz.b2bportal.core.interceptor.CsrfInterceptor" />
+                
+            <interceptor-stack name="b2bportalDefaultStack">
+                <interceptor-ref name="i18n" />
+                <interceptor-ref name="initSession" />
+                <interceptor-ref name="responseHeaderSetting" />
+                <interceptor-ref name="checkUser" />
+                <interceptor-ref name="checkAdUser"/>
+                <interceptor-ref name="authority" />
+                <interceptor-ref name="security" />         
+                <interceptor-ref name="defaultStack" />         
+            </interceptor-stack>
+            
+                        
+            <interceptor-stack name="b2bportalDefaultStackWithoutHeaderSetting">
+                <interceptor-ref name="i18n" />
+                <interceptor-ref name="initSession" />
+                <interceptor-ref name="checkUser" />
+                <interceptor-ref name="checkAdUser"/>
+                <interceptor-ref name="authority"/>
+                <interceptor-ref name="security" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+            
+            
+            <interceptor-stack name="b2bPortalLoginStack">
+                <interceptor-ref name="i18n" />
+                <interceptor-ref name="initSession" />
+                <interceptor-ref name="responseHeaderSetting" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+
+			<interceptor-stack name="b2bportalCsrfStack">
+                <interceptor-ref name="csrfProtection" />
+            </interceptor-stack>
+            
+        </interceptors>
+        
+        <default-interceptor-ref name="b2bportalDefaultStack" />
+        
+        <global-results>
+            <result name="commonMessage">
+                /WEB-INF/views/common/commonMessage.jsp
+            </result>
+            <result name="noPermit">
+                /WEB-INF/views/core/exception/accessDenied.jsp
+            </result>
+            <result name="lostLogin">
+                /WEB-INF/views/core/exception/lostLogin.jsp
+            </result>
+            <result name="invalid.token">
+                /WEB-INF/views/core/exception/doublePost.jsp
+            </result>
+            <result name="getUserName" type="redirect">/getUserName.action</result>
+            <result name="adLogin" type="redirect">/adLogin.action</result>
+            <result name="autoLogin" type="chain">/autoLogin</result>
+            <result name="home" type="redirect">/home.action</result>
+			<result name="csrf_unauthenticated"  type="redirect">
+				/main.action
+			</result>
+        </global-results>
+        
+    </package>
+
+	<package name="pracbizrest-default" extends="rest-default" namespace="/service">
+        <interceptors>
+            <interceptor name="restAuthority"
+                class="com.pracbiz.b2bportal.core.interceptor.RestAuthorityInterceptor" />
+                
+            <interceptor-stack name="b2bPortalRestAuthority">
+                <interceptor-ref name="restAuthority" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+        
+        <default-interceptor-ref name="b2bPortalRestAuthority" />
+    </package>
+
+
+    <include file="struts-ajax.xml" />
+    <include file="struts-login.xml" />
+	<include file="struts-supplier.xml" />
+	<include file="struts-myprofile.xml" />
+	<include file="struts-user.xml" />
+	<include file="struts-role.xml" />
+	<include file="struts-admin.xml" />
+	<include file="struts-forgetPassword.xml" />
+	<include file="struts-buyer.xml" />
+	<include file="struts-changepassword.xml" />
+	<include file="struts-group.xml" />
+    <include file="struts-popup.xml" />
+    <include file="struts-tp.xml" />
+    <include file="struts-administration.xml" />
+    <include file="struts-log.xml" />
+    <include file="struts-auditTrail.xml" />
+    <include file="struts-auditAccess.xml" />
+    <include file="struts-po.xml"/>
+	<include file="struts-inv.xml" />
+	<include file="struts-rtv.xml" />
+	<include file="struts-dn.xml" />
+	<include file="struts-pn.xml" />
+	<include file="struts-do.xml" />
+	<include file="struts-grn.xml" />
+	<include file="struts-poInvGrnDnMatching.xml" />
+	<include file="struts-user-import.xml" />
+	<include file="struts-buyerStore.xml" />
+	<include file="struts-supplierSet.xml" />
+	<include file="struts-readStatusReport.xml" />
+	<include file="struts-jobControl.xml" />
+	<include file="struts-taskList.xml" />
+	<include file="struts-itemIn.xml" />
+	<include file="struts-itemOut.xml" />
+	<include file="struts-trackingReport.xml" />
+	<include file="struts-gi.xml" />
+	<include file="struts-dataExportReport.xml" />
+	<include file="struts-matchingDiscrepancyReport.xml" />
+	<include file="struts-summaryReport.xml" />
+	<include file="struts-missingDocsReport.xml" />
+	<include file="struts-cc.xml" />
+	<include file="struts-quickPo.xml" />
+	<include file="struts-sales.xml" />
+	<include file="struts-cn.xml" />
+	<include file="struts-testDocs.xml" />
+	<include file="struts-dnDiscrepancyReport.xml" />
+</struts>

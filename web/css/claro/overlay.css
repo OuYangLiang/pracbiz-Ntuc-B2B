@@ -1,0 +1,50 @@
+.claro .dijitTitlePaneTitle {
+    background-color: #E5F2FE;   /*      accordion header          */
+} 
+
+
+.claro .dijitClosed {
+    background-color: #759DC0;  /*      accordion closed          */
+}
+
+
+.claro .dijitMenu {
+    background-color: #E5F2FE;    /*      menu closed          */
+}
+
+
+.claro .dojoxExpandoPane {
+    border: 1px solid #E5F2FE;
+}
+
+
+.claro .dojoxExpandoTitle {
+    background-color: #E5F2FE !important;
+}
+
+
+.claro .dijitSplitContainer-child, .claro .dijitBorderContainer-child {
+    border: 1px solid #759DC0;           /*      UI section  border           */
+}
+
+
+.claro .dojoxExpandoClosed {
+    background: none repeat scroll 0 0 #E5F2FE;             /* menu缩进之后  */
+}
+
+
+.claro .dojoxExpandoWrapper {
+    border-left: 1px solid #759DC0;
+    border-right: 1px solid #759DC0;
+    background-repeat:repeat;
+}
+
+
+.claro .dijitContentPane {
+    overflow-y: auto;
+}
+
+
+fieldset {
+    border: 1px solid #B5BCC7;
+}

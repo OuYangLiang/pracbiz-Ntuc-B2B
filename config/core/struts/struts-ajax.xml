@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="ajax" extends="pracbiz-default" namespace="/ajax"> 
+        
+        <action name="findOperations" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findOperations">
+            <result type="json">
+                <param name="root">operations</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="findRolesByUser" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findRolesByUser">
+            <result type="json">
+                <param name="root">roles</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        <action name="findGroupsByUser" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findGroupsByUser">
+            <result type="json">
+                <param name="root">groups</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        <action name="findRolesBySupplier" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findRolesBySupplier">
+            <result type="json">
+                <param name="root">roles</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        <action name="findRolesByBuyer" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findRolesByBuyer">
+            <result type="json">
+                <param name="root">roles</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        <action name="findDatasByBuyerOrSupplierToEditGroup" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findDatasByBuyerOrSupplier">
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        <action name="findSupplierByKey" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findSupplierByKey">
+            <result type="json">
+                <param name="root">supplier</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        <action name="findBuyerByKey" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findBuyerByKey">
+            <result type="json">
+                <param name="root">buyer</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        <action name="findDefaultTermConditionBySupplier" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findDefaultTermConditionBySupplier">
+            <result type="json">
+                <param name="root">termCondition</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="findSummaryFieldAndTooltips" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findSummaryFieldAndTooltips">
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="findSupplierByBuyer" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findSupplierByBuyer">
+            <result type="json">
+                <param name="root">suppliers</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="findAreasByUser" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findAreasByUser">
+            <result type="json">
+                <param name="root">areas</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+		<action name="findWareHouseByUser" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findWareHouseByUser">
+            <result type="json">
+                <param name="root">stores</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+
+		<action name="findStoresByUser" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findStoresByUser">
+            <result type="json">
+                <param name="root">stores</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+
+		<action name="findClassByUser" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findClassByUser">
+            <result type="json">
+                <param name="root">classes</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+
+		<action name="findSubclassByUser" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findSubclassByUser">
+            <result type="json">
+                <param name="root">subclasses</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+
+
+		<action name="findAvailableBuyersByBuyerOid" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findAvailableBuyersByBuyerOid">
+            <result type="json">
+                <param name="root">availableBuyerList</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="sentTestMailForMsgtype" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="sentTestMailForMsgtype">
+            <result name="success" type="stream">
+                <param name="inputName">emailRlt</param>
+            </result>
+        </action>
+
+		<action name="findBuyerByCurrentSupplier" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findBuyerByCurrentSupplier">
+            <result type="json">
+                <param name="root">availableBuyerList</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="findUserTypes" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="findUserTypes">
+            <result type="json">
+                <param name="root">userTypeList</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="checkDocCount" class="com.pracbiz.b2bportal.core.action.AjaxAction" method="checkDocCount">
+            <result type="json">
+                <param name="root">printDocMsg</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+
+    </package>
+</struts>

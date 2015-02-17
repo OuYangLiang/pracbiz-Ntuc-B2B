@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+  targetNamespace="http://www.sanc.org.sg/schemas/ean"
+  xmlns="http://www.sanc.org.sg/schemas/ean"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified" attributeFormDefault="unqualified">
+        <xsd:annotation>
+            <xsd:documentation>
+        Singapore Adopted version
+              Version Information:
+                Version Number: S1.1
+                Date of creation: June, 2004
+            </xsd:documentation>
+        </xsd:annotation>
+  <xsd:include schemaLocation="Terms.xsd"/>
+  <xsd:simpleType name="DebitCreditIndicatorListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="DEBIT"/>
+      <xsd:enumeration value="CREDIT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PaymentMethodType">
+    <xsd:choice>
+      <xsd:element name="paymentMethod" type="PaymentMethodListType"/>
+      <xsd:element name="automatedClearingHouse" type="AutomatedClearingHouseType"/>
+    </xsd:choice>
+  </xsd:complexType>
+  <xsd:simpleType name="PaymentMethodListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BOP"/>
+      <xsd:enumeration value="CHECK"/>
+      <xsd:enumeration value="FED_WIRE_NON_REPETITIVE"/>
+      <xsd:enumeration value="FED_WIRE_REPETITIVE"/>
+      <xsd:enumeration value="INTERNATIONAL_WIRE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="AutomatedClearingHouseType">
+    <xsd:sequence>
+      <xsd:element name="paymentFormat" type="PaymentFormatListType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="PaymentFormatListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CCD"/>
+      <xsd:enumeration value="CCP"/>
+      <xsd:enumeration value="CTX"/>
+      <xsd:enumeration value="PPD"/>
+      <xsd:enumeration value="PPP"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="AdjustmentReasonType">
+    <xsd:sequence>
+      <xsd:element name="messageReason" type="MessageReasonListType"/>
+      <xsd:element name="sourceCode" type="SourceCodeListType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="MessageReasonListType">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="SourceCodeListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="EANCOM"/>
+      <xsd:enumeration value="EANUCC"/>
+      <xsd:enumeration value="X12"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="FinancialInstitutionInformationType">
+    <xsd:sequence>
+      <xsd:element name="accountName">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="80"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="accountNumber" type="AccountNumberType" minOccurs="0"/>
+      <xsd:element name="routingNumber" type="RoutingNumberType" minOccurs="0"/>
+      <xsd:element name="financialInsitutionNameAndAddress" type="NameAndAddressType" minOccurs="0"/>
+      <xsd:element name="branch" minOccurs="0">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="80"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="additionalFinancialInformation" type="TextDescriptionType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AccountNumberType">
+    <xsd:sequence>
+      <xsd:element name="number">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="80"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="accountNumberType" type="AccountNumberTypeListType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="AccountNumberTypeListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="01_TIME_DEPOSIT"/>
+      <xsd:enumeration value="03_CHECKING_ACCOUNT"/>
+      <xsd:enumeration value="10_BUSINESS_ACCOUNT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="RoutingNumberType">
+    <xsd:sequence>
+      <xsd:element name="number">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="80"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="routingNumberType" type="RoutingNumberTypeListType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="RoutingNumberTypeListType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="01_ABA_TRANSIT_ROUTING_NUMBER"/>
+      <xsd:enumeration value="02_SWIFT_IDENTIFICATION"/>
+      <xsd:enumeration value="03_CHIPS"/>
+      <xsd:enumeration value="04_CANADIAN_BANK"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

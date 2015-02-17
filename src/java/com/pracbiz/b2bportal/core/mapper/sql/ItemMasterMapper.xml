@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.ItemMasterMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.ItemMasterHolder" >
+    <id column="ITEM_OID" property="itemOid" jdbcType="DECIMAL" />
+    <result column="ITEM_NO" property="itemNo" jdbcType="VARCHAR" />
+    <result column="ITEM_TYPE" property="itemType" jdbcType="CHAR" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="CTRL_STATUS" property="itemStatus" jdbcType="CHAR" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ITEM_OID, ITEM_NO, FILE_NAME, CTRL_STATUS, BUYER_CODE, BUYER_NAME, SUPPLIER_CODE, SUPPLIER_NAME
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.ItemMasterHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from ITEM_MASTER
+    <where>
+      <if test="itemOid != null" >
+        ITEM_OID = #{itemOid,jdbcType=DECIMAL}
+      </if>
+      <if test="itemNo != null" >
+        and ITEM_NO = #{itemNo,jdbcType=VARCHAR}
+      </if>
+      <if test="itemType != null" >
+        and ITEM_TYPE = #{itemType,jdbcType=CHAR}
+      </if>
+      <if test="fileName != null" >
+        and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+      </if>
+      <if test="itemStatus != null" >
+        and CTRL_STATUS = #{itemStatus,jdbcType=CHAR}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.ItemMasterHolder" >
+    delete from ITEM_MASTER
+    <where>
+      <if test="itemOid != null" >
+        ITEM_OID = #{itemOid,jdbcType=DECIMAL}
+      </if>
+      <if test="itemNo != null" >
+        and ITEM_NO = #{itemNo,jdbcType=VARCHAR}
+      </if>
+      <if test="itemType != null" >
+        and ITEM_TYPE = #{itemType,jdbcType=CHAR}
+      </if>
+      <if test="fileName != null" >
+        and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+      </if>
+      <if test="itemStatus != null" >
+        and CTRL_STATUS = #{itemStatus,jdbcType=CHAR}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.ItemMasterHolder" >
+    insert into ITEM_MASTER (ITEM_OID, ITEM_NO, ITEM_TYPE, FILE_NAME, CTRL_STATUS, BUYER_CODE, BUYER_NAME, SUPPLIER_CODE, SUPPLIER_NAME)
+    values (#{itemOid,jdbcType=DECIMAL}, #{itemNo,jdbcType=VARCHAR}, #{itemType,jdbcType=CHAR}, #{fileName,jdbcType=VARCHAR}, 
+    #{itemStatus,jdbcType=CHAR}, #{buyerCode,jdbcType=VARCHAR}, #{buyerName,jdbcType=VARCHAR}, #{supplierCode,jdbcType=VARCHAR},
+    #{supplierName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.ItemMasterHolder" >
+    update ITEM_MASTER
+    <set>
+      <if test="itemNo != null" >
+        ITEM_NO = #{itemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        ITEM_TYPE = #{itemType,jdbcType=CHAR},
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemStatus != null" >
+        CTRL_STATUS = #{itemStatus,jdbcType=CHAR},
+      </if>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null" >
+        BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCode != null" >
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ITEM_OID = #{itemOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.ItemMasterHolder" >
+    UPDATE ITEM_MASTER
+    SET ITEM_NO = #{itemNo,jdbcType=VARCHAR},
+    ITEM_TYPE = #{itemType,jdbcType=CHAR},
+    FILE_NAME = #{fileName,jdbcType=VATCHAR},
+    CTRL_STATUS = #{itemStatus,jdbcType=CHAR},
+    BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+    BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+    SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+    SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+    WHERE ITEM_OID = #{itemOid,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<!--Canonical File Validator -->
+	<bean id="canonicalPoFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalPoFileValidator">
+	</bean>
+	<bean id="canonicalRtvFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalRtvFileValidator">
+	</bean>
+	<bean id="canonicalPocnFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalPocnFileValidator">
+	</bean>
+	<bean id="canonicalInvFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalInvFileValidator">
+	</bean>
+	<bean id="canonicalGrnFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalGrnFileValidator">
+	</bean>
+	<bean id="canonicalPnFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalPnFileValidator">
+	</bean>
+	<bean id="canonicalSalesFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalSalesFileValidator">
+	</bean>
+	<bean id="canonicalCnFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.canonical.CanonicalCnFileValidator">
+	</bean>
+	<!--Ebxml File Validator -->
+	<bean id="ebxmlPoFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.ebxml.EbxmlPoFileValidator">
+	</bean>
+	<bean id="ebxmlInvFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.ebxml.EbxmlInvFileValidator">
+	</bean>
+	<!--Fariprice File Validator -->
+	<bean id="fairpriceGrFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.fairprice.FairpriceGrFileValidator">
+	</bean>
+	<bean id="fairpriceGiFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.fairprice.FairpriceGiFileValidator">
+	</bean>
+	<!--Idoc File Validtor -->
+	<bean id="idocRtvFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.idoc.IdocRtvFileValidator">
+	</bean>
+	<bean id="idocPoFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.idoc.IdocPoFileValidator">
+	</bean>
+	
+	<!--Watsons File Validator -->
+	<bean id="watsonsPoFileValidator" 
+		class="com.pracbiz.b2bportal.core.eai.file.validator.watsons.WatsonsPoFileValidator">
+	</bean>
+</beans>

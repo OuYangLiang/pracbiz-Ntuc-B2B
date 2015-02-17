@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.BuyerStoreUserMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.BuyerStoreUserHolder" >
+    <id column="STORE_OID" property="storeOid" jdbcType="DECIMAL" />
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+  </resultMap>
+    
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreUserHolder" >
+    select STORE_OID, USER_OID
+    from BUYER_STORE_USER
+    <where>
+      <if test="storeOid != null" >
+        STORE_OID = #{storeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+    
+  <select id="selectStoreUserByStoreOid" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT USER_OID,#{storeOid,jdbcType=DECIMAL} STORE_OID FROM BUYER_STORE_USER WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}
+    UNION
+    SELECT USER_OID,#{storeOid,jdbcType=DECIMAL} STORE_OID FROM BUYER_STORE_USER WHERE 
+    CASE (SELECT IS_WAREHOUSE FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL})
+    WHEN 1 THEN STORE_OID=-4 ELSE STORE_OID=-3 END
+    UNION
+    SELECT A.USER_OID,#{storeOid,jdbcType=DECIMAL} STORE_OID FROM BUYER_STORE_AREA_USER A 
+    WHERE IF ((SELECT AREA_OID FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}) IS NULL, 1=2, 
+    (A.AREA_OID=(SELECT AREA_OID FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}) OR A.AREA_OID=-2))
+  </select>
+    
+  <select id="defineRelationBetweenUserAndStore" resultType="java.lang.Integer" parameterType="java.util.HashMap" >
+    SELECT CASE
+	WHEN (SELECT COUNT(1) FROM BUYER_STORE_USER WHERE USER_OID=#{userOid,jdbcType=DECIMAL} AND STORE_OID=#{storeOid,jdbcType=DECIMAL}) > 0
+	THEN 1
+	WHEN (SELECT COUNT(1) FROM BUYER_STORE_USER WHERE USER_OID=#{userOid,jdbcType=DECIMAL} AND
+	(CASE (SELECT IS_WAREHOUSE FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}) WHEN 1 THEN STORE_OID=-4 ELSE -3 END)) > 0
+	THEN (SELECT CASE (SELECT IS_WAREHOUSE FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}) WHEN 1 THEN -4 ELSE -3 END)
+	WHEN (SELECT COUNT(1) FROM BUYER_STORE_AREA_USER WHERE AREA_OID = (SELECT AREA_OID FROM BUYER_STORE WHERE STORE_OID=#{storeOid,jdbcType=DECIMAL}) 
+	AND USER_OID=#{userOid,jdbcType=DECIMAL}) > 0
+	THEN 2
+	WHEN (SELECT COUNT(1) FROM BUYER_STORE_AREA_USER WHERE USER_OID=#{userOid,jdbcType=DECIMAL} AND AREA_OID=-2 AND EXISTS(SELECT 1 FROM BUYER_STORE_AREA A,BUYER_STORE B
+	WHERE A.AREA_OID = B.AREA_OID AND B.STORE_OID=#{storeOid,jdbcType=DECIMAL})) > 0
+	THEN 3
+	ELSE 4
+	END
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreUserHolder" >
+    delete from BUYER_STORE_USER
+    <where>
+      <if test="storeOid != null" >
+        STORE_OID = #{storeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreUserHolder" >
+    insert into BUYER_STORE_USER (STORE_OID, USER_OID)
+    values (#{storeOid,jdbcType=DECIMAL}, #{userOid,jdbcType=DECIMAL})
+  </insert>
+  
+  <select id="deleteBuyerStoreWithIsWareHouse" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+         DELETE FROM 
+		 BUYER_STORE_USER 
+         WHERE USER_OID = #{userOid,jdbcType=DECIMAL} 
+         AND STORE_OID in  
+         (SELECT STORE_OID FROM BUYER_STORE WHERE IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}) 
+   </select>
+</mapper>

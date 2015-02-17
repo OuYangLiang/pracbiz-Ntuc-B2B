@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="testDocs" extends="pracbiz-default" namespace="/testDocs"> 
+        <action name="initGenerateBatchInvoice" class="com.pracbiz.b2bportal.core.action.TestDocsAction" method="initGenerateBatchInvoice">
+            <result>/WEB-INF/views/core/testDocs/generateBatchInvoice.jsp</result>
+        </action>
+        
+        <action name="checkGenerateBatchInvoice" class="com.pracbiz.b2bportal.core.action.TestDocsAction" method="checkGenerateBatchInvoice">
+            <interceptor-ref name="b2bportalDefaultStack"/>
+            <interceptor-ref name="b2bportalCsrfStack"/>
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveGenerateBatchInvoice" class="com.pracbiz.b2bportal.core.action.TestDocsAction" method="saveGenerateBatchInvoice">
+            <interceptor-ref name="b2bportalDefaultStack"/>
+            <interceptor-ref name="b2bportalCsrfStack"/>
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+    </package>
+</struts>

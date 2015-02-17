@@ -1,0 +1,204 @@
+<html>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td>
+                        Batch Run Status Report - Inserted Supplier Master
+                    </td>
+                </tr>
+                <p></p>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong>    
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Batch# 
+                    </td>
+                    <td>         : </td>
+                    <td align="left">${BATCH_FILE} 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Biz Unit </td>
+                        <td>       :</td>
+                        <td align="left"> ${BIZUNIT_NAME} (${BIZUNIT_CODE})
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        Upload Start </td>
+                        <td>       :</td>
+                        <td align="left"> ${UPLOAD_START}
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        Upload End </td>
+                        <td>       :</td>
+                        <td align="left"> ${UPLOAD_END}
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Lines </td>
+                        <td>       :</td>
+                        <td align="left"> Inserted: ${TOTAL_INSERTED}
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Inactivated  </td>
+                        <td>    : </td>
+                        <td align="left">${TOTAL_INACTIVATED} 
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Activated   </td>
+                        <td>     :</td>
+                        <td align="left">${TOTAL_ACTIVATED}
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Incorrect   </td>
+                        <td>     :</td>
+                        <td align="left">${TOTAL_ERROR}
+                        </td>
+                </tr>
+                <p></p>
+            </table>
+            <table>
+                #if(${TOTAL_SUCC} > 0)
+                    <tr>
+                        <td colspan="3" style="text-decoration: underline;">
+                            <strong>  
+                                Success List
+                            </strong>
+                        </td>
+                    </tr>
+                    #foreach($item in $SUCC_LIST)
+                        <tr>
+                            <td align="left">
+                                $velocityCount.
+                            </td>
+                            <td align="left">
+			                       Supplier   
+			                	 </td>
+			                	 <td align="left">
+			                	 	$item.getSupplierCode()
+			                	 </td>
+			                	 <td align="left">
+			                	 	 $item.getSupplierName() 
+			                	 </td>
+                        </tr>
+                    #end
+                #end
+            </table>
+            <table>
+                #if(${TOTAL_INACTIVATED} > 0)
+                 	<tr>
+                    <td colspan="4" style="text-decoration: underline;">
+                        <strong>  
+                            Inactivated List
+                        </strong>
+                    </td>
+					</tr>
+			#foreach($smItem in $INACTIVATED_LIST)
+			   <tr>
+			        <td align="left">
+			            $velocityCount. 
+			        </td>
+			        <td align="left">
+                       Supplier   
+                	 </td>
+                	 <td align="left">
+                	 	$smItem.getSupplierCode()
+                	 </td>
+                	 <td align="left">
+                	 	 $smItem.getSupplierName() 
+                	 </td>
+				</tr>
+			#end
+                #end
+                <p>	</p>
+			</table>
+			<table>
+                #if(${TOTAL_ACTIVATED} > 0)
+                 	<tr>
+                    <td colspan="4" style="text-decoration: underline;">
+                        <strong>  
+                            Activated List
+                        </strong>
+                    </td>
+					</tr>
+			#foreach($smItem in $ACTIVATED_LIST)
+			   <tr>
+			        <td align="left">
+			            $velocityCount. 
+			        </td>
+			        <td align="left">
+                       Supplier   
+                	 </td>
+                	 <td align="left">
+                	 	$smItem.getSupplierCode()
+                	 </td>
+                	 <td align="left">
+                	 	 $smItem.getSupplierName() 
+                	 </td>
+				</tr>
+			#end
+                #end
+                <p>	</p>
+			</table>
+			<table>
+                #if(${TOTAL_ERROR} > 0)
+                 	<tr>
+                    <td colspan="4" style="text-decoration: underline;">
+                        <strong>  
+                            Incorrect List
+                        </strong>
+                    </td>
+					</tr>
+			#foreach($param in ${ERROR_LIST.keySet()})
+			   <tr>
+			        <td align="left">
+			            $velocityCount. 
+			        </td>
+			        <td align="left">
+                       Supplier   
+                	 </td>
+                	 <td align="left">
+                	 	$param
+                	 </td>
+                	 <td align="left">
+                	 	 ${ERROR_LIST.get($param)}
+                	 </td>
+				</tr>
+			#end
+                #end
+                <p>	</p>
+			</table>
+<table>
+    <tr>
+        <td width="200">                     
+            PracBiz B2B Portal System
+        </td>
+   	</tr>
+   	<tr>
+        <td width="200">                     
+             Customer Support
+        </td>
+    </tr>
+</table>
+<p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+</form>
+</body>
+</html>

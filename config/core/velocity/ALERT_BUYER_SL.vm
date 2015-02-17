@@ -1,0 +1,104 @@
+<html>
+    <head>
+        Batch Run Status Report
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Buyer</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">${BUYER_NAME} (${BUYER_CODE})</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left">Batch File</td>
+                    <td align="right">:</td>
+                    <td align="left">${BATCH_FILE}</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left">Total Count</td>
+                    <td align="right">:</td>
+                    <td align="left">${TOTAL_COUNT}</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left">Success Count</td>
+                    <td align="right">:</td>
+                    <td align="left">${SUCCESS_LIST.size()}</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left">Unprocess Count</td>
+                    <td align="right">:</td>
+                    <td align="left">${ERROR_MAP.size()}</td>
+                </tr>
+            </table>
+            <p/>
+            <table>
+            	#if($SUCCESS_LIST.size() > 0)
+            		<tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                Success List
+                            </strong>
+                        </td>
+                    </tr>
+                    #foreach($o in $SUCCESS_LIST)
+                        <tr>
+                            <td width="30" align="left">$velocityCount.</td>
+                            <td align="left">$o</td>
+                        </tr>
+                    #end
+            	#end
+            	
+            	#if($ERROR_MAP.size() > 0)
+            		<tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                Unprocess List
+                            </strong>
+                        </td>
+                    </tr>
+                    #foreach($o in $ERROR_MAP.entrySet())
+                        <tr>
+                            <td colspan="2" width="30" align="left">$o.key</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="left">
+                                <table>
+                                    #foreach($p in $o.value)
+                                        <tr>
+                                            <td width="30" align="left">$velocityCount.</td>
+                                            <td align="left">$p</td>
+                                        </tr>
+                                    #end
+                                </table>
+                            </td>
+                        </tr>
+                    #end
+            	#end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         PracBiz B2B Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+            <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+        </form>
+    </body>
+</html>

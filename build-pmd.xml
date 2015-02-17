@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PracBiz B2B System - pmd" basedir="." default="help">
+
+	<import file="build.xml" />
+
+	<fileset id="pmdFiles" dir="${src.dir}">
+		<include name="**/*.java" />
+	</fileset>
+
+	<property name="pmd.output.dir" value="${build.dir}/pmd" />
+
+
+	<path id="pmd.classpath">
+		<pathelement location="${basedir}/code-ruleset" />
+		<fileset dir="${compilelib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="pmd" depends="setup">
+		<mkdir dir="${pmd.output.dir}" />
+		<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
+			<classpath refid="pmd.classpath" />
+		</taskdef>
+		<!--<pmd rulesetfiles="rulesets/favorites.xml">-->
+		<pmd rulesetfiles="pracbiz_pmd_rules.xml">
+			<formatter type="xml" toFile="${pmd.output.dir}/pmd_b2bportal.xml" />
+			<fileset refid="pmdFiles" />
+		</pmd>
+		<xslt in="${pmd.output.dir}/pmd_b2bportal.xml" style="${basedir}/etc/pmd/pmd-nicerhtml.xsl" out="${pmd.output.dir}/pmd_b2bportal.html" />
+	</target>
+
+	<target name="zip.pmd" depends="pmd">
+		<zip destfile="${pmd.output.dir}/pmd_b2bportal.zip" update="yes">
+			<zipfileset dir="${pmd.output.dir}">
+				<exclude name="*.zip" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="email.pmd" depends="zip.pmd">
+		<tstamp />
+		<mail mailhost="${mail.host}" user="${mail.username}" password="${mail.password}" from="${mail.from}" tolist="${mail.to}" subject="[${project.name}] Code Checking Results for PMD : ${DSTAMP} ${TSTAMP}" ssl="${mail.ssl}">
+			<message mimetype="text/html">
+					Please take a look at the reports checked by PMD and fix the listed issues. 
+					&lt;br&gt;
+					&lt;br&gt;
+					Don't reply since it sent automatically.
+					&lt;br&gt;
+					&lt;br&gt;
+					&lt;br&gt;
+					Sent by ${project.name} team.
+					&lt;br&gt; 
+					${company.shortname}.
+			</message>
+			<fileset dir="${pmd.output.dir}">
+				<include name="*.zip" />
+			</fileset>
+		</mail>
+	</target>
+</project>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    
+    
+    <bean id="filenameParserVisitor"
+	   class="com.pracbiz.b2bportal.core.eai.message.visitor.FilenameParserVisitor">
+		<property name="poDocFileHanlder">
+			<ref bean="canonicalPoDocFileHandler" />
+		</property>
+		<property name="invDocFileHanlder">
+			<ref bean="canonicalInvDocFileHandler" />
+		</property>
+		<property name="grnDocFileHanlder">
+			<ref bean="canonicalGrnDocFileHandler" />
+		</property>
+		<property name="pnDocFileHanlder">
+			<ref bean="canonicalPnDocFileHandler" />
+		</property>
+		<property name="rtvDocFileHanlder">
+			<ref bean="canonicalRtvDocFileHandler" />
+		</property>
+		<property name="dnDocFileHanlder">
+			<ref bean="canonicalDnDocFileHandler" />
+		</property>
+		<property name="itemInDocFileHandler">
+			<ref bean="canonicalItemInDocFileHandler" />
+		</property>
+		<property name="pocnDocFileHandler">
+			<ref bean="canonicalPocnDocFileHandler" />
+		</property>
+		<property name="giDocFileHandler">
+			<ref bean="fairpriceGiDocFileHandler" />
+		</property>
+		<property name="ccDocFileHandler">
+            <ref bean="canonicalCcDocFileHandler" />
+        </property>
+        <property name="salesDocFileHandler">
+            <ref bean="canonicalSalesDocFileHandler" />
+        </property>
+        <property name="cnDocFileHandler">
+            <ref bean="canonicalCnDocFileHandler" />
+        </property>
+    </bean>
+    
+    <bean id="transformerVisitor"
+       class="com.pracbiz.b2bportal.core.eai.message.visitor.TransformerVisitor">
+        <property name="poDocFileHanlder">
+			<ref bean="canonicalPoDocFileHandler" />
+		</property>
+		<property name="invDocFileHanlder">
+			<ref bean="canonicalInvDocFileHandler" />
+		</property>
+		<property name="grnDocFileHanlder">
+			<ref bean="canonicalGrnDocFileHandler" />
+		</property>
+		<property name="pnDocFileHanlder">
+			<ref bean="canonicalPnDocFileHandler" />
+		</property>
+		<property name="rtvDocFileHanlder">
+			<ref bean="canonicalRtvDocFileHandler" />
+		</property>
+		<property name="dnDocFileHanlder">
+            <ref bean="canonicalDnDocFileHandler" />
+        </property>
+        <property name="itemInDocFileHandler">
+            <ref bean="canonicalItemInDocFileHandler" />
+        </property>
+		<property name="giDocFileHanlder">
+            <ref bean="fairpriceGiDocFileHandler" />
+        </property>
+        <property name="ccDocFileHandler">
+            <ref bean="canonicalCcDocFileHandler" />
+        </property>
+        <property name="salesDocFileHandler">
+            <ref bean="canonicalSalesDocFileHandler" />
+        </property>
+        <property name="cnDocFileHandler">
+            <ref bean="canonicalCnDocFileHandler" />
+        </property>
+    </bean>
+	
+</beans>

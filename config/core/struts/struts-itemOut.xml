@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="/itemOut" extends="pracbiz-default" namespace="/itemOut"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="init">
+            <param name="moduleMsgType">ITEMOUT</param>
+            <result>/WEB-INF/views/core/itemOut/summary.jsp</result>
+        </action>
+        
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        
+        <action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="downloadOriginalFile" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="downloadOriginalFile">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">${uploadContentType}</param>
+                <param name="inputName">resultStream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">attachment;filename="${uploadFileName}"</param>
+            </result>
+        </action>
+        
+    </package>
+</struts>

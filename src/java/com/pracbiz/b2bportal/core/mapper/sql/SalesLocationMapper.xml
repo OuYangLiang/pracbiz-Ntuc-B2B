@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SalesLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SalesLocationHolder" >
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <id column="SALES_OID" property="salesOid" jdbcType="DECIMAL" />
+    <result column="LOCATION_CODE" property="locationCode" jdbcType="VARCHAR" />
+    <result column="LOCATION_NAME" property="locationName" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR1" property="locationAddr1" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR2" property="locationAddr2" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR3" property="locationAddr3" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR4" property="locationAddr4" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR5" property="locationAddr5" jdbcType="VARCHAR" />
+    <result column="LOCATION_CITY" property="locationCity" jdbcType="VARCHAR" />
+    <result column="LOCATION_STATE" property="locationState" jdbcType="VARCHAR" />
+    <result column="LOCATION_CTRY_CODE" property="locationCtryCode" jdbcType="CHAR" />
+    <result column="LOCATION_POSTAL_CODE" property="locationPostalCode" jdbcType="VARCHAR" />
+    <result column="LOCATION_CONTACT_TEL" property="locationContactTel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LINE_SEQ_NO, SALES_OID, LOCATION_CODE, LOCATION_NAME, LOCATION_ADDR1, LOCATION_ADDR2, 
+    LOCATION_ADDR3, LOCATION_ADDR4, LOCATION_CITY, LOCATION_STATE, LOCATION_CTRY_CODE, 
+    LOCATION_POSTAL_CODE, LOCATION_CONTACT_TEL
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SalesLocationHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SALES_LOCATION
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null">
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationCode != null" >
+        and LOCATION_CODE = #{locationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="locationName != null" >
+        and LOCATION_NAME = #{locationName,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr1 != null" >
+        and LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr2 != null" >
+        and LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr3 != null" >
+        and LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr4 != null" >
+        and LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr5 != null" >
+        and LOCATION_ADDR5 = #{locationAddr5,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCity != null" >
+        and LOCATION_CITY = #{locationCity,jdbcType=VARCHAR}
+      </if>
+      <if test="locationState != null" >
+        and LOCATION_STATE = #{locationState,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCtryCode != null" >
+        and LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="locationPostalCode != null" >
+        and LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="locationContactTel != null" >
+        and LOCATION_CONTACT_TEL = #{locationContactTel,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SalesLocationHolder" >
+    delete from SALES_LOCATION
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null">
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationCode != null" >
+        and LOCATION_CODE = #{locationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="locationName != null" >
+        and LOCATION_NAME = #{locationName,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr1 != null" >
+        and LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr2 != null" >
+        and LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr3 != null" >
+        and LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr4 != null" >
+        and LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr5 != null" >
+        and LOCATION_ADDR5 = #{locationAddr5,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCity != null" >
+        and LOCATION_CITY = #{locationCity,jdbcType=VARCHAR}
+      </if>
+      <if test="locationState != null" >
+        and LOCATION_STATE = #{locationState,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCtryCode != null" >
+        and LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="locationPostalCode != null" >
+        and LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="locationContactTel != null" >
+        and LOCATION_CONTACT_TEL = #{locationContactTel,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SalesLocationHolder" >
+    insert into SALES_LOCATION (LINE_SEQ_NO, SALES_OID, LOCATION_CODE, 
+      LOCATION_NAME, LOCATION_ADDR1, LOCATION_ADDR2, 
+      LOCATION_ADDR3, LOCATION_ADDR4,
+      LOCATION_CITY, LOCATION_STATE, LOCATION_CTRY_CODE, 
+      LOCATION_POSTAL_CODE, LOCATION_CONTACT_TEL)
+    values (#{lineSeqNo,jdbcType=INTEGER}, #{salesOid,jdbcType=DECIMAL}, #{locationCode,jdbcType=VARCHAR}, 
+      #{locationName,jdbcType=VARCHAR}, #{locationAddr1,jdbcType=VARCHAR}, #{locationAddr2,jdbcType=VARCHAR}, 
+      #{locationAddr3,jdbcType=VARCHAR}, #{locationAddr4,jdbcType=VARCHAR},
+      #{locationCity,jdbcType=VARCHAR}, #{locationState,jdbcType=VARCHAR}, #{locationCtryCode,jdbcType=CHAR}, 
+      #{locationPostalCode,jdbcType=VARCHAR}, #{locationContactTel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SalesLocationHolder" >
+    update SALES_LOCATION
+    <set >
+      <if test="locationCode != null" >
+        LOCATION_CODE = #{locationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="locationName != null" >
+        LOCATION_NAME = #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr1 != null" >
+        LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr2 != null" >
+        LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr3 != null" >
+        LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr4 != null" >
+        LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr5 != null" >
+        LOCATION_ADDR5 = #{locationAddr5,jdbcType=VARCHAR},
+      </if>
+      <if test="locationCity != null" >
+        LOCATION_CITY = #{locationCity,jdbcType=VARCHAR},
+      </if>
+      <if test="locationState != null" >
+        LOCATION_STATE = #{locationState,jdbcType=VARCHAR},
+      </if>
+      <if test="locationCtryCode != null" >
+        LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR},
+      </if>
+      <if test="locationPostalCode != null" >
+        LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="locationContactTel != null" >
+        LOCATION_CONTACT_TEL = #{locationContactTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SalesLocationHolder" >
+    update SALES_LOCATION
+    set LOCATION_CODE = #{locationCode,jdbcType=VARCHAR},
+      LOCATION_NAME = #{locationName,jdbcType=VARCHAR},
+      LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR},
+      LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR},
+      LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR},
+      LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR},
+      LOCATION_ADDR5 = #{locationAddr5,jdbcType=VARCHAR},
+      LOCATION_CITY = #{locationCity,jdbcType=VARCHAR},
+      LOCATION_STATE = #{locationState,jdbcType=VARCHAR},
+      LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR},
+      LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR},
+      LOCATION_CONTACT_TEL = #{locationContactTel,jdbcType=VARCHAR}
+    where LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

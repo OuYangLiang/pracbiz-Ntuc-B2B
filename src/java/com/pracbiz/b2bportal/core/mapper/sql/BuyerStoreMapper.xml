@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.BuyerStoreMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.BuyerStoreHolder" >
+    <id column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <id column="STORE_OID" property="storeOid" jdbcType="DECIMAL" />
+    <result column="STORE_CODE" property="storeCode" jdbcType="VARCHAR" />
+    <result column="STORE_NAME" property="storeName" jdbcType="VARCHAR" />
+    <result column="STORE_ADDR1" property="storeAddr1" jdbcType="VARCHAR" />
+    <result column="STORE_ADDR2" property="storeAddr2" jdbcType="VARCHAR" />
+    <result column="STORE_ADDR3" property="storeAddr3" jdbcType="VARCHAR" />
+    <result column="STORE_ADDR4" property="storeAddr4" jdbcType="VARCHAR" />
+	<result column="STORE_ADDR5" property="storeAddr5" jdbcType="VARCHAR" />
+    <result column="STORE_CITY" property="storeCity" jdbcType="VARCHAR" />
+    <result column="STORE_STATE" property="storeState" jdbcType="VARCHAR" />
+    <result column="STORE_POSTAL_CODE" property="storePostalCode" jdbcType="VARCHAR" />
+    <result column="STORE_CTRY_CODE" property="storeCtryCode" jdbcType="CHAR" />
+    <result column="CONTACT_PERSON" property="contactPerson" jdbcType="VARCHAR" />
+    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
+    <result column="CONTACT_EMAIL" property="contactEmail" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="AREA_OID" property="areaOid" jdbcType="DECIMAL" />
+    <result column="IS_WAREHOUSE" property="isWareHouse" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BUYER_CODE, STORE_OID, STORE_CODE, STORE_NAME, STORE_ADDR1, STORE_ADDR2, STORE_ADDR3, STORE_ADDR4, STORE_ADDR5,
+    STORE_CITY, STORE_STATE, STORE_POSTAL_CODE, STORE_CTRY_CODE, CONTACT_PERSON, CONTACT_TEL, CONTACT_EMAIL,
+    CREATE_DATE, UPDATE_DATE, AREA_OID, IS_WAREHOUSE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from BUYER_STORE
+    <where>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeOid != null" >
+        and STORE_OID = #{storeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="storeCode != null" >
+        and STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeName != null" >
+        and STORE_NAME = #{storeName,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr1 != null" >
+        and STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr2 != null" >
+        and STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr3 != null" >
+        and STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr4 != null" >
+        and STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR}
+      </if>
+  	  <if test="storeAddr5 != null" >
+        and STORE_ADDR5 = #{storeAddr5,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCity != null" >
+        and STORE_CITY = #{storeCity,jdbcType=VARCHAR}
+      </if>
+      <if test="storeState != null" >
+        and STORE_STATE = #{storeState,jdbcType=VARCHAR}
+      </if>
+      <if test="storePostalCode != null" >
+        and STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCtryCode != null" >
+        and STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="contactPerson != null" >
+        and CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null" >
+        and CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="contactEmail != null" >
+        and CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateDate != null" >
+        and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="areaOid != null" >
+        and AREA_OID = #{areaOid,jdbcType=DECIMAL}
+      </if>
+      <if test="isWareHouse != null" >
+        and IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreHolder" >
+    delete from BUYER_STORE
+    <where>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeOid != null" >
+        and STORE_OID = #{storeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="storeCode != null" >
+        and STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeName != null" >
+        and STORE_NAME = #{storeName,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr1 != null" >
+        and STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr2 != null" >
+        and STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr3 != null" >
+        and STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr4 != null" >
+        and STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="storeAddr5 != null" >
+        and STORE_ADDR5 = #{storeAddr5,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCity != null" >
+        and STORE_CITY = #{storeCity,jdbcType=VARCHAR}
+      </if>
+      <if test="storeState != null" >
+        and STORE_STATE = #{storeState,jdbcType=VARCHAR}
+      </if>
+      <if test="storePostalCode != null" >
+        and STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeCtryCode != null" >
+        and STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="contactPerson != null" >
+        and CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null" >
+        and CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="contactEmail != null" >
+        and CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateDate != null" >
+        and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="areaOid != null" >
+        and AREA_OID = #{areaOid,jdbcType=DECIMAL}
+      </if>
+      <if test="isWareHouse != null" >
+        and IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreHolder" >
+    insert into BUYER_STORE (BUYER_CODE, STORE_OID, STORE_CODE, STORE_NAME, 
+      STORE_ADDR1, STORE_ADDR2, STORE_ADDR3, 
+      STORE_ADDR4, STORE_ADDR5, STORE_CITY, STORE_STATE, 
+      STORE_POSTAL_CODE, STORE_CTRY_CODE, 
+      CONTACT_PERSON, CONTACT_TEL ,CONTACT_EMAIL, 
+      CREATE_DATE, UPDATE_DATE, AREA_OID, IS_WAREHOUSE)
+    values (#{buyerCode,jdbcType=VARCHAR}, #{storeOid,jdbcType=DECIMAL}, #{storeCode,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, 
+      #{storeAddr1,jdbcType=VARCHAR}, #{storeAddr2,jdbcType=VARCHAR}, #{storeAddr3,jdbcType=VARCHAR}, 
+      #{storeAddr4,jdbcType=VARCHAR}, #{storeAddr5,jdbcType=VARCHAR},#{storeCity,jdbcType=VARCHAR}, #{storeState,jdbcType=VARCHAR}, 
+      #{storePostalCode,jdbcType=VARCHAR}, #{storeCtryCode,jdbcType=CHAR}, #{contactPerson,jdbcType=VARCHAR}, 
+      #{contactTel,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR} ,#{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{areaOid,jdbcType=DECIMAL}, #{isWareHouse,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreHolder" >
+    update BUYER_STORE
+    <set >
+      <if test="storeCode != null" >
+        STORE_CODE = #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        STORE_NAME = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr1 != null" >
+        STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr2 != null" >
+        STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr3 != null" >
+        STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr4 != null" >
+        STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddr5 != null" >
+        STORE_ADDR5 = #{storeAddr5,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCity != null" >
+        STORE_CITY = #{storeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="storeState != null" >
+        STORE_STATE = #{storeState,jdbcType=VARCHAR},
+      </if>
+      <if test="storePostalCode != null" >
+        STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCtryCode != null" >
+        STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR},
+      </if>
+      <if test="contactPerson != null" >
+        CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaOid != null" >
+        AREA_OID = #{areaOid,jdbcType=DECIMAL},
+      </if>
+      <if test="isWareHouse != null" >
+        IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      and STORE_OID = #{storeOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreHolder" >
+    UPDATE BUYER_STORE
+    SET STORE_CODE = #{storeCode,jdbcType=VARCHAR}, 
+      STORE_NAME = #{storeName,jdbcType=VARCHAR},
+      STORE_ADDR1 = #{storeAddr1,jdbcType=VARCHAR},
+      STORE_ADDR2 = #{storeAddr2,jdbcType=VARCHAR},
+      STORE_ADDR3 = #{storeAddr3,jdbcType=VARCHAR},
+      STORE_ADDR4 = #{storeAddr4,jdbcType=VARCHAR},
+	  STORE_ADDR5 = #{storeAddr5,jdbcType=VARCHAR},
+      STORE_CITY = #{storeCity,jdbcType=VARCHAR},
+      STORE_STATE = #{storeState,jdbcType=VARCHAR},
+      STORE_POSTAL_CODE = #{storePostalCode,jdbcType=VARCHAR},
+      STORE_CTRY_CODE = #{storeCtryCode,jdbcType=CHAR},
+      CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      AREA_OID = #{areaOid,jdbcType=DECIMAL},
+      IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}
+    WHERE BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      and STORE_OID = #{storeOid,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="selectBuyerStoresByUserOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT B.BUYER_CODE, B.STORE_OID, B.STORE_CODE, B.STORE_NAME, B.STORE_ADDR1, B.STORE_ADDR2, B.STORE_ADDR3, B.STORE_ADDR4, B.STORE_ADDR5, 
+    	B.STORE_CITY, B.STORE_STATE, B.STORE_POSTAL_CODE, B.STORE_CTRY_CODE, B.CONTACT_PERSON, B.CONTACT_TEL, B.CONTACT_EMAIL,
+   		B.CREATE_DATE, B.UPDATE_DATE, B.AREA_OID
+        FROM BUYER_STORE_USER T, BUYER_STORE B
+        WHERE T.STORE_OID = B.STORE_OID
+        AND T.USER_OID = #{userOid,jdbcType=DECIMAL} 
+   </select>
+  
+   <select id="selectBuyerStoresFromTmpStoreUserByUserOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT B.BUYER_CODE, B.STORE_OID, B.STORE_CODE, B.STORE_NAME, B.STORE_ADDR1, B.STORE_ADDR2, B.STORE_ADDR3, B.STORE_ADDR4, B.STORE_ADDR5,
+    	B.STORE_CITY, B.STORE_STATE, B.STORE_POSTAL_CODE, B.STORE_CTRY_CODE, B.CONTACT_PERSON, B.CONTACT_TEL, B.CONTACT_EMAIL,
+   		B.CREATE_DATE, B.UPDATE_DATE, B.AREA_OID
+        FROM T_BUYER_STORE_USER T, BUYER_STORE B
+        WHERE T.STORE_OID = B.STORE_OID
+        AND T.USER_OID = #{userOid,jdbcType=DECIMAL} 
+   </select>
+  
+   <select id="selectBuyerStoresWithoutAreaByBuyer" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT B.BUYER_CODE, B.STORE_OID, B.STORE_CODE, B.STORE_NAME, B.STORE_ADDR1, B.STORE_ADDR2, B.STORE_ADDR3, B.STORE_ADDR4, B.STORE_ADDR5,
+    	B.STORE_CITY, B.STORE_STATE, B.STORE_POSTAL_CODE, B.STORE_CTRY_CODE, B.CONTACT_PERSON, B.CONTACT_TEL, B.CONTACT_EMAIL,
+   		B.CREATE_DATE, B.UPDATE_DATE, B.AREA_OID
+        FROM BUYER_STORE B
+        WHERE (B.AREA_OID IS NULL OR B.AREA_OID = '')
+        AND B.BUYER_CODE = #{buyerCode,jdbcType=VARCHAR} 
+   </select>
+
+   <select id="selectBuyerStoresFromTmpStoreUserByUserOidAndIsWareHouse" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT B.BUYER_CODE, B.STORE_OID, B.STORE_CODE, B.STORE_NAME, B.STORE_ADDR1, B.STORE_ADDR2, B.STORE_ADDR3, B.STORE_ADDR4, B.STORE_ADDR5,
+    	B.STORE_CITY, B.STORE_STATE, B.STORE_POSTAL_CODE, B.STORE_CTRY_CODE, B.CONTACT_PERSON, B.CONTACT_TEL, B.CONTACT_EMAIL,
+   		B.CREATE_DATE, B.UPDATE_DATE, B.AREA_OID
+        FROM T_BUYER_STORE_USER T, BUYER_STORE B
+        WHERE T.STORE_OID = B.STORE_OID
+		AND T.USER_OID = #{userOid,jdbcType=DECIMAL} 
+        AND B.IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL} 
+   </select>
+
+   <select id="selectBuyerStoresWithoutAreaByBuyerAndIsWareHouse" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT B.BUYER_CODE, B.STORE_OID, B.STORE_CODE, B.STORE_NAME, B.STORE_ADDR1, B.STORE_ADDR2, B.STORE_ADDR3, B.STORE_ADDR4, B.STORE_ADDR5,
+    	B.STORE_CITY, B.STORE_STATE, B.STORE_POSTAL_CODE, B.STORE_CTRY_CODE, B.CONTACT_PERSON, B.CONTACT_TEL, B.CONTACT_EMAIL,
+   		B.CREATE_DATE, B.UPDATE_DATE, B.AREA_OID
+        FROM BUYER_STORE B
+        WHERE (B.AREA_OID IS NULL OR B.AREA_OID = '')
+        AND B.BUYER_CODE = #{buyerCode,jdbcType=VARCHAR} 
+        AND B.IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL} 
+   </select>
+
+
+   <select id="selectBuyerStoresByUserOidAndIsWareHouse" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT BS.BUYER_CODE, BS.STORE_OID, BS.STORE_CODE, BS.STORE_NAME, BS.STORE_ADDR1, BS.STORE_ADDR2, BS.STORE_ADDR3, BS.STORE_ADDR4, BS.STORE_ADDR5,
+        BS.STORE_CITY, BS.STORE_STATE, BS.STORE_POSTAL_CODE, BS.STORE_CTRY_CODE, BS.CONTACT_PERSON, BS.CONTACT_TEL, BS.CONTACT_EMAIL,
+        BS.CREATE_DATE, BS.UPDATE_DATE, BS.AREA_OID FROM BUYER_STORE BS WHERE
+		IF ((SELECT 1 FROM BUYER_STORE_USER WHERE USER_OID=#{userOid,jdbcType=DECIMAL} AND STORE_OID=CASE #{isWareHouse,jdbcType=DECIMAL} WHEN TRUE THEN -4 ELSE -3 END) IS NOT NULL,
+		BS.BUYER_CODE=(SELECT B.BUYER_CODE FROM BUYER B,USER_PROFILE U WHERE B.BUYER_OID=U.BUYER_OID AND U.USER_OID=#{userOid,jdbcType=DECIMAL}),
+		EXISTS (SELECT 1 FROM BUYER_STORE_USER BSU WHERE USER_OID=#{userOid,jdbcType=DECIMAL} AND BS.STORE_OID=BSU.STORE_OID))
+		AND BS.IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}; 
+   </select>
+
+   <select id="selectBuyerStoresByBuyerAndIsWareHouseAndAreaOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+       select BUYER_CODE, STORE_OID, STORE_CODE, STORE_NAME, STORE_ADDR1, STORE_ADDR2, STORE_ADDR3, STORE_ADDR4, STORE_ADDR5, 
+       STORE_CITY, STORE_STATE, STORE_POSTAL_CODE, STORE_CTRY_CODE, CONTACT_PERSON, CONTACT_TEL, CONTACT_EMAIL,
+       CREATE_DATE, UPDATE_DATE, AREA_OID from BUYER_STORE WHERE BUYER_CODE = #{buyerCode,jdbcType=VARCHAR} 
+       and IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}  
+	   AND AREA_OID IS NULL
+       UNION
+       SELECT BUYER_CODE, STORE_OID, STORE_CODE, STORE_NAME, STORE_ADDR1, STORE_ADDR2, STORE_ADDR3, STORE_ADDR4, STORE_ADDR5, 
+       STORE_CITY, STORE_STATE, STORE_POSTAL_CODE, STORE_CTRY_CODE, CONTACT_PERSON, CONTACT_TEL, CONTACT_EMAIL,
+       CREATE_DATE, UPDATE_DATE, AREA_OID FROM BUYER_STORE WHERE BUYER_CODE = #{buyerCode,jdbcType=VARCHAR} 
+       and IS_WAREHOUSE = #{isWareHouse,jdbcType=DECIMAL}  
+	  <if test="areaOids != null and !areaOids.isEmpty()">
+		AND AREA_OID NOT IN 
+      	<foreach item="areaOid" index="index" collection="areaOids" open="(" separator="," close=")">
+	            #{areaOid}
+	  	</foreach>
+      </if>
+   </select>
+</mapper>

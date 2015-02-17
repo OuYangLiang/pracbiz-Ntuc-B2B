@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SupplierMapper" >
+  
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    <id column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ALIAS" property="supplierAlias" jdbcType="VARCHAR" />
+    <result column="TRANS_MODE" property="transMode" jdbcType="VARCHAR"/>
+    <result column="REG_NO" property="regNo" jdbcType="VARCHAR" />
+    <result column="GST_REG_NO" property="gstRegNo" jdbcType="VARCHAR" />
+    <result column="GST_PERCENT" property="gstPercent" jdbcType="DECIMAL" />
+    <result column="OTHER_REG_NO" property="otherRegNo" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_SOURCE" property="supplierSource" jdbcType="VARCHAR" />
+    <result column="BRANCH" property="branch" jdbcType="BIT" />
+    <result column="ADDRESS_1" property="address1" jdbcType="VARCHAR" />
+    <result column="ADDRESS_2" property="address2" jdbcType="VARCHAR" />
+    <result column="ADDRESS_3" property="address3" jdbcType="VARCHAR" />
+    <result column="ADDRESS_4" property="address4" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="POSTAL_CODE" property="postalCode" jdbcType="VARCHAR" />
+    <result column="CTRY_CODE" property="ctryCode" jdbcType="CHAR" />
+    <result column="CURR_CODE" property="currCode" jdbcType="CHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
+    <result column="CONTACT_MOBILE" property="contactMobile" jdbcType="VARCHAR" />
+    <result column="CONTACT_FAX" property="contactFax" jdbcType="VARCHAR" />
+    <result column="CONTACT_EMAIL" property="contactEmail" jdbcType="VARCHAR" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="BLOCKED" property="blocked" jdbcType="BIT" />
+    <result column="BLOCK_REMARKS" property="blockRemarks" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="BLOCK_DATE" property="blockDate" jdbcType="TIMESTAMP" />
+    <result column="BLOCK_BY" property="blockBy" jdbcType="VARCHAR" />
+    <result column="MBOX_ID" property="mboxId" jdbcType="VARCHAR" />
+    <result column="AUTO_INV_NUMBER" property="autoInvNumber" jdbcType="BIT" />
+    <result column="START_NUMBER" property="startNumber" jdbcType="INTEGER" />
+    <result column="CHANNEL" property="channel" jdbcType="VARCHAR" />
+    <result column="DEPLOYMENT_MODE" property="deploymentMode" jdbcType="CHAR" />
+    <result column="CLIENT_ENABLED" property="clientEnabled" jdbcType="BIT" />
+    <result column="REQUIRE_REPORT" property="requireReport" jdbcType="BIT" />
+    <result column="REQUIRE_TRANSLATION_IN" property="requireTranslationIn" jdbcType="BIT" />
+    <result column="REQUIRE_TRANSLATION_OUT" property="requireTranslationOut" jdbcType="BIT" />
+    <result column="SET_OID" property="setOid" jdbcType="DECIMAL" />
+    <result column="LIVE_DATE" property="liveDate" jdbcType="DATE" />
+  </resultMap>
+  
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.pracbiz.b2bportal.core.holder.SupplierHolder" extends="BaseResultMap" >
+    <result column="LOGO" property="logo" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    SUPPLIER_OID, SUPPLIER_CODE, SUPPLIER_NAME, SUPPLIER_ALIAS, TRANS_MODE, REG_NO, GST_REG_NO, GST_PERCENT, 
+    OTHER_REG_NO, SUPPLIER_SOURCE, BRANCH, ADDRESS_1, ADDRESS_2, ADDRESS_3, ADDRESS_4, STATE, POSTAL_CODE, 
+    CTRY_CODE, CURR_CODE, CONTACT_NAME, CONTACT_TEL, CONTACT_MOBILE, CONTACT_FAX, CONTACT_EMAIL, 
+    ACTIVE, BLOCKED, BLOCK_REMARKS, CREATE_DATE, CREATE_BY, UPDATE_BY, UPDATE_DATE, BLOCK_DATE, 
+    BLOCK_BY, MBOX_ID, AUTO_INV_NUMBER, START_NUMBER, CHANNEL, DEPLOYMENT_MODE, CLIENT_ENABLED,
+    REQUIRE_REPORT, REQUIRE_TRANSLATION_IN, REQUIRE_TRANSLATION_OUT, SET_OID, LIVE_DATE
+  </sql>
+  
+  
+  <sql id="Blob_Column_List" >
+    LOGO
+  </sql>
+  
+  <select id="selectSupplierByBuyerOid" resultMap="BaseResultMap" parameterType="java.util.HashMap"  >
+  	select DISTINCT
+  	S.SUPPLIER_OID, S.SUPPLIER_CODE, S.SUPPLIER_NAME, S.SUPPLIER_ALIAS, S.TRANS_MODE, S.REG_NO, S.GST_REG_NO, S.GST_PERCENT, 
+    S.OTHER_REG_NO, S.SUPPLIER_SOURCE, S.BRANCH, S.ADDRESS_1, S.ADDRESS_2, S.ADDRESS_3, S.ADDRESS_4, S.STATE, S.POSTAL_CODE, 
+    S.CTRY_CODE, S.CURR_CODE, S.CONTACT_NAME, S.CONTACT_TEL, S.CONTACT_MOBILE, S.CONTACT_FAX, S.CONTACT_EMAIL, 
+    S.ACTIVE, S.BLOCKED, S.BLOCK_REMARKS, S.CREATE_DATE, S.CREATE_BY, S.UPDATE_BY, S.UPDATE_DATE, S.BLOCK_DATE, 
+    S.BLOCK_BY, S.MBOX_ID, S.AUTO_INV_NUMBER, S.START_NUMBER, S.CHANNEL, S.DEPLOYMENT_MODE, S.CLIENT_ENABLED,
+    S.REQUIRE_REPORT, S.REQUIRE_TRANSLATION_IN, S.REQUIRE_TRANSLATION_OUT, S.SET_OID, S.LIVE_DATE
+  	from SUPPLIER S, TRADING_PARTNER T where S.SUPPLIER_OID = T.SUPPLIER_OID and T.BUYER_OID=#{buyerOid,jdbcType=DECIMAL};
+  </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.SupplierExHolder" >
+    select
+    <include refid="Base_Column_List" />
+    from SUPPLIER
+    <where>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        AND SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        AND SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAlias != null" >
+        AND SUPPLIER_ALIAS = #{supplierAlias,jdbcType=VARCHAR}
+      </if>
+      <if test="transMode != null">
+        AND TRANS_MODE = #{transMode,jdbcType=VARCHAR}
+      </if>
+      <if test="regNo != null" >
+        AND REG_NO = #{regNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstRegNo != null" >
+        AND GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstPercent != null" >
+        AND GST_PERCENT = #{gstPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="otherRegNo != null" >
+        AND OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierSource != null" >
+        AND SUPPLIER_SOURCE = #{supplierSource,jdbcType=VARCHAR}
+      </if>
+      <if test="branch != null" >
+        AND BRANCH = #{branch,jdbcType=BIT}
+      </if>
+      <if test="address1 != null" >
+        AND ADDRESS_1 = #{address1,jdbcType=VARCHAR}
+      </if>
+      <if test="address2 != null" >
+        AND ADDRESS_2 = #{address2,jdbcType=VARCHAR}
+      </if>
+      <if test="address3 != null" >
+        AND ADDRESS_3 = #{address3,jdbcType=VARCHAR}
+      </if>
+      <if test="address4 != null" >
+        AND ADDRESS_4 = #{address4,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND STATE = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="postalCode != null" >
+        AND POSTAL_CODE = #{postalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ctryCode != null" >
+        AND CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+      </if>
+      <if test="currCode != null" >
+        AND CURR_CODE = #{currCode,jdbcType=CHAR}
+      </if>
+      <if test="contactName != null" >
+        AND CONTACT_NAME = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null" >
+        AND CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMobile != null" >
+        AND CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="contactFax != null" >
+        AND CONTACT_FAX = #{contactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="contactEmail != null" >
+        AND CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="mboxId != null" >
+        AND MBOX_ID = #{mboxId,jdbcType=VARCHAR}
+      </if>
+      <if test="autoInvNumber != null" >
+        AND AUTO_INV_NUMBER = #{autoInvNumber,jdbcType=BIT}
+      </if>
+      <if test="startNumber != null" >
+        AND START_NUMBER = #{startNumber,jdbcType=INTEGER}
+      </if>
+      <if test="channel != null" >
+        AND CHANNEL = #{channel,jdbcType=VARCHAR}
+      </if>
+      <if test="deploymentMode != null" >
+        AND DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR}
+      </if>
+      <if test="clientEnabled != null" >
+        AND CLIENT_ENABLED = #{clientEnabled,jdbcType=BIT}
+      </if>
+      <if test="requireReport != null" >
+        AND REQUIRE_REPORT = #{requireReport,jdbcType=BIT}
+      </if>
+      <if test="requireTranslationIn != null" >
+        AND REQUIRE_TRANSLATION_IN = #{requireTranslationIn,jdbcType=BIT}
+      </if>
+      <if test="requireTranslationOut != null" >
+        AND REQUIRE_TRANSLATION_OUT = #{requireTranslationOut,jdbcType=BIT}
+      </if>
+      <if test="setOid != null" >
+        AND SET_OID = #{setOid,jdbcType=DECIMAL}
+      </if>
+      <if test="liveDate != null" >
+        AND LIVE_DATE = #{liveDate,jdbcType=DATE}
+      </if>
+      <if test="supplierOids != null">
+        AND SUPPLIER_OID IN
+        <foreach collection="supplierOids" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+      </if>
+    </where>
+  </select>
+  
+  
+  <select id="selectWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from SUPPLIER
+    <where>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        AND SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        AND SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAlias != null" >
+        AND SUPPLIER_ALIAS = #{supplierAlias,jdbcType=VARCHAR}
+      </if>
+      <if test="transMode != null">
+        AND TRANS_MODE = #{transMode,jdbcType=VARCHAR}
+      </if>
+      <if test="regNo != null" >
+        AND REG_NO = #{regNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstRegNo != null" >
+        AND GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstPercent != null" >
+        AND GST_PERCENT = #{gstPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="otherRegNo != null" >
+        AND OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierSource != null" >
+        AND SUPPLIER_SOURCE = #{supplierSource,jdbcType=VARCHAR}
+      </if>
+      <if test="branch != null" >
+        AND BRANCH = #{branch,jdbcType=BIT}
+      </if>
+      <if test="address1 != null" >
+        AND ADDRESS_1 = #{address1,jdbcType=VARCHAR}
+      </if>
+      <if test="address2 != null" >
+        AND ADDRESS_2 = #{address2,jdbcType=VARCHAR}
+      </if>
+      <if test="address3 != null" >
+        AND ADDRESS_3 = #{address3,jdbcType=VARCHAR}
+      </if>
+      <if test="address4 != null" >
+        AND ADDRESS_4 = #{address4,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND STATE = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="postalCode != null" >
+        AND POSTAL_CODE = #{postalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ctryCode != null" >
+        AND CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+      </if>
+      <if test="currCode != null" >
+        AND CURR_CODE = #{currCode,jdbcType=CHAR}
+      </if>
+      <if test="contactName != null" >
+        AND CONTACT_NAME = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null" >
+        AND CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMobile != null" >
+        AND CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="contactFax != null" >
+        AND CONTACT_FAX = #{contactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="contactEmail != null" >
+        AND CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="mboxId != null" >
+        AND MBOX_ID = #{mboxId,jdbcType=VARCHAR}
+      </if>
+      <if test="autoInvNumber != null" >
+        AND AUTO_INV_NUMBER = #{autoInvNumber,jdbcType=BIT}
+      </if>
+      <if test="startNumber != null" >
+        AND START_NUMBER = #{startNumber,jdbcType=INTEGER}
+      </if>
+      <if test="channel != null" >
+        AND CHANNEL = #{channel,jdbcType=VARCHAR}
+      </if>
+      <if test="deploymentMode != null" >
+        AND DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR}
+      </if>
+      <if test="clientEnabled != null" >
+        AND CLIENT_ENABLED = #{clientEnabled,jdbcType=BIT}
+      </if>
+      <if test="requireReport != null" >
+        AND REQUIRE_REPORT = #{requireReport,jdbcType=BIT}
+      </if>
+      <if test="requireTranslationIn != null" >
+        AND REQUIRE_TRANSLATION_IN = #{requireTranslationIn,jdbcType=BIT}
+      </if>
+      <if test="requireTranslationOut != null" >
+        AND REQUIRE_TRANSLATION_OUT = #{requireTranslationOut,jdbcType=BIT}
+      </if>
+      <if test="setOid != null" >
+        AND SET_OID = #{setOid,jdbcType=DECIMAL}
+      </if>
+      <if test="liveDate != null" >
+        AND LIVE_DATE = #{liveDate,jdbcType=DATE}
+      </if>
+    </where>
+  </select>
+  
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    delete from SUPPLIER
+    <where>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        AND SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        AND SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierAlias != null" >
+        AND SUPPLIER_ALIAS = #{supplierAlias,jdbcType=VARCHAR}
+      </if>
+      <if test="transMode != null">
+        AND TRANS_MODE = #{transMode,jdbcType=VARCHAR}
+      </if>
+      <if test="regNo != null" >
+        AND REG_NO = #{regNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstRegNo != null" >
+        AND GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstPercent != null" >
+        AND GST_PERCENT = #{gstPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="otherRegNo != null" >
+        AND OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierSource != null" >
+        AND SUPPLIER_SOURCE = #{supplierSource,jdbcType=VARCHAR}
+      </if>
+      <if test="branch != null" >
+        AND BRANCH = #{branch,jdbcType=BIT}
+      </if>
+      <if test="address1 != null" >
+        AND ADDRESS_1 = #{address1,jdbcType=VARCHAR}
+      </if>
+      <if test="address2 != null" >
+        AND ADDRESS_2 = #{address2,jdbcType=VARCHAR}
+      </if>
+      <if test="address3 != null" >
+        AND ADDRESS_3 = #{address3,jdbcType=VARCHAR}
+      </if>
+      <if test="address4 != null" >
+        AND ADDRESS_4 = #{address4,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND STATE = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="postalCode != null" >
+        AND POSTAL_CODE = #{postalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ctryCode != null" >
+        AND CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+      </if>
+      <if test="currCode != null" >
+        AND CURR_CODE = #{currCode,jdbcType=CHAR}
+      </if>
+      <if test="contactName != null" >
+        AND CONTACT_NAME = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null" >
+        AND CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMobile != null" >
+        AND CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="contactFax != null" >
+        AND CONTACT_FAX = #{contactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="contactEmail != null" >
+        AND CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="mboxId != null" >
+        AND MBOX_ID = #{mboxId,jdbcType=VARCHAR}
+      </if>
+      <if test="autoInvNumber != null" >
+        AND AUTO_INV_NUMBER = #{autoInvNumber,jdbcType=BIT}
+      </if>
+      <if test="startNumber != null" >
+        AND START_NUMBER = #{startNumber,jdbcType=INTEGER}
+      </if>
+      <if test="logo != null" >
+        AND LOGO = #{logo,jdbcType=LONGVARBINARY}
+      </if>
+      <if test="channel != null" >
+        AND CHANNEL = #{channel,jdbcType=VARCHAR}
+      </if>
+      <if test="deploymentMode != null" >
+        AND DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR}
+      </if>
+      <if test="clientEnabled != null" >
+        AND CLIENT_ENABLED = #{clientEnabled,jdbcType=BIT}
+      </if>
+      <if test="requireReport != null" >
+        AND REQUIRE_REPORT = #{requireReport,jdbcType=BIT}
+      </if>
+      <if test="requireTranslationIn != null" >
+        AND REQUIRE_TRANSLATION_IN = #{requireTranslationIn,jdbcType=BIT}
+      </if>
+      <if test="requireTranslationOut != null" >
+        AND REQUIRE_TRANSLATION_OUT = #{requireTranslationOut,jdbcType=BIT}
+      </if>
+      <if test="setOid != null" >
+        AND SET_OID = #{setOid,jdbcType=DECIMAL}
+      </if>
+      <if test="liveDate != null" >
+        AND LIVE_DATE = #{liveDate,jdbcType=DATE}
+      </if>
+    </where>
+  </delete>
+  
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    insert into SUPPLIER (SUPPLIER_OID, SUPPLIER_CODE, SUPPLIER_NAME, 
+      SUPPLIER_ALIAS, TRANS_MODE, REG_NO, GST_REG_NO, 
+      GST_PERCENT, OTHER_REG_NO,SUPPLIER_SOURCE, BRANCH, 
+      ADDRESS_1, ADDRESS_2, ADDRESS_3, 
+      ADDRESS_4, STATE, POSTAL_CODE, 
+      CTRY_CODE, CURR_CODE, CONTACT_NAME, 
+      CONTACT_TEL, CONTACT_MOBILE, CONTACT_FAX, 
+      CONTACT_EMAIL, ACTIVE, BLOCKED, 
+      BLOCK_REMARKS, CREATE_DATE, CREATE_BY, 
+      UPDATE_BY, UPDATE_DATE, BLOCK_DATE, 
+      BLOCK_BY, MBOX_ID, AUTO_INV_NUMBER, 
+      START_NUMBER, CHANNEL, DEPLOYMENT_MODE, CLIENT_ENABLED,
+      REQUIRE_REPORT, REQUIRE_TRANSLATION_IN, REQUIRE_TRANSLATION_OUT, SET_OID, LIVE_DATE, LOGO)
+    values (#{supplierOid,jdbcType=DECIMAL}, #{supplierCode,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, 
+      #{supplierAlias,jdbcType=VARCHAR}, #{transMode,jdbcType=VARCHAR}, #{regNo,jdbcType=VARCHAR}, #{gstRegNo,jdbcType=VARCHAR}, 
+      #{gstPercent,jdbcType=DECIMAL}, #{otherRegNo,jdbcType=VARCHAR}, #{supplierSource,jdbcType=VARCHAR}, #{branch,jdbcType=BIT}, 
+      #{address1,jdbcType=VARCHAR}, #{address2,jdbcType=VARCHAR}, #{address3,jdbcType=VARCHAR}, 
+      #{address4,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR}, 
+      #{ctryCode,jdbcType=CHAR}, #{currCode,jdbcType=CHAR}, #{contactName,jdbcType=VARCHAR}, 
+      #{contactTel,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, #{contactFax,jdbcType=VARCHAR}, 
+      #{contactEmail,jdbcType=VARCHAR}, #{active,jdbcType=BIT}, #{blocked,jdbcType=BIT}, 
+      #{blockRemarks,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{blockDate,jdbcType=TIMESTAMP}, 
+      #{blockBy,jdbcType=VARCHAR}, #{mboxId,jdbcType=VARCHAR}, #{autoInvNumber,jdbcType=BIT}, 
+      #{startNumber,jdbcType=INTEGER}, #{channel,jdbcType=VARCHAR},#{deploymentMode,jdbcType=CHAR}, 
+      #{clientEnabled,jdbcType=BIT}, #{requireReport,jdbcType=BIT}, #{requireTranslationIn,jdbcType=BIT},
+      #{requireTranslationOut,jdbcType=BIT}, #{setOid,jdbcType=DECIMAL},#{liveDate,jdbcType=DATE}, #{logo,jdbcType=LONGVARBINARY})
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    update SUPPLIER
+    <set >
+      <if test="supplierCode != null" >
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAlias != null" >
+        SUPPLIER_ALIAS = #{supplierAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="transMode != null">
+        TRANS_MODE = #{transMode,jdbcType=VARCHAR},
+      </if>
+      <if test="regNo != null" >
+        REG_NO = #{regNo,jdbcType=VARCHAR},
+      </if>
+      <if test="gstRegNo != null" >
+        GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR},
+      </if>
+      <if test="gstPercent != null" >
+        GST_PERCENT = #{gstPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="otherRegNo != null" >
+        OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSource != null" >
+        SUPPLIER_SOURCE = #{supplierSource,jdbcType=VARCHAR},
+      </if>
+      <if test="branch != null" >
+        BRANCH = #{branch,jdbcType=BIT},
+      </if>
+      <if test="address1 != null" >
+        ADDRESS_1 = #{address1,jdbcType=VARCHAR},
+      </if>
+      <if test="address2 != null" >
+        ADDRESS_2 = #{address2,jdbcType=VARCHAR},
+      </if>
+      <if test="address3 != null" >
+        ADDRESS_3 = #{address3,jdbcType=VARCHAR},
+      </if>
+      <if test="address4 != null" >
+        ADDRESS_4 = #{address4,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctryCode != null" >
+        CTRY_CODE = #{ctryCode,jdbcType=CHAR},
+      </if>
+      <if test="currCode != null" >
+        CURR_CODE = #{currCode,jdbcType=CHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null" >
+        CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null" >
+        ACTIVE = #{active,jdbcType=BIT},
+      </if>
+      <if test="blocked != null" >
+        BLOCKED = #{blocked,jdbcType=BIT},
+      </if>
+      <if test="blockRemarks != null" >
+        BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blockDate != null" >
+        BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blockBy != null" >
+        BLOCK_BY = #{blockBy,jdbcType=VARCHAR},
+      </if>
+      <if test="mboxId != null" >
+        MBOX_ID = #{mboxId,jdbcType=VARCHAR},
+      </if>
+      <if test="autoInvNumber != null" >
+        AUTO_INV_NUMBER = #{autoInvNumber,jdbcType=BIT},
+      </if>
+      <if test="startNumber != null" >
+        START_NUMBER = #{startNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deploymentMode != null" >
+        DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR},
+      </if>
+      <if test="logo != null" >
+        LOGO = #{logo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="clientEnabled != null" >
+        CLIENT_ENABLED = #{clientEnabled,jdbcType=BIT},
+      </if>
+      <if test="requireReport != null" >
+        REQUIRE_REPORT = #{requireReport,jdbcType=BIT},
+      </if>
+      <if test="requireTranslationIn != null" >
+        REQUIRE_TRANSLATION_IN = #{requireTranslationIn,jdbcType=BIT},
+      </if>
+      <if test="requireTranslationOut != null" >
+        REQUIRE_TRANSLATION_OUT = #{requireTranslationOut,jdbcType=BIT},
+      </if>
+      <if test="setOid != null" >
+        SET_OID = #{setOid,jdbcType=DECIMAL},
+      </if>
+      <if test="liveDate != null" >
+        LIVE_DATE = #{liveDate,jdbcType=DATE},
+      </if>
+      <if test="logo != null" >
+        LOGO = #{logo,jdbcType=LONGVARBINARY}
+      </if>
+    </set>
+    where SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+  </update>
+  
+  
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    update SUPPLIER
+    set SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      SUPPLIER_ALIAS = #{supplierAlias,jdbcType=VARCHAR},
+      TRANS_MODE = #{transMode,jdbcType=VARCHAR},
+      REG_NO = #{regNo,jdbcType=VARCHAR},
+      GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR},
+      GST_PERCENT = #{gstPercent,jdbcType=DECIMAL},
+      OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR},
+      SUPPLIER_SOURCE = #{supplierSource,jdbcType=VARCHAR},
+      BRANCH = #{branch,jdbcType=BIT},
+      ADDRESS_1 = #{address1,jdbcType=VARCHAR},
+      ADDRESS_2 = #{address2,jdbcType=VARCHAR},
+      ADDRESS_3 = #{address3,jdbcType=VARCHAR},
+      ADDRESS_4 = #{address4,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      CTRY_CODE = #{ctryCode,jdbcType=CHAR},
+      CURR_CODE = #{currCode,jdbcType=CHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      ACTIVE = #{active,jdbcType=BIT},
+      BLOCKED = #{blocked,jdbcType=BIT},
+      BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP},
+      BLOCK_BY = #{blockBy,jdbcType=VARCHAR},
+      MBOX_ID = #{mboxId,jdbcType=VARCHAR},
+      AUTO_INV_NUMBER = #{autoInvNumber,jdbcType=BIT},
+      START_NUMBER = #{startNumber,jdbcType=INTEGER},
+      CHANNEL = #{channel,jdbcType=VARCHAR},
+      DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR},
+      CLIENT_ENABLED = #{clientEnabled,jdbcType=BIT},
+      REQUIRE_REPORT = #{requireReport,jdbcType=BIT},
+      REQUIRE_TRANSLATION_IN = #{requireTranslationIn,jdbcType=BIT},
+      REQUIRE_TRANSLATION_OUT = #{requireTranslationOut,jdbcType=BIT},
+      SET_OID = #{setOid,jdbcType=DECIMAL},
+      LIVE_DATE = #{liveDate,jdbcType=DATE},
+      LOGO = #{logo,jdbcType=LONGVARBINARY}
+    where SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    update SUPPLIER
+    set SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      SUPPLIER_ALIAS = #{supplierAlias,jdbcType=VARCHAR},
+      TRANS_MODE = #{transMode,jdbcType=VARCHAR},
+      REG_NO = #{regNo,jdbcType=VARCHAR},
+      GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR},
+      GST_PERCENT = #{gstPercent,jdbcType=DECIMAL},
+      OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR},
+      BRANCH = #{branch,jdbcType=BIT},
+      ADDRESS_1 = #{address1,jdbcType=VARCHAR},
+      ADDRESS_2 = #{address2,jdbcType=VARCHAR},
+      ADDRESS_3 = #{address3,jdbcType=VARCHAR},
+      ADDRESS_4 = #{address4,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      CTRY_CODE = #{ctryCode,jdbcType=CHAR},
+      CURR_CODE = #{currCode,jdbcType=CHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      ACTIVE = #{active,jdbcType=BIT},
+      BLOCKED = #{blocked,jdbcType=BIT},
+      BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP},
+      BLOCK_BY = #{blockBy,jdbcType=VARCHAR},
+      MBOX_ID = #{mboxId,jdbcType=VARCHAR},
+      AUTO_INV_NUMBER = #{autoInvNumber,jdbcType=BIT},
+      START_NUMBER = #{startNumber,jdbcType=INTEGER},
+      CHANNEL = #{channel,jdbcType=VARCHAR},
+      DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR},
+      CLIENT_ENABLED = #{clientEnabled,jdbcType=BIT},
+      REQUIRE_REPORT = #{requireReport,jdbcType=BIT},
+      REQUIRE_TRANSLATION_IN = #{requireTranslationIn,jdbcType=BIT},
+      REQUIRE_TRANSLATION_OUT = #{requireTranslationOut,jdbcType=BIT},
+      SET_OID = #{setOid,jdbcType=DECIMAL},
+      LIVE_DATE = #{liveDate,jdbcType=DATE}
+    where SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectSupplierByGroupOidAndBuyerOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+  SELECT DISTINCT 
+	S.SUPPLIER_OID, S.SUPPLIER_CODE, S.SUPPLIER_NAME, S.SUPPLIER_ALIAS, S.TRANS_MODE, S.REG_NO, S.GST_REG_NO, S.GST_PERCENT, 
+    S.OTHER_REG_NO, S.SUPPLIER_SOURCE, S.BRANCH, S.ADDRESS_1, S.ADDRESS_2, S.ADDRESS_3, S.ADDRESS_4, S.STATE, S.POSTAL_CODE, 
+    S.CTRY_CODE, S.CURR_CODE, S.CONTACT_NAME, S.CONTACT_TEL, S.CONTACT_MOBILE, S.CONTACT_FAX, S.CONTACT_EMAIL, 
+    S.ACTIVE, S.BLOCKED, S.BLOCK_REMARKS, S.CREATE_DATE, S.CREATE_BY, S.UPDATE_BY, S.UPDATE_DATE, S.BLOCK_DATE, 
+    S.BLOCK_BY, S.MBOX_ID, S.AUTO_INV_NUMBER, S.START_NUMBER, S.CHANNEL, S.DEPLOYMENT_MODE, S.CLIENT_ENABLED,
+    S.REQUIRE_REPORT, S.REQUIRE_TRANSLATION_IN, S.REQUIRE_TRANSLATION_OUT, S.SET_OID, S.LIVE_DATE 
+  FROM SUPPLIER S, GROUP_SUPPLIER GS, TRADING_PARTNER TP
+    WHERE S.SUPPLIER_OID=GS.SUPPLIER_OID AND S.SUPPLIER_OID = TP.SUPPLIER_OID
+    AND GS.GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+    AND TP.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectSupplierByTmpGroupOidAndBuyerOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+  SELECT DISTINCT 
+	S.SUPPLIER_OID, S.SUPPLIER_CODE, S.SUPPLIER_NAME, S.SUPPLIER_ALIAS, S.TRANS_MODE, S.REG_NO, S.GST_REG_NO, S.GST_PERCENT, 
+    S.OTHER_REG_NO, S.SUPPLIER_SOURCE, S.BRANCH, S.ADDRESS_1, S.ADDRESS_2, S.ADDRESS_3, S.ADDRESS_4, S.STATE, S.POSTAL_CODE, 
+    S.CTRY_CODE, S.CURR_CODE, S.CONTACT_NAME, S.CONTACT_TEL, S.CONTACT_MOBILE, S.CONTACT_FAX, S.CONTACT_EMAIL, 
+    S.ACTIVE, S.BLOCKED, S.BLOCK_REMARKS, S.CREATE_DATE, S.CREATE_BY, S.UPDATE_BY, S.UPDATE_DATE, S.BLOCK_DATE, 
+    S.BLOCK_BY, S.MBOX_ID, S.AUTO_INV_NUMBER, S.START_NUMBER, S.CHANNEL, S.DEPLOYMENT_MODE, S.CLIENT_ENABLED,
+    S.REQUIRE_REPORT, S.REQUIRE_TRANSLATION_IN, S.REQUIRE_TRANSLATION_OUT, S.SET_OID, S.LIVE_DATE 
+  FROM SUPPLIER S, T_GROUP_SUPPLIER GS, TRADING_PARTNER TP
+    WHERE S.SUPPLIER_OID=GS.SUPPLIER_OID AND S.SUPPLIER_OID = TP.SUPPLIER_OID
+    AND GS.GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+    AND TP.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectSupplierByBuyerOidAndUserOid" resultMap="BaseResultMap" parameterType="java.util.HashMap"  >
+    select DISTINCT
+    S.SUPPLIER_OID, S.SUPPLIER_CODE, S.SUPPLIER_NAME, S.SUPPLIER_ALIAS, S.TRANS_MODE, S.REG_NO, S.GST_REG_NO, S.GST_PERCENT, 
+    S.OTHER_REG_NO, S.SUPPLIER_SOURCE, S.BRANCH, S.ADDRESS_1, S.ADDRESS_2, S.ADDRESS_3, S.ADDRESS_4, S.STATE, S.POSTAL_CODE, 
+    S.CTRY_CODE, S.CURR_CODE, S.CONTACT_NAME, S.CONTACT_TEL, S.CONTACT_MOBILE, S.CONTACT_FAX, S.CONTACT_EMAIL, 
+    S.ACTIVE, S.BLOCKED, S.BLOCK_REMARKS, S.CREATE_DATE, S.CREATE_BY, S.UPDATE_BY, S.UPDATE_DATE, S.BLOCK_DATE, 
+    S.BLOCK_BY, S.MBOX_ID, S.AUTO_INV_NUMBER, S.START_NUMBER, S.CHANNEL, S.DEPLOYMENT_MODE, S.CLIENT_ENABLED,
+    S.REQUIRE_REPORT, S.REQUIRE_TRANSLATION_IN, S.REQUIRE_TRANSLATION_OUT, S.SET_OID, S.LIVE_DATE
+    from SUPPLIER S, TRADING_PARTNER T,
+    (SELECT GS.SUPPLIER_OID FROM GROUP_SUPPLIER GS,GROUP_USER GU WHERE GS.GROUP_OID=GU.GROUP_OID AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL}) VIEW1 
+    where S.SUPPLIER_OID = T.SUPPLIER_OID and T.BUYER_OID=#{buyerOid,jdbcType=DECIMAL} 
+    and S.SUPPLIER_OID = VIEW1.SUPPLIER_OID;
+  </select>
+
+  <update id="updateBySupplierOid" parameterType="java.util.HashMap" >
+    update SUPPLIER
+    set 
+      SET_OID = #{setOid,jdbcType=DECIMAL}
+    where SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

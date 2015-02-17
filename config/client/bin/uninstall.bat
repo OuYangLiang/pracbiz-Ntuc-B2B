@@ -1,0 +1,1 @@
+B2BCLIENT.exe --WinRun4J:UnregisterService

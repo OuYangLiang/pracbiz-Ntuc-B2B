@@ -1,0 +1,133 @@
+.fieldContainer {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E5F2FE;
+    cursor: default;
+    width: 100%;
+    
+}
+.toolTipContainer {
+	float: left;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E5F2FE;
+    cursor: default;
+    overflow-x: auto;
+    height: 60px;
+    width: 95%;
+    padding-left: 5px;
+}
+
+.fieldListContainer {
+    width: 99%;
+    margin: auto;
+}
+
+
+#fieldListNode{
+    width: 99.7%;
+}
+
+
+/*** Invoice Detail Table Style Start ***/
+.tablestyle3{
+	/*** border: 0px solid #FFFFFF;***/
+	border: 0px solid #85bff6;
+    width: 100%;
+	margin: 0px 0 0px 0;
+/*	float:left;*/
+	background-color: #E5F2FE;
+	}
+	
+.tablestyle3 thead tr th{
+/*	  font-family:  Arial, Helvetica, sans-serif;*/
+ 	font-size:  12px;
+	font-weight: bold;
+	background-color: #85bff5;
+    background-repeat: repeat-x;
+    border: 1px solid #B5BCC7;
+    min-height: 17px;
+    padding: 0 7px 3px;
+    text-align: middle;
+	vertical-align: middle;
+	clip:  rect(   );
+	background-image: -webkit-gradient(linear, left top, left bottom, from(white), color-stop(100%, #85bff5), color-stop(0%, white)); 
+	background-image: -o-linear-gradient(white, #85bff5 100%, white 0%); 
+	background-image: -ms-linear-gradient(white, #85bff5 100%, white 0%); 
+	background-image: -moz-linear-gradient(white, #85bff5 100%, white 0%); 
+	background-image: -webkit-linear-gradient(white, #85bff5 100%, white 0%); 
+	background-image: linear-gradient(white, #85bff5 100%, white 0%);
+}
+
+.tablestyle3 tbody tr td {
+	padding: 1px 1px;
+	text-align: left;
+	vertical-align: middle;
+	background-color:#FFFFFF;
+}
+
+
+.dojoDndContainerOver {
+    border: 1px solid #AAAAAA;
+}
+.dojoDndTargetDisabled {
+    background: none repeat scroll 0 0 #EEEEEE;
+}
+.dojoDndItem {
+    padding: 1px;
+}
+.dj_ff2 .dojoDndItem {
+    -moz-user-select: none;
+}
+.dojoDndItemOver {
+    background: none repeat scroll 0 0 #EDEDED;
+    cursor: pointer;
+}
+.dojoDndItemSelected {
+	background-image: -webkit-gradient(linear, left top, left bottom, from(white), color-stop(100%, #E5F2FE), color-stop(0%, white)); 
+	background-image: -o-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -ms-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -moz-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -webkit-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: linear-gradient(white, #E5F2FE 100%, white 0%);
+}
+.dojoDndItemAnchor table tr td {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(white), color-stop(100%, #E5F2FE), color-stop(0%, white)); 
+	background-image: -o-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -ms-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -moz-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -webkit-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: linear-gradient(white, #E5F2FE 100%, white 0%);
+    color: black;
+}
+.dojoDndItemOver .dojoDndItemSelected {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(white), color-stop(100%, #E5F2FE), color-stop(0%, white)); 
+	background-image: -o-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -ms-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -moz-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -webkit-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: linear-gradient(white, #E5F2FE 100%, white 0%);
+}
+.dojoDndItemOver .dojoDndItemAnchor {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(white), color-stop(100%, #E5F2FE), color-stop(0%, white)); 
+	background-image: -o-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -ms-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -moz-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: -webkit-linear-gradient(white, #E5F2FE 100%, white 0%); 
+	background-image: linear-gradient(white, #E5F2FE 100%, white 0%);
+}
+.dojoDndItemBefore {
+    border-top: 2px solid #336699;
+}
+.dojoDndItemAfter {
+    border-bottom: 2px solid #336699;
+}
+.dojoDndAvatar {
+    border: 2px solid #CCCCCC;
+    font-size: 75%;
+}
+.dojoDndAvatarHeader {
+    background: none repeat scroll 0 0 #AAAAAA;
+}
+.dojoDndAvatarItem {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-bottom: 1px solid #666666;
+}

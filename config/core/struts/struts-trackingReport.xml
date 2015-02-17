@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="trackingReport" extends="pracbiz-default" namespace="/trackingReport"> 
+        <action name="init" class="com.pracbiz.b2bportal.core.action.TrackingReportAction" method="init">
+            <result>/WEB-INF/views/core/report/trackingReport.jsp</result>
+        </action>
+        <action name="printExcel" class="com.pracbiz.b2bportal.core.action.TrackingReportAction" method="exportExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting"/>
+            <result name="success" type="stream">
+          		<param name="contentType">${contentType}</param>
+          		<param name="inputName">rptResult</param>
+          		<param name="bufferSize">1024</param>
+          		<param name="contentDisposition">attachment;filename="${rptFileName}"</param>
+           </result>
+            <result name="input">/WEB-INF/views/core/report/trackingReport.jsp</result>
+        </action>
+        <action name="checkExcelData" class="com.pracbiz.b2bportal.core.action.TrackingReportAction" method="checkExcelData">
+            <result type="json">
+                <param name="root">data</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+    </package>
+</struts>

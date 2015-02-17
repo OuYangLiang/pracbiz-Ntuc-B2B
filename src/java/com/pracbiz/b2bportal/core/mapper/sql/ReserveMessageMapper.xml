@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.ReserveMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder" >
+    <id column="RM_OID" property="rsrvMsgOid" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="VALID_FROM" property="validFrom" jdbcType="DATE" />
+    <result column="VALID_TO" property="validTo" jdbcType="DATE" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="ANNOUNCEMENT_TYPE" property="announcementType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    RM_OID, TITLE, CONTENT, VALID_FROM, VALID_TO, CREATE_BY, CREATE_DATE, UPDATE_BY, 
+    UPDATE_DATE, ANNOUNCEMENT_TYPE
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from RESERVE_MESSAGE
+    <where>
+      <if test="rsrvMsgOid != null" >
+        RM_OID = #{rsrvMsgOid,jdbcType=DECIMAL}
+      </if>
+      <if test="title != null" >
+        AND TITLE = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="content != null" >
+        AND CONTENT = #{content,jdbcType=VARCHAR}
+      </if>
+      <if test="validFrom != null" >
+        AND VALID_FROM = #{validFrom,jdbcType=DATE}
+      </if>
+      <if test="validTo != null" >
+        AND VALID_TO = #{validTo,jdbcType=DATE}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="announcementType != null" >
+        AND ANNOUNCEMENT_TYPE = #{announcementType,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder" >
+    delete from RESERVE_MESSAGE
+	<where>
+      <if test="rsrvMsgOid != null" >
+        RM_OID = #{rsrvMsgOid,jdbcType=DECIMAL}
+      </if>
+      <if test="title != null" >
+        AND TITLE = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="content != null" >
+        AND CONTENT = #{content,jdbcType=VARCHAR}
+      </if>
+      <if test="validFrom != null" >
+        AND VALID_FROM = #{validFrom,jdbcType=DATE}
+      </if>
+      <if test="validTo != null" >
+        AND VALID_TO = #{validTo,jdbcType=DATE}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="announcementType != null">
+      	AND ANNOUNCEMENT_TYPE = #{announcementType,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder" >
+    insert into RESERVE_MESSAGE (RM_OID, TITLE, CONTENT, 
+      VALID_FROM, VALID_TO, CREATE_BY, 
+      CREATE_DATE, UPDATE_BY, UPDATE_DATE,
+      ANNOUNCEMENT_TYPE
+      )
+    values (#{rsrvMsgOid,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{validFrom,jdbcType=DATE}, #{validTo,jdbcType=DATE}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+      #{announcementType, jdbcType=VARCHAR}
+      )
+  </insert>
+   
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder" >
+    update RESERVE_MESSAGE
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="validFrom != null" >
+        VALID_FROM = #{validFrom,jdbcType=DATE},
+      </if>
+      <if test="validTo != null" >
+        VALID_TO = #{validTo,jdbcType=DATE},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="announcementType != null" >
+        ANNOUNCEMENT_TYPE = #{announcementType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RM_OID = #{rsrvMsgOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.ReserveMessageHolder" >
+    update RESERVE_MESSAGE
+    set TITLE = #{title,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      VALID_FROM = #{validFrom,jdbcType=DATE},
+      VALID_TO = #{validTo,jdbcType=DATE},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      ANNOUNCEMENT_TYPE = #{announcementType,jdbcType=VARCHAR}
+    where RM_OID = #{rsrvMsgOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectValidMessages" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    <![CDATA[ from RESERVE_MESSAGE WHERE VALID_TO >= DATE_FORMAT(now(),'%Y%m%d') AND VALID_FROM <= DATE_FORMAT(now(),'%Y%m%d')]]>
+    ORDER BY CREATE_DATE DESC
+  </select>
+  
+  <select id="selectValidMessagesByAnnouncementType" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select 
+    <include refid="Base_Column_List" />
+    <![CDATA[ from RESERVE_MESSAGE WHERE VALID_TO >= DATE_FORMAT(now(),'%Y%m%d') AND VALID_FROM <= DATE_FORMAT(now(),'%Y%m%d')]]>
+    <if test="announcementType != null">
+    	AND (ANNOUNCEMENT_TYPE = 'BOTH' OR ANNOUNCEMENT_TYPE = #{announcementType,jdbcType=VARCHAR}) 
+    </if>
+    ORDER BY CREATE_DATE DESC
+  </select>
+</mapper>

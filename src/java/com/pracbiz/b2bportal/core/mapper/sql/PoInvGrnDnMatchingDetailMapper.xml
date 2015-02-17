@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.PoInvGrnDnMatchingDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.extension.PoInvGrnDnMatchingDetailExHolder" >
+    <id column="MATCHING_OID" property="matchingOid" jdbcType="DECIMAL" />
+    <id column="SEQ" property="seq" jdbcType="INTEGER" />
+    <result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+    <result column="ITEM_DESC" property="itemDesc" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="UOM" property="uom" jdbcType="VARCHAR" />
+    <result column="PO_PRICE" property="poPrice" jdbcType="DECIMAL" />
+    <result column="PO_QTY" property="poQty" jdbcType="DECIMAL" />
+    <result column="PO_AMT" property="poAmt" jdbcType="DECIMAL" />
+    <result column="INV_PRICE" property="invPrice" jdbcType="DECIMAL" />
+    <result column="INV_QTY" property="invQty" jdbcType="DECIMAL" />
+    <result column="INV_AMT" property="invAmt" jdbcType="DECIMAL" />
+    <result column="GRN_QTY" property="grnQty" jdbcType="DECIMAL" />
+    <result column="DN_AMT" property="dnAmt" jdbcType="DECIMAL" />
+    <result column="PRICE_STATUS" property="priceStatus" jdbcType="CHAR" />
+    <result column="PRICE_STATUS_ACTION_REMARKS" property="priceStatusActionRemarks" jdbcType="VARCHAR" />
+    <result column="PRICE_STATUS_ACTION_DATE" property="priceStatusActionDate" jdbcType="TIMESTAMP" />
+    <result column="PRICE_STATUS_ACTION_BY" property="priceStatusActionBy" jdbcType="VARCHAR" />
+    <result column="QTY_STATUS" property="qtyStatus" jdbcType="CHAR" />
+    <result column="QTY_STATUS_ACTION_REMARKS" property="qtyStatusActionRemarks" jdbcType="VARCHAR" />
+    <result column="QTY_STATUS_ACTION_DATE" property="qtyStatusActionDate" jdbcType="TIMESTAMP" />
+    <result column="QTY_STATUS_ACTION_BY" property="qtyStatusActionBy" jdbcType="VARCHAR" />
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR"/>
+    <result column="SUBCLASS_CODE" property="subclassCode" jdbcType="VARCHAR"/>
+    <result column="PRICE_STATUS_ACTION_BY_NAME" property="priceStatusActionByName" jdbcType="VARCHAR" />
+    <result column="QTY_STATUS_ACTION_BY_NAME" property="qtyStatusActionByName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SEQ, MATCHING_OID, BUYER_ITEM_CODE, ITEM_DESC, BARCODE, UOM, PO_PRICE, PO_QTY, PO_AMT, 
+    INV_PRICE, INV_QTY, INV_AMT, GRN_QTY, DN_AMT, PRICE_STATUS, PRICE_STATUS_ACTION_REMARKS, 
+    PRICE_STATUS_ACTION_DATE, PRICE_STATUS_ACTION_BY, QTY_STATUS, QTY_STATUS_ACTION_REMARKS, 
+    QTY_STATUS_ACTION_DATE, QTY_STATUS_ACTION_BY
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingDetailHolder" >
+    select VIEW1.SEQ, VIEW1.MATCHING_OID, VIEW1.BUYER_ITEM_CODE, VIEW1.ITEM_DESC, VIEW1.BARCODE, VIEW1.UOM, 
+      VIEW1.PO_PRICE, VIEW1.PO_QTY, VIEW1.PO_AMT, VIEW1.INV_PRICE, VIEW1.INV_QTY, VIEW1.INV_AMT, VIEW1.GRN_QTY, VIEW1.DN_AMT,
+      VIEW1.DN_AMT, VIEW1.PRICE_STATUS, VIEW1.PRICE_STATUS_ACTION_REMARKS, VIEW1.PRICE_STATUS_ACTION_DATE,VIEW1.PRICE_STATUS_ACTION_BY,
+      VIEW1.QTY_STATUS, VIEW1.QTY_STATUS_ACTION_REMARKS, VIEW1.QTY_STATUS_ACTION_DATE,VIEW1.QTY_STATUS_ACTION_BY,
+      if (VIEW1.PRICE_STATUS_ACTION_BY = 'SYSTEM',VIEW1.PRICE_STATUS_ACTION_BY,Concat((select USER_NAME from USER_PROFILE WHERE LOGIN_ID = VIEW1.PRICE_STATUS_ACTION_BY), '(', VIEW1.PRICE_STATUS_ACTION_BY, ')')) AS PRICE_STATUS_ACTION_BY_NAME,
+	  if (VIEW1.QTY_STATUS_ACTION_BY = 'SYSTEM',VIEW1.QTY_STATUS_ACTION_BY,Concat((select USER_NAME from USER_PROFILE WHERE LOGIN_ID = VIEW1.QTY_STATUS_ACTION_BY), '(', VIEW1.QTY_STATUS_ACTION_BY, ')')) AS QTY_STATUS_ACTION_BY_NAME,
+      I.CLASS_CODE, I.SUBCLASS_CODE FROM (select
+      D.*, 
+      M.BUYER_OID
+    from PO_INV_GRN_DN_MATCHING_DETAIL D, PO_INV_GRN_DN_MATCHING M where M.MATCHING_OID = D.MATCHING_OID
+    <if test="matchingOid != null" >
+      and D.MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+    </if>
+    <if test="seq != null" >
+      and D.SEQ = #{seq,jdbcType=INTEGER}
+    </if>
+    <if test="buyerItemCode != null" >
+      and D.BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+    </if>
+    <if test="itemDesc != null" >
+      and D.ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+    </if>
+    <if test="barcode != null" >
+      and D.BARCODE = #{barcode,jdbcType=VARCHAR}
+    </if>
+    <if test="uom != null" >
+      and D.UOM = #{uom,jdbcType=VARCHAR}
+    </if>
+    <if test="poPrice != null" >
+      and D.PO_PRICE = #{poPrice,jdbcType=DECIMAL}
+    </if>
+    <if test="poQty != null" >
+      and D.PO_QTY = #{poQty,jdbcType=DECIMAL}
+    </if>
+    <if test="poAmt != null" >
+      and D.PO_AMT = #{poAmt,jdbcType=DECIMAL}
+    </if>
+    <if test="invPrice != null" >
+      and D.INV_PRICE = #{invPrice,jdbcType=DECIMAL}
+    </if>
+    <if test="invQty != null" >
+      and D.INV_QTY = #{invQty,jdbcType=DECIMAL}
+    </if>
+    <if test="invAmt != null" >
+      and D.INV_AMT = #{invAmt,jdbcType=DECIMAL}
+    </if>
+    <if test="grnQty != null" >
+      and D.GRN_QTY = #{grnQty,jdbcType=DECIMAL}
+    </if>
+    <if test="dnAmt != null" >
+      and D.DN_AMT = #{dnAmt,jdbcType=DECIMAL}
+    </if>
+    <if test="priceStatus != null" >
+      and D.PRICE_STATUS = #{priceStatus,jdbcType=CHAR}
+    </if>
+    <if test="priceStatusActionRemarks != null" >
+      and D.PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="priceStatusActionDate != null" >
+      and D.PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="priceStatusActionBy != null" >
+      and D.PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR}
+    </if>
+    <if test="qtyStatus != null" >
+      and D.QTY_STATUS = #{qtyStatus,jdbcType=CHAR}
+    </if>
+    <if test="qtyStatusActionRemarks != null" >
+      and D.D.QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="qtyStatusActionDate != null" >
+      and D.QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="qtyStatusActionBy != null" >
+      and D.QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR}
+    </if>
+    ) VIEW1 LEFT JOIN ITEM I ON VIEW1.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE AND VIEW1.BUYER_OID = I.BUYER_OID
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingDetailHolder" >
+    delete from PO_INV_GRN_DN_MATCHING_DETAIL
+    <where>
+      <if test="matchingOid != null" >
+        MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+      </if>
+      <if test="seq != null" >
+        and SEQ = #{seq,jdbcType=INTEGER}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="uom != null" >
+        and UOM = #{uom,jdbcType=VARCHAR}
+      </if>
+      <if test="poPrice != null" >
+        and PO_PRICE = #{poPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="poQty != null" >
+        and PO_QTY = #{poQty,jdbcType=DECIMAL}
+      </if>
+      <if test="poAmt != null" >
+        and PO_AMT = #{poAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="invPrice != null" >
+        and INV_PRICE = #{invPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="invQty != null" >
+        and INV_QTY = #{invQty,jdbcType=DECIMAL}
+      </if>
+      <if test="invAmt != null" >
+        and INV_AMT = #{invAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="grnQty != null" >
+        and GRN_QTY = #{grnQty,jdbcType=DECIMAL}
+      </if>
+      <if test="dnAmt != null" >
+        and DN_AMT = #{dnAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="priceStatus != null" >
+        and PRICE_STATUS = #{priceStatus,jdbcType=CHAR}
+      </if>
+      <if test="priceStatusActionRemarks != null" >
+        and PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatusActionDate != null" >
+        and PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="priceStatusActionBy != null" >
+        and PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="qtyStatus != null" >
+        and QTY_STATUS = #{qtyStatus,jdbcType=CHAR}
+      </if>
+      <if test="qtyStatusActionRemarks != null" >
+        and QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="qtyStatusActionDate != null" >
+        and QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="qtyStatusActionBy != null" >
+        and QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingDetailHolder" >
+    insert into PO_INV_GRN_DN_MATCHING_DETAIL (SEQ, MATCHING_OID, BUYER_ITEM_CODE, 
+      ITEM_DESC, BARCODE, UOM, 
+      PO_PRICE, PO_QTY, PO_AMT, 
+      INV_PRICE, INV_QTY, INV_AMT, 
+      GRN_QTY, DN_AMT, PRICE_STATUS, 
+      PRICE_STATUS_ACTION_REMARKS, PRICE_STATUS_ACTION_DATE, 
+      PRICE_STATUS_ACTION_BY, QTY_STATUS, QTY_STATUS_ACTION_REMARKS, 
+      QTY_STATUS_ACTION_DATE, QTY_STATUS_ACTION_BY
+      )
+    values (#{seq,jdbcType=INTEGER}, #{matchingOid,jdbcType=DECIMAL}, #{buyerItemCode,jdbcType=VARCHAR}, 
+      #{itemDesc,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, #{uom,jdbcType=VARCHAR}, 
+      #{poPrice,jdbcType=DECIMAL}, #{poQty,jdbcType=DECIMAL}, #{poAmt,jdbcType=DECIMAL}, 
+      #{invPrice,jdbcType=DECIMAL}, #{invQty,jdbcType=DECIMAL}, #{invAmt,jdbcType=DECIMAL}, 
+      #{grnQty,jdbcType=DECIMAL}, #{dnAmt,jdbcType=DECIMAL}, #{priceStatus,jdbcType=CHAR}, 
+      #{priceStatusActionRemarks,jdbcType=VARCHAR}, #{priceStatusActionDate,jdbcType=TIMESTAMP}, 
+      #{priceStatusActionBy,jdbcType=VARCHAR}, #{qtyStatus,jdbcType=CHAR}, #{qtyStatusActionRemarks,jdbcType=VARCHAR}, 
+      #{qtyStatusActionDate,jdbcType=TIMESTAMP}, #{qtyStatusActionBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingDetailHolder" >
+    update PO_INV_GRN_DN_MATCHING_DETAIL
+    <set>
+      <if test="buyerItemCode != null" >
+        BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null" >
+        ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        BARCODE = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="uom != null" >
+        UOM = #{uom,jdbcType=VARCHAR},
+      </if>
+      <if test="poPrice != null" >
+        PO_PRICE = #{poPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="poQty != null" >
+        PO_QTY = #{poQty,jdbcType=DECIMAL},
+      </if>
+      <if test="poAmt != null" >
+        PO_AMT = #{poAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="invPrice != null" >
+        INV_PRICE = #{invPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="invQty != null" >
+        INV_QTY = #{invQty,jdbcType=DECIMAL},
+      </if>
+      <if test="invAmt != null" >
+        INV_AMT = #{invAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="grnQty != null" >
+        GRN_QTY = #{grnQty,jdbcType=DECIMAL},
+      </if>
+      <if test="dnAmt != null" >
+        DN_AMT = #{dnAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="priceStatus != null" >
+        PRICE_STATUS = #{priceStatus,jdbcType=CHAR},
+      </if>
+      <if test="priceStatusActionRemarks != null" >
+        PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStatusActionDate != null" >
+        PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priceStatusActionBy != null" >
+        PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyStatus != null" >
+        QTY_STATUS = #{qtyStatus,jdbcType=CHAR},
+      </if>
+      <if test="qtyStatusActionRemarks != null" >
+        QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyStatusActionDate != null" >
+        QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qtyStatusActionBy != null" >
+        QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MATCHING_OID = #{matchingOid,jdbcType=DECIMAL} and SEQ = #{seq,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingDetailHolder" >
+    update PO_INV_GRN_DN_MATCHING_DETAIL
+    set BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      BARCODE = #{barcode,jdbcType=VARCHAR},
+      UOM = #{uom,jdbcType=VARCHAR},
+      PO_PRICE = #{poPrice,jdbcType=DECIMAL},
+      PO_QTY = #{poQty,jdbcType=DECIMAL},
+      PO_AMT = #{poAmt,jdbcType=DECIMAL},
+      INV_PRICE = #{invPrice,jdbcType=DECIMAL},
+      INV_QTY = #{invQty,jdbcType=DECIMAL},
+      INV_AMT = #{invAmt,jdbcType=DECIMAL},
+      GRN_QTY = #{grnQty,jdbcType=DECIMAL},
+      DN_AMT = #{dnAmt,jdbcType=DECIMAL},
+      PRICE_STATUS = #{priceStatus,jdbcType=CHAR},
+      PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR},
+      PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP},
+      PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR},
+      QTY_STATUS = #{qtyStatus,jdbcType=CHAR},
+      QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR},
+      QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP},
+      QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR}
+    where MATCHING_OID = #{matchingOid,jdbcType=DECIMAL} and SEQ = #{seq,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,215 @@
+<html>
+    <head>
+        Batch Run Status Report
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150" align="left"> Buyer</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">${BUYER_NAME} (${BUYER_CODE})</td>
+                </tr>
+                <tr>
+                    <td width="150" align="left">Batch File</td>
+                    <td align="right">:</td>
+                    <td align="left">${SA_FILE_NAME}</td>
+                </tr>
+                #if($FILE_EMPTY_LIST.size() != 1)
+	                <tr>
+	                    <td width="150" align="left">Success Count</td>
+	                    <td align="right">:</td>
+	                    <td align="left">${SUCCESS_COUNT}</td>
+	                </tr>
+	                <tr>
+	                    <td width="150" align="left">Unprocess Count</td>
+	                    <td align="right">:</td>
+	                    <td align="left">${UNPROCESS_COUNT}</td>
+	                </tr>
+                #end
+            </table>
+            <p/>
+            <table>
+            	#if($FILE_EMPTY_LIST.size() > 0)
+            		<tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                Error
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td colspan="2" align="left">The file ${SA_FILE_NAME} is empty</td>
+                    </tr>
+            	#end
+            	
+                #if($SUCCESS_LIST.size() > 0)
+                    <tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                Success List
+                            </strong>
+                        </td>
+                    </tr>
+                    #if($SUCCESS_LIST.size() > 0)
+                        #foreach($o in $SUCCESS_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                #if ($MSG_EMAIL_ERROR_LIST.contains($o))
+                                    <td align="left">$o<span style="color: red;">(msg email is valid)</span></td>
+                                #else
+                                    <td align="left">$o</td>
+                                #end
+                            </tr>
+                        #end
+                    #end
+                #end
+                
+                #if($LENGTH_ERROR_LIST.size() > 0 || $SUPPLIER_CODE_EMPTY_LIST.size() > 0 || $SUPPLIER_CODE_NOT_EXIST_LIST.size() > 0 || $ADMIN_NOT_EXIST_LIST.size() > 0 
+                    || $EMAIL_EMPTY_LIST.size() > 0  || $EMAIL_INVALID_LIST.size() > 0 || $MSG_EMAIL_ERROR_LIST.size() > 0
+                    || $DATE_EMPTY_LIST.size() > 0 || $DATE_INVALID_LIST.size() > 0 || $BATCH_NO_INVALID_LIST.size() > 0)
+                    <tr>
+                        <td colspan="2" style="text-decoration: underline;">
+                            <strong> 
+                                UnProcess List
+                            </strong>
+                        </td>
+                    </tr>
+                    #if($LENGTH_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Field length must be 5</td>
+                        </tr>
+                        #foreach($o in $LENGTH_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($SUPPLIER_CODE_EMPTY_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Supplier code is empty</td>
+                        </tr>
+                        #foreach($o in $SUPPLIER_CODE_EMPTY_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($SUPPLIER_CODE_NOT_EXIST_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Supplier code does not exist in database</td>
+                        </tr>
+                        #foreach($o in $SUPPLIER_CODE_NOT_EXIST_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($ADMIN_NOT_EXIST_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Supplier Admin does not exist</td>
+                        </tr>
+                        #foreach($o in $ADMIN_NOT_EXIST_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($EMAIL_EMPTY_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Supplier email address is empty</td>
+                        </tr>
+                        #foreach($o in $EMAIL_EMPTY_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($EMAIL_INVALID_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Supplier email address is invalid</td>
+                        </tr>
+                        #foreach($o in $EMAIL_INVALID_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($MSG_EMAIL_ERROR_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Msg email address is invalid</td>
+                        </tr>
+                        #foreach($o in $MSG_EMAIL_ERROR_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($DATE_EMPTY_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Supplier Admin live date is empty</td>
+                        </tr>
+                        #foreach($o in $DATE_EMPTY_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($DATE_INVALID_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Supplier Admin live date is invalid</td>
+                        </tr>
+                        #foreach($o in $DATE_INVALID_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                    #if($BATCH_NO_INVALID_LIST.size() > 0)
+                        <tr>
+                            <td colspan="2" align="left">Batch no is invalid, max length is 50</td>
+                        </tr>
+                        #foreach($o in $BATCH_NO_INVALID_LIST)
+                            <tr>
+                                <td width="30" align="left">$velocityCount.</td>
+                                <td align="left">$o</td>
+                            </tr>
+                        #end
+                    #end
+                #end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         PracBiz B2B Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+            <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+        </form>
+    </body>
+</html>

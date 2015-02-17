@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="param.buyerName">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0307")}</message>
+		</field-validator>
+		<field-validator type="stringlength">
+            <param name="trim">true</param>
+            <param name="minLength">0</param>  
+            <param name="maxLength">100</param>  
+             <message>
+                ${getText("B2BPC0307")}
+             </message>  
+        </field-validator>
+	</field>
+	
+	<field name="param.regNo">
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[^[A-Za-z0-9_]*$]]></param>
+			<message>${getText("B2BPC0308")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.gstRegNo">
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[^[A-Za-z0-9_]*$]]></param>
+			<message>${getText("B2BPC0309")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.otherRegNo">
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[^[A-Za-z0-9_]*$]]></param>
+			<message>${getText("B2BPC0311")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.address1">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0312")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.postalCode">
+		<field-validator type="postalCode">
+			<message>${getText("B2BPC0313")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.ctryCode">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0314")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.currCode">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0315")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.contactName">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0316")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.contactTel">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0317")}</message>
+		</field-validator>
+		<field-validator type="phonenumber">
+			<message>${getText("B2BPC0318")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.contactMobile">
+		<field-validator type="mobilenumber">
+			<message>${getText("B2BPC0319")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.contactFax">
+		<field-validator type="faxnumber">
+			<message>${getText("B2BPC0320")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.contactEmail">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0321")}</message>
+		</field-validator>
+		<field-validator type="emailAddress">
+			<message>${getText("B2BPC0322")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="param.deploymentMode">
+        <field-validator type="required">
+            <message>${getText("B2BPC0341")}</message>
+        </field-validator>
+    </field>
+	
+</validators>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+  targetNamespace="http://www.sanc.org.sg/schemas/ean" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns="http://www.sanc.org.sg/schemas/ean" 
+  xmlns:sanc="http://www.sanc.org.sg/schemas/ean" 
+  elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>
+	Singapore Adopted version, built heavily on EANUCC's 1.3 July 2003 version.
+	      Version Information:
+        	Version Number: S1.1
+	        Date of creation: June, 2004
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="Common.xsd"/>
+	<xsd:include schemaLocation="Terms.xsd"/>
+	<xsd:include schemaLocation="Party.xsd"/>
+	<xsd:complexType name="OrderType">
+		<xsd:complexContent>
+			<xsd:extension base="DocumentType">
+				<xsd:sequence>
+					<xsd:group ref="TermsGroup"/>
+					<xsd:element name="voidDate" type="xsd:date" minOccurs="0"/>
+					<xsd:element name="movementDate" type="xsd:dateTime" minOccurs="0"/>
+					<xsd:element name="movementDateType" type="MovementDateListType" minOccurs="0"/>
+					<xsd:element name="typedEntityIdentification" type="TypedEntityIdentificationType"/>
+					<xsd:element name="buyer">
+						<xsd:complexType>
+							<xsd:complexContent>
+								<xsd:extension base="PartyIdentificationType">
+									<xsd:sequence>
+										<xsd:element name="partyInformation" type="PartyInformationType"/>
+									</xsd:sequence>
+								</xsd:extension>
+							</xsd:complexContent>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="seller">
+						<xsd:complexType>
+							<xsd:complexContent>
+								<xsd:extension base="PartyIdentificationType">
+									<xsd:sequence>
+										<xsd:element name="partyInformation" type="PartyInformationType"/>
+									</xsd:sequence>
+								</xsd:extension>
+							</xsd:complexContent>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="shipParty">
+						<xsd:complexType>
+							<xsd:complexContent>
+								<xsd:extension base="ShipPartyIdentificationType">
+									<xsd:sequence>
+										<xsd:element name="partyInformation" type="PartyInformationType"/>
+									</xsd:sequence>
+								</xsd:extension>
+							</xsd:complexContent>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="lineItem" type="OrderLineItemType" maxOccurs="unbounded"/>
+					<xsd:element name="reference" type="ReferenceType" minOccurs="0"/>
+					<xsd:element name="carrier" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="transportCode" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="netAmountWOGST" type="MonetaryAmountType" minOccurs="0"/>
+					<xsd:element name="netAmountWGST" type="MonetaryAmountType" minOccurs="0"/>
+					<xsd:element name="totalLineItem" minOccurs="0">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:int">
+								<xsd:totalDigits value="18"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="remarks" minOccurs="0" maxOccurs="unbounded">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="35"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ShipPartyIdentificationType">
+		<xsd:complexContent>
+			<xsd:extension base="PartyIdentificationType">
+				<xsd:attribute name="identificationType" type="ShipPartyIdentificationListType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="ShipPartyIdentificationListType">
+		<xsd:restriction base="String1to80Type">
+			<xsd:enumeration value="SHIP_FROM"/>
+			<xsd:enumeration value="SHIP_TO"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MovementDateListType">
+		<xsd:restriction base="String1to80Type">
+			<xsd:enumeration value="REQUESTED_DELIVERY"/>
+			<xsd:enumeration value="REQUESTED_PICKUP"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="OrderLineItemType">
+		<xsd:complexContent>
+			<xsd:extension base="LineItemType">
+				<xsd:sequence>
+					<xsd:element name="netPrice" type="MonetaryAmountType" minOccurs="0"/>
+					<xsd:element name="grossPrice" type="MonetaryAmountType" minOccurs="0"/>
+					<xsd:element name="requestedQuantity" type="xsd:float"/>
+					<xsd:element name="allowanceCharge" type="AllowanceChargeType" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="itemIdentification" type="TradeItemIdentificationType"/>
+					<xsd:element name="itemInformation" type="TradeItemInformationType"/>
+					<xsd:element name="buyerStockCode" type="TradeItemIdentificationType" minOccurs="0"/>
+					<xsd:element name="supplierStockCode" type="TradeItemIdentificationType" minOccurs="0"/>
+					<xsd:element name="netAmount" type="MonetaryAmountType" minOccurs="0"/>
+					<xsd:element name="grossAmount" type="MonetaryAmountType" minOccurs="0"/>
+					<xsd:element name="remarks" minOccurs="0">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="35"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="freeQuantity" type="xsd:float" minOccurs="0"/>
+					<xsd:element name="freeItemIdentification" type="TradeItemIdentificationType" minOccurs="0"/>
+					<xsd:element name="freeItemDescription" type="TradeItemDescriptionType" minOccurs="0"/>
+					<xsd:element name="shiptoDetails" minOccurs="0" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="shiptoParty" minOccurs="0">
+									<xsd:complexType>
+										<xsd:complexContent>
+											<xsd:extension base="PartyIdentificationType">
+												<xsd:sequence>
+													<xsd:element name="partyInformation" type="PartyInformationType" minOccurs="0"/>
+												</xsd:sequence>
+											</xsd:extension>
+										</xsd:complexContent>
+									</xsd:complexType>
+								</xsd:element>
+								<xsd:element name="deliveryQuantity" type="xsd:float" minOccurs="0"/>
+								<xsd:element name="freeQuantity" type="xsd:float" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="order" substitutionGroup="document">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="OrderType">
+					<xsd:attribute name="TypeOfOrder" type="TypeOfOrderListType" use="required"/>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="TypeOfOrderListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BLANKET"/>
+			<xsd:enumeration value="MULTI_SHIP"/>
+			<xsd:enumeration value="PURCHASE_ORDER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.GroupUserTmpMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.GroupUserTmpHolder" >
+    <id column="GROUP_OID" property="groupOid" jdbcType="DECIMAL" />
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <result column="LAST_UPDATE_FROM" property="lastUpdateFrom" jdbcType="CHAR" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="APPROVED" property="approved" jdbcType="BIT" />
+  </resultMap>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.GroupUserTmpHolder" >
+    select GROUP_OID, USER_OID, LAST_UPDATE_FROM, ACTION_TYPE, APPROVED
+    from T_GROUP_USER
+    <where>
+      <if test="groupOid != null" >
+        GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lastUpdateFrom != null" >
+        AND LAST_UPDATE_FROM = #{lastUpdateFrom,jdbcType=CHAR}
+      </if>
+      <if test="actionType != null" >
+        AND ACTION_TYPE = #{actionType,jdbcType=CHAR}
+      </if>
+      <if test="approved != null" >
+        AND APPROVED = #{approved,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.GroupUserTmpHolder" >
+    delete from T_GROUP_USER
+    <where>
+      <if test="groupOid != null" >
+        GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lastUpdateFrom != null" >
+        AND LAST_UPDATE_FROM = #{lastUpdateFrom,jdbcType=CHAR}
+      </if>
+      <if test="actionType != null" >
+        AND ACTION_TYPE = #{actionType,jdbcType=CHAR}
+      </if>
+      <if test="approved != null" >
+        AND APPROVED = #{approved,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.GroupUserTmpHolder" >
+    insert into T_GROUP_USER (GROUP_OID, USER_OID,LAST_UPDATE_FROM,ACTION_TYPE,APPROVED)
+    values (#{groupOid,jdbcType=DECIMAL}, #{userOid,jdbcType=DECIMAL},#{lastUpdateFrom,jdbcType=CHAR}, #{actionType,jdbcType=CHAR}, #{approved,jdbcType=BIT})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.GroupUserTmpHolder" >
+    update T_GROUP_USER
+    <set >
+      <if test="lastUpdateFrom != null" >
+        LAST_UPDATE_FROM = #{lastUpdateFrom,jdbcType=CHAR},
+      </if>
+      <if test="actionType != null" >
+        ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      </if>
+      <if test="approved != null" >
+        APPROVED = #{approved,jdbcType=BIT},
+      </if>
+    </set>
+    where GROUP_OID = #{groupOid,jdbcType=DECIMAL} 
+    and USER_OID = #{userOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.GroupUserTmpHolder" >
+    update T_GROUP_USER
+    set LAST_UPDATE_FROM = #{lastUpdateFrom,jdbcType=CHAR},
+      ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      APPROVED = #{approved,jdbcType=BIT}
+    where GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+    and USER_OID = #{userOid,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

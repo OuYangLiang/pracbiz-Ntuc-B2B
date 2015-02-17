@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="gi" extends="pracbiz-default" namespace="/gi">
+		<action name="init" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="init">
+			<result>/WEB-INF/views/core/goodsIssue/summary.jsp</result>
+		</action>
+		
+		<action name="search" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+		
+		<action name="data" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="data">
+			<result type="json">
+				<param name="root">gridRlt</param>
+				<param name="ignoreHierarchy">false</param>
+			</result>
+		</action>
+		
+		<action name="print" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+			<result name="RTV"  type="redirect">/rtv/print.action</result>
+		</action>
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="checkOtherPdfData" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="checkOtherPdfData" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+            <result name="input" type="json">
+                 <param name="root">errorMsg</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+         <action name="exportExcel" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="exportExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+        </action>
+        
+        <action name="exportSummaryExcel" class="com.pracbiz.b2bportal.core.action.GoodsIssueAction" method="exportSummaryExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+			<result name="input" type="redirect">init.action?keepSp=Y</result>
+        </action>
+	</package>
+</struts>

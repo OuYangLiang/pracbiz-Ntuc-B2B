@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.CnHeaderMapper">
+	<resultMap id="summaryResultMap" type="com.pracbiz.b2bportal.core.holder.extension.CnSummaryHolder">
+		<id column="DOC_OID" property="docOid" jdbcType="DECIMAL"/>
+	    <result column="CN_NO" jdbcType="VARCHAR" property="cnNo" />
+	    <result column="CN_TYPE" jdbcType="CHAR" property="cnType" />
+	    <result column="CN_TYPE_DESC" jdbcType="VARCHAR" property="cnTypeDesc" />
+	    <result column="CN_DATE" jdbcType="DATE" property="cnDate" />
+	    <result column="PO_NO" jdbcType="VARCHAR" property="poNo" />
+	    <result column="PO_DATE" jdbcType="DATE" property="poDate" />
+	    <result column="INV_NO" jdbcType="VARCHAR" property="invNo" />
+	    <result column="INV_DATE" jdbcType="DATE" property="invDate" />
+	    <result column="RTV_NO" jdbcType="VARCHAR" property="rtvNo" />
+	    <result column="RTV_DATE" jdbcType="DATE" property="rtvDate" />
+	    <result column="GI_NO" jdbcType="VARCHAR" property="giNo" />
+	    <result column="GI_DATE" jdbcType="DATE" property="giDate" />
+	    <result column="BUYER_CODE" jdbcType="VARCHAR" property="buyerCode" />
+	    <result column="BUYER_NAME" jdbcType="VARCHAR" property="buyerName" />
+	    <result column="SUPPLIER_CODE" jdbcType="VARCHAR" property="supplierCode" />
+	    <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
+	    <result column="STORE_CODE" jdbcType="VARCHAR" property="storeCode" />
+	    <result column="STORE_NAME" jdbcType="VARCHAR" property="storeName" />
+	    <result column="CN_REMARKS" jdbcType="VARCHAR" property="cnRemarks" />
+	    <result column="CTRL_STATUS" jdbcType="CHAR" property="ctrlStatus" />
+	    <result column="DUPLICATE" jdbcType="BIT" property="duplicate" />
+	    <result column="CREATE_DATE" property="receivedDate" jdbcType="TIMESTAMP"/>
+        <result column="PROC_DATE" property="procDate" jdbcType="TIMESTAMP"/>
+        <result column="SENT_DATE" property="sentDate" jdbcType="TIMESTAMP"/>
+        <result column="OUT_DATE" property="outDate" jdbcType="TIMESTAMP"/>
+        <result column="READ_STATUS" property="readStatus" jdbcType="CHAR"/>
+        <result column="READ_DATE"  property="readDate" jdbcType="TIMESTAMP" />
+        <result column="GENERATED_ON_PORTAL" property="generatedOnPortal" jdbcType="BOOLEAN"/>
+	</resultMap>
+	
+	<sql id="Grid_Column_List">
+		M.DOC_OID,M.BUYER_CODE, M.BUYER_NAME, M.SUPPLIER_CODE, M.SUPPLIER_NAME,
+		M.CREATE_DATE, M.PROC_DATE, M.SENT_DATE, M.OUT_DATE, M.READ_STATUS, M.READ_DATE,M.GENERATED_ON_PORTAL,
+		C.CN_NO, C.CN_TYPE,C.CN_TYPE_DESC,C.CN_DATE,C.PO_NO,C.PO_DATE,C.INV_NO,C.INV_DATE,
+		C.RTV_NO,C.RTV_DATE,C.GI_NO,C.GI_DATE,C.STORE_CODE,C.STORE_NAME,C.CN_REMARKS,
+		C.CTRL_STATUS,C.DUPLICATE
+	</sql>
+	
+	<select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.CnSummaryHolder" resultType="int">
+        SELECT COUNT(*) FROM MSG_TRANSACTIONS M, CN_HEADER C
+        <!-- handle group constraint for buyer user. -->
+        <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+             <if test="listOid != null">
+             ,FAVOURITE_LIST_SUPPLIER FLS
+             </if>
+             <if test="listOid == null">
+             ,GROUP_SUPPLIER GS 
+             </if>
+        </if>
+        <!-- handle group constraint for supplier user. -->
+        <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+            ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+        </if>
+        <!-- handle supplier set --> 
+        <if test="setOid != null and validSupplierSet == true ">
+            , SUPPLIER S
+        </if>
+        WHERE M.DOC_OID = C.CN_OID
+        <if test="cnDateFrom != null">
+            <![CDATA[
+            AND C.CN_DATE >= #{cnDateFrom,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="cnDateTo != null">
+            <![CDATA[
+            AND C.CN_DATE <= #{cnDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="sentDateFrom != null">
+            <![CDATA[
+            AND M.SENT_DATE >= #{sentDateFrom,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="sentDateTo != null">
+            <![CDATA[
+            AND M.SENT_DATE <= #{sentDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="receivedDateFrom != null">
+            <![CDATA[
+            AND M.CREATE_DATE >= #{receivedDateFrom,jdbcType=TIMESTAMP}
+             ]]>
+        </if>
+        <if test="receivedDateTo != null">
+            <![CDATA[
+            AND M.CREATE_DATE <= #{receivedDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="poNo != null">
+            AND C.PO_NO like concat('%',#{poNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="cnNo != null">
+            AND C.CN_NO like concat('%',#{cnNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="storeCode != null">
+            AND C.STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="readStatus != null" >
+            AND M.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="ctrlStatus != null" >
+            AND C.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="duplicate != null" >
+            AND C.DUPLICATE = #{duplicate,jdbcType=BIT}
+        </if>
+        <!-- handle group constraint for buyer user. -->
+        <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+           <if test="listOid != null">
+               AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+               AND C.SUPPLIER_OID = FLS.SUPPLIER_OID
+           </if>
+           <if test="listOid == null">
+                AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+                AND C.SUPPLIER_OID = GS.SUPPLIER_OID
+           </if>
+        </if>
+        <!-- handle group constraint for supplier user. -->
+        <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+            AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+            AND GTP.TP_OID = TP.TP_OID
+            AND TP.BUYER_SUPPLIER_CODE = C.SUPPLIER_CODE
+            AND TP.BUYER_OID = C.BUYER_OID
+        </if>
+        <if test="visiable == false">
+           AND 1 = 2
+        </if>
+        <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+        <if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+          <if test="buyerStoreAccessList != null">
+              AND (C.STORE_CODE IN
+              <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+              OR C.STORE_CODE IS NULL)
+          </if>
+          <if test="buyerStoreAccessList == null">
+              AND 1=2
+          </if>
+        </if>
+        <if test="currentUserBuyerOid != null">
+            AND C.CTRL_STATUS != 'NEW'
+            AND (M.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} OR M.BUYER_OID IN 
+            (SELECT AAC.COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID=#{currentUserOid,jdbcType=DECIMAL}))
+        </if>
+        <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false">
+            AND M.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+        </if>
+        <if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+            AND M.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+        </if>
+        <if test="buyerOid != null and buyerOid != -1">
+            AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+        </if>
+        <if test="supplierCode != null">
+            AND M.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="setOid != null and validSupplierSet == true ">
+            AND S.SUPPLIER_OID = C.SUPPLIER_OID
+            AND S.SET_OID = #{setOid,jdbcType=DECIMAL} 
+            <if test="supplierOid != null and supplierOid != -1">
+                AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+            </if>
+        </if>
+        <if test="supplierName != null">
+            AND M.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
+    
+    
+    <select id="getListOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.CnSummaryHolder" resultMap="summaryResultMap">
+        SELECT 
+        <include refid="Grid_Column_List"/> 
+        FROM MSG_TRANSACTIONS M, CN_HEADER C
+        <!-- handle group constraint for buyer user. -->
+        <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+             <if test="listOid != null">
+             ,FAVOURITE_LIST_SUPPLIER FLS
+             </if>
+             <if test="listOid == null">
+             ,GROUP_SUPPLIER GS 
+             </if>
+        </if>
+        <!-- handle group constraint for supplier user. -->
+        <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+            ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+        </if>
+        <!-- handle supplier set --> 
+        <if test="setOid != null and validSupplierSet == true ">
+            , SUPPLIER S
+        </if>
+        WHERE M.DOC_OID = C.CN_OID
+        <if test="cnDateFrom != null">
+            <![CDATA[
+            AND C.CN_DATE >= #{cnDateFrom,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="cnDateTo != null">
+            <![CDATA[
+            AND C.CN_DATE <= #{cnDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="sentDateFrom != null">
+            <![CDATA[
+            AND M.SENT_DATE >= #{sentDateFrom,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="sentDateTo != null">
+            <![CDATA[
+            AND M.SENT_DATE <= #{sentDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="receivedDateFrom != null">
+            <![CDATA[
+            AND M.CREATE_DATE >= #{receivedDateFrom,jdbcType=TIMESTAMP}
+             ]]>
+        </if>
+        <if test="receivedDateTo != null">
+            <![CDATA[
+            AND M.CREATE_DATE <= #{receivedDateTo,jdbcType=TIMESTAMP}
+            ]]>
+        </if>
+        <if test="poNo != null">
+            AND C.PO_NO like concat('%',#{poNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="cnNo != null">
+            AND C.CN_NO like concat('%',#{cnNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="storeCode != null">
+            AND C.STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="readStatus != null" >
+            AND M.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="ctrlStatus != null" >
+            AND C.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="duplicate != null" >
+            AND C.DUPLICATE = #{duplicate,jdbcType=BIT}
+        </if>
+        <!-- handle group constraint for buyer user. -->
+        <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+           <if test="listOid != null">
+               AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+               AND C.SUPPLIER_OID = FLS.SUPPLIER_OID
+           </if>
+           <if test="listOid == null">
+                AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+                AND C.SUPPLIER_OID = GS.SUPPLIER_OID
+           </if>
+        </if>
+        <!-- handle group constraint for supplier user. -->
+        <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+            AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+            AND GTP.TP_OID = TP.TP_OID
+            AND TP.BUYER_SUPPLIER_CODE = C.SUPPLIER_CODE
+            AND TP.BUYER_OID = C.BUYER_OID
+        </if>
+        <if test="visiable == false">
+           AND 1 = 2
+        </if>
+        <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+        <if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+          <if test="buyerStoreAccessList != null">
+              AND (C.STORE_CODE IN
+              <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+              OR C.STORE_CODE IS NULL)
+          </if>
+          <if test="buyerStoreAccessList == null">
+              AND 1=2
+          </if>
+        </if>
+        <if test="currentUserBuyerOid != null">
+            AND C.CTRL_STATUS != 'NEW'
+            AND (M.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} OR M.BUYER_OID IN 
+            (SELECT AAC.COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID=#{currentUserOid,jdbcType=DECIMAL}))
+        </if>
+        <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false">
+            AND M.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+        </if>
+        <if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+            AND M.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+        </if>
+        <if test="buyerOid != null and buyerOid != -1">
+            AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+        </if>
+        <if test="supplierCode != null">
+            AND M.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="setOid != null and validSupplierSet == true ">
+            AND S.SUPPLIER_OID = C.SUPPLIER_OID
+            AND S.SET_OID = #{setOid,jdbcType=DECIMAL} 
+            <if test="supplierOid != null and supplierOid != -1">
+                AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+            </if>
+        </if>
+        <if test="supplierName != null">
+            AND M.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="sortField != null" >
+            order by ${sortField} ${sortOrder}
+        </if>
+            limit ${startRecordNum},${numberOfRecordsToSelect}
+    </select>	
+</mapper>

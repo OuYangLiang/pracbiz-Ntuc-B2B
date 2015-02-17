@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="supplierSet" extends="pracbiz-default" namespace="/supplierSet"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="init">
+            <result>/WEB-INF/views/core/supplierSet/summary.jsp</result>
+        </action>
+        
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        
+        <action name="initAdd" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="initAdd">
+            <result>/WEB-INF/views/core/supplierSet/create.jsp</result>
+        </action>
+        
+        
+        <action name="saveAdd" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="saveAdd">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>	
+            <result name="input">/WEB-INF/views/core/supplierSet/create.jsp</result>
+            <result type="redirect">/supplierSet/init.action?keepSp=Y</result>
+        </action>
+        
+        
+        <action name="view" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="initViewOrEdit">
+            <result>/WEB-INF/views/core/supplierSet/view.jsp</result>
+        </action>
+        
+        
+        <action name="initEdit" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="initViewOrEdit">
+            <result>/WEB-INF/views/core/supplierSet/edit.jsp</result>
+        </action>
+        
+        
+        <action name="saveEdit" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="saveEdit">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>	
+            <result name="input">/WEB-INF/views/core/supplierSet/edit.jsp</result>
+            <result type="redirect">/supplierSet/init.action?keepSp=Y</result>
+        </action>
+
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+
+		<action name="delete" class="com.pracbiz.b2bportal.core.action.SupplierSetAction" method="saveDelete" >
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>	
+        </action>
+	
+	
+    </package>
+</struts>

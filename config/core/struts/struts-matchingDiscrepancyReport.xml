@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="discrepancyReport" extends="pracbiz-default" namespace="/discrepancyReport"> 
+        <action name="init" class="com.pracbiz.b2bportal.core.action.MatchingDiscrepancyReportAction" method="init">
+            <result>/WEB-INF/views/core/poInvGrnDnMatching/matchingDiscrepancyReport.jsp</result>
+        </action>
+        <action name="printExcel" class="com.pracbiz.b2bportal.core.action.MatchingDiscrepancyReportAction" method="exportExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting"/>
+            <result name="success" type="stream">
+          		<param name="contentType">application/vnd.ms-excel</param>
+          		<param name="inputName">rptResult</param>
+          		<param name="bufferSize">1024</param>
+          		<param name="contentDisposition">attachment;filename="${rptFileName}.xls"</param>
+           </result>
+            <result name="input">/WEB-INF/views/core/poInvGrnDnMatching/matchingDiscrepancyReport.jsp</result>
+        </action>
+        <action name="checkExcelData" class="com.pracbiz.b2bportal.core.action.MatchingDiscrepancyReportAction" method="checkExcelData">
+            <result type="json">
+                <param name="root">data</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+    </package>
+</struts>

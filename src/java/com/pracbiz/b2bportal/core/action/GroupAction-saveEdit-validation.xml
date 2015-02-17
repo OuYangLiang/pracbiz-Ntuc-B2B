@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+
+    <field name="groupProfile.groupId">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>${getText("B2BPC0218")}</message>
+        </field-validator>
+        <field-validator type="groupId">
+            <message>
+                ${getText("B2BPC0211")}
+            </message>
+        </field-validator>
+        <field-validator type="stringlength">
+            <param name="trim">true</param>
+            <param name="minLength">0</param>  
+            <param name="maxLength">20</param>  
+             <message>
+                ${getText("B2BPC0212")}
+             </message>  
+        </field-validator>
+    </field>
+
+    <field name="groupProfile.groupName">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>${getText("B2BPC0219")}</message>
+        </field-validator>
+        <field-validator type="stringlength">
+            <param name="trim">true</param>
+            <param name="minLength">0</param>  
+            <param name="maxLength">50</param>  
+             <message>
+                ${getText("B2BPC0213")}
+             </message>  
+        </field-validator>
+    </field>
+</validators>

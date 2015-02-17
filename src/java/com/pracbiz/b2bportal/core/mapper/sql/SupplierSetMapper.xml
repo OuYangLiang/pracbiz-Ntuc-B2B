@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SupplierSetMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SupplierSetHolder" >
+    <id column="SET_OID" property="setOid" jdbcType="DECIMAL" />
+    <result column="SET_ID" property="setId" jdbcType="VARCHAR" />
+    <result column="SET_DESCRIPTION" property="setDescription" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    SET_OID, SET_ID, SET_DESCRIPTION
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SupplierSetHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUPPLIER_SET
+    <where>
+      <if test="setOid != null" >
+        SET_OID = #{setOid,jdbcType=DECIMAL}
+      </if>
+      <if test="setId != null" >
+        AND SET_ID = #{setId,jdbcType=VARCHAR}
+      </if>
+      <if test="setDescription != null" >
+        AND SET_DESCRIPTION = #{setDescription,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SupplierSetHolder" >
+    delete from SUPPLIER_SET
+    <where>
+      <if test="setOid != null" >
+        SET_OID = #{setOid,jdbcType=DECIMAL}
+      </if>
+      <if test="setId != null" >
+        AND SET_ID = #{setId,jdbcType=VARCHAR}
+      </if>
+      <if test="setDescription != null" >
+        AND SET_DESCRIPTION = #{setDescription,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SupplierSetHolder" >
+    insert into SUPPLIER_SET (SET_OID, SET_ID, SET_DESCRIPTION)
+    values (#{setOid,jdbcType=DECIMAL}, #{setId,jdbcType=VARCHAR}, #{setDescription,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SupplierSetHolder" >
+    update SUPPLIER_SET
+    <set >
+      <if test="setId != null" >
+        AND SET_ID = #{setId,jdbcType=VARCHAR},
+      </if>
+      <if test="setDescription != null" >
+        AND SET_DESCRIPTION = #{setDescription,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where SET_OID = #{setOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SupplierSetHolder" >
+    update SUPPLIER_SET
+    set SET_ID = #{setId,jdbcType=VARCHAR},
+      SET_DESCRIPTION = #{setDescription,jdbcType=VARCHAR}
+    where SET_OID = #{setOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

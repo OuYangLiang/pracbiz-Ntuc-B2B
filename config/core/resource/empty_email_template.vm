@@ -1,0 +1,5 @@
+<html>
+    <body>
+    Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

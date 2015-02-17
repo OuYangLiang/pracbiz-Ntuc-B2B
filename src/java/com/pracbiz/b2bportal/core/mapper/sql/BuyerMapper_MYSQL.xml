@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.BuyerMapper" >
+  
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.BuyerHolder" >
+    <id column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <result column="MBOX_ID" property="mboxId" jdbcType="VARCHAR" />
+    <result column="CHANNEL" property="channel" jdbcType="VARCHAR" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  
+  <sql id="Grid_Column_List" >
+    BUYER_OID, BUYER_NAME, BUYER_CODE, MBOX_ID, CHANNEL, ACTIVE, UPDATE_DATE
+  </sql>
+  
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.BuyerExHolder"
+    resultType="int">
+    SELECT COUNT(*) FROM BUYER 
+    <where>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        AND BUYER_CODE like concat('%',#{buyerCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerName != null" >
+      	AND BUYER_NAME like concat('%',#{buyerName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerAlias != null" >
+        AND BUYER_ALIAS = #{buyerAlias,jdbcType=VARCHAR}
+      </if>
+      <if test="regNo != null" >
+        AND REG_NO = #{regNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstRegNo != null" >
+        AND GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstPercent != null" >
+        AND GST_PERCENT = #{gstPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="otherRegNo != null" >
+        AND OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="branch != null" >
+        AND BRANCH = #{branch,jdbcType=BIT}
+      </if>
+      <if test="address1 != null" >
+        AND ADDRESS_1 = #{address1,jdbcType=VARCHAR}
+      </if>
+      <if test="address2 != null" >
+        AND ADDRESS_2 = #{address2,jdbcType=VARCHAR}
+      </if>
+      <if test="address3 != null" >
+        AND ADDRESS_3 = #{address3,jdbcType=VARCHAR}
+      </if>
+      <if test="address4 != null" >
+        AND ADDRESS_4 = #{address4,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND STATE = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="postalCode != null" >
+        AND POSTAL_CODE = #{postalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ctryCode != null" >
+        AND CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+      </if>
+      <if test="currCode != null" >
+        AND CURR_CODE = #{currCode,jdbcType=CHAR}
+      </if>
+      <if test="contactName != null" >
+        AND CONTACT_NAME = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null" >
+        AND CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMobile != null" >
+        AND CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="contactFax != null" >
+        AND CONTACT_FAX = #{contactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="contactEmail != null" >
+        AND CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="inactivateDate != null" >
+        AND INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="inactivateBy != null" >
+        AND INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="mboxId != null" >
+        AND MBOX_ID like concat('%',#{mboxId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="channel != null" >
+        AND CHANNEL = #{channel,jdbcType=VARCHAR}
+      </if>
+      <if test="deploymentMode != null" >
+        AND DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR}
+      </if>
+      <if test="currentUserBuyerOid != null">
+        AND BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  
+  <select id="getListOfSummary" resultMap="GridMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.BuyerExHolder" >
+    SELECT 
+    <include refid="Base_Column_List" /> 
+    FROM BUYER 
+    <where>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        AND BUYER_CODE like concat('%',#{buyerCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerName != null" >
+      	AND BUYER_NAME like concat('%',#{buyerName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerAlias != null" >
+        AND BUYER_ALIAS = #{buyerAlias,jdbcType=VARCHAR}
+      </if>
+      <if test="regNo != null" >
+        AND REG_NO = #{regNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstRegNo != null" >
+        AND GST_REG_NO = #{gstRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="gstPercent != null" >
+        AND GST_PERCENT = #{gstPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="otherRegNo != null" >
+        AND OTHER_REG_NO = #{otherRegNo,jdbcType=VARCHAR}
+      </if>
+      <if test="branch != null" >
+        AND BRANCH = #{branch,jdbcType=BIT}
+      </if>
+      <if test="address1 != null" >
+        AND ADDRESS_1 = #{address1,jdbcType=VARCHAR}
+      </if>
+      <if test="address2 != null" >
+        AND ADDRESS_2 = #{address2,jdbcType=VARCHAR}
+      </if>
+      <if test="address3 != null" >
+        AND ADDRESS_3 = #{address3,jdbcType=VARCHAR}
+      </if>
+      <if test="address4 != null" >
+        AND ADDRESS_4 = #{address4,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND STATE = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="postalCode != null" >
+        AND POSTAL_CODE = #{postalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ctryCode != null" >
+        AND CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+      </if>
+      <if test="currCode != null" >
+        AND CURR_CODE = #{currCode,jdbcType=CHAR}
+      </if>
+      <if test="contactName != null" >
+        AND CONTACT_NAME = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null" >
+        AND CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMobile != null" >
+        AND CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="contactFax != null" >
+        AND CONTACT_FAX = #{contactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="contactEmail != null" >
+        AND CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="inactivateDate != null" >
+        AND INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="inactivateBy != null" >
+        AND INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="mboxId != null" >
+        AND MBOX_ID like concat('%',#{mboxId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="channel != null" >
+        AND CHANNEL = #{channel,jdbcType=VARCHAR}
+      </if>
+      <if test="deploymentMode != null" >
+        AND DEPLOYMENT_MODE = #{deploymentMode,jdbcType=CHAR}
+      </if>
+      <if test="currentUserBuyerOid != null">
+        AND BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+    <if test="sortField != null" >
+      order by ${sortField} ${sortOrder}
+    </if>
+      limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>

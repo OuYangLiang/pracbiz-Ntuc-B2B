@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.sanc.org.sg/schemas/ean" xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>
+	Singapore Adopted version
+	      Version Information:
+        	Version Number: S1.1
+	        Date of creation: June, 2004
+    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="PriceComponents.xsd"/>
+	<xsd:include schemaLocation="TradeItemComponents.xsd"/>
+	<xsd:include schemaLocation="PartyComponents.xsd"/>
+</xsd:schema>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.MsgTransactionsMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.MsgTransactionsHolder" >
+    <id column="DOC_OID" property="docOid" jdbcType="DECIMAL" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="MSG_REF_NO" property="msgRefNo" jdbcType="VARCHAR" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="PROC_DATE" property="procDate" jdbcType="TIMESTAMP" />
+    <result column="SENT_DATE" property="sentDate" jdbcType="TIMESTAMP" />
+    <result column="OUT_DATE" property="outDate" jdbcType="TIMESTAMP" />
+    <result column="ALERT_DATE" property="alertDate" jdbcType="TIMESTAMP" />
+    <result column="ORIGINAL_FILENAME" property="originalFilename" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_FILENAME" property="exchangeFilename" jdbcType="VARCHAR" />
+    <result column="REPORT_FILENAME" property="reportFilename" jdbcType="VARCHAR" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="VALID" property="valid" jdbcType="BIT" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="BATCH_OID" property="batchOid" jdbcType="DECIMAL" />
+	<result column="READ_STATUS" property="readStatus" jdbcType="VARCHAR" />
+	<result column="READ_DATE" property="readDate" jdbcType="TIMESTAMP" />
+	<result column="GENERATED_ON_PORTAL" property="generatedOnPortal" jdbcType="BOOLEAN" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DOC_OID, MSG_TYPE, MSG_REF_NO, BUYER_OID, BUYER_CODE, BUYER_NAME, SUPPLIER_OID, SUPPLIER_CODE, 
+    SUPPLIER_NAME, CREATE_DATE, PROC_DATE, SENT_DATE, OUT_DATE, ALERT_DATE, ORIGINAL_FILENAME, 
+    EXCHANGE_FILENAME, REPORT_FILENAME, ACTIVE, VALID, REMARKS, BATCH_OID, READ_STATUS, READ_DATE,GENERATED_ON_PORTAL
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.MsgTransactionsHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from MSG_TRANSACTIONS
+    <where>
+      <if test="docOid != null" >
+        DOC_OID = #{docOid,jdbcType=DECIMAL}
+      </if>
+      <if test="msgType != null" >
+        and MSG_TYPE = #{msgType,jdbcType=VARCHAR}
+      </if>
+      <if test="msgRefNo != null" >
+        and MSG_REF_NO = #{msgRefNo,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerOid != null" >
+        and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        and SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="receivedDateFrom != null" >
+        and CREATE_DATE <![CDATA[>=]]> #{receivedDateFrom,jdbcType=TIMESTAMP}
+      </if>
+      <if test="receivedDateTo != null" >
+        and CREATE_DATE <![CDATA[<=]]> #{receivedDateTo,jdbcType=TIMESTAMP}
+      </if>
+      <if test="procDate != null" >
+        and PROC_DATE = #{procDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sentDate != null" >
+        and SENT_DATE = #{sentDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="outDate != null" >
+        and OUT_DATE = #{outDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="alertDate != null" >
+        and ALERT_DATE = #{alertDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="originalFilename != null" >
+        and ORIGINAL_FILENAME = #{originalFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="exchangeFilename != null" >
+        and EXCHANGE_FILENAME = #{exchangeFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="reportFilename != null" >
+        and REPORT_FILENAME = #{reportFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        and ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="valid != null" >
+        and VALID = #{valid,jdbcType=BIT}
+      </if>
+      <if test="remarks != null" >
+        and REMARKS = #{remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="batchOid != null" >
+        and BATCH_OID = #{batchOid,jdbcType=DECIMAL}
+      </if>
+	  <if test="readStatus != null">
+		and READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+	  </if>
+	  <if test="readDate != null" >
+        and READ_DATE = #{readDate,jdbcType=TIMESTAMP}
+      </if>
+	  <if test="generatedOnPortal != null" >
+        and GENERATED_ON_PORTAL = #{generatedOnPortal,jdbcType=BOOLEAN}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.MsgTransactionsHolder" >
+    delete from MSG_TRANSACTIONS
+    <where>
+      <if test="docOid != null" >
+        DOC_OID = #{docOid,jdbcType=DECIMAL}
+      </if>
+      <if test="msgType != null" >
+        and MSG_TYPE = #{msgType,jdbcType=VARCHAR}
+      </if>
+      <if test="msgRefNo != null" >
+        and MSG_REF_NO = #{msgRefNo,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerOid != null" >
+        and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        and SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="procDate != null" >
+        and PROC_DATE = #{procDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sentDate != null" >
+        and SENT_DATE = #{sentDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="outDate != null" >
+        and OUT_DATE = #{outDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="alertDate != null" >
+        and ALERT_DATE = #{alertDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="originalFilename != null" >
+        and ORIGINAL_FILENAME = #{originalFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="exchangeFilename != null" >
+        and EXCHANGE_FILENAME = #{exchangeFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="reportFilename != null" >
+        and REPORT_FILENAME = #{reportFilename,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        and ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="valid != null" >
+        and VALID = #{valid,jdbcType=BIT}
+      </if>
+      <if test="remarks != null" >
+        and REMARKS = #{remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="batchOid != null" >
+        and BATCH_OID = #{batchOid,jdbcType=DECIMAL}
+      </if>
+	  <if test="readStatus != null">
+		and READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+	  </if>
+	  <if test="readDate != null" >
+        and READ_DATE = #{readDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="generatedOnPortal != null" >
+        and GENERATED_ON_PORTAL = #{generatedOnPortal,jdbcType=BOOLEAN}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.MsgTransactionsHolder" >
+    insert into MSG_TRANSACTIONS (DOC_OID, MSG_TYPE, MSG_REF_NO, 
+      BUYER_OID, BUYER_CODE, BUYER_NAME, 
+      SUPPLIER_OID, SUPPLIER_CODE, SUPPLIER_NAME, 
+      CREATE_DATE, PROC_DATE, SENT_DATE, 
+      OUT_DATE, ALERT_DATE, ORIGINAL_FILENAME, 
+      EXCHANGE_FILENAME, REPORT_FILENAME, ACTIVE, 
+      VALID, REMARKS, BATCH_OID, READ_STATUS, READ_DATE, GENERATED_ON_PORTAL
+      )
+    values (#{docOid,jdbcType=DECIMAL}, #{msgType,jdbcType=VARCHAR}, #{msgRefNo,jdbcType=VARCHAR}, 
+      #{buyerOid,jdbcType=DECIMAL}, #{buyerCode,jdbcType=VARCHAR}, #{buyerName,jdbcType=VARCHAR}, 
+      #{supplierOid,jdbcType=DECIMAL}, #{supplierCode,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{procDate,jdbcType=TIMESTAMP}, #{sentDate,jdbcType=TIMESTAMP}, 
+      #{outDate,jdbcType=TIMESTAMP}, #{alertDate,jdbcType=TIMESTAMP}, #{originalFilename,jdbcType=VARCHAR}, 
+      #{exchangeFilename,jdbcType=VARCHAR}, #{reportFilename,jdbcType=VARCHAR}, #{active,jdbcType=BIT}, 
+      #{valid,jdbcType=BIT}, #{remarks,jdbcType=VARCHAR}, #{batchOid,jdbcType=DECIMAL}, #{readStatus,jdbcType=VARCHAR},
+      #{readDate,jdbcType=TIMESTAMP}, #{generatedOnPortal,jdbcType=BOOLEAN}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.MsgTransactionsHolder" >
+    update MSG_TRANSACTIONS
+    <set >
+      <if test="msgType != null" >
+        MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgRefNo != null" >
+        MSG_REF_NO = #{msgRefNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null" >
+        BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierCode != null" >
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="procDate != null" >
+        PROC_DATE = #{procDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sentDate != null" >
+        SENT_DATE = #{sentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outDate != null" >
+        OUT_DATE = #{outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alertDate != null" >
+        ALERT_DATE = #{alertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="originalFilename != null" >
+        ORIGINAL_FILENAME = #{originalFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeFilename != null" >
+        EXCHANGE_FILENAME = #{exchangeFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="reportFilename != null" >
+        REPORT_FILENAME = #{reportFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null" >
+        ACTIVE = #{active,jdbcType=BIT},
+      </if>
+      <if test="valid != null" >
+        VALID = #{valid,jdbcType=BIT},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="batchOid != null" >
+        BATCH_OID = #{batchOid,jdbcType=DECIMAL},
+      </if>
+	  <if test="readStatus != null">
+		READ_STATUS = #{readStatus,jdbcType=VARCHAR},
+	  </if>
+	  <if test="readDate != null" >
+        READ_DATE = #{readDate,jdbcType=TIMESTAMP},
+      </if>
+	  <if test="generatedOnPortal != null" >
+        GENERATED_ON_PORTAL = #{generatedOnPortal,jdbcType=BOOLEAN}
+      </if>
+    </set>
+    where DOC_OID = #{docOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.MsgTransactionsHolder" >
+    update MSG_TRANSACTIONS
+    set MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      MSG_REF_NO = #{msgRefNo,jdbcType=VARCHAR},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      PROC_DATE = #{procDate,jdbcType=TIMESTAMP},
+      SENT_DATE = #{sentDate,jdbcType=TIMESTAMP},
+      OUT_DATE = #{outDate,jdbcType=TIMESTAMP},
+      ALERT_DATE = #{alertDate,jdbcType=TIMESTAMP},
+      ORIGINAL_FILENAME = #{originalFilename,jdbcType=VARCHAR},
+      EXCHANGE_FILENAME = #{exchangeFilename,jdbcType=VARCHAR},
+      REPORT_FILENAME = #{reportFilename,jdbcType=VARCHAR},
+      ACTIVE = #{active,jdbcType=BIT},
+      VALID = #{valid,jdbcType=BIT},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      BATCH_OID = #{batchOid,jdbcType=DECIMAL},
+	  READ_STATUS = #{readStatus,jdbcType=VARCHAR},
+	  READ_DATE = #{readDate,jdbcType=TIMESTAMP},
+	  GENERATED_ON_PORTAL = #{generatedOnPortal,jdbcType=BOOLEAN}
+    where DOC_OID = #{docOid,jdbcType=DECIMAL}
+  </update>
+  
+  <resultMap id="MsgReportResultMap" type="com.pracbiz.b2bportal.core.holder.ReadStatusReportHolder" >
+    <id column="DOC_OID" property="docOid" jdbcType="DECIMAL" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="MSG_REF_NO" property="msgRefNo" jdbcType="VARCHAR" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+    <result column="SENT_DATE" property="sentDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <select id="selectMsgsForReport" resultMap="MsgReportResultMap" parameterType="com.pracbiz.b2bportal.core.holder.MsgTransactionsHolder" >
+    select 
+    	MT.DOC_OID,
+    	MT.MSG_TYPE,
+    	MT.MSG_REF_NO,
+    	MT.BUYER_CODE,
+    	MT.BUYER_NAME,
+    	MT.SUPPLIER_OID,
+    	MT.SUPPLIER_CODE,
+    	MT.SUPPLIER_NAME,
+    	MT.SENT_DATE
+    from MSG_TRANSACTIONS MT
+    where (MT.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} OR MT.BUYER_OID IN 
+        (SELECT AAC.COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID=#{currentUserOid,jdbcType=DECIMAL}))
+      <if test="msgType != null" >
+        and MT.MSG_TYPE = #{msgType,jdbcType=VARCHAR}
+      </if>
+      <if test="msgType == null">
+        and MT.MSG_TYPE IN ('DN','GRN','PN','PO','RTV')
+      </if>
+      <if test="buyerOid != null and buyerOid != -1" >
+        and MT.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        and MT.BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and MT.BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        and MT.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        and MT.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="supplierName != null" >
+        and MT.SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="sentDate != null" >
+        and MT.SENT_DATE = #{sentDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="active != null" >
+        and MT.ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="valid != null" >
+        and MT.VALID = #{valid,jdbcType=BIT}
+      </if>
+	  <if test="readStatus != null">
+		and MT.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+	  </if>
+	  <if test="readDate != null" >
+        and MT.READ_DATE = #{readDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="beforeHour != null">
+        and MT.SENT_DATE <![CDATA[<=]]> DATE_SUB(NOW(),INTERVAL #{beforeHour,jdbcType=VARCHAR} hour)
+      </if>
+      order by MT.MSG_TYPE ASC,MT.SUPPLIER_CODE ASC,MT.SENT_DATE ASC,MT.MSG_REF_NO ASC
+  </select>
+</mapper>

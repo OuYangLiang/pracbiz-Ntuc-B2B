@@ -1,0 +1,59 @@
+<html>
+    <head>
+        Dear ${SUPPLIER_NAME},
+        <br/><br/><br/>
+        The following Login Id and Password has been created for you to login to Supplier Portal.
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td width="100" align="left">Login Id</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">${LOGIN_ID}</td>
+                </tr>
+                <tr>
+                    <td width="100" align="left">Password</td>
+                    <td align="right">:</td>
+                    <td align="left">${PASSWORD}</td>
+                </tr>
+            </table>
+            <br/><br/>
+            On first login, please change to a secured password.<br/>
+            For helpdesk support, please contact ${TELPHONE} or email to ${HELP_EMAIL}.
+            <br/><br/>
+<p>
+Please take note of the following:
+<br/><br/>
+    1.&nbsp;If your current transmission mode is email or fax, we will be stop sending you purchase orders (PO) via this mode on
+      ${LIVE_DATE}. From this date onwards, you will need to retrieve POs from the supplier portal.
+<br/><br/>        
+    2.&nbsp;There is no change if you using the 'Direct Integration' mode. You will continue receiving POs in your current mode. POs can
+      also be retrieved from the supplier portal.
+<br/><br/>       
+    3.&nbsp;You should be able to view ${COUNT_PO} dummy POs after you login for the first time. Please call the helpdesk if you are unable to view
+      them.
+<br/><br/>        
+    4.&nbsp;The current process of "Acknowledgement of receipt for goods delivered" remains unchanged.
+</p>
+
+				<br/><br/>
+            <br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         FairPrice Supplier Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+        </form>
+        <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

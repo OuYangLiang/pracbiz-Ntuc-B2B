@@ -1,0 +1,54 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td width="200" align="left"> PO No</td>
+                <td width="30" align="right">:</td>
+                <td align="left">$PO_NO</td>
+            </tr>
+            <tr>
+                <td width="200" align="left"> Buyer</td>
+                <td align="right">:</td>
+                <td align="left">${BUYER_NAME} (${BUYER_CODE})</td>
+            </tr>
+            <tr>
+                <td width="200" align="left"> Delivery Date From(Original)</td>
+                <td align="right">:</td>
+                <td align="left">$O_DELIVERY_DATE_FROM</td>
+            </tr>
+            <tr>
+                <td width="200" align="left"> Delivery Date From(Now)</td>
+                <td align="right">:</td>
+                <td align="left">$N_DELIVERY_DATE_FROM</td>
+            </tr>
+            <tr>
+                <td width="200" align="left"> Delivery Date To(Original)</td>
+                <td align="right">:</td>
+                <td align="left">$O_DELIVERY_DATE_TO</td>
+            </tr>
+            <tr>
+                <td width="200" align="left"> Delivery Date To(Now)</td>
+                <td align="right">:</td>
+                <td align="left">$N_DELIVERY_DATE_TO</td>
+            </tr>
+        </table>
+        <p/>
+        <br/><br/>
+        <table>
+             <tr>
+                 <td colspan="2">
+                     PracBiz B2B Portal System
+                 </td>
+             </tr>
+             <tr>
+                 <td colspan="2">
+                     Customer Support
+                 </td>
+             </tr>
+        </table>
+        <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

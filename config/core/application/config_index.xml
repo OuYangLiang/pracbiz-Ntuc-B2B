@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<configuration>
+    <hierarchicalXml fileName="validation_config.xml" delimiterParsingDisabled="true"/>
+    <hierarchicalXml fileName="app_config.xml" delimiterParsingDisabled="true"/>
+    <hierarchicalXml fileName="channel_config.xml" delimiterParsingDisabled="true"/>
+    <hierarchicalXml fileName="report_config.xml" delimiterParsingDisabled="true"/>
+    <hierarchicalXml fileName="security_interceptor.xml" delimiterParsingDisabled="true"/>
+</configuration>

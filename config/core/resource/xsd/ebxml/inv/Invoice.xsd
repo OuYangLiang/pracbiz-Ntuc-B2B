@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by  () -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sanc.org.sg/schemas/ean" 
+xmlns:sanc="http://www.sanc.org.sg/schemas/ean" targetNamespace="http://www.sanc.org.sg/schemas/ean" 
+elementFormDefault="unqualified" attributeFormDefault="unqualified" xmlns:pay="urn:ean.ucc:pay:2">
+    <xsd:import schemaLocation="InvoiceTypeCodeList.xsd" namespace="urn:ean.ucc:pay:2"></xsd:import>
+    <xsd:annotation>
+        <xsd:documentation>
+        Singapore Adopted version
+              Version Information:
+                Version Number: S1.1
+                Date of creation: June, 2004
+                Date of revision: August, 2005
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:include schemaLocation="PayComponentLibrary.xsd"/>
+    <xsd:include schemaLocation="PartyComponents.xsd"/>
+    <xsd:include schemaLocation="TradeItemComponents.xsd"/>
+    <xsd:element name="invoice" type="InvoiceType"
+        substitutionGroup="document" />
+    <xsd:complexType name="InvoiceType">
+        <xsd:complexContent>
+            <xsd:extension base="DocumentType">
+                <xsd:sequence>
+                    <xsd:element name="invoiceType" type="pay:InvoiceTypeCodeListType"></xsd:element>
+                
+                    <xsd:element name="requestForPaymentIdentification"
+                        type="EntityIdentificationType" />
+                    <xsd:element name="buyer">
+                        <xsd:complexType>
+                            <xsd:complexContent>
+                                <xsd:extension
+                                    base="PartyIdentificationType">
+                                    <xsd:sequence>
+                                        <xsd:element
+                                            name="partyInformation" type="PartyInformationType"
+                                            minOccurs="0" />
+                                    </xsd:sequence>
+                                </xsd:extension>
+                            </xsd:complexContent>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="seller">
+                        <xsd:complexType>
+                            <xsd:complexContent>
+                                <xsd:extension
+                                    base="PartyIdentificationType">
+                                    <xsd:sequence>
+                                        <xsd:element
+                                            name="partyInformation" type="PartyInformationType"
+                                            minOccurs="0" />
+                                    </xsd:sequence>
+                                </xsd:extension>
+                            </xsd:complexContent>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="lineItem"
+                        maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:complexContent>
+                                <xsd:extension
+                                    base="InvoiceLineItemType">
+                                    <xsd:sequence>
+                                        <xsd:element
+                                            name="shiptoDetails" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element
+                                                        name="shiptoParty" minOccurs="0">
+                                                        <xsd:complexType>
+                                                            <xsd:complexContent>
+                                                                <xsd:extension
+                                                                    base="PartyIdentificationType">
+                                                                    <xsd:sequence>
+                                                                        <xsd:element
+                                                                            name="partyInformation" type="PartyInformationType"
+                                                                            minOccurs="0" />
+                                                                    </xsd:sequence>
+                                                                </xsd:extension>
+                                                            </xsd:complexContent>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                    <xsd:element
+                                                        name="deliveryQuantity" type="xsd:float" minOccurs="0" />
+                                                    <xsd:element
+                                                        name="freeQuantity" type="xsd:float" minOccurs="0" />
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:extension>
+                            </xsd:complexContent>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="allowanceCharge"
+                        type="AllowanceChargeType" minOccurs="0" maxOccurs="unbounded" />
+                    <xsd:element name="paymentTerms"
+                        type="PaymentTermsType" minOccurs="0" maxOccurs="unbounded" />
+                    <xsd:element name="orderIdentification"
+                        type="ReferenceType" minOccurs="0" />
+                    <xsd:element name="deliveryNote"
+                        type="ReferenceType" minOccurs="0" />
+                    <xsd:element name="netAmount"
+                        type="MonetaryAmountType" />
+                    <xsd:element name="totalAmount"
+                        type="MonetaryAmountType" />
+                    <xsd:element name="remarks" minOccurs="0"
+                        maxOccurs="unbounded">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="200" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+
+                    <xsd:element name="extension" type="ExtensionType"
+                        maxOccurs="1" minOccurs="0">
+                    </xsd:element>
+
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="InvoiceLineItemType">
+        <xsd:complexContent>
+            <xsd:extension base="LineItemType">
+                <xsd:sequence>
+                    <xsd:element name="tradeItemIdentification"
+                        type="TradeItemIdentificationType" />
+                    <xsd:element name="itemInformation"
+                        type="TradeItemInformationType" minOccurs="0" />
+                    <xsd:element name="tradeItemTaxInformation"
+                        type="TradeItemTaxInformationType" minOccurs="0" />
+                    <xsd:element name="invoicedQuantity"
+                        type="xsd:float" />
+                    <xsd:element name="allowanceCharge"
+                        type="AllowanceChargeType" minOccurs="0" maxOccurs="unbounded" />
+                    <xsd:element name="unitPrice"
+                        type="MonetaryAmountOrPercentageType" minOccurs="0" />
+                    <xsd:element name="netPrice"
+                        type="MonetaryAmountType" minOccurs="0" />
+                    <xsd:element name="totalLineAmount"
+                        type="MonetaryAmountType" />
+                    <xsd:element name="extension" type="LineItemExtensionType"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:group name="ModelGroupDefinition">
+        <xsd:sequence></xsd:sequence>
+    </xsd:group>
+
+    <xsd:complexType name="ExtensionType">
+        <xsd:sequence>
+
+        	<xsd:element name="orderSource" type="xsd:string"
+        		minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="store" type="StoreType" maxOccurs="1"
+        		minOccurs="0" />
+
+        	<xsd:element name="seller" type="SellerType" minOccurs="0"
+        		maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="creditTerms" type="CreditTermsType"
+        		maxOccurs="unbounded" />
+
+
+        	<xsd:element name="promptPaymentDiscount"
+        		type="DiscountPercentType" minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="salesOrderNo" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+        	<xsd:element name="footer" type="FooterType" maxOccurs="1"
+        		minOccurs="0" />
+
+
+        	<xsd:element name="bizRegNo" type="xsd:string" minOccurs="0"
+        		maxOccurs="1">
+        	</xsd:element>
+
+
+        	<xsd:element name="payInstruct" type="xsd:string"
+        		minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="discountPercent"
+        		type="MonetaryAmountOrPercentageType" minOccurs="0"
+        		maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="storeInformation"
+        		type="StoreInformationType" minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="poType" type="xsd:string" minOccurs="0"
+        		maxOccurs="1">
+        	</xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="StoreContentType">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="CreditTermsType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="code" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="CreditTermsContentType">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+
+    <xsd:complexType name="SellerType">
+        <xsd:sequence>
+            <xsd:element name="country" type="CountryType" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="CountryType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="code" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="CountryContentType">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="PromptPaymentDiscountType">
+        <xsd:sequence>
+            <xsd:element name="discountPercent" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="FooterType">
+        <xsd:sequence>
+            <xsd:element name="line" type="LineType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="LineType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="number" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="LineContentType">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="LineItemExtensionType">
+        <xsd:sequence>
+        	<xsd:element name="uom" type="xsd:string"></xsd:element>
+        	<xsd:element name="uomSize" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+        	<xsd:element name="baseUnit" type="xsd:string" minOccurs="0"
+        		maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="focBaseUnit" type="xsd:string"
+        		minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="focUom" type="xsd:string" minOccurs="0"
+        		maxOccurs="1">
+        	</xsd:element>
+
+        	<xsd:element name="discountAmount" type="MonetaryAmountType"
+        		minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="discountPercent"
+        		type="MonetaryAmountOrPercentageType" minOccurs="0"
+        		maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="netAmount" type="MonetaryAmountType"
+        		minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="itemSharedCost" type="MonetaryAmountType"
+        		minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="itemGrossAmount"
+        		type="MonetaryAmountType" minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        	<xsd:element name="itemRemarks" type="xsd:string"
+        		minOccurs="0" maxOccurs="1">
+        	</xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="CodeType">
+        <xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="CountryCodeType">
+        <xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="CreditTermsCodeType">
+        <xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:attribute name="NewAttribute" type="xsd:string"></xsd:attribute>
+
+
+
+    <xsd:complexType name="StoreType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="code" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+
+
+
+    <xsd:complexType name="StoreInformationType">
+        <xsd:sequence>
+            <xsd:element name="address1" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+            <xsd:element name="address2" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+            <xsd:element name="address3" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+            <xsd:element name="address4" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+            <xsd:element name="city" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+            <xsd:element name="state" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+            <xsd:element name="ctryCode" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+            <xsd:element name="postalCode" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DiscountPercentType">
+    	<xsd:sequence>
+    		<xsd:element name="discountPercent" type="PercentageType"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

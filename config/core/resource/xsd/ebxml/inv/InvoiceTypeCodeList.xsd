@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pay="urn:ean.ucc:pay:2"
+ 	attributeFormDefault="unqualified" elementFormDefault="unqualified"
+  	targetNamespace="urn:ean.ucc:pay:2" version="2.5">
+    <xsd:annotation>
+        <xsd:documentation>
+            
+            ---------------------------
+            © Copyright GS1, 2008
+
+            GS1 is providing this XML Schema Definition file and resultant XML file as a service to interested industries.
+            This XML Schema Definition file and resultant XML file were developed through a consensus process of interested parties.
+
+            Although efforts have been made to ensure that the XML Schema Definition file and resultant XML file are correct, reliable, and technically
+            accurate,  GS1 makes NO WARRANTY, EXPRESS OR IMPLIED, THAT THIS XML Schema Definition file and resultant XML file ARE
+            CORRECT, WILL NOT REQUIRE MODIFICATION AS EXPERIENCE AND TECHNOLOGICAL ADVANCES DICTATE, OR WILL BE SUITABLE FOR
+            ANY PURPOSE OR WORKABLE IN ANY APPLICATION, OR OTHERWISE.  Use of the XML Schema Definition file and resultant XML
+            file are with the understanding that GS1 has no liability for any claim to the contrary, or for any damage or loss of any kind or nature.
+
+            Version Information:
+            Version Number: 2.5
+            Date of creation: December 2008
+
+            The schema and subsequent updates will be provided on the GS1 websites.
+            ---------------------------
+                
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="InvoiceTypeCodeListType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AGREED_TERMS"/>
+            <xsd:enumeration value="CORRECTED_INVOICE"/>
+            <xsd:enumeration value="CREDIT_NOTE"/>
+            <xsd:enumeration value="DEBIT_NOTE"/>
+            <xsd:enumeration value="INVOICE"/>
+            <xsd:enumeration value="PRO_FORMA_INVOICE"/>
+            <xsd:enumeration value="SELF_BILLED_CREDIT_NOTE"/>
+            <xsd:enumeration value="SELF_BILLED_INVOICE"/>
+            <xsd:enumeration value="TAX_INVOICE"/>
+            <xsd:enumeration value="SOR"/>
+            <xsd:enumeration value="CON"/>
+            <xsd:enumeration value="SVC"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

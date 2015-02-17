@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.sanc.org.sg/schemas/ean" xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+	    <xsd:documentation>
+	Singapore Adopted version
+	      Version Information:
+        	Version Number: S1.1
+	        Date of creation: June, 2004
+	    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="Common.xsd"/>
+	<xsd:complexType name="PaymentTermsType">
+		<xsd:sequence>
+			<xsd:element name="proximoCutOffDay" type="DayOfMonthDueType" minOccurs="0"/>
+			<xsd:element name="discountPayment" type="DiscountPaymentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="installmentDue" type="InstallmentDueType" minOccurs="0"/>
+			<xsd:element name="netPayment" type="NetPaymentType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="type" type="PaymentTermsListType" use="required"/>
+		<xsd:attribute name="eventType" type="PaymentTermsEventListType" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="PaymentTermsEventListType">
+		<xsd:restriction base="String1to80Type">
+			<xsd:enumeration value="ANTICIPATED_DELIVERY_DATE"/>
+			<xsd:enumeration value="DATE_INVOICE_RECEIVED"/>
+			<xsd:enumeration value="DATE_OF_DELIVERY_TO_SITE"/>
+			<xsd:enumeration value="DATE_OF_INVOICE"/>
+			<xsd:enumeration value="DATE_OF_SHIPMENT_AS_EVIDENCED_BY_TRANSPORT_DOC"/>
+			<xsd:enumeration value="EFFECTIVE_DATE"/>
+			<xsd:enumeration value="INVOICE_TRANSMISSION_DATE"/>
+			<xsd:enumeration value="RECEIPT_OF_GOODS"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PaymentTermsListType">
+		<xsd:restriction base="String1to80Type">
+			<xsd:enumeration value="BASIC_(NET)"/>
+			<xsd:enumeration value="BASIC_DISCOUNT_OFFERED"/>
+			<xsd:enumeration value="DEFERRED"/>
+			<xsd:enumeration value="DISCOUNT"/>
+			<xsd:enumeration value="DISCOUNT_AFTER_DEDUCTING_FREIGHT"/>
+			<xsd:enumeration value="DISCOUNT_NOT_APPLICABLE"/>
+			<xsd:enumeration value="ELECTIVE"/>
+			<xsd:enumeration value="END_OF_MONTH"/>
+			<xsd:enumeration value="EXTENDED"/>
+			<xsd:enumeration value="FIXED_DATE"/>
+			<xsd:enumeration value="INSTANT"/>
+			<xsd:enumeration value="MIXED"/>
+			<xsd:enumeration value="PAYMENT_BY_INSTALLMENT"/>
+			<xsd:enumeration value="PREVIOUSLY_AGREED_UPON"/>
+			<xsd:enumeration value="PROXIMO"/>
+			<xsd:enumeration value="VALUTA"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:group name="PaymentTimePeriodGroupType">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="timePeriodDue" type="TimePeriodDueType"/>
+				<xsd:element name="dayOfMonthDue" type="DayOfMonthDueType"/>
+				<xsd:element name="date" type="xsd:date"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="TimePeriodDueType">
+		<xsd:simpleContent>
+			<xsd:extension base="Integer1to2Type">
+				<xsd:attribute name="type" type="TimePeriodListType" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="TimePeriodListType">
+		<xsd:restriction base="String1to80Type">
+			<xsd:enumeration value="DAYS"/>
+			<xsd:enumeration value="MONTHS"/>
+			<xsd:enumeration value="WEEKS"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="NetPaymentType">
+		<xsd:sequence>
+			<xsd:group ref="PaymentTimePeriodGroupType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DiscountPaymentType">
+		<xsd:sequence>
+			<xsd:element name="discountDescription" type="TextDescriptionType" minOccurs="0"/>
+			<xsd:group ref="PaymentTimePeriodGroupType"/>
+		</xsd:sequence>
+		<xsd:attribute name="discountType" type="String1to3Type" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="InstallmentDueType">
+		<xsd:sequence>
+			<xsd:element name="percentageOfPaymentDue" type="PercentageType" minOccurs="0"/>
+			<xsd:group ref="PaymentTimePeriodGroupType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="DayOfMonthDueType">
+		<xsd:restriction base="Integer1to2Type"/>
+	</xsd:simpleType>
+</xsd:schema>

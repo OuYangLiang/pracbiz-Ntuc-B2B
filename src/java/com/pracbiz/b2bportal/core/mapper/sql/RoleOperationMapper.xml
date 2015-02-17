@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.RoleOperationMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.RoleOperationHolder" >
+    <id column="OPN_ID" property="opnId" jdbcType="VARCHAR" />
+    <id column="ROLE_OID" property="roleOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.RoleOperationHolder" >
+    select OPN_ID, ROLE_OID
+    from ROLE_OPERATION
+    <where>
+      <if test="opnId != null" >
+        OPN_ID = #{opnId,jdbcType=VARCHAR}
+      </if>
+      <if test="roleOid != null" >
+        AND ROLE_OID = #{roleOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.RoleOperationHolder" >
+    delete from ROLE_OPERATION
+    <where>
+      <if test="opnId != null" >
+        OPN_ID = #{opnId,jdbcType=VARCHAR}
+      </if>
+      <if test="roleOid != null" >
+        AND ROLE_OID = #{roleOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.RoleOperationHolder" >
+    insert into ROLE_OPERATION (OPN_ID, ROLE_OID)
+    values (#{opnId,jdbcType=VARCHAR}, #{roleOid,jdbcType=DECIMAL})
+  </insert>
+</mapper>

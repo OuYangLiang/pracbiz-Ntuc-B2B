@@ -1,0 +1,62 @@
+<html>
+    <head>
+        Hi ${NAME}
+        <br/><br/>
+    </head>
+    <body>
+        #if($PENDING_DN.size() > 0)
+        <div style="text-decoration: underline">
+            List Of Pending Debit Note Record:
+        </div>
+    
+        <ul>
+        #foreach($o in $PENDING_DN)
+            <li>$o</li><br/>
+        #end
+        </ul>
+        #end
+    
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            ${STATUS}
+                        </strong>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                #foreach($o in $CONTENTS)
+                    <tr>
+                        <td width="50" align="left">$velocityCount.</td>
+                        <td width="70" align="left">PO NO : </td>
+                        <td align="left">$o.PO_NO</td>
+                        <td width="20"/>
+                        #if ($o.PO_STORE_CODE)
+                        <td width="50" align="left">Store : </td>
+                        <td align="left">$o.PO_STORE_CODE</td>
+                        <td width="20"/>
+                        #end
+                        <td width="130" align="left">Matching Status : </td>
+                        <td align="left">$o.MATCHING_STATUS</td>
+                    </tr>
+                #end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         Attachments are the daily matching reports from PracBiz Pet Ltd B2B Portal System,
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         thanks.
+                     </td>
+                 </tr>
+            </table>
+        <p/>
+        Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>
+

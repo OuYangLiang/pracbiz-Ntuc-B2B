@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Define jobs here -->
+	<bean name="downloadJob"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.pracbiz.client.core.jobs.DownloadJob" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="clientConfig" value-ref="clientConfig" />
+                <entry key="httpClientHelper" value-ref="httpClientHelper" />
+                <entry key="gnupgUtil" value-ref="gnupgUtil" />
+                <entry key="mboxUtil" value-ref="mboxUtil" />
+            </map>
+        </property>
+	</bean>
+	
+	<bean name="uploadJob"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.pracbiz.client.core.jobs.UploadJob" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="clientConfig" value-ref="clientConfig" />
+                <entry key="httpClientHelper" value-ref="httpClientHelper" />
+                <entry key="gnupgUtil" value-ref="gnupgUtil" />
+                <entry key="mboxUtil" value-ref="mboxUtil" />
+            </map>
+        </property>
+	</bean>
+
+	<bean name="inboundFileJob"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.pracbiz.client.core.jobs.InboundFileJob" />
+		<property name="jobDataAsMap">
+            <map>
+                <entry key="clientConfig" value-ref="clientConfig" />
+                <entry key="pdfDocHandlerComp" value-ref="inboundPDFDocHandlerComp" />
+                <entry key="gnupgUtil" value-ref="gnupgUtil" />
+                <entry key="mboxUtil" value-ref="mboxUtil" />
+            </map>
+        </property>
+	</bean>
+	
+	<bean name="outboundFileDetectJob"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.pracbiz.client.core.jobs.OutboundFileDetectJob" />
+		<property name="jobDataAsMap">
+            <map>
+                <entry key="clientConfig" value-ref="clientConfig" />
+                <entry key="mboxUtil" value-ref="mboxUtil" />
+            </map>
+        </property>
+	</bean>
+	
+	<bean name="printJob"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.pracbiz.client.core.jobs.PrintJob" />
+		<property name="jobDataAsMap">
+            <map>
+                <entry key="clientConfig" value-ref="clientConfig" />
+                <entry key="mboxUtil" value-ref="mboxUtil" />
+                <entry key="pdfFilePrinter" value-ref="pdfFilePrinter" />
+            </map>
+        </property>
+	</bean>
+	
+	
+	<bean name="dispersionJob"
+        class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.pracbiz.client.core.jobs.DispersionJob" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="clientConfig" value-ref="clientConfig" />
+                <entry key="mboxUtil" value-ref="mboxUtil" />
+            </map>
+        </property>
+    </bean>
+	
+	<!-- Define triggers here -->
+	
+	<bean id="downloadJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="downloadJob" />
+		<property name="startDelay" value="5000" />
+		<!-- repeat in 10 minutes -->
+		<property name="repeatInterval" value="600000" />
+	</bean>
+	
+	<bean id="uploadJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="uploadJob" />
+		<property name="startDelay" value="20000" />
+		<!-- repeat in 10 minutes -->
+		<property name="repeatInterval" value="600000" />
+	</bean>
+	
+	<bean id="inboundFileTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="inboundFileJob" />
+		<property name="startDelay" value="10000" />
+		<!-- repeat in 10 minutes -->
+		<property name="repeatInterval" value="600000" />
+	</bean>
+	
+	<bean id="outboundFileDetectTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="outboundFileDetectJob" />
+		<property name="startDelay" value="30000" />
+		<!-- repeat in 10 minutes -->
+		<property name="repeatInterval" value="600000" />
+	</bean>
+	
+	<bean id="printJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="printJob" />
+		<property name="startDelay" value="60000" />
+		<!-- repeat in 10 minutes -->
+		<property name="repeatInterval" value="600000" />
+	</bean>
+	
+	
+	<bean id="dispersionJobTrigger"
+        class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="dispersionJob" />
+        <property name="startDelay" value="60000" />
+        <!-- repeat in 10 minutes -->
+        <property name="repeatInterval" value="600000" />
+    </bean>
+	
+	<bean id="scheduler" scope="singleton"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="downloadJobTrigger" />
+                <ref bean="uploadJobTrigger" />
+                <ref bean="inboundFileTrigger"/>
+                <ref bean="outboundFileDetectTrigger"/>
+                <ref bean="printJobTrigger" />
+                <ref bean="dispersionJobTrigger" />
+			</list>
+		</property>
+		
+		<property name="autoStartup" value="false"/>
+		<property name="waitForJobsToCompleteOnShutdown" value="true"/>
+	</bean>
+	
+</beans>

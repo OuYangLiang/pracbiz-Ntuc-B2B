@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.GroupTmpMapper" >
+  <resultMap id="GridResultMap" type="com.pracbiz.b2bportal.core.holder.extension.GroupTmpExHolder" >
+    <id column="GROUP_OID" property="groupOid" jdbcType="DECIMAL" />
+    <result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+    <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+    <result column="GROUP_TYPE" property="groupType" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="USER_TYPE_OID" property="userTypeOid" jdbcType="DECIMAL" />
+    <result column="USER_TYPE_ID" property="userTypeId" jdbcType="VARCHAR" />
+    <result column="ACTOR" property="actor" jdbcType="VARCHAR" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="CTRL_STATUS" property="ctrlStatus" jdbcType="CHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Grid_Column_List" >
+    T1.GROUP_OID, T1.GROUP_ID, T1.GROUP_NAME, T1.GROUP_TYPE, T1.USER_TYPE_OID,UT.USER_TYPE_ID,
+    T1.ACTOR, T1.ACTION_TYPE, T1.ACTION_DATE, T1.CTRL_STATUS, T1.COMPANY
+  </sql>
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.GroupTmpExHolder"
+    resultType="int">
+    SELECT COUNT(*) FROM
+    (SELECT T.GROUP_OID, T.GROUP_ID, T.GROUP_NAME, T.GROUP_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS , NULL AS COMPANY
+    FROM T_GROUP T
+    WHERE T.BUYER_OID IS NULL AND T.SUPPLIER_OID IS NULL 
+      <if test="groupId != null" >
+        AND T.GROUP_ID like concat('%',#{groupId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupName != null" >
+        AND T.GROUP_NAME like concat('%',#{groupName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupType != null" >
+        AND T.GROUP_TYPE = #{groupType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+       <if test="company != null" >
+        AND 1=2
+      </if>
+      <if test="buyerOid != null">
+        AND 1=2
+      </if>
+      <if test="supplierOid != null">
+        AND 1=2
+      </if>
+    UNION
+    SELECT T.GROUP_OID, T.GROUP_ID, T.GROUP_NAME, T.GROUP_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, B.BUYER_NAME AS COMPANY
+    FROM T_GROUP T, BUYER B
+    WHERE T.BUYER_OID = B.BUYER_OID AND T.SUPPLIER_OID IS NULL AND T.BUYER_OID IS NOT NULL
+      <if test="groupId != null" >
+        AND T.GROUP_ID like concat('%',#{groupId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupName != null" >
+        AND T.GROUP_NAME like concat('%',#{groupName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupType != null" >
+        AND T.GROUP_TYPE = #{groupType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="company != null" >
+        AND B.BUYER_NAME like concat('%',#{company,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerOid != null">
+        AND T.BUYER_OID  = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null">
+        AND 1=2
+      </if>
+    UNION
+    SELECT T.GROUP_OID, T.GROUP_ID, T.GROUP_NAME, T.GROUP_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS,S.SUPPLIER_NAME AS COMPANY
+    FROM T_GROUP T, SUPPLIER S
+	<if test="buyerOid != null">
+		, (SELECT SUPPLIER_OID FROM TRADING_PARTNER P WHERE P.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}) P1
+	</if>
+    WHERE T.SUPPLIER_OID = S.SUPPLIER_OID AND T.SUPPLIER_OID IS NOT NULL
+      <if test="buyerOid != null">
+      	AND T.SUPPLIER_OID = P1.SUPPLIER_OID
+      </if>
+      <if test="groupId != null" >
+        AND T.GROUP_ID like concat('%',#{groupId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupName != null" >
+        AND T.GROUP_NAME like concat('%',#{groupName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupType != null" >
+        AND T.GROUP_TYPE = #{groupType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+       <if test="company != null" >
+        AND S.SUPPLIER_NAME like concat('%',#{company,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="supplierOid != null">
+        AND T.SUPPLIER_OID  = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+     
+    ) T1, USER_TYPE UT
+    WHERE T1.USER_TYPE_OID = UT.USER_TYPE_OID AND 
+    CASE #{currentUserTypeOid,jdbcType=DECIMAL} 
+    WHEN 1 THEN UT.USER_TYPE_OID in (2,3,4,5,6,7) 
+    WHEN 2 THEN UT.USER_TYPE_OID in (3,4,5) 
+    WHEN 3 THEN UT.USER_TYPE_OID in (5) 
+    WHEN 6 THEN UT.USER_TYPE_OID in (7) END
+  </select>
+  
+  
+  <select id="getListOfSummary" resultMap="GridResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.GroupTmpExHolder" >
+    SELECT <include refid="Grid_Column_List" /> FROM
+     (SELECT T.GROUP_OID, T.GROUP_ID, T.GROUP_NAME, T.GROUP_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS , NULL AS COMPANY
+         FROM T_GROUP T
+         WHERE T.BUYER_OID IS NULL AND T.SUPPLIER_OID IS NULL
+      <if test="groupId != null" >
+        AND T.GROUP_ID like concat('%',#{groupId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupName != null" >
+        AND T.GROUP_NAME like concat('%',#{groupName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupType != null" >
+        AND T.GROUP_TYPE = #{groupType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="company != null" >
+        AND 1=2
+      </if>
+      <if test="buyerOid != null">
+        AND 1=2
+      </if>
+      <if test="supplierOid != null">
+        AND 1=2
+      </if>
+     UNION
+     SELECT T.GROUP_OID, T.GROUP_ID, T.GROUP_NAME, T.GROUP_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, B.BUYER_NAME AS COMPANY
+         FROM T_GROUP T, BUYER B
+         WHERE T.BUYER_OID = B.BUYER_OID AND T.SUPPLIER_OID IS NULL AND T.BUYER_OID IS NOT NULL
+      <if test="groupId != null" >
+        AND T.GROUP_ID like concat('%',#{groupId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupName != null" >
+        AND T.GROUP_NAME like concat('%',#{groupName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupType != null" >
+        AND T.GROUP_TYPE = #{groupType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="company != null" >
+        AND B.BUYER_NAME like concat('%',#{company,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="buyerOid != null">
+        AND T.BUYER_OID  = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null">
+        AND 1=2
+      </if>
+    UNION
+        SELECT T.GROUP_OID, T.GROUP_ID, T.GROUP_NAME, T.GROUP_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, S.SUPPLIER_NAME AS COMPANY
+        FROM T_GROUP T, SUPPLIER S
+		<if test="buyerOid != null">
+			, (SELECT SUPPLIER_OID FROM TRADING_PARTNER P WHERE P.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}) P1
+		</if>
+        WHERE T.SUPPLIER_OID = S.SUPPLIER_OID AND T.SUPPLIER_OID IS NOT NULL
+      <if test="buyerOid != null">
+      	AND T.SUPPLIER_OID = P1.SUPPLIER_OID
+      </if>
+      <if test="groupId != null" >
+        AND T.GROUP_ID like concat('%',#{groupId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupName != null" >
+        AND T.GROUP_NAME like concat('%',#{groupName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="groupType != null" >
+        AND T.GROUP_TYPE = #{groupType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="company != null" >
+        AND S.SUPPLIER_NAME like concat('%',#{company,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="supplierOid != null">
+        AND T.SUPPLIER_OID  = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+     
+    ) T1, USER_TYPE UT
+    WHERE T1.USER_TYPE_OID = UT.USER_TYPE_OID AND 
+    CASE #{currentUserTypeOid,jdbcType=DECIMAL} 
+    WHEN 1 THEN UT.USER_TYPE_OID in (2,3,4,5,6,7) 
+    WHEN 2 THEN UT.USER_TYPE_OID in (3,4,5) 
+    WHEN 3 THEN UT.USER_TYPE_OID in (5) 
+    WHEN 6 THEN UT.USER_TYPE_OID in (7) END
+      <if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+      </if>
+        limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>

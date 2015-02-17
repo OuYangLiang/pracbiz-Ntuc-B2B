@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<configuration>
+    <hierarchicalXml fileName="client_site.xml" delimiterParsingDisabled="true"/>
+    <hierarchicalXml fileName="portal_unity.xml" delimiterParsingDisabled="true"/>
+</configuration>

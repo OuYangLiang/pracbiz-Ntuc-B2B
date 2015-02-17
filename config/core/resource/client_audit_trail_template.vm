@@ -1,0 +1,10 @@
+<audit>
+	<batchFileName>$!{batchFileName}</batchFileName>
+	#if($fileNameList.size()>0)
+	<docs>
+		#foreach($fileName in $fileNameList)
+			<docFileName>$!{fileName}</docFileName>
+		#end
+	</docs>
+	#end
+</audit>

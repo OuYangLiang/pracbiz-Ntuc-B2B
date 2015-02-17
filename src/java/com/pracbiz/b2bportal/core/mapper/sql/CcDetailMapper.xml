@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.CcDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.CcDetailHolder" >
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <id column="INV_OID" property="invOid" jdbcType="DECIMAL" />
+    <result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ITEM_CODE" property="supplierItemCode" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="ITEM_DESC" property="itemDesc" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="COLOUR_CODE" property="colourCode" jdbcType="VARCHAR" />
+    <result column="COLOUR_DESC" property="colourDesc" jdbcType="VARCHAR" />
+    <result column="SIZE_CODE" property="sizeCode" jdbcType="VARCHAR" />
+    <result column="SIZE_DESC" property="sizeDesc" jdbcType="VARCHAR" />
+    <result column="PACKING_FACTOR" property="packingFactor" jdbcType="DECIMAL" />
+    <result column="INV_BASE_UNIT" property="invBaseUnit" jdbcType="CHAR" />
+    <result column="INV_UOM" property="invUom" jdbcType="VARCHAR" />
+    <result column="INV_QTY" property="invQty" jdbcType="DECIMAL" />
+    <result column="FOC_BASE_UNIT" property="focBaseUnit" jdbcType="CHAR" />
+    <result column="FOC_UOM" property="focUom" jdbcType="VARCHAR" />
+    <result column="FOC_QTY" property="focQty" jdbcType="DECIMAL" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="DISCOUNT_AMOUNT" property="discountAmount" jdbcType="DECIMAL" />
+    <result column="DISCOUNT_PERCENT" property="discountPercent" jdbcType="DECIMAL" />
+    <result column="NET_PRICE" property="netPrice" jdbcType="DECIMAL" />
+    <result column="ITEM_AMOUNT" property="itemAmount" jdbcType="DECIMAL" />
+    <result column="NET_AMOUNT" property="netAmount" jdbcType="DECIMAL" />
+    <result column="ITEM_SHARED_COST" property="itemSharedCost" jdbcType="DECIMAL" />
+    <result column="ITEM_GROSS_AMOUNT" property="itemGrossAmount" jdbcType="DECIMAL" />
+    <result column="ITEM_REMARKS" property="itemRemarks" jdbcType="VARCHAR" />
+    <result column="LINE_REF_NO" property="lineRefNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LINE_SEQ_NO, INV_OID, BUYER_ITEM_CODE, SUPPLIER_ITEM_CODE, BARCODE, ITEM_DESC, BRAND, 
+    COLOUR_CODE, COLOUR_DESC, SIZE_CODE, SIZE_DESC, PACKING_FACTOR, INV_BASE_UNIT, INV_UOM, 
+    INV_QTY, FOC_BASE_UNIT, FOC_UOM, FOC_QTY, UNIT_PRICE, DISCOUNT_AMOUNT, DISCOUNT_PERCENT, 
+    NET_PRICE, ITEM_AMOUNT, NET_AMOUNT, ITEM_SHARED_COST, ITEM_GROSS_AMOUNT, ITEM_REMARKS, LINE_REF_NO
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.CcDetailHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from CC_DETAIL
+    <where>
+      <if test="lineSeqNo != null" >
+        LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="invOid != null" >
+        and INV_OID = #{invOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="packingFactor != null" >
+        and PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="invBaseUnit != null" >
+        and INV_BASE_UNIT = #{invBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="invUom != null" >
+        and INV_UOM = #{invUom,jdbcType=VARCHAR}
+      </if>
+      <if test="invQty != null" >
+        and INV_QTY = #{invQty,jdbcType=DECIMAL}
+      </if>
+      <if test="focBaseUnit != null" >
+        and FOC_BASE_UNIT = #{focBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="focUom != null" >
+        and FOC_UOM = #{focUom,jdbcType=VARCHAR}
+      </if>
+      <if test="focQty != null" >
+        and FOC_QTY = #{focQty,jdbcType=DECIMAL}
+      </if>
+      <if test="unitPrice != null" >
+        and UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null" >
+        and DISCOUNT_AMOUNT = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountPercent != null" >
+        and DISCOUNT_PERCENT = #{discountPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="netPrice != null" >
+        and NET_PRICE = #{netPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="itemAmount != null" >
+        and ITEM_AMOUNT = #{itemAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="netAmount != null" >
+        and NET_AMOUNT = #{netAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemSharedCost != null" >
+        and ITEM_SHARED_COST = #{itemSharedCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemGrossAmount != null" >
+        and ITEM_GROSS_AMOUNT = #{itemGrossAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRemarks != null" >
+        and ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="lineRefNo != null" >
+        and LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.CcDetailHolder" >
+    delete from CC_DETAIL
+    <where>
+      <if test="lineSeqNo != null" >
+        LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="invOid != null" >
+        and INV_OID = #{invOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="packingFactor != null" >
+        and PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="invBaseUnit != null" >
+        and INV_BASE_UNIT = #{invBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="invUom != null" >
+        and INV_UOM = #{invUom,jdbcType=VARCHAR}
+      </if>
+      <if test="invQty != null" >
+        and INV_QTY = #{invQty,jdbcType=DECIMAL}
+      </if>
+      <if test="focBaseUnit != null" >
+        and FOC_BASE_UNIT = #{focBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="focUom != null" >
+        and FOC_UOM = #{focUom,jdbcType=VARCHAR}
+      </if>
+      <if test="focQty != null" >
+        and FOC_QTY = #{focQty,jdbcType=DECIMAL}
+      </if>
+      <if test="unitPrice != null" >
+        and UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null" >
+        and DISCOUNT_AMOUNT = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountPercent != null" >
+        and DISCOUNT_PERCENT = #{discountPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="netPrice != null" >
+        and NET_PRICE = #{netPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="itemAmount != null" >
+        and ITEM_AMOUNT = #{itemAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="netAmount != null" >
+        and NET_AMOUNT = #{netAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemSharedCost != null" >
+        and ITEM_SHARED_COST = #{itemSharedCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemGrossAmount != null" >
+        and ITEM_GROSS_AMOUNT = #{itemGrossAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRemarks != null" >
+        and ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="lineRefNo != null" >
+        and LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.CcDetailHolder" >
+    insert into CC_DETAIL (LINE_SEQ_NO, INV_OID, BUYER_ITEM_CODE, 
+      SUPPLIER_ITEM_CODE, BARCODE, ITEM_DESC, 
+      BRAND, COLOUR_CODE, COLOUR_DESC, 
+      SIZE_CODE, SIZE_DESC, PACKING_FACTOR, 
+      INV_BASE_UNIT, INV_UOM, INV_QTY, 
+      FOC_BASE_UNIT, FOC_UOM, FOC_QTY, 
+      UNIT_PRICE, DISCOUNT_AMOUNT, DISCOUNT_PERCENT, 
+      NET_PRICE, ITEM_AMOUNT, NET_AMOUNT, 
+      ITEM_SHARED_COST, ITEM_GROSS_AMOUNT, ITEM_REMARKS, LINE_REF_NO
+      )
+    values (#{lineSeqNo,jdbcType=INTEGER}, #{invOid,jdbcType=DECIMAL}, #{buyerItemCode,jdbcType=VARCHAR}, 
+      #{supplierItemCode,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
+      #{brand,jdbcType=VARCHAR}, #{colourCode,jdbcType=VARCHAR}, #{colourDesc,jdbcType=VARCHAR}, 
+      #{sizeCode,jdbcType=VARCHAR}, #{sizeDesc,jdbcType=VARCHAR}, #{packingFactor,jdbcType=DECIMAL}, 
+      #{invBaseUnit,jdbcType=CHAR}, #{invUom,jdbcType=VARCHAR}, #{invQty,jdbcType=DECIMAL}, 
+      #{focBaseUnit,jdbcType=CHAR}, #{focUom,jdbcType=VARCHAR}, #{focQty,jdbcType=DECIMAL}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{discountAmount,jdbcType=DECIMAL}, #{discountPercent,jdbcType=DECIMAL}, 
+      #{netPrice,jdbcType=DECIMAL}, #{itemAmount,jdbcType=DECIMAL}, #{netAmount,jdbcType=DECIMAL}, 
+      #{itemSharedCost,jdbcType=DECIMAL}, #{itemGrossAmount,jdbcType=DECIMAL}, #{itemRemarks,jdbcType=VARCHAR},
+      #{lineRefNo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.CcDetailHolder" >
+    update CC_DETAIL
+    <set >
+      <if test="buyerItemCode != null" >
+        BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierItemCode != null" >
+        SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        BARCODE = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null" >
+        ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="colourCode != null" >
+        COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      </if>
+      <if test="colourDesc != null" >
+        COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeCode != null" >
+        SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeDesc != null" >
+        SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="packingFactor != null" >
+        PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      </if>
+      <if test="invBaseUnit != null" >
+        INV_BASE_UNIT = #{invBaseUnit,jdbcType=CHAR},
+      </if>
+      <if test="invUom != null" >
+        INV_UOM = #{invUom,jdbcType=VARCHAR},
+      </if>
+      <if test="invQty != null" >
+        INV_QTY = #{invQty,jdbcType=DECIMAL},
+      </if>
+      <if test="focBaseUnit != null" >
+        FOC_BASE_UNIT = #{focBaseUnit,jdbcType=CHAR},
+      </if>
+      <if test="focUom != null" >
+        FOC_UOM = #{focUom,jdbcType=VARCHAR},
+      </if>
+      <if test="focQty != null" >
+        FOC_QTY = #{focQty,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountAmount != null" >
+        DISCOUNT_AMOUNT = #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPercent != null" >
+        DISCOUNT_PERCENT = #{discountPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="netPrice != null" >
+        NET_PRICE = #{netPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="itemAmount != null" >
+        ITEM_AMOUNT = #{itemAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="netAmount != null" >
+        NET_AMOUNT = #{netAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="itemSharedCost != null" >
+        ITEM_SHARED_COST = #{itemSharedCost,jdbcType=DECIMAL},
+      </if>
+      <if test="itemGrossAmount != null" >
+        ITEM_GROSS_AMOUNT = #{itemGrossAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="itemRemarks != null" >
+        ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="lineRefNo != null" >
+        LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and INV_OID = #{invOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.CcDetailHolder" >
+    update CC_DETAIL
+    set BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      BARCODE = #{barcode,jdbcType=VARCHAR},
+      ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      INV_BASE_UNIT = #{invBaseUnit,jdbcType=CHAR},
+      INV_UOM = #{invUom,jdbcType=VARCHAR},
+      INV_QTY = #{invQty,jdbcType=DECIMAL},
+      FOC_BASE_UNIT = #{focBaseUnit,jdbcType=CHAR},
+      FOC_UOM = #{focUom,jdbcType=VARCHAR},
+      FOC_QTY = #{focQty,jdbcType=DECIMAL},
+      UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      DISCOUNT_AMOUNT = #{discountAmount,jdbcType=DECIMAL},
+      DISCOUNT_PERCENT = #{discountPercent,jdbcType=DECIMAL},
+      NET_PRICE = #{netPrice,jdbcType=DECIMAL},
+      ITEM_AMOUNT = #{itemAmount,jdbcType=DECIMAL},
+      NET_AMOUNT = #{netAmount,jdbcType=DECIMAL},
+      ITEM_SHARED_COST = #{itemSharedCost,jdbcType=DECIMAL},
+      ITEM_GROSS_AMOUNT = #{itemGrossAmount,jdbcType=DECIMAL},
+      ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR},
+      LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+    where LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and INV_OID = #{invOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

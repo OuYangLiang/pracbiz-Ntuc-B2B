@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.AllowedAccessCompanyTmpMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.AllowedAccessCompanyTmpHolder" >
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <id column="COMPANY_OID" property="companyOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="BuyerResultMap" type="com.pracbiz.b2bportal.core.holder.BuyerHolder" >
+    <id column="COMPANY_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <id column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+  </resultMap>
+    
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.AllowedAccessCompanyTmpHolder" >
+    select USER_OID, COMPANY_OID
+    from T_ALLOWED_ACCESS_COMPANY
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="companyOid != null" >
+        AND COMPANY_OID = #{companyOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectBuyerByUserOid" resultMap="BuyerResultMap" parameterType="java.math.BigDecimal" >
+    select A.COMPANY_OID, B.BUYER_NAME from T_ALLOWED_ACCESS_COMPANY A, BUYER B
+    where A.COMPANY_OID = B.BUYER_OID AND A.USER_OID=#{userOid,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.AllowedAccessCompanyTmpHolder" >
+    delete from T_ALLOWED_ACCESS_COMPANY
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="companyOid != null" >
+        AND COMPANY_OID = #{companyOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.AllowedAccessCompanyTmpHolder" >
+    insert into T_ALLOWED_ACCESS_COMPANY (USER_OID, COMPANY_OID)
+    values (#{userOid,jdbcType=DECIMAL}, #{companyOid,jdbcType=DECIMAL})
+  </insert>
+  
+</mapper>

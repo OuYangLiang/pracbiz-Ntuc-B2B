@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel-defs>  
+    <!-- <channel name="WEBPORTAL1" type="buyer" noop="no">
+        <url>sftp://ouyang:password@localhost</url>
+        <targetFolder>/Users/ouyang/mailbox/channel/WEBPORTAL/out</targetFolder>
+        <mailboxId>WEBPORTAL1</mailboxId>
+        
+        <localPgpKeyId>abc</localPgpKeyId>
+        <remotePgpKeyId>def</remotePgpKeyId>
+        
+        <fileFormat>
+            <file type="PO" format="canonical"/>
+            <file type="GRN" format="canonical"/>
+            <file type="DN" format="canonical"/>
+            <file type="PN" format="canonical"/>
+            <file type="RTV" format="canonical"/>
+            <file type="INV" format="canonical"/>
+            <file type="DO" format="canonical"/>
+        </fileFormat>
+        
+         Comments:
+            1. url combined with targetFolder should end up into folder
+            ${mailbox.root.channel}/${remoteChannelMailboxId}/out of the remote B2B system.
+            2. mailboxId avoid using "_" within the mailbox name.
+            3. available file formats configured in appConfig.xml file.
+       
+    </channel> -->
+    
+    <!-- <channel name="WEBPORTAL2" type="supplier" noop="no">
+        <url>sftp://ouyang:password@localhost</url>
+        <targetFolder>/Users/ouyang/mailbox/channel/WEBPORTAL/out</targetFolder>
+        <mailboxId>WEBPORTAL2</mailboxId>
+        
+        <localPgpKeyId>abc</localPgpKeyId>
+        <remotePgpKeyId>def</remotePgpKeyId>
+        
+        <fileFormat>
+            <file type="PO" format="ebxml"/>
+            <file type="GRN" format="ebxml"/>
+            <file type="DN" format="ebxml"/>
+            <file type="PN" format="ebxml"/>
+            <file type="RTV" format="ebxml"/>
+            <file type="INV" format="ebxml"/>
+            <file type="DO" format="ebxml"/>
+        </fileFormat>
+        
+         Comments:
+            1. url combined with targetFolder should end up into folder
+            ${mailbox.root.channel}/${remoteChannelMailboxId}/out of the remote B2B system.
+            2. mailboxId avoid using "_" within the mailbox name.
+            3. available file formats configured in appConfig.xml file.
+       
+    </channel> -->
+</channel-defs>

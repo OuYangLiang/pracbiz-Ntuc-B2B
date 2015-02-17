@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="dn" extends="pracbiz-default" namespace="/dn">
+		<action name="init" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="init">
+			<result>/WEB-INF/views/core/debitNote/summary.jsp</result>
+		</action>
+		
+		<action name="search" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+		
+		<action name="data" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="data">
+			<result type="json">
+				<param name="root">gridRlt</param>
+				<param name="ignoreHierarchy">false</param>
+			</result>
+		</action>
+		
+		<action name="print" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+			<result name="PO"  type="redirect">/po/print.action</result>
+			<result name="INV"  type="redirect">/inv/print.action</result>
+			<result name="RTV"  type="redirect">/rtv/print.action</result>
+			<result name="GI"  type="redirect">/gi/print.action</result>
+		</action>
+			
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+		
+		<action name="putOidsParamIntoSession" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="putOidsParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="approve" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="approve">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+        </action>
+        
+        <action name="reject" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="reject">
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="checkSentStatus" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="checkSentStatus">
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initEdit" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initEdit">
+            <result>/WEB-INF/views/core/debitNote/edit.jsp</result>
+        </action>
+        
+        <action name="saveEdit" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="saveEdit">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/debitNote/edit.jsp</result>
+            <result type="redirect">/dn/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="initAdd" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initAdd">
+            <result>/WEB-INF/views/core/debitNote/create.jsp</result>
+        </action>
+        
+        <action name="saveAdd" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="saveAdd">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/debitNote/create.jsp</result>
+            <result type="redirect">/dn/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="saveDelete" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="saveDelete">
+		 	<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+        </action>
+        
+        <action name="initDispute" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initDispute">
+            <result>/WEB-INF/views/core/debitNote/createDispute.jsp</result>
+        </action>
+        
+        <action name="saveDispute" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="saveDispute">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="success" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initAuditPrice" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initDispute">
+            <result>/WEB-INF/views/core/debitNote/audit.jsp</result>
+        </action>
+        
+        <action name="saveAuditPrice" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="saveAudit">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="success" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initAuditQty" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initDispute">
+            <result>/WEB-INF/views/core/debitNote/audit.jsp</result>
+        </action>
+        
+        <action name="saveAuditQty" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="saveAudit">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="success" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initClose" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initDispute">
+            <result>/WEB-INF/views/core/debitNote/close.jsp</result>
+        </action>
+        
+        <action name="initCloseWithoutEdit" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="initDispute">
+            <result>/WEB-INF/views/core/debitNote/close.jsp</result>
+        </action>
+        
+        <action name="saveClose" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="saveClose">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+		 	<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="success" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="checkOtherPdfData" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="checkOtherPdfData" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+            <result name="input" type="json">
+                 <param name="root">errorMsg</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+          <action name="exportExcel" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="exportExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+        </action>
+        
+        <action name="exportSummaryExcel" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="exportSummaryExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+			<result name="input" type="redirect">init.action?keepSp=Y</result>
+        </action>
+	</package>
+</struts>

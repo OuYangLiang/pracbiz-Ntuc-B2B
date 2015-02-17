@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.TradingPartnerMapper" >
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.extension.TradingPartnerExHolder" >
+    <id column="TP_OID" property="tradingPartnerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_SUPPLIER_CODE" property="buyerSupplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_BUYER_CODE" property="supplierBuyerCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR"/>
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR"/>
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR"/>
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR"/>
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="TC_OID" property="termConditionOid" jdbcType="DECIMAL" />
+    <result column="ADDRESS_1" property="supplierAddr1" jdbcType="VARCHAR" />
+    <result column="ADDRESS_2" property="supplierAddr2" jdbcType="VARCHAR" />
+    <result column="ADDRESS_3" property="supplierAddr3" jdbcType="VARCHAR" />
+    <result column="ADDRESS_4" property="supplierAddr4" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Grid_Column_List" >
+     T.TP_OID, T.BUYER_SUPPLIER_CODE, T.SUPPLIER_BUYER_CODE,S.SUPPLIER_CODE,S.SUPPLIER_NAME,
+     S.ADDRESS_1,S.ADDRESS_2,S.ADDRESS_3,S.ADDRESS_4,
+        B.BUYER_CODE,B.BUYER_NAME,T.ACTIVE, T.UPDATE_DATE, T.BUYER_OID, T.SUPPLIER_OID,T.TC_OID
+  </sql>
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.TradingPartnerExHolder"
+    resultType="int">
+    SELECT COUNT(0) FROM TRADING_PARTNER T, SUPPLIER S, BUYER B
+        WHERE T.SUPPLIER_OID = S.SUPPLIER_OID 
+        AND T.BUYER_OID = B.BUYER_OID
+     <if test="tradingPartnerOid != null" >
+        T.TP_OID = #{tradingPartnerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerSupplierCode != null" >
+        AND T.BUYER_SUPPLIER_CODE like concat('%',#{buyerSupplierCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="supplierBuyerCode != null" >
+        AND T.SUPPLIER_BUYER_CODE like concat('%',#{supplierBuyerCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerCode != null" >
+        AND B.BUYER_CODE like concat('%',#{buyerCode,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="buyerName != null" >
+        AND B.BUYER_NAME like concat('%',#{buyerName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="supplierCode != null" >
+        AND S.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="supplierName != null" >
+        AND S.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+      </if> 
+      <if test="active != null" >
+        AND T.ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="updateDate != null" >
+        AND T.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="buyerOid != null" >
+        AND T.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND T.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="termConditionOid != null" >
+        AND T.TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+      </if>
+      <if test="tradingPartnerOids != null">
+        AND TP_OID IN
+        <foreach collection="tradingPartnerOids" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+      </if>
+      <if test="filterWithSupplier">
+        AND T.SUPPLIER_OID IN 
+        <if test="supplierOids != null">
+	        <foreach collection="supplierOids" index="index" item="item" open="(" separator="," close=")"> 
+	            #{item} 
+	        </foreach>  
+        </if>
+        <if test="supplierOids == null">
+            AND 1=2
+        </if>
+      </if>
+  </select>
+  
+  <select id="getListOfSummary" resultMap="GridMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.TradingPartnerExHolder" >
+  SELECT 
+    <include refid="Grid_Column_List" />
+    FROM TRADING_PARTNER T, SUPPLIER S, BUYER B
+        WHERE T.SUPPLIER_OID = S.SUPPLIER_OID 
+        AND T.BUYER_OID = B.BUYER_OID
+     <if test="tradingPartnerOid != null" >
+        T.TP_OID = #{tradingPartnerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerSupplierCode != null" >
+        AND T.BUYER_SUPPLIER_CODE like concat('%',#{buyerSupplierCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="supplierBuyerCode != null" >
+        AND T.SUPPLIER_BUYER_CODE like concat('%',#{supplierBuyerCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerCode != null" >
+        AND B.BUYER_CODE like concat('%',#{buyerCode,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="buyerName != null" >
+        AND B.BUYER_NAME like concat('%',#{buyerName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="supplierCode != null" >
+        AND S.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="supplierName != null" >
+        AND S.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+      </if> 
+      <if test="active != null" >
+        AND T.ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="updateDate != null" >
+        AND T.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="buyerOid != null" >
+        AND T.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND T.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="termConditionOid != null" >
+        AND T.TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+      </if>
+      <if test="tradingPartnerOids != null">
+        AND TP_OID IN
+        <foreach collection="tradingPartnerOids" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+      </if>
+      <if test="filterWithSupplier">
+        AND T.SUPPLIER_OID IN 
+        <if test="supplierOids != null">
+            <foreach collection="supplierOids" index="index" item="item" open="(" separator="," close=")"> 
+                #{item} 
+            </foreach>  
+        </if>
+        <if test="supplierOids == null">
+            AND 1=2
+        </if>
+      </if>
+      <if test="sortField != null">
+			order by ${sortField} ${sortOrder}
+	  </if>
+			limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>

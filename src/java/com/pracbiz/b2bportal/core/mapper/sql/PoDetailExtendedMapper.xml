@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.PoDetailExtendedMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.PoDetailExtendedHolder" >
+    <id column="PO_OID" property="poOid" jdbcType="DECIMAL" />
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <id column="FIELD_NAME" property="fieldName" jdbcType="VARCHAR" />
+    <result column="FIELD_TYPE" property="fieldType" jdbcType="CHAR" />
+    <result column="INT_VALUE" property="intValue" jdbcType="INTEGER" />
+    <result column="FLOAT_VALUE" property="floatValue" jdbcType="DECIMAL" />
+    <result column="STRING_VALUE" property="stringValue" jdbcType="VARCHAR" />
+    <result column="BOOL_VALUE" property="boolValue" jdbcType="BIT" />
+    <result column="DATE_VALUE" property="dateValue" jdbcType="TIMESTAMP" />  
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PO_OID, LINE_SEQ_NO, FIELD_NAME, FIELD_TYPE, INT_VALUE, FLOAT_VALUE, STRING_VALUE, 
+    BOOL_VALUE,DATE_VALUE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.PoDetailExtendedHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from PO_DETAIL_EXTENDED
+    <where>
+      <if test="poOid != null" >
+        PO_OID = #{poOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="fieldName != null" >
+        and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldType != null" >
+        and FIELD_TYPE = #{fieldType,jdbcType=CHAR},
+      </if>
+      <if test="intValue != null" >
+        and INT_VALUE = #{intValue,jdbcType=INTEGER},
+      </if>
+      <if test="floatValue != null" >
+        and FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="stringValue != null" >
+        and STRING_VALUE = #{stringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="boolValue != null" >
+        and BOOL_VALUE = #{boolValue,jdbcType=BIT},
+      </if>
+       <if test="dateValue != null" >
+        and DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.PoDetailExtendedHolder" >
+    delete from PO_DETAIL_EXTENDED
+    <where>
+      <if test="poOid != null" >
+        PO_OID = #{poOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="fieldName != null" >
+        and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldType != null" >
+        and FIELD_TYPE = #{fieldType,jdbcType=CHAR},
+      </if>
+      <if test="intValue != null" >
+        and INT_VALUE = #{intValue,jdbcType=INTEGER},
+      </if>
+      <if test="floatValue != null" >
+        and FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="stringValue != null" >
+        and STRING_VALUE = #{stringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="boolValue != null" >
+        and BOOL_VALUE = #{boolValue,jdbcType=BIT},
+      </if>
+      <if test="dateValue != null" >
+        and DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.PoDetailExtendedHolder" >
+    insert into PO_DETAIL_EXTENDED (PO_OID, LINE_SEQ_NO, FIELD_NAME, 
+      FIELD_TYPE, INT_VALUE, FLOAT_VALUE, 
+      STRING_VALUE, BOOL_VALUE,DATE_VALUE)
+    values (#{poOid,jdbcType=DECIMAL}, #{lineSeqNo,jdbcType=INTEGER}, #{fieldName,jdbcType=VARCHAR}, 
+      #{fieldType,jdbcType=CHAR}, #{intValue,jdbcType=INTEGER}, #{floatValue,jdbcType=DECIMAL}, 
+      #{stringValue,jdbcType=VARCHAR}, #{boolValue,jdbcType=BIT},#{dateValue,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.PoDetailExtendedHolder" >
+    update PO_DETAIL_EXTENDED
+    <set >
+      <if test="fieldType != null" >
+        FIELD_TYPE = #{fieldType,jdbcType=CHAR},
+      </if>
+      <if test="intValue != null" >
+        INT_VALUE = #{intValue,jdbcType=INTEGER},
+      </if>
+      <if test="floatValue != null" >
+        FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="stringValue != null" >
+        STRING_VALUE = #{stringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="boolValue != null" >
+        BOOL_VALUE = #{boolValue,jdbcType=BIT},
+      </if>
+      <if test="dateValue != null" >
+        DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where PO_OID = #{poOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.PoDetailExtendedHolder" >
+    update PO_DETAIL_EXTENDED
+    set FIELD_TYPE = #{fieldType,jdbcType=CHAR},
+      INT_VALUE = #{intValue,jdbcType=INTEGER},
+      FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL},
+      STRING_VALUE = #{stringValue,jdbcType=VARCHAR},
+      BOOL_VALUE = #{boolValue,jdbcType=BIT},
+      DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP}
+    where PO_OID = #{poOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+  </update>
+</mapper>

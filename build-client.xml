@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PracBiz B2B System - Client" basedir="." default="help">
+	<import file="build.xml" />
+
+	<property name="client.project.name" value="B2B-Client" />
+	<property name="client.project.version" value="0.1.0" />
+
+	<property name="src.client.dir" value="${basedir}/src/client"/>
+	<property name="client.config.dir" value="${basedir}/config/client" />
+	<property name="client.spring.dir" value="${client.config.dir}/spring" />
+	<property name="client.log4j.dir" value="${client.config.dir}/log4j" />
+	<property name="client.bin.dir" value="${client.config.dir}/bin" />
+	<property name="client.application.dir" value="${client.config.dir}/application" />
+	<property name="client.resource.dir" value="${client.config.dir}/resource" />
+	<property name="client.velocity.dir" value="${client.config.dir}/velocity" />
+	<property name="client.report.dir" value="${client.config.dir}/reports" />
+	<property name="client.lib.dir" value="${client.config.dir}/lib" />
+
+	<property name="client.deploy.dir" value="${build.dir}/client" />
+	<property name="client.deploy.bin.dir" value="${client.deploy.dir}/bin" />
+	<property name="client.deploy.lib.dir" value="${client.deploy.dir}/lib" />
+	<property name="client.deploy.conf.dir" value="${client.deploy.dir}/conf" />
+
+	<path id="client.classpath">
+		<fileset dir="${client.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+
+	<target name="setup-client">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${client.deploy.dir}" />
+		<mkdir dir="${client.deploy.bin.dir}" />
+		<mkdir dir="${client.deploy.lib.dir}" />
+	</target>
+
+
+	<target name="compile-client" depends="clean,setup,setup-client,jar">
+		<javac srcdir="${src.client.dir}" destdir="${classes.dir}" 
+			executable="${JAVA.HOME}/bin/javac.exe" deprecation="off" debug="on">
+			<classpath refid="common.classpath" />
+			<classpath refid="client.classpath"/>
+		</javac>
+	</target>
+
+
+
+	<target name="package" depends="compile-client" description="Compile the application.">
+		<copy todir="${client.deploy.conf.dir}" preservelastmodified="true">
+			<fileset dir="${client.spring.dir}">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${client.application.dir}">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${client.resource.dir}">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${client.velocity.dir}">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${client.log4j.dir}">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${client.report.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${client.deploy.lib.dir}" preservelastmodified="true">
+			<fileset dir="${client.lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${client.deploy.bin.dir}" preservelastmodified="true">
+			<fileset dir="${client.bin.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${client.deploy.lib.dir}" preservelastmodified="true">
+			<fileset dir="${lib.dir}">
+				<include name="commons*.jar" />
+				<include name="log4j*.jar" />
+				<include name="slf4j-api*.jar" />
+				<include name="slf4j-log4j12*.jar" />
+				<include name="jdom-2.0.2.jar"/>
+				<include name="xml-apis.jar"/>
+				<include name="xercesImpl.jar"/>
+				<include name="quartz-1.6.5.jar"/>
+				<include name="PDFRenderer.jar"/>
+				<include name="org.springframework.core-3.0.6.RELEASE.jar" />
+				<include name="org.springframework.context-3.0.6.RELEASE.jar" />
+				<include name="org.springframework.context.support-3.0.6.RELEASE.jar" />
+				<include name="org.springframework.beans-3.0.6.RELEASE.jar" />
+				<include name="org.springframework.expression-3.0.6.RELEASE.jar" />
+				<include name="org.springframework.asm-3.0.6.RELEASE.jar"/>
+				<include name="org.springframework.transaction-3.0.6.RELEASE.jar"/>
+			</fileset>
+		</copy>
+
+		<jar jarfile="${client.deploy.lib.dir}/${client.project.name}-${client.project.version}.jar" 
+			basedir="${classes.dir}" includes="com/pracbiz/client/**" excludes="*.xml *.properties *.vm *.key">
+			<manifest>
+				<attribute name="Implementation-Title" value="${company.name}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+				<attribute name="Implementation-Vendor" value="${company.shortname}" />
+			</manifest>
+		</jar>
+
+		<copy todir="${client.deploy.lib.dir}" preservelastmodified="true">
+			<fileset dir="${jar.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+	</target>
+</project>

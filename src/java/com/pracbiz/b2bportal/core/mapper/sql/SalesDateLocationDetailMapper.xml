@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SalesDateLocationDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailHolder" >
+    <id column="DETAIL_LINE_SEQ_NO" property="detailLineSeqNo" jdbcType="INTEGER" />
+    <id column="DATE_LINE_SEQ_NO" property="dateLineSeqNo" jdbcType="INTEGER" />
+    <id column="SALES_OID" property="salesOid" jdbcType="DECIMAL" />
+    <id column="LOCATION_LINE_SEQ_NO" property="locationLineSeqNo" jdbcType="INTEGER" />
+    <result column="SALES_QTY" property="salesQty" jdbcType="DECIMAL" />
+    <result column="ITEM_COST" property="itemCost" jdbcType="DECIMAL" />
+    <result column="SALES_PRICE" property="salesPrice" jdbcType="DECIMAL" />
+    <result column="SALES_AMOUNT" property="salesAmount" jdbcType="DECIMAL" />
+    <result column="SALES_DISCOUNT_AMOUNT" property="salesDiscountAmount" jdbcType="DECIMAL" />
+    <result column="VAT_AMOUNT" property="vatAmount" jdbcType="DECIMAL" />
+    <result column="NET_SALES_AMOUNT" property="salesNetAmount" jdbcType="DECIMAL" />
+    <result column="LINE_REF_NO" property="lineRefNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DETAIL_LINE_SEQ_NO, DATE_LINE_SEQ_NO, SALES_OID, LOCATION_LINE_SEQ_NO, SALES_QTY, 
+    ITEM_COST, SALES_PRICE, SALES_AMOUNT, SALES_DISCOUNT_AMOUNT, VAT_AMOUNT, NET_SALES_AMOUNT, LINE_REF_NO
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SALES_DATE_LOCATION_DETAIL
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="detailLineSeqNo != null">
+        and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="dateLineSeqNo != null">
+        and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationLineSeqNo != null">
+        and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="salesQty != null">
+        and SALES_QTY = #{salesQty,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null">
+        and ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="salesPrice != null">
+        and SALES_PRICE = #{salesPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="salesAmount != null">
+        and SALES_AMOUNT = #{salesAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="salesDiscountAmount != null">
+        and SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="vatAmount != null">
+        and VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="salesNetAmount != null">
+        and NET_SALES_AMOUNT = #{salesNetAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="lineRefNo != null">
+        and LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailHolder" >
+    delete from SALES_DATE_LOCATION_DETAIL
+    <where>
+      <if test="salesOid != null">
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="detailLineSeqNo != null">
+        and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="dateLineSeqNo != null">
+        and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationLineSeqNo != null">
+        and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="salesQty != null">
+        and SALES_QTY = #{salesQty,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null">
+        and ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="salesPrice != null">
+        and SALES_PRICE = #{salesPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="salesAmount != null">
+        and SALES_AMOUNT = #{salesAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="salesDiscountAmount != null">
+        and SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="vatAmount != null">
+        and VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="salesNetAmount != null">
+        and NET_SALES_AMOUNT = #{salesNetAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="lineRefNo != null">
+        and LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailHolder" >
+    insert into SALES_DATE_LOCATION_DETAIL (DETAIL_LINE_SEQ_NO, DATE_LINE_SEQ_NO, SALES_OID, 
+      LOCATION_LINE_SEQ_NO, SALES_QTY, ITEM_COST, SALES_PRICE, 
+      SALES_AMOUNT, SALES_DISCOUNT_AMOUNT, VAT_AMOUNT, NET_SALES_AMOUNT, LINE_REF_NO
+      )
+    values (#{detailLineSeqNo,jdbcType=INTEGER}, #{dateLineSeqNo,jdbcType=INTEGER}, #{salesOid,jdbcType=DECIMAL}, 
+      #{locationLineSeqNo,jdbcType=INTEGER}, #{salesQty,jdbcType=DECIMAL}, #{itemCost,jdbcType=DECIMAL}, #{salesPrice,jdbcType=DECIMAL}, 
+      #{salesAmount,jdbcType=DECIMAL}, #{salesDiscountAmount,jdbcType=DECIMAL}, #{vatAmount,jdbcType=DECIMAL}, #{salesNetAmount,jdbcType=DECIMAL}, #{lineRefNo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailHolder" >
+    update SALES_DATE_LOCATION_DETAIL
+    <set >
+      <if test="salesQty != null">
+        SALES_QTY = #{salesQty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemCost != null">
+        ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+      </if>
+      <if test="salesPrice != null">
+        SALES_PRICE = #{salesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="salesAmount != null">
+        SALES_AMOUNT = #{salesAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="salesDiscountAmount != null">
+        SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="vatAmount != null">
+        VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="salesNetAmount != null">
+        NET_SALES_AMOUNT = #{salesNetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineRefNo != null">
+        LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailHolder" >
+    update SALES_DATE_LOCATION_DETAIL
+    set 
+        SALES_QTY = #{salesQty,jdbcType=DECIMAL},
+        ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+        SALES_PRICE = #{salesPrice,jdbcType=DECIMAL},
+        SALES_AMOUNT = #{salesAmount,jdbcType=DECIMAL},
+        SALES_DISCOUNT_AMOUNT = #{salesDiscountAmount,jdbcType=DECIMAL},
+        VAT_AMOUNT = #{vatAmount,jdbcType=DECIMAL},
+        NET_SALES_AMOUNT = #{salesNetAmount,jdbcType=DECIMAL},
+        LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+    where DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+  </update>
+</mapper>

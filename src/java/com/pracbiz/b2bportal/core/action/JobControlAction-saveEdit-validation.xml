@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+    <field name="second">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC2701")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="minute">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC2702")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="hour">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC2703")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="dayOfMonth">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC2704")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="month">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC2705")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="dayOfWeek">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC2706")}</message>
+        </field-validator>
+    </field>
+</validators>

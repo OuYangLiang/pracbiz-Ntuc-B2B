@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.RtvDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.RtvDetailHolder" >
+    <id column="RTV_OID" property="rtvOid" jdbcType="DECIMAL" />
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ITEM_CODE" property="supplierItemCode" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="ITEM_DESC" property="itemDesc" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="COLOUR_CODE" property="colourCode" jdbcType="VARCHAR" />
+    <result column="COLOUR_DESC" property="colourDesc" jdbcType="VARCHAR" />
+    <result column="SIZE_CODE" property="sizeCode" jdbcType="VARCHAR" />
+    <result column="SIZE_DESC" property="sizeDesc" jdbcType="VARCHAR" />
+    <result column="DO_NO" property="doNo" jdbcType="VARCHAR" />
+    <result column="DO_DATE" property="doDate" jdbcType="DATE" />
+    <result column="INV_NO" property="invNo" jdbcType="VARCHAR" />
+    <result column="INV_DATE" property="invDate" jdbcType="DATE" />
+    <result column="PACKING_FACTOR" property="packingFactor" jdbcType="DECIMAL" />
+    <result column="RETURN_BASE_UNIT" property="returnBaseUnit" jdbcType="CHAR" />
+    <result column="RETURN_UOM" property="returnUom" jdbcType="VARCHAR" />
+    <result column="RETURN_QTY" property="returnQty" jdbcType="DECIMAL" />
+    <result column="UNIT_COST" property="unitCost" jdbcType="DECIMAL" />
+    <result column="COST_DISCOUNT_AMOUNT" property="costDiscountAmount" jdbcType="DECIMAL" />
+    <result column="ITEM_COST" property="itemCost" jdbcType="DECIMAL" />
+    <result column="RETAIL_PRICE" property="retailPrice" jdbcType="DECIMAL" />
+    <result column="ITEM_RETAIL_AMOUNT" property="itemRetailAmount" jdbcType="DECIMAL" />
+    <result column="REASON_CODE" property="reasonCode" jdbcType="VARCHAR" />
+    <result column="REASON_DESC" property="reasonDesc" jdbcType="VARCHAR" />
+	<result column="LINE_REF_NO" property="lineRefNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RTV_OID, LINE_SEQ_NO, BUYER_ITEM_CODE, SUPPLIER_ITEM_CODE, BARCODE, ITEM_DESC, BRAND, 
+    COLOUR_CODE, COLOUR_DESC, SIZE_CODE, SIZE_DESC, DO_NO, DO_DATE, INV_NO, INV_DATE, 
+    PACKING_FACTOR, RETURN_BASE_UNIT, RETURN_UOM, RETURN_QTY, UNIT_COST, COST_DISCOUNT_AMOUNT, 
+    ITEM_COST, RETAIL_PRICE, ITEM_RETAIL_AMOUNT, LINE_REF_NO,
+    REASON_CODE, REASON_DESC
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.RtvDetailHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from RTV_DETAIL
+    <where>
+      <if test="rtvOid != null" >
+        RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="doNo != null" >
+        and DO_NO = #{doNo,jdbcType=VARCHAR}
+      </if>
+      <if test="doDate != null" >
+        and DO_DATE = #{doDate,jdbcType=DATE}
+      </if>
+      <if test="invNo != null" >
+        and INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invDate != null" >
+        and INV_DATE = #{invDate,jdbcType=DATE}
+      </if>
+      <if test="packingFactor != null" >
+        and PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="returnBaseUnit != null" >
+        and RETURN_BASE_UNIT = #{returnBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="returnUom != null" >
+        and RETURN_UOM = #{returnUom,jdbcType=VARCHAR}
+      </if>
+      <if test="returnQty != null" >
+        and RETURN_QTY = #{returnQty,jdbcType=DECIMAL}
+      </if>
+      <if test="unitCost != null" >
+        and UNIT_COST = #{unitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="costDiscountAmount != null" >
+        and COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null" >
+        and ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="retailPrice != null" >
+        and RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRetailAmount != null" >
+        and ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="reasonCode != null" >
+        and REASON_CODE = #{reasonCode,jdbcType=VARCHAR}
+      </if>
+      <if test="reasonDesc != null" >
+        and REASON_DESC = #{reasonDesc,jdbcType=VARCHAR}
+      </if>
+	  <if test="lineRefNo != null" >
+        and LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.RtvDetailHolder" >
+    delete from RTV_DETAIL
+    <where>
+      <if test="rtvOid != null" >
+        RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="doNo != null" >
+        and DO_NO = #{doNo,jdbcType=VARCHAR}
+      </if>
+      <if test="doDate != null" >
+        and DO_DATE = #{doDate,jdbcType=DATE}
+      </if>
+      <if test="invNo != null" >
+        and INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invDate != null" >
+        and INV_DATE = #{invDate,jdbcType=DATE}
+      </if>
+      <if test="packingFactor != null" >
+        and PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="returnBaseUnit != null" >
+        and RETURN_BASE_UNIT = #{returnBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="returnUom != null" >
+        and RETURN_UOM = #{returnUom,jdbcType=VARCHAR}
+      </if>
+      <if test="returnQty != null" >
+        and RETURN_QTY = #{returnQty,jdbcType=DECIMAL}
+      </if>
+      <if test="unitCost != null" >
+        and UNIT_COST = #{unitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="costDiscountAmount != null" >
+        and COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null" >
+        and ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="retailPrice != null" >
+        and RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRetailAmount != null" >
+        and ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="reasonCode != null" >
+        and REASON_CODE = #{reasonCode,jdbcType=VARCHAR}
+      </if>
+      <if test="reasonDesc != null" >
+        and REASON_DESC = #{reasonDesc,jdbcType=VARCHAR}
+      </if>
+	  <if test="lineRefNo != null" >
+        and LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.RtvDetailHolder" >
+    insert into RTV_DETAIL (RTV_OID, LINE_SEQ_NO, BUYER_ITEM_CODE, 
+      SUPPLIER_ITEM_CODE, BARCODE, ITEM_DESC, 
+      BRAND, COLOUR_CODE, COLOUR_DESC, 
+      SIZE_CODE, SIZE_DESC, DO_NO, 
+      DO_DATE, INV_NO, INV_DATE, PACKING_FACTOR, 
+      RETURN_BASE_UNIT, RETURN_UOM, RETURN_QTY, 
+      UNIT_COST,COST_DISCOUNT_AMOUNT, 
+      ITEM_COST, RETAIL_PRICE, ITEM_RETAIL_AMOUNT, 
+      REASON_CODE, REASON_DESC, LINE_REF_NO)
+    values (#{rtvOid,jdbcType=DECIMAL}, #{lineSeqNo,jdbcType=INTEGER}, #{buyerItemCode,jdbcType=VARCHAR}, 
+      #{supplierItemCode,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
+      #{brand,jdbcType=VARCHAR}, #{colourCode,jdbcType=VARCHAR}, #{colourDesc,jdbcType=VARCHAR}, 
+      #{sizeCode,jdbcType=VARCHAR}, #{sizeDesc,jdbcType=VARCHAR}, #{doNo,jdbcType=VARCHAR}, 
+      #{doDate,jdbcType=DATE}, #{invNo,jdbcType=VARCHAR}, #{invDate,jdbcType=DATE}, #{packingFactor,jdbcType=DECIMAL}, 
+      #{returnBaseUnit,jdbcType=CHAR}, #{returnUom,jdbcType=VARCHAR}, #{returnQty,jdbcType=DECIMAL}, 
+      #{unitCost,jdbcType=DECIMAL}, #{costDiscountAmount,jdbcType=DECIMAL}, 
+      #{itemCost,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, #{itemRetailAmount,jdbcType=DECIMAL}, 
+      #{reasonCode,jdbcType=VARCHAR}, #{reasonDesc,jdbcType=VARCHAR}, #{lineRefNo, jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.RtvDetailHolder" >
+    update RTV_DETAIL
+    <set >
+      <if test="buyerItemCode != null" >
+        BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierItemCode != null" >
+        SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        BARCODE = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null" >
+        ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="colourCode != null" >
+        COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      </if>
+      <if test="colourDesc != null" >
+        COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeCode != null" >
+        SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeDesc != null" >
+        SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="doNo != null" >
+        DO_NO = #{doNo,jdbcType=VARCHAR},
+      </if>
+      <if test="doDate != null" >
+        DO_DATE = #{doDate,jdbcType=DATE},
+      </if>
+      <if test="invNo != null" >
+        INV_NO = #{invNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invDate != null" >
+        INV_DATE = #{invDate,jdbcType=DATE},
+      </if>
+      <if test="packingFactor != null" >
+        PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      </if>
+      <if test="returnBaseUnit != null" >
+        RETURN_BASE_UNIT = #{returnBaseUnit,jdbcType=CHAR},
+      </if>
+      <if test="returnUom != null" >
+        RETURN_UOM = #{returnUom,jdbcType=VARCHAR},
+      </if>
+      <if test="returnQty != null" >
+        RETURN_QTY = #{returnQty,jdbcType=DECIMAL},
+      </if>
+      <if test="unitCost != null" >
+        UNIT_COST = #{unitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="costDiscountAmount != null" >
+        COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="itemCost != null" >
+        ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null" >
+        RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="itemRetailAmount != null" >
+        ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="reasonCode != null" >
+        REASON_CODE = #{reasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonDesc != null" >
+        REASON_DESC = #{reasonDesc,jdbcType=VARCHAR},
+      </if>
+	  <if test="lineRefNo != null" >
+        LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.RtvDetailHolder" >
+    update RTV_DETAIL
+    set BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      BARCODE = #{barcode,jdbcType=VARCHAR},
+      ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      DO_NO = #{doNo,jdbcType=VARCHAR},
+      DO_DATE = #{doDate,jdbcType=DATE},
+      INV_NO = #{invNo,jdbcType=VARCHAR},
+      INV_DATE = #{invDate,jdbcType=DATE},
+      PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      RETURN_BASE_UNIT = #{returnBaseUnit,jdbcType=CHAR},
+      RETURN_UOM = #{returnUom,jdbcType=VARCHAR},
+      RETURN_QTY = #{returnQty,jdbcType=DECIMAL},
+      UNIT_COST = #{unitCost,jdbcType=DECIMAL},
+      COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL},
+      ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+      RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL},
+      ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL},
+      REASON_CODE = #{reasonCode,jdbcType=VARCHAR},
+      REASON_DESC = #{reasonDesc,jdbcType=VARCHAR},
+      LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+    where RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+</mapper>

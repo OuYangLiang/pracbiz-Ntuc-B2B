@@ -1,0 +1,17 @@
+<html>
+    <body>
+    The following lists out all the matching failed record, due to the pending Debit Note.<br/><br/>
+    
+    <div style="text-decoration: underline">
+        List Of Record:
+    </div>
+    
+    <ul>
+    #foreach($o in $contentList)
+        <li>$o</li><br/>
+    #end
+    </ul>
+    
+    Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

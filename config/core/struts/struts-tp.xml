@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="tp" extends="pracbiz-default" namespace="/tp"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="init">
+            <result>/WEB-INF/views/core/tradingPartner/summary.jsp</result>
+        </action>
+        
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initAdd" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="initAdd">
+            <result>/WEB-INF/views/core/tradingPartner/create.jsp</result>
+        </action>
+        
+        <action name="saveAdd" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="saveAdd">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/tradingPartner/create.jsp</result>
+            <result type="redirect">/tp/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="view" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="view">
+            <result name="input">/WEB-INF/views/core/tradingPartner/summary.jsp</result>
+            <result>/WEB-INF/views/core/tradingPartner/view.jsp</result>
+        </action>
+        
+        <action name="initEdit" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="initEdit">
+            <result name="input">/WEB-INF/views/core/tradingPartner/summary.jsp</result>
+            <result>/WEB-INF/views/core/tradingPartner/edit.jsp</result>
+        </action>
+        
+        <action name="saveEdit" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="saveEdit">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+           	<result name="input">/WEB-INF/views/core/tradingPartner/edit.jsp</result>
+            <result type="redirect">/tp/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="putParamIntoSession">
+			<result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+		</action>
+		
+        <action name="saveDelete" class="com.pracbiz.b2bportal.core.action.TradingPartnerAction" method="saveDelete">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+        	<result name="input">/WEB-INF/views/core/tradingPartner/summary.jsp</result>
+        </action>
+    </package>
+</struts>

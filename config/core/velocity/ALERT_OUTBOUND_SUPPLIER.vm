@@ -1,0 +1,62 @@
+<html>
+    <head>
+        Hi ${SUPPLIER_NAME}(${BUYER_GIVEN_SUPPLIER_CODE})
+        <br/><br/><br/>
+        The following document(s) has/have arrived in your EC Mailbox.
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="left"> Buyer</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">${BUYER_NAME} (${BUYER_CODE})</td>
+                </tr>
+                <tr>
+                    <td width="100" align="left"> Total ${DOC_TYPE}(s)</td>
+                    <td align="right">:</td>
+                    <td align="left">$SUCC_LIST.size()</td>
+                </tr>
+            </table>
+            <p/>
+            <table>
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            Success List
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $SUCC_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        <td align="left">Doc Ref#:$o.refNo (#if ($o.amended) Amended #else New #end)</td>
+                    </tr>
+                #end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         PracBiz B2B Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support.(Contact no : ${CONTACT_NO})
+                     </td>
+                 </tr>
+            </table>
+        </form>
+        <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

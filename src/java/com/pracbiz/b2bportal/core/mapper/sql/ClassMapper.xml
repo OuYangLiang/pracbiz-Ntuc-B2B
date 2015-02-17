@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.ClassMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.ClassHolder" >
+    <id column="CLASS_OID" property="classOid" jdbcType="DECIMAL" />
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+    <result column="CLASS_DESC" property="classDesc" jdbcType="VARCHAR" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ExResultMap" type="com.pracbiz.b2bportal.core.holder.extension.ClassExHolder" >
+    <id column="CLASS_OID" property="classOid" jdbcType="DECIMAL" />
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+    <result column="CLASS_DESC" property="classDesc" jdbcType="VARCHAR" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CLASS_OID, CLASS_CODE, CLASS_DESC, BUYER_OID
+  </sql>
+  <sql id="Ex_Column_List" >
+    C.CLASS_OID, C.CLASS_CODE, C.CLASS_DESC, C.BUYER_OID, B.BUYER_CODE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.ClassHolder" >
+    select 
+    <include refid="Ex_Column_List" />
+    from CLASS C, BUYER B
+    where C.BUYER_OID = B.BUYER_OID
+    <if test="classOid != null" >
+      and C.CLASS_OID = #{classOid,jdbcType=DECIMAL}
+    </if>
+    <if test="classCode != null" >
+      and C.CLASS_CODE = #{classCode,jdbcType=VARCHAR}
+    </if>
+    <if test="classDesc != null" >
+      and C.CLASS_DESC = #{classDesc,jdbcType=VARCHAR}
+    </if>
+    <if test="buyerOid != null" >
+      and C.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
+  <select id="selectClassByUserOid" resultMap="ExResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Ex_Column_List" />
+    from CLASS C, BUYER B where C.BUYER_OID = B.BUYER_OID and
+    if ((select 1 from USER_CLASS where USER_OID = #{userOid,jdbcType=DECIMAL} and CLASS_OID=-1) is null,
+    (exists (select 1 from USER_CLASS UC where C.CLASS_OID=UC.CLASS_OID and UC.USER_OID = #{userOid,jdbcType=DECIMAL})),
+    (C.BUYER_OID=(select BUYER_OID from USER_PROFILE UP where UP.USER_OID = #{userOid,jdbcType=DECIMAL})
+    OR C.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY WHERE USER_OID = #{userOid,jdbcType=DECIMAL})));
+  </select>
+  
+  <select id="selectTmpClassByUserOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Ex_Column_List" />
+    from CLASS C, BUYER B where C.BUYER_OID = B.BUYER_OID and
+    if ((select 1 from T_USER_CLASS where USER_OID = #{userOid,jdbcType=DECIMAL} and CLASS_OID=-1) is null,
+    (exists (select 1 from T_USER_CLASS UC where C.CLASS_OID=UC.CLASS_OID and UC.USER_OID = #{userOid,jdbcType=DECIMAL})),
+    C.BUYER_OID=(select BUYER_OID from USER_PROFILE UP where UP.USER_OID = #{userOid,jdbcType=DECIMAL}));
+  </select>
+  
+  <select id="selectClassByBuyerOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Ex_Column_List" />
+    from CLASS C, BUYER B where C.BUYER_OID = B.BUYER_OID and C.BUYER_OID = #{buyerOid,jdbcType=DECIMAL};
+  </select>
+  
+  <select id="selectClassByItemCodeAndBuyerOid" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    	C.CLASS_OID, C.CLASS_CODE, C.CLASS_DESC, C.BUYER_OID
+    FROM ITEM I, CLASS C 
+    WHERE I.CLASS_CODE = C.CLASS_CODE AND I.BUYER_OID = C.BUYER_OID
+    AND I.BUYER_ITEM_CODE = #{buyerItemCode, jdbcType=VARCHAR} 
+    AND I.BUYER_OID = #{buyerOid,jdbcType=DECIMAL};
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.ClassHolder" >
+    delete from CLASS
+    <where>
+      <if test="classOid != null" >
+        and CLASS_OID = #{classOid,jdbcType=DECIMAL}
+      </if>
+      <if test="classCode != null" >
+        and CLASS_CODE = #{classCode,jdbcType=VARCHAR}
+      </if>
+      <if test="classDesc != null" >
+        and CLASS_DESC = #{classDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerOid != null" >
+        and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.ClassHolder" >
+    insert into CLASS (CLASS_OID, CLASS_CODE, CLASS_DESC, BUYER_OID)
+    values (#{classOid,jdbcType=DECIMAL}, #{classCode,jdbcType=VARCHAR}, 
+    #{classDesc,jdbcType=VARCHAR}, #{buyerOid,jdbcType=DECIMAL})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.ClassHolder" >
+    update CLASS
+    <set >
+      <if test="classCode != null" >
+        CLASS_CODE = #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null" >
+        CLASS_DESC = #{classDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where CLASS_OID = #{classOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreHolder" >
+    UPDATE CLASS
+    SET CLASS_CODE = #{classCode,jdbcType=VARCHAR},
+      CLASS_DESC = #{classDesc,jdbcType=VARCHAR},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    WHERE CLASS_OID = #{classOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

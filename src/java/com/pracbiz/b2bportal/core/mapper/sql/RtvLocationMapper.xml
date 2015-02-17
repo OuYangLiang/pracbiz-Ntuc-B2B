@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.RtvLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.RtvLocationHolder" >
+    <id column="RTV_OID" property="rtvOid" jdbcType="DECIMAL" />
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <result column="LOCATION_CODE" property="locationCode" jdbcType="VARCHAR" />
+    <result column="LOCATION_NAME" property="locationName" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR1" property="locationAddr1" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR2" property="locationAddr2" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR3" property="locationAddr3" jdbcType="VARCHAR" />
+    <result column="LOCATION_ADDR4" property="locationAddr4" jdbcType="VARCHAR" />
+    <result column="LOCATION_CITY" property="locationCity" jdbcType="VARCHAR" />
+    <result column="LOCATION_STATE" property="locationState" jdbcType="VARCHAR" />
+    <result column="LOCATION_CTRY_CODE" property="locationCtryCode" jdbcType="CHAR" />
+    <result column="LOCATION_POSTAL_CODE" property="locationPostalCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="missingGiReport" type="com.pracbiz.b2bportal.core.report.excel.MissingGiReportParameter">
+  	 <result column="RTV_OID" property="rtvOid" jdbcType="VARCHAR" />
+  	 <result column="RTV_NO" property="rtvNo" jdbcType="VARCHAR" />
+  	 <result column="RTV_DATE" property="rtvDate" jdbcType="VARCHAR" />
+  	 <result column="COLLECTION_DATE" property="collectionDate" jdbcType="VARCHAR" />
+  	 <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+  	 <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+  	 <result column="TOTAL_COST" property="totalCost" jdbcType="VARCHAR" />
+  	 <result column="REASON_DESC" property="reasonDesc" jdbcType="VARCHAR" />
+  	 <result column="RTV_REMARKS" property="rtvRemarks" jdbcType="VARCHAR" />
+  	 <result column="LOCATION_CODE" property="locationCode" jdbcType="VARCHAR" />
+  	 <result column="LOCATION_NAME" property="locationName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap type="com.pracbiz.b2bportal.core.report.excel.RtvGiDnReportParameter" id="RtvGiDnReportMap">
+  	<result column="DN_NO" property="dnNo" jdbcType="VARCHAR" />
+	<result column="GI_NO" property="giNo" jdbcType="VARCHAR" />    
+    <result column="RTV_NO" property="rtvNo" jdbcType="VARCHAR" />    
+    <result column="DN_DATE" property="dnDate" jdbcType="TIMESTAMP" />    
+    <result column="GI_DATE" property="giDate" jdbcType="TIMESTAMP" />    
+    <result column="RTV_DATE" property="rtvDate" jdbcType="TIMESTAMP" />  
+    <result column="DN_AMT_W_VAT" property="dnAmtWvat" jdbcType="DECIMAL" />
+	<result column="DN_AMT_WO_VAT" property="dnAmtWoVat" jdbcType="DECIMAL" />
+	<result column="DN_UNIT_PRICE" property="dnUnitPrice" jdbcType="DECIMAL" />
+	<result column="RTV_UNIT_PRICE" property="rtvUnitPrice" jdbcType="DECIMAL" />
+	<result column="DEBIT_QTY" property="dnQty" jdbcType="DECIMAL" />
+	<result column="ISSUED_QTY" property="giQty" jdbcType="DECIMAL" />
+	<result column="RTV_RETURN_QTY" property="rtvQty" jdbcType="DECIMAL" />
+	<result column="CLOSED_DATE" property="closedDate" jdbcType="TIMESTAMP" />
+	<result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+	<result column="ITEM_DESC" property="itemDesc" jdbcType="VARCHAR" />
+	<result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+	<result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+	<result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+	<result column="STORE_CODE" property="storeCode" jdbcType="VARCHAR" />
+	<result column="STORE_NAME" property="storeName" jdbcType="VARCHAR" />
+	<result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+	<result column="RETURN_UOM" property="uom" jdbcType="VARCHAR" />
+	<result column="BOOL_VALUE" property="offer" jdbcType="BIT" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    RTV_OID, LINE_SEQ_NO, LOCATION_CODE, LOCATION_NAME, LOCATION_ADDR1, LOCATION_ADDR2, 
+    LOCATION_ADDR3, LOCATION_ADDR4, LOCATION_CITY, LOCATION_STATE, LOCATION_CTRY_CODE, 
+    LOCATION_POSTAL_CODE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from RTV_LOCATION
+    <where>
+      <if test="rtvOid != null" >
+        RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationCode != null" >
+        and LOCATION_CODE = #{locationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="locationName != null" >
+        and LOCATION_NAME = #{locationName,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr1 != null" >
+        and LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr2 != null" >
+        and LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr3 != null" >
+        and LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr4 != null" >
+        and LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCity != null" >
+        and LOCATION_CITY = #{locationCity,jdbcType=VARCHAR}
+      </if>
+      <if test="locationState != null" >
+        and LOCATION_STATE = #{locationState,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCtryCode != null" >
+        and LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="locationPostalCode != null" >
+        and LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationHolder" >
+    delete from RTV_LOCATION
+    <where>
+      <if test="rtvOid != null" >
+        RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationCode != null" >
+        and LOCATION_CODE = #{locationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="locationName != null" >
+        and LOCATION_NAME = #{locationName,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr1 != null" >
+        and LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr2 != null" >
+        and LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr3 != null" >
+        and LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR}
+      </if>
+      <if test="locationAddr4 != null" >
+        and LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCity != null" >
+        and LOCATION_CITY = #{locationCity,jdbcType=VARCHAR}
+      </if>
+      <if test="locationState != null" >
+        and LOCATION_STATE = #{locationState,jdbcType=VARCHAR}
+      </if>
+      <if test="locationCtryCode != null" >
+        and LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR}
+      </if>
+      <if test="locationPostalCode != null" >
+        and LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationHolder" >
+    insert into RTV_LOCATION (RTV_OID, LINE_SEQ_NO, LOCATION_CODE, 
+      LOCATION_NAME, LOCATION_ADDR1, LOCATION_ADDR2, 
+      LOCATION_ADDR3, LOCATION_ADDR4, LOCATION_CITY, 
+      LOCATION_STATE, LOCATION_CTRY_CODE, LOCATION_POSTAL_CODE
+      )
+    values (#{rtvOid,jdbcType=DECIMAL}, #{lineSeqNo,jdbcType=INTEGER}, #{locationCode,jdbcType=VARCHAR}, 
+      #{locationName,jdbcType=VARCHAR}, #{locationAddr1,jdbcType=VARCHAR}, #{locationAddr2,jdbcType=VARCHAR}, 
+      #{locationAddr3,jdbcType=VARCHAR}, #{locationAddr4,jdbcType=VARCHAR}, #{locationCity,jdbcType=VARCHAR}, 
+      #{locationState,jdbcType=VARCHAR}, #{locationCtryCode,jdbcType=CHAR}, #{locationPostalCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationHolder" >
+    update RTV_LOCATION
+    <set >
+      <if test="locationCode != null" >
+        LOCATION_CODE = #{locationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="locationName != null" >
+        LOCATION_NAME = #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr1 != null" >
+        LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr2 != null" >
+        LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr3 != null" >
+        LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="locationAddr4 != null" >
+        LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR},
+      </if>
+      <if test="locationCity != null" >
+        LOCATION_CITY = #{locationCity,jdbcType=VARCHAR},
+      </if>
+      <if test="locationState != null" >
+        LOCATION_STATE = #{locationState,jdbcType=VARCHAR},
+      </if>
+      <if test="locationCtryCode != null" >
+        LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR},
+      </if>
+      <if test="locationPostalCode != null" >
+        LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationHolder" >
+    update RTV_LOCATION
+    set LOCATION_CODE = #{locationCode,jdbcType=VARCHAR},
+      LOCATION_NAME = #{locationName,jdbcType=VARCHAR},
+      LOCATION_ADDR1 = #{locationAddr1,jdbcType=VARCHAR},
+      LOCATION_ADDR2 = #{locationAddr2,jdbcType=VARCHAR},
+      LOCATION_ADDR3 = #{locationAddr3,jdbcType=VARCHAR},
+      LOCATION_ADDR4 = #{locationAddr4,jdbcType=VARCHAR},
+      LOCATION_CITY = #{locationCity,jdbcType=VARCHAR},
+      LOCATION_STATE = #{locationState,jdbcType=VARCHAR},
+      LOCATION_CTRY_CODE = #{locationCtryCode,jdbcType=CHAR},
+      LOCATION_POSTAL_CODE = #{locationPostalCode,jdbcType=VARCHAR}
+    where RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectMissingGiReportRecords" resultMap="missingGiReport"  parameterType="java.util.Map">
+  	SELECT  RTV_OID, RTV_NO, RTV_DATE, COLLECTION_DATE, RTV_REMARKS, SUPPLIER_CODE
+  		    ,SUPPLIER_NAME, TOTAL_COST, LOCATION_CODE, LOCATION_NAME, REASON_DESC
+  	FROM (SELECT RH.RTV_OID, RH.RTV_NO, RH.RTV_DATE, RH.COLLECTION_DATE, RH.RTV_REMARKS,
+  	     RH.SUPPLIER_CODE, RH.SUPPLIER_NAME, RH.TOTAL_COST, RL.LOCATION_CODE, RL.LOCATION_NAME, RH.REASON_DESC
+	     FROM RTV_HEADER RH, RTV_LOCATION RL, MSG_TRANSACTIONS M, SUPPLIER S 
+		 WHERE RH.RTV_OID = RL.RTV_OID AND M.DOC_OID = RH.RTV_OID AND RH.CTRL_STATUS != 'OUTDATED'
+		 AND RH.SUPPLIER_OID = S.SUPPLIER_OID
+         AND S.LIVE_DATE IS NOT NULL
+         AND DATEDIFF(RH.RTV_DATE, S.LIVE_DATE) >=0
+		 <if test="buyerOid != null">
+	      	AND RH.BUYER_OID = #{buyerOid, jdbcType=DECIMAL}
+		 </if>
+		 <if test="supplierCode != null">
+		   	AND RH.SUPPLIER_CODE = #{supplierCode, jdbcType=VARCHAR}
+		 </if>
+		 <if test="begin != null">
+		 	AND M.CREATE_DATE <![CDATA[>=]]> #{begin, jdbcType=TIMESTAMP}
+		 </if>
+		 <if test="end != null">
+		 	AND M.CREATE_DATE <![CDATA[<=]]> #{end, jdbcType=TIMESTAMP}
+		 </if>
+		  )
+    RTV_INFO WHERE NOT EXISTS (SELECT * FROM GI_HEADER GH 
+		 WHERE GH.CTRL_STATUS != 'OUTDATED' 
+	     AND RTV_INFO.RTV_NO = GH.RTV_NO 
+	     AND RTV_INFO.LOCATION_CODE = GH.ISSUING_STORE_CODE)
+  </select>
+  
+  <select id="selectRtvGiDnWarningReportData" resultMap="RtvGiDnReportMap" parameterType="java.util.Map" >
+    SELECT DISTINCT
+    VIEW1.BUYER_ITEM_CODE, VIEW1.ITEM_DESC,VIEW1.RTV_DATE, VIEW1.RTV_NO,VIEW1.LOCATION_CODE, 
+	VIEW1.BUYER_OID,VIEW1.SUPPLIER_CODE, VIEW1.SUPPLIER_NAME,VIEW1.RTV_RETURN_QTY,
+	VIEW1.RTV_UNIT_PRICE, 
+	VIEW1.RETURN_UOM, I.CLASS_CODE, VIEW1.LINE_SEQ_NO, RDEX.BOOL_VALUE, DH.CLOSED_DATE,
+    DH.BUYER_CODE, DH.DN_NO, DH.DN_DATE, DH.TOTAL_COST AS DN_AMT_WO_VAT, 
+	DH.TOTAL_COST_WITH_VAT AS DN_AMT_W_VAT, DH.CTRL_STATUS, DH.STORE_CODE, DH.STORE_NAME,
+	DD.UNIT_COST AS DN_UNIT_PRICE , DD.DEBIT_QTY, 
+	GH.GI_NO, GH.GI_DATE, GH.TOTAL_COST AS GI_AMT,
+	GD.ISSUED_QTY, GD.UNIT_COST
+	FROM (SELECT RH.RTV_OID, RH.RTV_DATE, RH.RTV_NO, RH.BUYER_OID,RH.SUPPLIER_CODE,RH.SUPPLIER_NAME,
+	RL.LOCATION_CODE, RLD.LOCATION_SHIP_QTY AS RTV_RETURN_QTY,
+	RD.UNIT_COST AS RTV_UNIT_PRICE, RD.BUYER_ITEM_CODE, RD.ITEM_DESC, RD.RETURN_UOM, RD.LINE_SEQ_NO
+	FROM RTV_HEADER RH, RTV_DETAIL RD, RTV_LOCATION RL, RTV_LOCATION_DETAIL RLD
+	WHERE RH.RTV_OID = RD.RTV_OID
+	AND RH.RTV_OID = RL.RTV_OID
+	AND RH.RTV_OID = RLD.RTV_OID
+	AND RL.RTV_OID = RLD.RTV_OID
+	AND RD.RTV_OID = RL.RTV_OID
+	AND RD.RTV_OID = RLD.RTV_OID
+	AND RD.RTV_OID = RD.RTV_OID
+	AND RD.LINE_SEQ_NO = RLD.DETAIL_LINE_SEQ_NO
+	AND RL.LINE_SEQ_NO = RLD.LOCATION_LINE_SEQ_NO) VIEW1
+	LEFT JOIN ITEM I ON I.BUYER_OID = VIEW1.BUYER_OID AND I.BUYER_ITEM_CODE = VIEW1.BUYER_ITEM_CODE AND I.BUYER_OID = VIEW1.BUYER_OID
+	LEFT JOIN RTV_DETAIL_EXTENDED RDEX ON  VIEW1.RTV_OID = RDEX.RTV_OID AND VIEW1.LINE_SEQ_NO = RDEX.LINE_SEQ_NO 
+	LEFT JOIN GI_HEADER GH ON GH.RTV_NO = VIEW1.RTV_NO
+	LEFT JOIN GI_DETAIL GD ON GH.GI_OID = GD.GI_OID AND GD.BUYER_ITEM_CODE = VIEW1.BUYER_ITEM_CODE
+	LEFT JOIN DN_HEADER DH ON DH.RTV_NO = VIEW1.RTV_NO
+	LEFT JOIN DN_DETAIL DD ON DH.DN_OID = DD.DN_OID AND DD.BUYER_ITEM_CODE = VIEW1.BUYER_ITEM_CODE
+	WHERE RDEX.FIELD_NAME = 'offer'
+	AND DH.CLOSED_DATE >=  #{searchDate, jdbcType=TIMESTAMP}
+	AND (DH.CTRL_STATUS = 'NEW' OR DH.CTRL_STATUS = 'AMENDED')
+	AND VIEW1.BUYER_OID = #{buyerOid, jdbcType=DECIMAL}
+    
+    UNION 
+    
+    SELECT DISTINCT 
+    GD.BUYER_ITEM_CODE, GD.ITEM_DESC, DH.RTV_DATE, DH.RTV_NO,GH.ISSUING_STORE_CODE, 
+	DH.BUYER_OID,DH.SUPPLIER_CODE, DH.SUPPLIER_NAME,VIEW3.RTV_RETURN_QTY, VIEW3.RTV_UNIT_PRICE,  
+	GD.RTV_UOM AS RETURN_UOM, I.CLASS_CODE, GD.LINE_SEQ_NO, VIEW3.BOOL_VALUE, DH.CLOSED_DATE,
+    DH.BUYER_CODE, DH.DN_NO, DH.DN_DATE, DH.TOTAL_COST AS DN_AMT_WO_VAT, 
+	DH.TOTAL_COST_WITH_VAT AS DN_AMT_W_VAT, DH.CTRL_STATUS, DH.STORE_CODE, DH.STORE_NAME,
+	DD.UNIT_COST AS DN_UNIT_PRICE , DD.DEBIT_QTY, 
+	GH.GI_NO, GH.GI_DATE, GH.TOTAL_COST AS GI_AMT,
+	GD.ISSUED_QTY, GD.UNIT_COST FROM GI_HEADER GH
+    LEFT JOIN GI_DETAIL GD ON GH.GI_OID = GD.GI_OID
+    LEFT JOIN DN_HEADER DH ON GH.GI_NO = DH.GI_NO
+    LEFT JOIN DN_DETAIL DD ON DH.DN_OID = DD.DN_OID AND GD.BUYER_ITEM_CODE = DD.BUYER_ITEM_CODE
+    LEFT JOIN (SELECT VIEW1.RTV_OID, VIEW1.RTV_DATE, VIEW1.RTV_NO, VIEW1.BUYER_OID, VIEW1.SUPPLIER_CODE, VIEW1.SUPPLIER_NAME,
+	VIEW1.LOCATION_CODE, VIEW1.RTV_RETURN_QTY, 
+	VIEW1.RTV_UNIT_PRICE, VIEW1.BUYER_ITEM_CODE, VIEW1.ITEM_DESC,VIEW1.RETURN_UOM, VIEW1.LINE_SEQ_NO, RDEX.BOOL_VALUE 
+    FROM (SELECT RH.RTV_OID, RH.RTV_DATE, RH.RTV_NO, RH.BUYER_OID,RH.SUPPLIER_CODE,RH.SUPPLIER_NAME,
+	RL.LOCATION_CODE, RLD.LOCATION_SHIP_QTY AS RTV_RETURN_QTY,
+	RD.UNIT_COST AS RTV_UNIT_PRICE, RD.BUYER_ITEM_CODE, RD.ITEM_DESC, RD.RETURN_UOM, RD.LINE_SEQ_NO
+	FROM RTV_HEADER RH, RTV_DETAIL RD, RTV_LOCATION RL, RTV_LOCATION_DETAIL RLD
+	WHERE RH.RTV_OID = RD.RTV_OID
+	AND RH.RTV_OID = RL.RTV_OID
+	AND RH.RTV_OID = RLD.RTV_OID
+	AND RL.RTV_OID = RLD.RTV_OID
+	AND RD.RTV_OID = RL.RTV_OID
+	AND RD.RTV_OID = RLD.RTV_OID
+	AND RD.RTV_OID = RD.RTV_OID
+	AND RD.LINE_SEQ_NO = RLD.DETAIL_LINE_SEQ_NO
+	AND RL.LINE_SEQ_NO = RLD.LOCATION_LINE_SEQ_NO) VIEW1 
+    LEFT JOIN RTV_DETAIL_EXTENDED RDEX ON  VIEW1.RTV_OID = RDEX.RTV_OID AND VIEW1.LINE_SEQ_NO = RDEX.LINE_SEQ_NO 
+    WHERE RDEX.FIELD_NAME = 'offer') VIEW3
+    ON VIEW3.BUYER_ITEM_CODE = GD.BUYER_ITEM_CODE AND VIEW3.RTV_NO = GH.RTV_NO
+    LEFT JOIN ITEM I ON GH.BUYER_OID = I.BUYER_OID AND GD.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE 
+    WHERE  DH.CLOSED_DATE >=  #{searchDate, jdbcType=TIMESTAMP}
+    AND (DH.CTRL_STATUS = 'NEW' OR DH.CTRL_STATUS = 'AMENDED')
+    AND GH.BUYER_OID = #{buyerOid, jdbcType=DECIMAL}
+  </select>
+</mapper>

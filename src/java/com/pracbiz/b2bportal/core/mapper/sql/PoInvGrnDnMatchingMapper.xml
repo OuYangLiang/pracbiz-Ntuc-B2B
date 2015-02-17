@@ -1,0 +1,1009 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.PoInvGrnDnMatchingMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingHolder" >
+    <id column="MATCHING_OID" property="matchingOid" jdbcType="DECIMAL" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+    <result column="PO_OID" property="poOid" jdbcType="DECIMAL" />
+    <result column="PO_STORE_CODE" property="poStoreCode" jdbcType="VARCHAR" />
+    <result column="PO_STORE_NAME" property="poStoreName" jdbcType="VARCHAR" />
+    <result column="PO_NO" property="poNo" jdbcType="VARCHAR" />
+    <result column="PO_DATE" property="poDate" jdbcType="TIMESTAMP" />
+    <result column="PO_AMT" property="poAmt" jdbcType="DECIMAL" />
+    <result column="INV_OID" property="invOid" jdbcType="DECIMAL" />
+    <result column="INV_NO" property="invNo" jdbcType="VARCHAR" />
+    <result column="INV_DATE" property="invDate" jdbcType="TIMESTAMP" />
+    <result column="INV_AMT" property="invAmt" jdbcType="DECIMAL" />
+    <result column="DN_OID" property="dnOid" jdbcType="DECIMAL" />
+    <result column="DN_NO" property="dnNo" jdbcType="VARCHAR" />
+    <result column="DN_DATE" property="dnDate" jdbcType="TIMESTAMP" />
+    <result column="DN_AMT" property="dnAmt" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="MATCHING_STATUS" property="matchingStatus" jdbcType="CHAR" />
+    <result column="MATCHING_DATE" property="matchingDate" jdbcType="TIMESTAMP" />
+    <result column="INV_STATUS" property="invStatus" jdbcType="CHAR" />
+    <result column="INV_STATUS_ACTION_DATE" property="invStatusActionDate" jdbcType="TIMESTAMP" />
+    <result column="INV_STATUS_ACTION_REMARKS" property="invStatusActionRemarks" jdbcType="VARCHAR" />
+    <result column="INV_STATUS_ACTION_BY" property="invStatusActionBy" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_STATUS" property="supplierStatus" jdbcType="CHAR" />
+    <result column="SUPPLIER_STATUS_ACTION_DATE" property="supplierStatusActionDate" jdbcType="TIMESTAMP" />
+    <result column="SUPPLIER_STATUS_ACTION_REMARKS" property="supplierStatusActionRemarks" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_STATUS_ACTION_BY" property="supplierStatusActionBy" jdbcType="VARCHAR" />
+    <result column="QTY_STATUS" property="qtyStatus" jdbcType="CHAR" />
+    <result column="PRICE_STATUS" property="priceStatus" jdbcType="CHAR" />
+    <result column="BUYER_STATUS" property="buyerStatus" jdbcType="CHAR" />
+    <result column="CLOSED" property="closed" jdbcType="BIT" />
+    <result column="CLOSED_BY" property="closedBy" jdbcType="VARCHAR" />
+    <result column="CLOSED_DATE" property="closedDate" jdbcType="TIMESTAMP" />
+    <result column="CLOSED_REMARKS" property="closedRemarks" jdbcType="VARCHAR" />
+    <result column="REVISED" property="revised" jdbcType="BIT" />
+    <result column="REVISED_DATE" property="revisedDate" jdbcType="TIMESTAMP" />
+    <result column="ACCEPT_FLAG" property="acceptFlag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MATCHING_OID, BUYER_OID, BUYER_CODE, BUYER_NAME, SUPPLIER_OID, SUPPLIER_CODE, SUPPLIER_NAME, 
+    PO_OID, PO_STORE_CODE, PO_STORE_NAME, PO_NO, PO_DATE, PO_AMT, INV_OID, INV_NO, INV_DATE, INV_AMT, 
+    DN_OID, DN_NO, DN_DATE, DN_AMT, CREATE_DATE, MATCHING_STATUS, MATCHING_DATE, INV_STATUS,
+    INV_STATUS_ACTION_DATE, INV_STATUS_ACTION_REMARKS, INV_STATUS_ACTION_BY, SUPPLIER_STATUS,
+    SUPPLIER_STATUS_ACTION_DATE, SUPPLIER_STATUS_ACTION_REMARKS, SUPPLIER_STATUS_ACTION_BY,
+    QTY_STATUS,PRICE_STATUS, BUYER_STATUS, CLOSED, CLOSED_BY, CLOSED_DATE, CLOSED_REMARKS, REVISED, REVISED_DATE, ACCEPT_FLAG
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from PO_INV_GRN_DN_MATCHING
+    <where>
+      <if test="matchingOid != null" >
+        MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        AND BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        AND BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        AND SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        AND SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="poOid != null" >
+        AND PO_OID = #{poOid,jdbcType=DECIMAL}
+      </if>
+      <if test="poStoreCode != null" >
+        AND PO_STORE_CODE = #{poStoreCode,jdbcType=VARCHAR}
+      </if>
+      <if test="poStoreName != null" >
+        AND PO_STORE_NAME = #{poStoreName,jdbcType=VARCHAR}
+      </if>
+      <if test="poNo != null" >
+        AND PO_NO = #{poNo,jdbcType=VARCHAR}
+      </if>
+      <if test="poAmt != null" >
+        AND PO_AMT = #{poAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="invOid != null" >
+        AND INV_OID = #{invOid,jdbcType=DECIMAL}
+      </if>
+      <if test="invNo != null" >
+        AND INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invAmt != null" >
+        AND INV_AMT = #{invAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="dnOid != null" >
+        AND DN_OID = #{dnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="dnNo != null" >
+        AND DN_NO = #{dnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dnAmt != null" >
+        AND DN_AMT = #{dnAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="createDate != null">
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createDateFrom != null">
+        AND CREATE_DATE <![CDATA[>=]]> #{createDateFrom,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createDateTo != null">
+        AND CREATE_DATE <![CDATA[<=]]> #{createDateTo,jdbcType=TIMESTAMP}
+      </if>
+      <if test="matchingStatus != null" >
+        AND MATCHING_STATUS = #{matchingStatus,jdbcType=CHAR}
+      </if>
+      <if test="matchingDate != null">
+        AND MATCHING_DATE = #{matchingDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="matchingDateFrom != null">
+        AND MATCHING_DATE <![CDATA[>=]]> #{matchingDateFrom,jdbcType=TIMESTAMP}
+      </if>
+      <if test="matchingDateTo != null">
+        AND MATCHING_DATE <![CDATA[<=]]> #{matchingDateTo,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invStatus != null" >
+        AND INV_STATUS = #{invStatus,jdbcType=CHAR}
+      </if>
+      <if test="invStatusActionDate != null" >
+        AND INV_STATUS_ACTION_DATE = #{invStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invStatusActionDateFrom != null" >
+        AND INV_STATUS_ACTION_DATE <![CDATA[>=]]> #{invStatusActionDateFrom,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invStatusActionDateTo != null" >
+        AND INV_STATUS_ACTION_DATE <![CDATA[<=]]> #{invStatusActionDateTo,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invStatusActionRemarks != null" >
+        AND INV_STATUS_ACTION_REMARKS = #{invStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="invStatusActionBy != null" >
+        AND INV_STATUS_ACTION_BY = #{invStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierStatus != null" >
+        AND SUPPLIER_STATUS = #{supplierStatus,jdbcType=CHAR}
+      </if>
+      <if test="supplierStatusActionDate != null" >
+        AND SUPPLIER_STATUS_ACTION_DATE = #{supplierStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="supplierStatusActionDateFrom != null" >
+        AND SUPPLIER_STATUS_ACTION_DATE <![CDATA[>=]]> #{supplierStatusActionDateFrom,jdbcType=TIMESTAMP}
+      </if>
+      <if test="supplierStatusActionDateTo != null" >
+        AND SUPPLIER_STATUS_ACTION_DATE <![CDATA[<=]]> #{supplierStatusActionDateTo,jdbcType=TIMESTAMP}
+      </if>
+      <if test="supplierStatusActionRemarks != null" >
+        AND SUPPLIER_STATUS_ACTION_REMARKS = #{supplierStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierStatusActionBy != null" >
+        AND SUPPLIER_STATUS_ACTION_BY = #{supplierStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatus != null" >
+        AND PRICE_STATUS = #{priceStatus,jdbcType=CHAR}
+      </if>
+      <if test="qtyStatus != null" >
+        AND QTY_STATUS = #{qtyStatus,jdbcType=CHAR}
+      </if>
+      <if test="buyerStatus != null" >
+        AND BUYER_STATUS = #{buyerStatus,jdbcType=CHAR}
+      </if>
+      <if test="closed != null" >
+        AND CLOSED = #{closed,jdbcType=BIT}
+      </if>
+      <if test="closedDate != null" >
+        AND CLOSED_DATE = #{closedDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="revised != null" >
+        AND REVISED = #{revised,jdbcType=BIT}
+      </if>
+      <if test="revisedDate != null" >
+        AND REVISED_DATE = #{revisedDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="acceptFlag != null" >
+        AND ACCEPT_FLAG = #{acceptFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  
+  
+  <select id="selectAllRecordToExport" resultMap="summaryResultMap" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingHolder" >
+    select a.MATCHING_OID,a.BUYER_OID,a.BUYER_CODE,a.BUYER_NAME,a.SUPPLIER_OID,a.SUPPLIER_CODE,a.SUPPLIER_NAME,a.PO_OID,
+    a.PO_STORE_CODE,a.PO_NO,a.PO_DATE,round(a.PO_AMT,2) as PO_AMT,a.INV_OID,a.INV_NO,a.INV_DATE,round(a.INV_AMT,2) as INV_AMT,
+    a.DN_OID,a.DN_NO,a.DN_DATE,round(a.DN_AMT,2) as DN_AMT,d.GRN_OID,d.GRN_NO,d.GRN_DATE,round(d.GRN_AMT,2) as GRN_AMT,
+    a.CREATE_DATE,a.MATCHING_STATUS,a.MATCHING_DATE, a.INV_STATUS,
+    a.INV_STATUS_ACTION_DATE, a.INV_STATUS_ACTION_REMARKS, a.INV_STATUS_ACTION_BY, a.SUPPLIER_STATUS,
+    a.SUPPLIER_STATUS_ACTION_DATE, a.SUPPLIER_STATUS_ACTION_REMARKS, a.SUPPLIER_STATUS_ACTION_BY,
+    a.QTY_STATUS,a.PRICE_STATUS,a.BUYER_STATUS, a.CLOSED, a.ACCEPT_FLAG, if (a.CLOSED_BY = 'SYSTEM',a.CLOSED_BY,Concat((select USER_NAME 
+    from USER_PROFILE WHERE LOGIN_ID = a.CLOSED_BY), '(', a.CLOSED_BY, ')')) AS CLOSED_BY , a.CLOSED_DATE, a.REVISED, a.CLOSED_REMARKS
+    from PO_INV_GRN_DN_MATCHING a, (
+    select MATCHING_OID,group_concat(GRN_OID) as GRN_OID,group_concat(GRN_NO) as GRN_NO,concat(group_concat(GRN_DATE)) as GRN_DATE
+    , sum(GRN_AMT) as GRN_AMT from PO_INV_GRN_DN_MATCHING_GRN b group by MATCHING_OID) d 
+    <!-- handle group constraint for buyer user. -->
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+         <if test="listOid != null">
+         ,FAVOURITE_LIST_SUPPLIER FLS
+         </if>
+         <if test="listOid == null">
+         ,GROUP_SUPPLIER GS 
+         </if>
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+    </if>
+    <if test="setOid != null and validSupplierSet == true ">
+		, SUPPLIER S
+	</if>
+    where a.MATCHING_OID=d.MATCHING_OID
+    <if test="grnDateFrom != null">
+	    and exists(select 1 from PO_INV_GRN_DN_MATCHING_GRN c 
+	    where a.MATCHING_OID=c.MATCHING_OID <![CDATA[
+                AND c.GRN_DATE >= #{grnDateFrom,jdbcType=TIMESTAMP}
+                ]]>
+	          <if test="grnDateTo != null">
+	            <![CDATA[
+	            AND c.GRN_DATE <= #{grnDateTo,jdbcType=TIMESTAMP}
+	            ]]>
+	          </if>
+	    )
+    </if>
+    <if test="grnDateFrom == null">
+        <if test="grnDateTo != null">
+		    and exists(select 1 from PO_INV_GRN_DN_MATCHING_GRN c 
+		    where a.MATCHING_OID=c.MATCHING_OID <![CDATA[
+                AND c.GRN_DATE <= #{grnDateTo,jdbcType=TIMESTAMP}
+                ]]>
+		    )
+	    </if>
+    </if>
+    <!-- handle group constraint for buyer user. -->
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+       <if test="listOid != null">
+           AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+           AND a.SUPPLIER_OID = FLS.SUPPLIER_OID
+       </if>
+       <if test="listOid == null">
+            AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+            AND a.SUPPLIER_OID = GS.SUPPLIER_OID
+       </if>     
+    </if>
+    <!-- handle class and subclass constraint for buyer user. -->
+    <if test="(currentUserType == 2 or currentUserType == 4) and fullClassPriv == false">
+       AND IF (
+        (SELECT 1 FROM DOC_CLASS DC WHERE a.PO_OID = DC.DOC_OID UNION SELECT 1 FROM DOC_SUBCLASS DS WHERE a.PO_OID = DS.DOC_OID) is null,
+        1=2,
+        EXISTS(
+        SELECT 1 FROM USER_CLASS UC, DOC_CLASS DC, CLASS C WHERE UC.CLASS_OID = C.CLASS_OID  AND C.CLASS_CODE = DC.CLASS_CODE
+        AND a.BUYER_OID = C.BUYER_OID AND a.PO_OID = DC.DOC_OID AND UC.USER_OID = #{currentUserOid,jdbcType=DECIMAL}
+        UNION
+        SELECT 1 FROM USER_SUBCLASS US, DOC_SUBCLASS DS, SUBCLASS S, CLASS C WHERE US.SUBCLASS_OID = S.SUBCLASS_OID 
+        AND S.SUBCLASS_CODE = DS.SUBCLASS_CODE AND C.CLASS_CODE = DS.CLASS_CODE AND S.CLASS_OID = C.CLASS_OID AND a.BUYER_OID = C.BUYER_OID 
+        AND a.PO_OID = DS.DOC_OID AND US.USER_OID = #{currentUserOid,jdbcType=DECIMAL}
+        ))
+    </if>
+    <if test="(currentUserType == 2 or currentUserType == 4) and priceApprove == true and fullClassPriv == false">
+      AND EXISTS
+
+			(SELECT 1 FROM DOC_SUBCLASS SUB, USER_SUBCLASS USUB, `SUBCLASS` SC
+			WHERE a.MATCHING_OID = SUB.DOC_OID
+			AND SC.SUBCLASS_OID = USUB.SUBCLASS_OID
+			AND SUB.SUBCLASS_CODE = SC.SUBCLASS_CODE
+			AND SUB.AUDIT_FINISHED = FALSE
+			AND SUB.CLASS_CODE IN (SELECT CLASS_CODE FROM `CLASS` WHERE CLASS_OID = SC.CLASS_OID AND BUYER_OID=a.BUYER_OID) 
+			AND USUB.USER_OID = #{currentUserOid,jdbcType=DECIMAL}
+			UNION
+			SELECT 1
+			FROM DOC_SUBCLASS DSC, USER_CLASS USC, `SUBCLASS` SC
+			WHERE a.MATCHING_OID = DSC.DOC_OID
+			AND SC.CLASS_OID = USC.CLASS_OID
+			AND DSC.CLASS_CODE IN (SELECT CLASS_CODE FROM CLASS WHERE USC.CLASS_OID = CLASS_OID AND BUYER_OID=a.BUYER_OID)
+      		AND DSC.AUDIT_FINISHED = FALSE
+			AND USC.USER_OID=#{currentUserOid,jdbcType=DECIMAL})
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+       AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+       AND GTP.TP_OID = TP.TP_OID
+       AND TP.BUYER_SUPPLIER_CODE = a.SUPPLIER_CODE
+       AND TP.BUYER_OID = a.BUYER_OID
+    </if>
+    <if test="poStoreCode != null" >
+      and PO_STORE_CODE like concat('%',#{poStoreCode,jdbcType=VARCHAR},'%')
+    </if>
+     <if test="poNo != null" >
+      and PO_NO like concat('%',#{poNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="poDateFrom != null">
+      <![CDATA[
+      AND PO_DATE >= #{poDateFrom,jdbcType=TIMESTAMP}
+       ]]>
+    </if>
+    <if test="poDateTo != null">
+      <![CDATA[
+      AND PO_DATE <= #{poDateTo,jdbcType=TIMESTAMP}
+      ]]>
+    </if>
+    <if test="invNo != null" >
+      and INV_NO like concat('%',#{invNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="invDateFrom != null">
+      <![CDATA[
+      AND INV_DATE >= #{invDateFrom,jdbcType=TIMESTAMP}
+       ]]>
+    </if>
+    <if test="invDateTo != null">
+      <![CDATA[
+      AND INV_DATE <= #{invDateTo,jdbcType=TIMESTAMP}
+      ]]>
+    </if>
+    <if test="dnNo != null" >
+      and DN_NO like concat('%',#{dnNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="dnDateFrom != null">
+      <![CDATA[
+      AND DN_DATE >= #{dnDateFrom,jdbcType=TIMESTAMP}
+       ]]>
+    </if>
+    <if test="dnDateTo != null">
+      <![CDATA[
+      AND DN_DATE <= #{dnDateTo,jdbcType=TIMESTAMP}
+      ]]>
+    </if>
+    <if test="matchingDateFrom != null">
+      <![CDATA[
+      AND MATCHING_DATE >= #{matchingDateFrom,jdbcType=TIMESTAMP}
+       ]]>
+    </if>
+    <if test="matchingDateTo != null">
+      <![CDATA[
+      AND MATCHING_DATE <= #{matchingDateTo,jdbcType=TIMESTAMP}
+      ]]>
+    </if>
+    <if test="grnNo != null" >
+      and GRN_NO like concat('%',#{grnNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="matchingStatus != null" >
+      and MATCHING_STATUS = #{matchingStatus,jdbcType=CHAR}
+    </if>
+    <if test="statusList != null and !statusList.isEmpty()">
+      and MATCHING_STATUS IN
+      	<foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+      		#{item}
+      	</foreach>
+    </if>
+    <if test="statusList == null or statusList.isEmpty()">
+    	and MATCHING_STATUS IN
+    	<foreach collection="matchingStatusList" index="index" item="item" open="(" separator="," close=")">
+      		#{item}
+      	</foreach>
+    </if>
+    <if test="invStatus != null" >
+      and INV_STATUS = #{invStatus,jdbcType=CHAR}
+    </if>
+    <if test="invStatus == null">
+    	and INV_STATUS IN
+    	<foreach collection="invStatusList" index="index" item="item" open="(" separator="," close=")">
+      		#{item}
+      	</foreach>
+    </if>
+    <if test="supplierStatus != null" >
+      and SUPPLIER_STATUS = #{supplierStatus,jdbcType=CHAR}
+    </if>
+    <if test="supplierStatus == null">
+    	and SUPPLIER_STATUS IN
+    	<foreach collection="supplierStatusList" index="index" item="item" open="(" separator="," close=")">
+      		#{item}
+      	</foreach>
+    </if>
+    <if test="buyerStatus != null" >
+      and BUYER_STATUS = #{buyerStatus,jdbcType=CHAR}
+    </if>
+    <if test="buyerStatus == null">
+    	and BUYER_STATUS IN
+    	<foreach collection="buyerStatusList" index="index" item="item" open="(" separator="," close=")">
+      		#{item}
+      	</foreach>
+    </if>
+    <if test="priceStatus != null" >
+      and PRICE_STATUS = #{priceStatus,jdbcType=CHAR}
+    </if>
+    <if test="priceStatus == null">
+    	and PRICE_STATUS IN
+    	<foreach collection="priceStatusList" index="index" item="item" open="(" separator="," close=")">
+      		#{item}
+      	</foreach>
+    </if>
+    <if test="qtyStatus != null" >
+      and QTY_STATUS = #{qtyStatus,jdbcType=CHAR}
+    </if>
+    <if test="qtyStatus == null">
+    	and QTY_STATUS IN
+    	<foreach collection="qtyStatusList" index="index" item="item" open="(" separator="," close=")">
+      		#{item}
+      	</foreach>
+    </if>
+    <if test="closed != null" >
+      AND CLOSED = #{closed,jdbcType=BIT}
+    </if>
+    <if test="closed == null" >
+      AND CLOSED IN (true, false)
+    </if>
+    <if test="revised != null" >
+      AND REVISED = #{revised,jdbcType=BIT}
+    </if>
+    <if test="revised == null" >
+      AND REVISED IN (true, false)
+    </if>
+       <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+    <if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+      <if test="buyerStoreAccessList != null and !buyerStoreAccessList.isEmpty()">
+           AND (PO_STORE_CODE IN
+          <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+          </foreach>
+          OR PO_STORE_CODE IS NULL)
+       </if>
+       <if test="buyerStoreAccessList == null">
+           AND 1=2
+       </if>
+   </if>
+   <if test="currentUserBuyerOid != null">
+       AND (a.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} OR a.BUYER_OID IN 
+       (SELECT AAC.COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID=#{currentUserOid,jdbcType=DECIMAL}))
+   </if>
+   <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false">
+       AND a.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+   </if>
+   <if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+       AND a.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+   </if>
+   <if test="buyerOid != null and buyerOid != -1">
+       AND a.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+   </if>
+   <if test="supplierCode != null">
+       AND a.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+   </if>
+   <if test="setOid != null and validSupplierSet == true">
+		AND S.SUPPLIER_OID = a.SUPPLIER_OID
+		AND S.SET_OID = #{setOid,jdbcType=DECIMAL} 
+		<if test="supplierOid != null and supplierOid != -1">
+			AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+		</if>
+	</if>
+   <if test="supplierName != null">
+       AND a.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+   </if>
+   <if test="pendingForClosing == true and enableSupplierDispute == true">
+       AND a.CLOSED = false 
+       AND ((a.SUPPLIER_STATUS = 'ACCEPTED') OR (a.SUPPLIER_STATUS = 'REJECTED' AND a.BUYER_STATUS != 'PENDING') OR (a.REVISED = true))
+   </if>
+   <if test="pendingForClosing == true and enableSupplierDispute != true">
+       AND a.CLOSED = false
+   </if>
+   <if test="pendingForApproving == true and enableSupplierDispute == true">
+       AND a.INV_STATUS = 'PENDING'
+       AND a.SUPPLIER_STATUS = 'REJECTED'
+       AND a.BUYER_STATUS = 'ACCEPTED'
+   </if>
+   <if test="pendingForApproving == true and enableSupplierDispute != true">
+       AND a.INV_STATUS = 'PENDING'
+   </if>
+   <if test="sortField != null" >
+     order by ${sortField} ${sortOrder}
+    </if>
+  </select>
+  
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingHolder" >
+    delete from PO_INV_GRN_DN_MATCHING
+    <where>
+      <if test="matchingOid != null" >
+        MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        AND BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        AND BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        AND SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        AND SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="poOid != null" >
+        AND PO_OID = #{poOid,jdbcType=DECIMAL}
+      </if>
+      <if test="poStoreCode != null" >
+        AND PO_STORE_CODE = #{poStoreCode,jdbcType=VARCHAR}
+      </if>
+      <if test="poStoreName != null" >
+        AND PO_STORE_NAME = #{poStoreName,jdbcType=VARCHAR}
+      </if>
+      <if test="poNo != null" >
+        AND PO_NO = #{poNo,jdbcType=VARCHAR}
+      </if>
+      <if test="poAmt != null" >
+        AND PO_AMT = #{poAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="invOid != null" >
+        AND INV_OID = #{invOid,jdbcType=DECIMAL}
+      </if>
+      <if test="invNo != null" >
+        AND INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invAmt != null" >
+        AND INV_AMT = #{invAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="dnOid != null" >
+        AND DN_OID = #{dnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="dnNo != null" >
+        AND DN_NO = #{dnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dnAmt != null" >
+        AND DN_AMT = #{dnAmt,jdbcType=DECIMAL}
+      </if>
+      <if test="createDate != null">
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="matchingStatus != null" >
+        AND MATCHING_STATUS = #{matchingStatus,jdbcType=CHAR}
+      </if>
+      <if test="matchingDate != null">
+        AND MATCHING_DATE = #{matchingDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invStatus != null" >
+        AND INV_STATUS = #{invStatus,jdbcType=CHAR}
+      </if>
+      <if test="invStatusActionDate != null" >
+        AND INV_STATUS_ACTION_DATE = #{invStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invStatusActionRemarks != null" >
+        AND INV_STATUS_ACTION_REMARKS = #{invStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="invStatusActionBy != null" >
+        AND INV_STATUS_ACTION_BY = #{invStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierStatus != null" >
+        AND SUPPLIER_STATUS = #{supplierStatus,jdbcType=CHAR}
+      </if>
+      <if test="supplierStatusActionDate != null" >
+        AND SUPPLIER_STATUS_ACTION_DATE = #{supplierStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="supplierStatusActionRemarks != null" >
+        AND SUPPLIER_STATUS_ACTION_REMARKS = #{supplierStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierStatusActionBy != null" >
+        AND SUPPLIER_STATUS_ACTION_BY = #{supplierStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatus != null" >
+        AND PRICE_STATUS = #{priceStatus,jdbcType=CHAR}
+      </if>
+      <if test="qtyStatus != null" >
+        AND QTY_STATUS = #{qtyStatus,jdbcType=CHAR}
+      </if>
+      <if test="buyerStatus != null" >
+        AND BUYER_STATUS = #{buyerStatus,jdbcType=CHAR}
+      </if>
+      <if test="closed != null" >
+        AND CLOSED = #{closed,jdbcType=BIT}
+      </if>
+      <if test="closedDate != null" >
+        AND CLOSED_DATE = #{closedDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="revised != null" >
+        AND REVISED = #{revised,jdbcType=BIT}
+      </if>
+      <if test="revisedDate != null" >
+        AND REVISED_DATE = #{revisedDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="acceptFlag != null" >
+        AND ACCEPT_FLAG = #{acceptFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingHolder" >
+    insert into PO_INV_GRN_DN_MATCHING (MATCHING_OID, BUYER_OID, BUYER_CODE, 
+      BUYER_NAME, SUPPLIER_OID, SUPPLIER_CODE, 
+      SUPPLIER_NAME, PO_OID, PO_STORE_CODE, PO_STORE_NAME,
+      PO_NO, PO_DATE, PO_AMT, INV_OID, 
+      INV_NO, INV_DATE, INV_AMT, DN_OID, 
+      DN_NO, DN_DATE, DN_AMT, CREATE_DATE, 
+      MATCHING_STATUS, MATCHING_DATE, INV_STATUS,
+      INV_STATUS_ACTION_DATE, INV_STATUS_ACTION_REMARKS, 
+      INV_STATUS_ACTION_BY, SUPPLIER_STATUS,
+      SUPPLIER_STATUS_ACTION_DATE, SUPPLIER_STATUS_ACTION_REMARKS, 
+      SUPPLIER_STATUS_ACTION_BY, QTY_STATUS,
+      PRICE_STATUS, BUYER_STATUS, CLOSED, CLOSED_BY, CLOSED_DATE, CLOSED_REMARKS, REVISED, REVISED_DATE, ACCEPT_FLAG)
+    values (#{matchingOid,jdbcType=DECIMAL}, #{buyerOid,jdbcType=DECIMAL}, #{buyerCode,jdbcType=VARCHAR}, 
+      #{buyerName,jdbcType=VARCHAR}, #{supplierOid,jdbcType=DECIMAL}, #{supplierCode,jdbcType=VARCHAR}, 
+      #{supplierName,jdbcType=VARCHAR}, #{poOid,jdbcType=DECIMAL}, #{poStoreCode,jdbcType=VARCHAR}, #{poStoreName,jdbcType=VARCHAR}, 
+      #{poNo,jdbcType=VARCHAR}, #{poDate,jdbcType=TIMESTAMP}, #{poAmt,jdbcType=DECIMAL}, #{invOid,jdbcType=DECIMAL}, 
+      #{invNo,jdbcType=VARCHAR}, #{invDate,jdbcType=TIMESTAMP}, #{invAmt,jdbcType=DECIMAL}, #{dnOid,jdbcType=DECIMAL}, 
+      #{dnNo,jdbcType=VARCHAR}, #{dnDate,jdbcType=TIMESTAMP}, #{dnAmt,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP},
+      #{matchingStatus,jdbcType=CHAR}, #{matchingDate,jdbcType=TIMESTAMP}, #{invStatus,jdbcType=CHAR},
+      #{invStatusActionDate,jdbcType=TIMESTAMP}, #{invStatusActionRemarks,jdbcType=VARCHAR}, #{invStatusActionBy,jdbcType=VARCHAR},
+      #{supplierStatus,jdbcType=CHAR}, #{supplierStatusActionDate,jdbcType=TIMESTAMP}, #{supplierStatusActionRemarks,jdbcType=VARCHAR},
+      #{supplierStatusActionBy,jdbcType=VARCHAR}, #{qtyStatus,jdbcType=CHAR}, #{priceStatus,jdbcType=CHAR}, #{buyerStatus,jdbcType=CHAR}, 
+      #{closed,jdbcType=BIT}, #{closedBy,jdbcType=VARCHAR}, #{closedDate,jdbcType=TIMESTAMP}, #{closedRemarks,jdbcType=VARCHAR}, 
+      #{revised,jdbcType=BIT}, #{revisedDate,jdbcType=TIMESTAMP}, #{acceptFlag,jdbcType=BIT})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingHolder" >
+    update PO_INV_GRN_DN_MATCHING
+    <set >
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null" >
+        BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierCode != null" >
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="poOid != null" >
+        PO_OID = #{poOid,jdbcType=DECIMAL},
+      </if>
+      <if test="poStoreCode != null" >
+        PO_STORE_CODE = #{poStoreCode,jdbcType=VARCHAR},
+      </if>
+      <if test="poStoreName != null" >
+        PO_STORE_NAME = #{poStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="poNo != null" >
+        PO_NO = #{poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poDate != null" >
+        PO_DATE = #{poDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poAmt != null" >
+        PO_AMT = #{poAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="invOid != null" >
+        INV_OID = #{invOid,jdbcType=DECIMAL},
+      </if>
+      <if test="invNo != null" >
+        INV_NO = #{invNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invDate != null" >
+        INV_DATE = #{invDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invAmt != null" >
+        INV_AMT = #{invAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="dnOid != null" >
+        DN_OID = #{dnOid,jdbcType=DECIMAL},
+      </if>
+      <if test="dnNo != null" >
+        DN_NO = #{dnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dnDate != null" >
+        DN_DATE = #{dnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dnAmt != null" >
+        DN_AMT = #{dnAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchingStatus != null" >
+        MATCHING_STATUS = #{matchingStatus,jdbcType=CHAR},
+      </if>
+      <if test="matchingDate != null">
+        MATCHING_DATE = #{matchingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invStatus != null" >
+        INV_STATUS = #{invStatus,jdbcType=CHAR},
+      </if>
+      <if test="invStatusActionDate != null" >
+        INV_STATUS_ACTION_DATE = #{invStatusActionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invStatusActionRemarks != null" >
+        INV_STATUS_ACTION_REMARKS = #{invStatusActionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="invStatusActionBy != null" >
+        INV_STATUS_ACTION_BY = #{invStatusActionBy,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierStatus != null" >
+        SUPPLIER_STATUS = #{supplierStatus,jdbcType=CHAR},
+      </if>
+      <if test="supplierStatusActionDate != null" >
+        SUPPLIER_STATUS_ACTION_DATE = #{supplierStatusActionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierStatusActionRemarks != null" >
+        SUPPLIER_STATUS_ACTION_REMARKS = #{supplierStatusActionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierStatusActionBy != null" >
+        SUPPLIER_STATUS_ACTION_BY = #{supplierStatusActionBy,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStatus != null" >
+        PRICE_STATUS = #{priceStatus,jdbcType=CHAR},
+      </if>
+      <if test="qtyStatus != null" >
+        QTY_STATUS = #{qtyStatus,jdbcType=CHAR},
+      </if>
+      <if test="buyerStatus != null" >
+        BUYER_STATUS = #{buyerStatus,jdbcType=CHAR},
+      </if>
+      <if test="closed != null" >
+        CLOSED = #{closed,jdbcType=BIT},
+      </if>
+      <if test="closedBy != null" >
+        CLOSED_BY = #{closedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="closedDate != null" >
+        CLOSED_DATE = #{closedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closedRemarks != null" >
+        CLOSED_REMARKS = #{closedRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="revised != null" >
+        REVISED = #{revised,jdbcType=BIT},
+      </if>
+      <if test="revisedDate != null" >
+        REVISED_DATE = #{revisedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptFlag != null" >
+        ACCEPT_FLAG = #{acceptFlag,jdbcType=BIT}
+      </if>
+    </set>
+    where MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.PoInvGrnDnMatchingHolder" >
+    update PO_INV_GRN_DN_MATCHING
+    set BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      PO_OID = #{poOid,jdbcType=DECIMAL},
+      PO_STORE_CODE = #{poStoreCode,jdbcType=VARCHAR},
+      PO_STORE_NAME = #{poStoreName,jdbcType=VARCHAR},
+      PO_NO = #{poNo,jdbcType=VARCHAR},
+      PO_DATE = #{poDate,jdbcType=TIMESTAMP},
+      PO_AMT = #{poAmt,jdbcType=DECIMAL},
+      INV_OID = #{invOid,jdbcType=DECIMAL},
+      INV_NO = #{invNo,jdbcType=VARCHAR},
+      INV_DATE = #{invDate,jdbcType=TIMESTAMP},
+      INV_AMT = #{invAmt,jdbcType=DECIMAL},
+      DN_OID = #{dnOid,jdbcType=DECIMAL},
+      DN_NO = #{dnNo,jdbcType=VARCHAR},
+      DN_DATE = #{dnDate,jdbcType=TIMESTAMP},
+      DN_AMT = #{dnAmt,jdbcType=DECIMAL},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      MATCHING_STATUS = #{matchingStatus,jdbcType=CHAR},
+      MATCHING_DATE = #{matchingDate,jdbcType=TIMESTAMP},
+      INV_STATUS = #{invStatus,jdbcType=CHAR},
+      INV_STATUS_ACTION_DATE = #{invStatusActionDate,jdbcType=TIMESTAMP},
+      INV_STATUS_ACTION_REMARKS = #{invStatusActionRemarks,jdbcType=VARCHAR},
+      INV_STATUS_ACTION_BY = #{invStatusActionBy,jdbcType=VARCHAR},
+      SUPPLIER_STATUS = #{supplierStatus,jdbcType=CHAR},
+      SUPPLIER_STATUS_ACTION_DATE = #{supplierStatusActionDate,jdbcType=TIMESTAMP},
+      SUPPLIER_STATUS_ACTION_REMARKS = #{supplierStatusActionRemarks,jdbcType=VARCHAR},
+      SUPPLIER_STATUS_ACTION_BY = #{supplierStatusActionBy,jdbcType=VARCHAR},
+      PRICE_STATUS = #{priceStatus,jdbcType=CHAR},
+      QTY_STATUS = #{qtyStatus,jdbcType=CHAR},
+      BUYER_STATUS = #{buyerStatus,jdbcType=CHAR},
+      CLOSED = #{closed,jdbcType=BIT},
+      CLOSED_BY = #{closedBy,jdbcType=VARCHAR},
+      CLOSED_DATE = #{closedDate,jdbcType=TIMESTAMP},
+      CLOSED_REMARKS = #{closedRemarks,jdbcType=VARCHAR},
+      REVISED = #{revised,jdbcType=BIT},
+      REVISED_DATE = #{revisedDate,jdbcType=TIMESTAMP},
+      ACCEPT_FLAG = #{acceptFlag,jdbcType=BIT}
+    where MATCHING_OID = #{matchingOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectVoidInvoiceMatchingRecords" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT 
+    M.MATCHING_OID, M.BUYER_OID, M.BUYER_CODE, M.BUYER_NAME, M.SUPPLIER_OID, M.SUPPLIER_CODE, M.SUPPLIER_NAME, 
+    M.PO_OID, M.PO_STORE_CODE, M.PO_STORE_NAME, M.PO_NO, M.PO_DATE, M.PO_AMT, M.INV_OID, M.INV_NO, M.INV_DATE, M.INV_AMT, 
+    M.DN_OID, M.DN_NO, M.DN_DATE, M.DN_AMT, M.CREATE_DATE, M.MATCHING_STATUS, M.MATCHING_DATE, M.INV_STATUS,
+    M.INV_STATUS_ACTION_DATE, M.INV_STATUS_ACTION_REMARKS, M.INV_STATUS_ACTION_BY, M.SUPPLIER_STATUS,
+    M.SUPPLIER_STATUS_ACTION_DATE, M.SUPPLIER_STATUS_ACTION_REMARKS, M.SUPPLIER_STATUS_ACTION_BY,
+    M.QTY_STATUS, M.PRICE_STATUS, M.BUYER_STATUS, M.CLOSED, M.REVISED, M.REVISED_DATE
+    FROM PO_INV_GRN_DN_MATCHING M, INV_HEADER INV
+    WHERE M.INV_OID = INV.INV_OID
+    AND INV.CTRL_STATUS='VOID_OUTDATED'
+    AND M.MATCHING_STATUS != 'OUTDATED'
+    AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectOutDatedPoRecords" resultMap="BaseResultMap"  parameterType="java.math.BigDecimal" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM PO_INV_GRN_DN_MATCHING PIGDM
+    WHERE EXISTS (SELECT 1 FROM PO_HEADER WHERE CTRL_STATUS = 'OUTDATED' AND PO_OID = PIGDM.PO_OID )
+    AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectMatchingRecordsWhichCanDoMatching" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM PO_INV_GRN_DN_MATCHING 
+    WHERE MATCHING_STATUS NOT IN ('MATCHED','MATCHED_BY_DN','OUTDATED')
+    AND INV_STATUS = 'PENDING' AND SUPPLIER_STATUS != 'ACCEPTED' AND BUYER_STATUS !='REJECTED' 
+    AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    AND DATEDIFF(CURDATE(), CREATE_DATE) <![CDATA[>=]]> #{expiryDays,jdbcType=DECIMAL}
+    AND DATEDIFF(CURDATE(), CREATE_DATE) <![CDATA[<=]]> #{toleranceDays,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectBuyerResolutionRecords" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    SELECT DISTINCT MATCHING_OID, BUYER_OID, BUYER_CODE, BUYER_NAME, SUPPLIER_OID, SUPPLIER_CODE, SUPPLIER_NAME, 
+    PO_OID, PO_STORE_CODE, PO_STORE_NAME, PO_NO, PO_DATE, PO_AMT, INV_OID, INV_NO, INV_DATE, INV_AMT, 
+    DN_OID, DN_NO, DN_DATE, DN_AMT, CREATE_DATE, MATCHING_STATUS, MATCHING_DATE, INV_STATUS,
+    INV_STATUS_ACTION_DATE, INV_STATUS_ACTION_REMARKS, INV_STATUS_ACTION_BY, SUPPLIER_STATUS,
+    SUPPLIER_STATUS_ACTION_DATE, SUPPLIER_STATUS_ACTION_REMARKS, SUPPLIER_STATUS_ACTION_BY,
+    QTY_STATUS,PRICE_STATUS, BUYER_STATUS, CLOSED_BY, CLOSED_DATE, CLOSED_REMARKS, REVISED, REVISED_DATE, ACCEPT_FLAG, CLOSE_FLAG AS CLOSED FROM (
+        SELECT M.*, FALSE AS CLOSE_FLAG FROM PO_INV_GRN_DN_MATCHING M WHERE (CLOSED_DATE IS NULL OR DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, CLOSED_DATE) <![CDATA[<]]> 0) AND BUYER_STATUS != 'PENDING'
+        AND MATCHING_STATUS = 'UNMATCHED'
+        <if test="reportDate != null">
+            AND DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, (SELECT IF (MAX(PRICE_STATUS_ACTION_DATE) > MAX(QTY_STATUS_ACTION_DATE),MAX(PRICE_STATUS_ACTION_DATE),
+            MAX(QTY_STATUS_ACTION_DATE)) FROM PO_INV_GRN_DN_MATCHING_DETAIL D WHERE D.MATCHING_OID=M.MATCHING_OID)) >= 0
+        </if>
+		UNION
+        SELECT M.*, FALSE AS CLOSE_FLAG FROM PO_INV_GRN_DN_MATCHING M WHERE (CLOSED_DATE IS NULL OR DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, CLOSED_DATE) <![CDATA[<]]> 0) AND BUYER_STATUS != 'PENDING'
+        AND MATCHING_STATUS = 'QTY_UNMATCHED'
+        <if test="reportDate != null">
+            AND DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, (SELECT MAX(QTY_STATUS_ACTION_DATE) FROM PO_INV_GRN_DN_MATCHING_DETAIL D WHERE D.MATCHING_OID=M.MATCHING_OID)) >= 0
+        </if>
+		UNION
+        SELECT M.*, FALSE AS CLOSE_FLAG FROM PO_INV_GRN_DN_MATCHING M WHERE (CLOSED_DATE IS NULL OR DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, CLOSED_DATE) <![CDATA[<]]> 0) AND BUYER_STATUS != 'PENDING'
+        AND MATCHING_STATUS = 'PRICE_UNMATCHED'
+        <if test="reportDate != null">
+            AND DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, (SELECT MAX(PRICE_STATUS_ACTION_DATE) FROM PO_INV_GRN_DN_MATCHING_DETAIL D WHERE D.MATCHING_OID=M.MATCHING_OID)) >= 0
+        </if>
+		UNION
+		SELECT P.*, FALSE AS CLOSE_FLAG FROM PO_INV_GRN_DN_MATCHING P WHERE (CLOSED_DATE IS NULL OR DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, CLOSED_DATE) <![CDATA[<]]> 0) AND SUPPLIER_STATUS = 'ACCEPTED'
+		<if test="reportDate != null">
+		    AND datediff(#{reportDate,jdbcType=TIMESTAMP}, P.SUPPLIER_STATUS_ACTION_DATE) >= 0
+		</if> 
+		UNION
+		SELECT P.*, FALSE AS CLOSE_FLAG FROM PO_INV_GRN_DN_MATCHING P WHERE (CLOSED_DATE IS NULL OR DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, CLOSED_DATE) <![CDATA[<]]> 0) AND REVISED = TRUE
+		<if test="reportDate != null">
+		    AND datediff(#{reportDate,jdbcType=TIMESTAMP}, P.REVISED_DATE) >= 0
+		</if> 
+		UNION
+		SELECT P.*, TRUE AS CLOSE_FLAG FROM PO_INV_GRN_DN_MATCHING P WHERE P.CLOSED = TRUE
+		<if test="reportDate != null">
+		    AND datediff(#{reportDate,jdbcType=TIMESTAMP}, P.CLOSED_DATE) = 0
+		</if> 
+		<if test="reportDate == null">
+			AND datediff(now(), P.CLOSED_DATE) = 0
+		</if>
+    ) VIEW1
+    WHERE VIEW1.MATCHING_STATUS NOT IN ('MATCHED', 'MATCHED_BY_DN')
+    <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+    <if test="supplierCode != null" >
+        AND SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="supplierName != null" >
+        AND SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  
+  <select id="selectSupplierResolutionRecords" resultMap="BaseResultMap"  parameterType="java.math.BigDecimal" >
+    SELECT DISTINCT * FROM (
+	    SELECT DISTINCT P.* FROM PO_INV_GRN_DN_MATCHING P, PO_INV_GRN_DN_MATCHING_DETAIL PD WHERE P.MATCHING_OID = PD.MATCHING_OID
+		AND P.BUYER_STATUS != 'PENDING'
+		AND (datediff(now(), PD.PRICE_STATUS_ACTION_DATE)=0 or datediff(now(), PD.QTY_STATUS_ACTION_DATE)=0)
+		AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+		UNION
+        SELECT P.* FROM PO_INV_GRN_DN_MATCHING P WHERE P.SUPPLIER_STATUS = 'ACCEPTED' AND datediff(now(), P.SUPPLIER_STATUS_ACTION_DATE)=0
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    ) VIEW1
+    WHERE BUYER_OID IN (SELECT B.BUYER_OID FROM BUYER B, BUSINESS_RULE BR, BUYER_RULE R WHERE BR.RULE_OID = R.RULE_OID
+    AND B.BUYER_OID = R.BUYER_OID AND BR.FUNC_GROUP = 'Matching' AND BR.FUNC_ID = 'PoInvGrnDn' AND BR.RULE_ID = 'EnableSupplierToDispute')
+    AND VIEW1.MATCHING_STATUS NOT IN ('MATCHED', 'MATCHED_BY_DN')
+  </select>
+  
+  <select id="selectDiscrepancyRecordByBuyerAndSupplier" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM PO_INV_GRN_DN_MATCHING 
+    WHERE BUYER_OID = #{buyerOid,jdbcType=DECIMAL} 
+    AND BUYER_STATUS = 'PENDING'
+    AND SUPPLIER_STATUS = 'REJECTED'
+    <if test="supplierOid != null">
+      AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL} 
+    </if>
+    <if test="currentUserType == 2 or currentUserType == 4">
+    	<if test="discrepancyType == 'price'">
+    		AND MATCHING_STATUS IN ('UNMATCHED', 'PRICE_UNMATCHED')
+    	</if>
+    	<if test="discrepancyType == 'qty'">
+    		AND MATCHING_STATUS IN ('UNMATCHED', 'QTY_UNMATCHED')
+    	</if>
+    	<if test="discrepancyType == 'all'">
+    		AND MATCHING_STATUS IN ('UNMATCHED', 'PRICE_UNMATCHED', 'QTY_UNMATCHED')
+    	</if>
+    </if>
+    <if test="currentUserType == 6 or currentUserType == 7">
+    	<if test="discrepancyType == 'qty'">
+    		AND MATCHING_STATUS IN ('UNMATCHED', 'QTY_UNMATCHED')
+    	</if>
+    	<if test="discrepancyType == 'all'">
+    		AND MATCHING_STATUS IN ('UNMATCHED', 'QTY_UNMATCHED')
+    	</if>
+    </if>
+  </select>
+  
+  <select id="selectMatchingRecordByMatchingDateRangeUnionAllPending" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM PO_INV_GRN_DN_MATCHING 
+    WHERE BUYER_OID = #{buyerOid,jdbcType=DECIMAL} 
+    <if test="matchingDateFrom != null">
+      AND MATCHING_DATE <![CDATA[>=]]> #{matchingDateFrom,jdbcType=TIMESTAMP}
+    </if>
+    <if test="matchingDateTo != null">
+      AND MATCHING_DATE <![CDATA[<=]]> #{matchingDateTo,jdbcType=TIMESTAMP}
+    </if>
+    <if test="supplierOid != null">
+      AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+    UNION ALL
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM PO_INV_GRN_DN_MATCHING 
+    WHERE BUYER_OID = #{buyerOid,jdbcType=DECIMAL} 
+    AND MATCHING_STATUS = 'PENDING'
+    <if test="supplierOid != null">
+      AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
+  <select id="selectApprovedMatchingRecordByInvStatusActionDateRange" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM PO_INV_GRN_DN_MATCHING 
+    WHERE BUYER_OID = #{buyerOid,jdbcType=DECIMAL} 
+    AND INV_STATUS IN ('APPROVED','SYS_APPROVED')
+    <if test="begin != null">
+      AND INV_STATUS_ACTION_DATE <![CDATA[>=]]> #{begin,jdbcType=TIMESTAMP}
+    </if>
+    <if test="end != null">
+      AND INV_STATUS_ACTION_DATE <![CDATA[<=]]> #{end,jdbcType=TIMESTAMP}
+    </if>
+    <if test="supplierOid != null">
+      AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL} 
+    </if>
+  </select>
+  <select id="selectOutstandingRecords" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT * FROM (
+    SELECT M.*, (SELECT IF (MAX(PRICE_STATUS_ACTION_DATE) > MAX(QTY_STATUS_ACTION_DATE),MAX(PRICE_STATUS_ACTION_DATE),
+    MAX(QTY_STATUS_ACTION_DATE)) FROM PO_INV_GRN_DN_MATCHING_DETAIL D WHERE D.MATCHING_OID=M.MATCHING_OID) ACTION_DATE 
+    FROM PO_INV_GRN_DN_MATCHING M WHERE SUPPLIER_STATUS='REJECTED' AND BUYER_STATUS='PENDING' AND MATCHING_STATUS NOT IN ('MATCHED', 'MATCHED_BY_DN')
+    <if test="buyerOid != null" >
+      AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+    <if test="moreThanDays != null">
+        <if test="reportDate != null">
+            AND SUPPLIER_STATUS_ACTION_DATE <![CDATA[<=]]> DATE_SUB(#{reportDate,jdbcType=TIMESTAMP},INTERVAL #{moreThanDays,jdbcType=VARCHAR} day)
+        </if>
+        <if test="reportDate == null">
+            AND SUPPLIER_STATUS_ACTION_DATE <![CDATA[<=]]> DATE_SUB(NOW(),INTERVAL #{moreThanDays,jdbcType=VARCHAR} day)
+        </if>
+    </if>
+    <if test="supplierCode != null" >
+      AND SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="supplierName != null" >
+      AND SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+    </if>
+    ) VIEW1
+    <if test="reportDate != null">
+        WHERE DATEDIFF(#{reportDate,jdbcType=TIMESTAMP}, IF(ACTION_DATE IS NULL,#{reportDate,jdbcType=TIMESTAMP},ACTION_DATE)) >= 0
+    </if>
+  </select>
+</mapper>

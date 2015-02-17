@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.UserTypeOperationMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.UserTypeOperationHolder" >
+    <id column="OPN_ID" property="opnId" jdbcType="VARCHAR" />
+    <id column="USER_TYPE_OID" property="userTypeOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeOperationHolder" >
+    select OPN_ID, USER_TYPE_OID
+    from USER_TYPE_OPERATION
+    <where>
+      <if test="opnId != null" >
+        OPN_ID = #{opnId,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeOperationHolder" >
+    delete from USER_TYPE_OPERATION
+    <where>
+      <if test="opnId != null" >
+        OPN_ID = #{opnId,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeOperationHolder" >
+    insert into USER_TYPE_OPERATION (OPN_ID, USER_TYPE_OID)
+    values (#{opnId,jdbcType=VARCHAR}, #{userTypeOid,jdbcType=DECIMAL})
+  </insert>
+</mapper>

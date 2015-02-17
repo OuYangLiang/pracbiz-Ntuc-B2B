@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="/poInvGrnDnMatching" extends="pracbiz-default" namespace="/poInvGrnDnMatching"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="init">
+            <result>/WEB-INF/views/core/poInvGrnDnMatching/summary.jsp</result>
+        </action>
+        
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+            <result name="input">/WEB-INF/views/core/poInvGrnDnMatching/summary.jsp</result>
+        </action>
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="putParamIntoSession">
+			<result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+		</action>
+		
+		<action name="search" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="approve" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="approve">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+         <action name="exportExcel" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="exportExcel" >
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+        </action>
+        
+        <action name="printPdf" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/pdf</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">inline;filename="${rptFileName}"</param>
+            </result>
+			<result name="PO"  type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+			<result name="GRN"  type="chain">
+				<param name="actionName">printGrnPdf</param>
+			</result>
+			<result name="INV"  type="chain">
+				<param name="actionName">printInvPdf</param>
+			</result>
+			<result name="DN"  type="chain">
+				<param name="actionName">printDnPdf</param>
+			</result>
+        </action>
+
+		<action name="printPoPdf" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+		</action>
+
+		<action name="printInvPdf" class="com.pracbiz.b2bportal.core.action.InvoiceAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+		</action>
+
+		<action name="printDnPdf" class="com.pracbiz.b2bportal.core.action.DebitNoteAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+		</action>
+
+		<action name="printGrnPdf" class="com.pracbiz.b2bportal.core.action.GoodsReceivedNoteAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+		</action>
+
+		<action name="saveAcceptOrReject" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="saveAcceptOrReject">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="initClose" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="initClose">
+        	<result>/WEB-INF/views/core/poInvGrnDnMatching/close.jsp</result>
+        </action>
+        
+        <action name="saveClose" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="saveClose">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+        </action>
+        
+        <action name="initAuditPrice" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="initAuditPrice">
+        	<result>/WEB-INF/views/core/poInvGrnDnMatching/audit.jsp</result>
+        </action>
+        
+        <action name="initAuditQty" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="initAuditQty">
+        	<result>/WEB-INF/views/core/poInvGrnDnMatching/audit.jsp</result>
+        </action>
+        
+        <action name="saveAudit" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="saveAudit">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+        	<result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="viewDetails" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="viewDetails">
+        	<result>/WEB-INF/views/core/poInvGrnDnMatching/viewDetails.jsp</result>
+        </action>
+        
+        <action name="checkAcceptOrReject" class="com.pracbiz.b2bportal.core.action.PoInvGrnDnMatchingAction" method="checkAcceptOrReject">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+        	<result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+    </package>
+</struts>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.OperationMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.OperationHolder" >
+    <id column="OPN_ID" property="opnId" jdbcType="VARCHAR" />
+    <result column="OPN_DESC" property="opnDesc" jdbcType="VARCHAR" />
+    <result column="OPN_ORDER" property="opnOrder" jdbcType="SMALLINT" />
+    <result column="IMPLICIT" property="implicit" jdbcType="BIT" />
+    <result column="OPT_TYPE" property="optType" jdbcType="CHAR" />
+    <result column="MODULE_ID" property="moduleId" jdbcType="VARCHAR" />
+    <result column="BUTTON_TITLE_KEY" property="buttonTitleKey" jdbcType="VARCHAR" />
+    <result column="NEED_AUTH" property="needAuth" jdbcType="BIT" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.OperationHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from OPERATION
+    <where>
+      <if test="opnId != null" >
+        OPN_ID = #{opnId,jdbcType=VARCHAR}
+      </if>
+      <if test="opnDesc != null" >
+        AND OPN_DESC = #{opnDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="opnOrder != null" >
+        AND OPN_ORDER = #{opnOrder,jdbcType=SMALLINT}
+      </if>
+      <if test="implicit != null" >
+        AND IMPLICIT = #{implicit,jdbcType=BIT}
+      </if>
+      <if test="optType != null" >
+        AND OPT_TYPE = #{optType,jdbcType=CHAR}
+      </if>
+      <if test="moduleId != null" >
+        AND MODULE_ID = #{moduleId,jdbcType=VARCHAR}
+      </if>
+      <if test="buttonTitleKey != null" >
+        AND BUTTON_TITLE_KEY = #{buttonTitleKey,jdbcType=VARCHAR}
+      </if>
+      <if test="needAuth != null" >
+        AND NEED_AUTH = #{needAuth,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.OperationHolder" >
+    delete from OPERATION
+    <where>
+      <if test="opnId != null" >
+        OPN_ID = #{opnId,jdbcType=VARCHAR}
+      </if>
+      <if test="opnDesc != null" >
+        AND OPN_DESC = #{opnDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="opnOrder != null" >
+        AND OPN_ORDER = #{opnOrder,jdbcType=SMALLINT}
+      </if>
+      <if test="implicit != null" >
+        AND IMPLICIT = #{implicit,jdbcType=BIT}
+      </if>
+      <if test="optType != null" >
+        AND OPT_TYPE = #{optType,jdbcType=CHAR}
+      </if>
+      <if test="moduleId != null" >
+        AND MODULE_ID = #{moduleId,jdbcType=VARCHAR}
+      </if>
+      <if test="buttonTitleKey != null" >
+        AND BUTTON_TITLE_KEY = #{buttonTitleKey,jdbcType=VARCHAR}
+      </if>
+      <if test="needAuth != null" >
+        AND NEED_AUTH = #{needAuth,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.OperationHolder" >
+    insert into OPERATION (OPN_ID, OPN_DESC, OPN_ORDER, 
+      IMPLICIT, OPT_TYPE, MODULE_ID, 
+      BUTTON_TITLE_KEY, NEED_AUTH)
+    values (#{opnId,jdbcType=VARCHAR}, #{opnDesc,jdbcType=VARCHAR}, #{opnOrder,jdbcType=SMALLINT}, 
+      #{implicit,jdbcType=BIT}, #{optType,jdbcType=CHAR}, #{moduleId,jdbcType=VARCHAR}, 
+      #{buttonTitleKey,jdbcType=VARCHAR}, #{needAuth,jdbcType=BIT})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.OperationHolder" >
+    update OPERATION
+    <set >
+      <if test="opnDesc != null" >
+        OPN_DESC = #{opnDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="opnOrder != null" >
+        OPN_ORDER = #{opnOrder,jdbcType=SMALLINT},
+      </if>
+      <if test="implicit != null" >
+        IMPLICIT = #{implicit,jdbcType=BIT},
+      </if>
+      <if test="optType != null" >
+        OPT_TYPE = #{optType,jdbcType=CHAR},
+      </if>
+      <if test="moduleId != null" >
+        MODULE_ID = #{moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="buttonTitleKey != null" >
+        BUTTON_TITLE_KEY = #{buttonTitleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="needAuth != null" >
+        NEED_AUTH = #{needAuth,jdbcType=BIT},
+      </if>
+    </set>
+    where OPN_ID = #{opnId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.OperationHolder" >
+    update OPERATION
+    set OPN_DESC = #{opnDesc,jdbcType=VARCHAR},
+      OPN_ORDER = #{opnOrder,jdbcType=SMALLINT},
+      IMPLICIT = #{implicit,jdbcType=BIT},
+      OPT_TYPE = #{optType,jdbcType=CHAR},
+      MODULE_ID = #{moduleId,jdbcType=VARCHAR},
+      BUTTON_TITLE_KEY = #{buttonTitleKey,jdbcType=VARCHAR},
+      NEED_AUTH = #{needAuth,jdbcType=BIT}
+    where OPN_ID = #{opnId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectOperationByUserType" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT
+    O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH 
+    FROM OPERATION O, USER_TYPE_OPERATION UTO
+    WHERE
+    O.OPN_ID = UTO.OPN_ID
+    AND O.NEED_AUTH=TRUE
+    AND UTO.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+    ORDER BY OPN_ID
+  </select>
+  
+  <select id="selectOperationByRole" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT 
+    O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH 
+    FROM OPERATION O, ROLE_OPERATION RO
+    WHERE O.OPN_ID = RO.OPN_ID
+    AND RO.ROLE_OID = #{roleOid,jdbcType=DECIMAL}
+    ORDER BY OPN_ID ASC
+  </select>
+  
+  <select id="selectOperationByRoleTmp" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT 
+    O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH 
+    FROM OPERATION O, T_ROLE_OPERATION RO
+    WHERE O.OPN_ID = RO.OPN_ID
+    AND RO.ROLE_OID = #{roleOid,jdbcType=DECIMAL}
+    ORDER BY OPN_ID ASC
+  </select>
+  
+  <select id="selectOperationByBuyerAndUserType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT
+    O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH  
+    FROM OPERATION O, USER_TYPE_OPERATION UTO, BUYER_OPERATION BO
+    WHERE
+    O.OPN_ID = UTO.OPN_ID
+    AND O.OPN_ID = BO.OPN_ID
+    AND O.NEED_AUTH=TRUE
+    AND UTO.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+    AND BO.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    ORDER BY OPN_ID
+  </select>
+  
+  <select id="selectSupplierOperationByBuyerAndUserType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT
+    O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH  
+    FROM OPERATION O, USER_TYPE_OPERATION UTO, BUYER_GIVEN_SUPPLIER_OPERATION BGSO
+    WHERE
+    O.OPN_ID = UTO.OPN_ID
+    AND O.OPN_ID = BGSO.OPN_ID
+    AND O.NEED_AUTH=TRUE
+    AND UTO.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+    AND BGSO.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    ORDER BY OPN_ID
+  </select>
+  
+  <select id="selectOperationBySupplierAndUserType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT DISTINCT
+    O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH  
+    FROM OPERATION O, USER_TYPE_OPERATION UTO, BUYER_GIVEN_SUPPLIER_OPERATION BGSO, TRADING_PARTNER TP
+    WHERE
+    O.OPN_ID = UTO.OPN_ID
+    AND O.OPN_ID = BGSO.OPN_ID
+    AND O.NEED_AUTH=TRUE
+    AND BGSO.BUYER_OID = TP.BUYER_OID
+    AND UTO.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+    AND TP.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    ORDER BY OPN_ID
+  </select>
+  
+  <select id="selectOperationByUserTypes" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select c.OPN_ID, c.OPN_DESC, c.OPN_ORDER, c.IMPLICIT, c.OPT_TYPE, c.MODULE_ID, c.BUTTON_TITLE_KEY, c.NEED_AUTH
+	from OPERATION c right join (select distinct a.opn_id from OPERATION a, USER_TYPE_OPERATION b 
+    where a.opn_id=b.opn_id and b.user_type_oid in 
+    <foreach collection="array" item="item" open="(" separator="," close=")">
+        #{item,jdbcType=DECIMAL}
+    </foreach>
+    ) d on c.opn_id=d.opn_id;
+  </select>
+  
+  <select id="selectOperationByUser" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH  
+    FROM OPERATION O, ROLE_OPERATION RO, ROLE_USER RU
+    WHERE RU.USER_OID = #{userOid,jdbcType=DECIMAL}
+    AND RU.ROLE_OID = RO.ROLE_OID
+    AND RO.OPN_ID = O.OPN_ID
+    ORDER BY OPN_ID ASC
+  </select>
+  
+  <select id="selectOperationSharedBetweenUserTypes" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT O.OPN_ID, O.OPN_DESC, O.OPN_ORDER, O.IMPLICIT, O.OPT_TYPE, O.MODULE_ID, O.BUTTON_TITLE_KEY, O.NEED_AUTH  
+    FROM OPERATION O,
+        (SELECT OPN_ID, COUNT(*) AS NUM FROM USER_TYPE_OPERATION UTO
+        WHERE USER_TYPE_OID = #{userTypeOid1,jdbcType=DECIMAL} OR USER_TYPE_OID = #{userTypeOid2,jdbcType=DECIMAL}
+        GROUP BY OPN_ID
+        HAVING NUM > 1) TMP
+    WHERE O.OPN_ID = TMP.OPN_ID
+    ORDER BY OPN_ID ASC
+  </select>
+</mapper>

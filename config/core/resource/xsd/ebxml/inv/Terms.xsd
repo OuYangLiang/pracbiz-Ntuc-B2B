@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by  () -->
+<xsd:schema xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.sanc.org.sg/schemas/ean" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>
+        Singapore Adopted version
+              Version Information:
+                Version Number: S1.1
+                Date of creation: June, 2004
+            </xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="Components.xsd"/>
+	<xsd:complexType name="AllowanceChargeType">
+		<xsd:sequence>
+			<xsd:element name="allowanceChargePriceBracket" type="AllowanceChargePriceBracketType" minOccurs="0"/>
+			<xsd:element name="monetaryAmountOrPercentage" type="MonetaryAmountOrPercentageType" maxOccurs="unbounded"/>
+			<xsd:element name="baseAmount" type="MonetaryAmountOrPercentageType" minOccurs="0"/>
+			<xsd:element name="description" type="TextDescriptionType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="allowanceChargeType" type="AllowanceChargeListType" use="required"/>
+		<xsd:attribute name="sequenceNumber">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:nonNegativeInteger">
+					<xsd:totalDigits value="2"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="allowanceOrChargeType" type="AllowanceOrChargeListType" use="required"/>
+		<xsd:attribute name="settlementType" type="SettlementListType" use="required"/>
+		<xsd:attribute name="effectiveDateType" type="EffectiveDateListType"/>
+	</xsd:complexType>
+	<xsd:complexType name="MonetaryAmountOrPercentageType">
+		<xsd:choice>
+			<xsd:element name="amount" type="AmountType"/>
+			<xsd:element name="percentage" type="PercentageType"/>
+			<xsd:element name="measurementValue" type="MeasurementValueType"/>
+			<xsd:element name="ratePerUnit" type="RatePerUnitType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="RatePerUnitType">
+		<xsd:sequence>
+			<xsd:element name="allowanceOrChargeRatePerUnit">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="amountPerUnit" type="AmountType" minOccurs="0"/>
+			<xsd:element name="percentagePerUnit" type="PercentageType" minOccurs="0"/>
+			<xsd:element name="measurementPerUnit" type="MeasurementValueType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AllowanceChargePriceBracketType">
+		<xsd:sequence>
+			<xsd:element name="bracketIdentifier" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="AllowanceChargeListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ALLOWANCE_GLOBAL"/>
+			<xsd:enumeration value="CHARGE_GLOBAL"/>
+			<xsd:enumeration value="CONSOLIDATED"/>
+			<xsd:enumeration value="FLAT_RATE"/>
+			<xsd:enumeration value="FREIGHT_COSTS"/>
+			<xsd:enumeration value="FREE_GOODS"/>
+			<xsd:enumeration value="INSURANCE_CHARGE"/>
+			<xsd:enumeration value="LUMP_SUM"/>
+			<xsd:enumeration value="MARKUP_FOR_SMALL_VOLUME_PURCHASES"/>
+			<xsd:enumeration value="PACKING_CHARGES"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AllowanceOrChargeListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ALLOWANCE"/>
+			<xsd:enumeration value="CHARGE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SettlementListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BILL_BACK"/>
+			<xsd:enumeration value="CHARGE_TO_BE_PAID_BY_CUSTOMER"/>
+			<xsd:enumeration value="CHARGE_TO_BE_PAID_BY_VENDOR"/>
+			<xsd:enumeration value="CREDIT_CUSTOMER_ACCOUNT"/>
+			<xsd:enumeration value="ITEM_ACCRUALS"/>
+			<xsd:enumeration value="OFF_INVOICE"/>
+			<xsd:enumeration value="VENDOR_ACCRUALS"/>
+			<xsd:enumeration value="VENDOR_CHECK"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="EffectiveDateListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="EFFECTIVE_DATE"/>
+			<xsd:enumeration value="EXPIRATION_DATE"/>
+			<xsd:enumeration value="FIRST_ARRIVAL_DATE"/>
+			<xsd:enumeration value="FIRST_ORDER_DATE"/>
+			<xsd:enumeration value="FIRST_SHIP_DATE"/>
+			<xsd:enumeration value="LAST_ARRIVAL_DATE"/>
+			<xsd:enumeration value="LAST_ORDER_DATE"/>
+			<xsd:enumeration value="LAST_SHIP_DATE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="PaymentTermsType">
+		<xsd:sequence>
+			<xsd:element name="netPayment" type="NetPaymentType" minOccurs="0"/>
+			<xsd:element name="installmentDue" type="InstallmentDueType" minOccurs="0"/>
+			<xsd:element name="discountPayment" type="DiscountPaymentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="proximoCutOffDay" type="PromixoCutOffDayType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="paymentTermsType" type="PaymentTermsTypeListType" use="required"/>
+		<xsd:attribute name="paymentTermsEvent" type="PaymentTermsEventListType" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="PaymentTermsEventListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ANTICIPATED_DELIVERY_DATE"/>
+			<xsd:enumeration value="DATE_INVOICE_RECEIVED"/>
+			<xsd:enumeration value="DATE_OF_DELIVERY_TO_SITE"/>
+			<xsd:enumeration value="DATE_OF_INVOICE"/>
+			<xsd:enumeration value="DATE_OF_SHIPMENT_AS_EVIDENCED_BY_TRANSPORT_DOCUMENTS"/>
+			<xsd:enumeration value="EFFECTIVE_DATE"/>
+			<xsd:enumeration value="INVOICE_TRANSMISSION_DATE"/>
+			<xsd:enumeration value="RECEIPT_OF_GOODS"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PaymentTermsTypeListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BASIC_(NET)"/>
+			<xsd:enumeration value="BASIC_DISCOUNT_OFFERED"/>
+			<xsd:enumeration value="DEFERRED"/>
+			<xsd:enumeration value="DISCOUNT"/>
+			<xsd:enumeration value="DISCOUNT_AFTER_DEDUCTING_FREIGHT"/>
+			<xsd:enumeration value="DISCOUNT_NOT_APPLICABLE"/>
+			<xsd:enumeration value="ELECTIVE"/>
+			<xsd:enumeration value="END_OF_MONTH"/>
+			<xsd:enumeration value="EXTENDED"/>
+			<xsd:enumeration value="FIXED_DATE"/>
+			<xsd:enumeration value="INSTANT"/>
+			<xsd:enumeration value="MIXED"/>
+			<xsd:enumeration value="PAYMENT_BY_INSTALLMENT"/>
+			<xsd:enumeration value="PREVIOUSLY_AGREED_UPON"/>
+			<xsd:enumeration value="PROXIMO"/>
+			<xsd:enumeration value="VALUTA"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="PaymentTimePeriodType">
+		<xsd:choice>
+			<xsd:element name="timePeriodDue" type="TimePeriodDueType"/>
+			<xsd:element name="dayOfMonthDue" type="DayOfMonthDueType"/>
+			<xsd:element name="date" type="xsd:date"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="TimePeriodDueType">
+		<xsd:sequence>
+			<xsd:element name="value">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="2"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="timePeriod" type="TimePeriodListType" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="TimePeriodListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DAYS"/>
+			<xsd:enumeration value="MONTHS"/>
+			<xsd:enumeration value="WEEKS"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="NetPaymentType">
+		<xsd:sequence>
+			<xsd:element name="paymentTimePeriod" type="PaymentTimePeriodType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DiscountPaymentType">
+		<xsd:sequence>
+			<xsd:element name="discountDescription" type="TextDescriptionType" minOccurs="0"/>
+			<xsd:element name="paymentTimePeriod" type="PaymentTimePeriodType"/>
+		</xsd:sequence>
+		<xsd:attribute name="discountType" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:minLength value="1"/>
+					<xsd:maxLength value="3"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="InstallmentDueType">
+		<xsd:sequence>
+			<xsd:element name="percentOfPaymentDue" type="PercentageType"/>
+			<xsd:element name="paymentTimePeriod" type="PaymentTimePeriodType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PromixoCutOffDayType">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:nonNegativeInteger"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DayOfMonthDueType">
+		<xsd:sequence>
+			<xsd:element name="value">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="2"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TermsType">
+		<xsd:sequence>
+			<xsd:element name="paymentTerms" type="PaymentTermsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="allowanceCharge" type="AllowanceChargeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

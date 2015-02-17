@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+    <field name="param.roleId">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC0115")}</message>
+        </field-validator>
+        <field-validator type="roleId">
+            <message>
+                ${getText("B2BPC0117")}
+            </message>
+        </field-validator>
+    </field>
+
+    <field name="param.roleName">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPC0118")}</message>
+        </field-validator>
+    </field>
+</validators>

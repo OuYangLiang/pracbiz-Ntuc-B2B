@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.FavouriteListMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.extension.FavouriteListExHolder" >
+    <id column="LIST_OID" property="listOid" jdbcType="DECIMAL" />
+    <id column="LIST_CODE" property="listCode" jdbcType="VARCHAR" />
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.FavouriteListHolder" >
+    select LIST_OID, LIST_CODE, USER_OID
+    from FAVOURITE_LIST
+    <where>
+      <if test="listOid != null" >
+        LIST_OID = #{listOid,jdbcType=DECIMAL}
+      </if>
+      <if test="listCode != null" >
+        AND LIST_CODE = #{listCode,jdbcType=VARCHAR}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.FavouriteListHolder" >
+    delete from FAVOURITE_LIST
+    <where>
+      <if test="listOid != null" >
+        LIST_OID = #{listOid,jdbcType=DECIMAL}
+      </if>
+      <if test="listCode != null" >
+        AND LIST_CODE = #{listCode,jdbcType=VARCHAR}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.FavouriteListHolder" >
+    insert into FAVOURITE_LIST (LIST_OID, LIST_CODE, USER_OID)
+    values (#{listOid,jdbcType=DECIMAL}, #{listCode,jdbcType=VARCHAR}, #{userOid,jdbcType=DECIMAL})
+  </insert>
+</mapper>

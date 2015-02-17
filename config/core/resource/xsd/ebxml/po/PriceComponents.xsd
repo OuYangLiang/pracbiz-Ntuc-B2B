@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.sanc.org.sg/schemas/ean" xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+	    <xsd:documentation>
+	Singapore Adopted version
+	      Version Information:
+        	Version Number: S1.1
+	        Date of creation: June, 2004
+	    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="CommonComponentLibrary.xsd"/>
+	<xsd:complexType name="PriceDateType">
+		<xsd:sequence>
+			<xsd:element name="priceDateType" type="PriceDateTypeListType"/>
+			<xsd:element name="effectiveStartDate" type="xsd:date"/>
+			<xsd:element name="effectiveEndDate" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="PriceDateTypeListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ARRIVAL_DATE"/>
+			<xsd:enumeration value="ORDER_DATE"/>
+			<xsd:enumeration value="SHIP_DATE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

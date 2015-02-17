@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.UserProfileTmpMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.UserProfileTmpHolder" >
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="SALUTATION" property="salutation" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="LOGIN_MODE" property="loginMode" jdbcType="CHAR" />
+    <result column="GENDER" property="gender" jdbcType="CHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="FAIL_ATTEMPTS" property="failAttempts" jdbcType="INTEGER" />
+    <result column="LAST_RESET_PWD_DATE" property="lastResetPwdDate" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_DATE" property="lastLoginDate" jdbcType="TIMESTAMP" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="BLOCKED" property="blocked" jdbcType="BIT" />
+    <result column="BLOCK_REMARKS" property="blockRemarks" jdbcType="VARCHAR" />
+    <result column="INIT" property="init" jdbcType="BIT" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="BLOCK_DATE" property="blockDate" jdbcType="TIMESTAMP" />
+    <result column="BLOCK_BY" property="blockBy" jdbcType="VARCHAR" />
+    <result column="INACTIVATE_DATE" property="inactivateDate" jdbcType="TIMESTAMP" />
+    <result column="INACTIVATE_BY" property="inactivateBy" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="DECIMAL" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="ACTOR" property="actor" jdbcType="VARCHAR" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="CTRL_STATUS" property="ctrlStatus" jdbcType="CHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    USER_OID, USER_NAME, SALUTATION, LOGIN_ID, LOGIN_PWD, LOGIN_MODE, GENDER, TEL, MOBILE, 
+    FAX, EMAIL, FAIL_ATTEMPTS, LAST_RESET_PWD_DATE, LAST_LOGIN_DATE, ACTIVE, BLOCKED, 
+    BLOCK_REMARKS, INIT, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, BLOCK_DATE, 
+    BLOCK_BY, INACTIVATE_DATE, INACTIVATE_BY, USER_TYPE, BUYER_OID, SUPPLIER_OID, ACTOR, 
+    ACTION_TYPE, ACTION_DATE, CTRL_STATUS
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.UserProfileTmpExHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_USER_PROFILE
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="salutation != null" >
+        AND SALUTATION = #{salutation,jdbcType=VARCHAR}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+      </if>
+      <if test="loginPwd != null" >
+        AND LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR}
+      </if>
+      <if test="loginMode != null" >
+        AND LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+      </if>
+      <if test="gender != null" >
+        AND GENDER = #{gender,jdbcType=CHAR}
+      </if>
+      <if test="tel != null" >
+        AND TEL = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+        AND MOBILE = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="fax != null" >
+        AND FAX = #{fax,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null" >
+        AND EMAIL = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="failAttempts != null" >
+        AND FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER}
+      </if>
+      <if test="lastResetPwdDate != null" >
+        AND LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="lastLoginDate != null" >
+        AND LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="init != null" >
+        AND INIT = #{init,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="inactivateDate != null" >
+        AND INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="inactivateBy != null" >
+        AND INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="userType != null" >
+        AND USER_TYPE = #{userType,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userOids != null">
+        AND USER_OID IN
+        <foreach collection="userOids" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileTmpHolder" >
+    delete from T_USER_PROFILE
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="salutation != null" >
+        AND SALUTATION = #{salutation,jdbcType=VARCHAR}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+      </if>
+      <if test="loginPwd != null" >
+        AND LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR}
+      </if>
+      <if test="loginMode != null" >
+        AND LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+      </if>
+      <if test="gender != null" >
+        AND GENDER = #{gender,jdbcType=CHAR}
+      </if>
+      <if test="tel != null" >
+        AND TEL = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+        AND MOBILE = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="fax != null" >
+        AND FAX = #{fax,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null" >
+        AND EMAIL = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="failAttempts != null" >
+        AND FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER}
+      </if>
+      <if test="lastResetPwdDate != null" >
+        AND LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="lastLoginDate != null" >
+        AND LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="blockRemarks != null" >
+        AND BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="init != null" >
+        AND INIT = #{init,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="blockDate != null" >
+        AND BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="blockBy != null" >
+        AND BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+      </if>
+      <if test="inactivateDate != null" >
+        AND INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="inactivateBy != null" >
+        AND INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="userType != null" >
+        AND USER_TYPE = #{userType,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileTmpHolder" >
+    insert into T_USER_PROFILE (USER_OID, USER_NAME, SALUTATION, 
+      LOGIN_ID, LOGIN_PWD, LOGIN_MODE, 
+      GENDER, TEL, MOBILE, FAX, 
+      EMAIL, FAIL_ATTEMPTS, LAST_RESET_PWD_DATE, 
+      LAST_LOGIN_DATE, ACTIVE, BLOCKED, 
+      BLOCK_REMARKS, INIT, CREATE_DATE, 
+      CREATE_BY, UPDATE_DATE, UPDATE_BY, 
+      BLOCK_DATE, BLOCK_BY, INACTIVATE_DATE, 
+      INACTIVATE_BY, USER_TYPE, BUYER_OID, 
+      SUPPLIER_OID, ACTOR, ACTION_TYPE, 
+      ACTION_DATE, CTRL_STATUS)
+    values (#{userOid,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, #{salutation,jdbcType=VARCHAR}, 
+      #{loginId,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, #{loginMode,jdbcType=CHAR}, 
+      #{gender,jdbcType=CHAR}, #{tel,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{failAttempts,jdbcType=INTEGER}, #{lastResetPwdDate,jdbcType=TIMESTAMP}, 
+      #{lastLoginDate,jdbcType=TIMESTAMP}, #{active,jdbcType=BIT}, #{blocked,jdbcType=BIT}, 
+      #{blockRemarks,jdbcType=VARCHAR}, #{init,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{blockDate,jdbcType=TIMESTAMP}, #{blockBy,jdbcType=VARCHAR}, #{inactivateDate,jdbcType=TIMESTAMP}, 
+      #{inactivateBy,jdbcType=VARCHAR}, #{userType,jdbcType=DECIMAL}, #{buyerOid,jdbcType=DECIMAL}, 
+      #{supplierOid,jdbcType=DECIMAL}, #{actor,jdbcType=VARCHAR}, #{actionType,jdbcType=CHAR}, 
+      #{actionDate,jdbcType=TIMESTAMP}, #{ctrlStatus,jdbcType=CHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileTmpHolder" >
+    update T_USER_PROFILE
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="salutation != null" >
+        SALUTATION = #{salutation,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="loginMode != null" >
+        LOGIN_MODE = #{loginMode,jdbcType=CHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="failAttempts != null" >
+        FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER},
+      </if>
+      <if test="lastResetPwdDate != null" >
+        LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginDate != null" >
+        LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null" >
+        ACTIVE = #{active,jdbcType=BIT},
+      </if>
+      <if test="blocked != null" >
+        BLOCKED = #{blocked,jdbcType=BIT},
+      </if>
+      <if test="blockRemarks != null" >
+        BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="init != null" >
+        INIT = #{init,jdbcType=BIT},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="blockDate != null" >
+        BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blockBy != null" >
+        BLOCK_BY = #{blockBy,jdbcType=VARCHAR},
+      </if>
+      <if test="inactivateDate != null" >
+        INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inactivateBy != null" >
+        INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+      <if test="actor != null" >
+        ACTOR = #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="actionType != null" >
+        ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      </if>
+      <if test="actionDate != null" >
+        ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctrlStatus != null" >
+        CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where USER_OID = #{userOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.UserProfileTmpHolder" >
+    update T_USER_PROFILE
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      SALUTATION = #{salutation,jdbcType=VARCHAR},
+      LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      LOGIN_MODE = #{loginMode,jdbcType=CHAR},
+      GENDER = #{gender,jdbcType=CHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      FAIL_ATTEMPTS = #{failAttempts,jdbcType=INTEGER},
+      LAST_RESET_PWD_DATE = #{lastResetPwdDate,jdbcType=TIMESTAMP},
+      LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP},
+      ACTIVE = #{active,jdbcType=BIT},
+      BLOCKED = #{blocked,jdbcType=BIT},
+      BLOCK_REMARKS = #{blockRemarks,jdbcType=VARCHAR},
+      INIT = #{init,jdbcType=BIT},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP},
+      BLOCK_BY = #{blockBy,jdbcType=VARCHAR},
+      INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP},
+      INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=DECIMAL},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      ACTOR = #{actor,jdbcType=VARCHAR},
+      ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      CTRL_STATUS = #{ctrlStatus,jdbcType=CHAR}
+    where USER_OID = #{userOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

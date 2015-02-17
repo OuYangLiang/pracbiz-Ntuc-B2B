@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PracBiz B2B System - FairPrice" basedir="." default="help">
+
+	<property file="build.properties" />
+
+	<!-- utilize predefined environment variables -->
+	<property name="env" environment="env" value="env" />
+	<property name="JAVA.HOME" value="${env.JAVA_HOME}" />
+
+	<!-- define essential properties -->
+	<property name="company.name" value="PracBiz Pte Ltd" />
+	<property name="company.shortname" value="PracBiz" />
+	<property name="company.url" value="http://www.pracbiz.com" />
+	<property name="project.name" value="PracBiz B2B System" />
+	<property name="project.shortname" value="B2BPortal" />
+	<property name="project.version" value="1.0.0" />
+
+
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="ear.dir" value="${build.dir}/ear" />
+	<property name="war.dir" value="${build.dir}/war" />
+	<property name="jar.dir" value="${build.dir}/jar" />
+	<property name="war.lib.dir" value="${build.dir}/war/WEB-INF/lib" />
+
+
+	<property name="src.dir" value="${basedir}/src/java" />
+	<property name="web.dir" value="${basedir}/web" />
+	<property name="compilelib.dir" value="${basedir}/compile_lib" />
+	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
+	<property name="lib.dir" value="${web.dir}/WEB-INF/lib" />
+	<property name="core.config.dir" value="${basedir}/config/core" />
+	<property name="core.struts.dir" value="${core.config.dir}/struts" />
+	<property name="core.spring.dir" value="${core.config.dir}/spring" />
+	<property name="core.log4j.dir" value="${core.config.dir}/log4j" />
+	<property name="core.application.dir" value="${core.config.dir}/application" />
+	<property name="core.resource.dir" value="${core.config.dir}/resource" />
+	<property name="core.mule.dir" value="${core.config.dir}/mule" />
+	<property name="core.velocity.dir" value="${core.config.dir}/velocity" />
+	<property name="core.report.dir" value="${core.resource.dir}/reports" />
+
+
+	<!-- define the classpath required for compilation -->
+	<path id="common.classpath">
+		<fileset dir="${compilelib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+
+	<!-- list out the available targets to console -->
+	<target name="help" depends="init">
+		<echo message="" />
+		<echo message="${project.name} v${project.version} build file" />
+		<echo message="" />
+		<echo message="Available targets are:" />
+		<echo message="" />
+		<echo message="  clean      --&gt; cleans up all the binaries" />
+		<echo message="  compile    --&gt; compiles the source files" />
+		<echo message="  war        --&gt; builds the war file" />
+		<echo message="" />
+	</target>
+
+
+	<!-- reports the current date and time each time this build file is run -->
+	<target name="init">
+		<tstamp>
+			<format pattern="d-MMMM-yyyy hh:mm aa" property="now" />
+		</tstamp>
+		<echo message="${now}" />
+
+		<exec dir="${basedir}" executable="svn" output="svn_info.txt">
+			<arg value="info"/>
+		</exec>
+		<loadfile property="svn.revision" srcFile="${basedir}/svn_info.txt">
+			<filterchain>
+				<linecontains>
+					<contains value="Revision: " />
+				</linecontains>
+				<deletecharacters chars="Revision: "/>
+				<deletecharacters chars="\r\n"/>
+			</filterchain>
+		</loadfile>
+		<delete file="${basedir}/svn_info.txt"/>
+		<echo message="SVN Base Rev: ${svn.revision}"/>
+	</target>
+
+
+	<!-- clean up everything -->
+	<target name="clean" depends="init">
+		<delete dir="${build.dir}" />
+		<delete dir="${classes.dir}" />
+	</target>
+
+
+	<!-- ensure basic directories are in place for the build -->
+	<target name="setup" depends="init">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${jar.dir}" />
+		<mkdir dir="${war.dir}" />
+		<mkdir dir="${ear.dir}" />
+	</target>
+
+
+	<!-- compile the java source files -->
+	<target name="compile" depends="setup">
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.struts.dir}">
+				<include name="*.xml" />
+				<include name="*.properties" />
+			</fileset>
+
+			<fileset dir="${core.struts.dir}/fairprice">
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.spring.dir}">
+				<include name="*.xml" />
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.log4j.dir}">
+				<include name="log4j.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.application.dir}">
+				<include name="*.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.mule.dir}">
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.resource.dir}">
+				<include name="*.properties" />
+				<include name="*.vm" />
+				<include name="*.key" />
+				<include name="xsd/*/*/*.xsd" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.resource.dir}/fairprice">
+				<include name="*.vm" />
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${core.velocity.dir}">
+				<include name="*.vm" />
+			</fileset>
+		</copy>
+
+		<copy todir="${classes.dir}/reports">
+			<fileset dir="${core.report.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" 
+			executable="${JAVA.HOME}/bin/javac.exe" deprecation="off" debug="on">
+			<classpath refid="common.classpath" />
+		</javac>
+	</target>
+
+
+	<target name="jar" depends="compile">
+		<jar jarfile="${jar.dir}/${project.shortname}-base-${project.version}.jar" 
+			basedir="${classes.dir}" includes="com/pracbiz/b2bportal/base/**" 
+			excludes="*.xml *.properties *.vm *.key">
+			<manifest>
+				<attribute name="Implementation-Title" value="${company.name}" />
+				<attribute name="Implementation-Version" value="rev${svn.revision}" />
+				<attribute name="Implementation-Vendor" value="${company.shortname}" />
+			</manifest>
+		</jar>
+
+		<jar jarfile="${jar.dir}/${project.shortname}-core-${project.version}.jar" 
+			basedir="${classes.dir}" includes="com/pracbiz/b2bportal/core/**" 
+			excludes="*.xml *.properties *.vm *.key">
+			<manifest>
+				<attribute name="Implementation-Title" value="${company.name}" />
+				<attribute name="Implementation-Version" value="rev${svn.revision}" />
+				<attribute name="Implementation-Vendor" value="${company.shortname}" />
+			</manifest>
+		</jar>
+
+		<jar jarfile="${jar.dir}/${project.shortname}-customized-${project.version}.jar" 
+			basedir="${classes.dir}" includes="com/pracbiz/b2bportal/customized/**" 
+			excludes="*.xml *.properties *.vm *.key">
+			<manifest>
+				<attribute name="Implementation-Title" value="${company.name}" />
+				<attribute name="Implementation-Version" value="rev${svn.revision}" />
+				<attribute name="Implementation-Vendor" value="${company.shortname}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- create the war file for the application -->
+	<target name="preparewar" depends="jar">
+		<delete dir="${classes.dir}/com" />
+
+
+		<copy todir="${war.dir}">
+			<fileset dir="${web.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+
+		<copy todir="${war.lib.dir}">
+			<fileset dir="${jar.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- create the war file for the application -->
+	<target name="war" depends="preparewar">
+		<jar jarfile="${ear.dir}/${project.shortname}-${project.version}.war" update="true">
+			<fileset dir="${war.dir}" includes="**" />
+		</jar>
+	</target>
+
+	<target name="sendAccounts" depends="compile">
+		<java classname="com.pracbiz.b2bportal.customized.fairprice.util.AccountSender">
+			<classpath>
+				<pathelement path="${classes.dir}"/>
+				<fileset dir="${compilelib.dir}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+</project>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.BuyerStoreMapper" >
+  
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.extension.BuyerStoreExHolder" >
+    <id column="STORE_OID" property="storeOid" jdbcType="DECIMAL" />
+    <result column="STORE_NAME" property="storeName" jdbcType="VARCHAR" />
+    <result column="STORE_CODE" property="storeCode" jdbcType="VARCHAR" />
+    <result column="AREA_OID" property="areaOid" jdbcType="DECIMAL" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="CTRY_DESC" property="storeCtryName" jdbcType="VARCHAR" />
+    <result column="STORE_STATE" property="storeState" jdbcType="BIT" />
+    <result column="STORE_CITY" property="storeCity" jdbcType="TIMESTAMP" />
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Grid_Column_List" >
+    S.STORE_OID, S.STORE_NAME, S.STORE_CODE, A.AREA_OID, A.AREA_CODE, C.CTRY_DESC, S.STORE_STATE, S.STORE_CITY, S.BUYER_CODE, B.BUYER_NAME
+  </sql>
+  
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.BuyerStoreExHolder"
+    resultType="int">
+    SELECT COUNT(*)  
+    FROM BUYER_STORE S LEFT JOIN BUYER_STORE_AREA A ON S.AREA_OID = A.AREA_OID LEFT JOIN COUNTRY C 
+    ON S.STORE_CTRY_CODE = C.CTRY_CODE LEFT JOIN BUYER B ON S.BUYER_CODE = B.BUYER_CODE
+    <where>
+      <if test="storeOid != null" >
+        S.STORE_OID = #{storeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="storeCode != null" >
+        AND S.STORE_CODE like concat('%',#{storeCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="storeName != null" >
+      	AND S.STORE_NAME like concat('%',#{storeName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="buyerCode != null and buyerCode != '-1'" >
+        AND B.BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+      <if test="currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7">
+	      <if test="buyerStoreAccessList != null and !buyerStoreAccessList.isEmpty()">
+	          AND STORE_CODE IN 
+	          <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+	              #{item}
+	          </foreach>
+	      </if>
+	      <if test="buyerStoreAccessList == null or buyerStoreAccessList.isEmpty()">
+	          AND 1=2
+	      </if>
+      </if>
+      <!-- current is supplier user and select all buyer -->
+      <if test="buyerCode == '-1'">
+          <if test="buyerCodeList != null and !buyerCodeList.isEmpty()">
+              AND B.BUYER_CODE IN 
+              <foreach collection="buyerCodeList" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test="buyerCodeList == null or buyerCodeList.isEmpty()">
+              AND 1=2
+          </if>
+      </if>
+    </where>
+  </select>
+  
+  
+  <select id="getListOfSummary" resultMap="GridMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.BuyerStoreExHolder" >
+    SELECT 
+    <include refid="Grid_Column_List" /> 
+    FROM BUYER_STORE S LEFT JOIN BUYER_STORE_AREA A ON S.AREA_OID = A.AREA_OID LEFT JOIN COUNTRY C 
+    ON S.STORE_CTRY_CODE = C.CTRY_CODE LEFT JOIN BUYER B ON S.BUYER_CODE = B.BUYER_CODE
+    <where>
+	    <if test="storeOid != null" >
+	      	AND STORE_OID = #{storeOid,jdbcType=DECIMAL}
+	    </if>
+	    <if test="storeCode != null" >
+	     	AND STORE_CODE like concat('%',#{storeCode,jdbcType=VARCHAR},'%')
+	    </if>
+	    <if test="storeName != null" >
+	    	AND STORE_NAME like concat('%',#{storeName,jdbcType=VARCHAR},'%')
+	    </if>
+	    <if test="buyerCode != null and buyerCode != '-1'" >
+            AND S.BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+        </if>
+        <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+	    <if test="currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7">
+	        <if test="buyerStoreAccessList != null and !buyerStoreAccessList.isEmpty()">
+	            AND STORE_CODE IN 
+	            <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="buyerStoreAccessList == null or buyerStoreAccessList.isEmpty()">
+	            AND 1=2
+	        </if>
+	    </if>
+        <!-- current is supplier user and select all buyer -->
+        <if test="buyerCode == '-1'">
+            <if test="buyerCodeList != null and !buyerCodeList.isEmpty()">
+	            AND S.BUYER_CODE IN 
+	            <foreach collection="buyerCodeList" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+            </if>
+            <if test="buyerCodeList == null or buyerCodeList.isEmpty()">
+                AND 1=2
+            </if>
+        </if>
+	</where>
+    <if test="sortField != null" >
+      order by ${sortField} ${sortOrder}
+    </if>
+      limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>

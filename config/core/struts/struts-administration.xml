@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="admin" extends="pracbiz-default" namespace="/admin"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="init">
+            <result>/WEB-INF/views/core/administration/index.jsp</result>
+        </action>
+        
+        <action name="initCommonFig" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initCommonFig">
+            <result>/WEB-INF/views/core/administration/commonConfiguration.jsp</result>
+        </action>
+        
+        <action name="resetCommonFig" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initCommonFig">
+            <result type="json">
+                <param name="root">reset</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="saveCommonFig" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="saveCommonFig">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+        	<result type="json">
+				<param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+			</result>
+        </action>
+        
+        <action name="initHsekeep" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initHouseKeeping">
+            <result>/WEB-INF/views/core/administration/houseKeeping.jsp</result>
+        </action>
+        
+        <action name="resetHsekeep" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initHouseKeeping">
+            <result type="json">
+                <param name="root">resetHseKeep</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="saveHsekeep" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="saveHouseKeeping">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="initPwdRule" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initPasswordRule">
+            <result>/WEB-INF/views/core/administration/passwordRule.jsp</result>
+        </action>
+        
+        <action name="resetPwdRule" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initPasswordRule">
+            <result type="json">
+                <param name="root">reset</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="savePwdRule" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="savePasswordRule">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="initMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initMessageManagement">
+            <result>/WEB-INF/views/core/administration/messageManagement.jsp</result>
+        </action>
+        
+        <action name="dataMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="searchMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+         <action name="viewMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initViewOrEdit">
+            <result type="json">
+                <param name="root">reserveMessage</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+         <action name="initEditMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initViewOrEdit">
+            <result type="json">
+                <param name="root">reserveMessage</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+         <action name="saveAddMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="saveAddResMsg">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+         <action name="saveEditMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="saveEditResMsg">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+         <action name="saveDeleteMsg" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="saveDelete">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="initMsgSummaryPageSetting" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initMsgSummaryPageSetting">
+           <result>/WEB-INF/views/core/administration/messageSummaryPageSetting.jsp</result>
+        </action>
+        
+        <action name="getSummaryFields" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="getSummaryFields">
+            <result>/WEB-INF/views/core/administration/summaryFields.jsp</result>
+        </action>
+        
+        <action name="saveMsgSummaryPageSetting" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="saveMsgSummaryPageSetting">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+        <action name="initEditRetailerPrivilege" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initEditRetailerPrivilege">
+           <result>/WEB-INF/views/core/administration/retailerPrivilege.jsp</result>
+        </action>
+        
+        <action name="getPrivilegeDetail" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="getPrivilegeDetail">
+            <result>/WEB-INF/views/core/administration/privilegeDetail.jsp</result>
+        </action>
+        
+        <action name="savePrivilege" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="savePrivilege">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+            <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+
+		<action name="initEmailConfig" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initEmailConfig">
+            <result>/WEB-INF/views/core/administration/emailConfiguration.jsp</result>
+        </action>
+        
+        <action name="resetEmailConfig" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="initEmailConfig">
+            <result type="json">
+                <param name="root">reset</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+        
+  		<action name="saveEmailConfig" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="saveEmailConfig">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/> 
+           <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+           </result>
+        </action>
+
+        <action name="testEmailForConfig" class="com.pracbiz.b2bportal.core.action.AdministrationAction" method="sentTestMailForEmailConfig">
+           <result type="json">
+                <param name="root">result</param>
+                <param name="ignoreHierarchy">true</param>
+           </result>
+        </action>
+    </package>
+</struts>

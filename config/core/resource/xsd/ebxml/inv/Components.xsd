@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.sanc.org.sg/schemas/ean" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>
+        Singapore Adopted version
+              Version Information:
+                Version Number: S1.1
+                Date of creation: June, 2004
+            </xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="Identification.xsd"/>
+	<!-- Amount Components -->
+	<xsd:complexType name="MonetaryAmountType">
+		<xsd:sequence>
+			<xsd:element name="amount" type="AmountType" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AmountType">
+		<xsd:simpleContent>
+			<xsd:extension base="AmountContentType">
+				<xsd:attribute name="currencyISOCode" type="CurrencyISOCodeType" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="AmountContentType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="18"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- Contact Components -->
+	<xsd:complexType name="ContactType">
+		<xsd:sequence>
+			<xsd:element name="communicationChannel" type="CommunicationChannelType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="personOrDepartmentName" type="TextDescriptionType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CommunicationChannelType">
+		<xsd:attribute name="communicationChannelCode" type="CommunicationChannelCodeListType" use="required"/>
+		<xsd:attribute name="communicationNumber" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:minLength value="1"/>
+					<xsd:maxLength value="70"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="CommunicationChannelCodeListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="EMAIL"/>
+			<xsd:enumeration value="TELEFAX"/>
+			<xsd:enumeration value="TELEPHONE"/>
+			<xsd:enumeration value="WEBSITE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- Date and Time Components -->
+	<xsd:complexType name="TimePeriodType">
+		<xsd:attribute name="begin" type="xsd:date" use="required"/>
+		<xsd:attribute name="end" type="xsd:date" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="DaysOfTheWeekListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FRIDAY"/>
+			<xsd:enumeration value="MONDAY"/>
+			<xsd:enumeration value="SUNDAY"/>
+			<xsd:enumeration value="SATURDAY"/>
+			<xsd:enumeration value="THURSDAY"/>
+			<xsd:enumeration value="TUESDAY"/>
+			<xsd:enumeration value="WEDNESDAY"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- Description Components -->
+	<xsd:complexType name="DescriptionType">
+		<xsd:sequence>
+			<xsd:element name="text">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="70"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="language" type="xsd:language" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="TextDescriptionType">
+		<xsd:sequence>
+			<xsd:element name="description" type="DescriptionType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Document Components -->
+	<xsd:element name="document" type="DocumentType" abstract="true"/>
+	<xsd:element name="response" type="ResponseType" abstract="true"/>
+	<xsd:complexType name="DocumentType" abstract="true">
+		<xsd:attribute name="contentVersion" type="VersionType" default="1.3.1"/>
+		<xsd:attribute name="documentStructureVersion" type="VersionType" fixed="1.3.1"/>
+		<xsd:attribute name="lastUpdateDate" type="xsd:date"/>
+		<xsd:attribute name="creationDate" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="documentStatus" type="DocumentStatusListType" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="DocumentStatusListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="COPY"/>
+			<xsd:enumeration value="ORIGINAL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="LineItemType" abstract="true">
+		<xsd:attribute name="number" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:nonNegativeInteger">
+					<xsd:totalDigits value="6"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="ReferenceType">
+		<xsd:sequence>
+			<xsd:element name="referenceDate" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="referenceDateOnly" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="referenceIdentification">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Measurement Components -->
+	<xsd:complexType name="MeasurementType">
+		<xsd:sequence>
+			<xsd:element name="measurementValue" type="MeasurementValueType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeasurementValueType">
+		<xsd:simpleContent>
+			<xsd:extension base="MeasurementValueContentType">
+				<xsd:attribute name="unitOfMeasure" use="required">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:minLength value="0"/>
+							<xsd:maxLength value="3"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="MeasurementValueContentType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- Name and Address Components -->
+	<xsd:complexType name="NameAndAddressType">
+		<xsd:sequence>
+			<xsd:element name="city">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="35" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="countryISOCode"
+				type="CountryISOCodeType" />
+			<xsd:element name="languageOfTheParty" type="xsd:language" />
+			<xsd:element name="name">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="currency" type="CurrencyISOCodeType"
+				minOccurs="0" />
+			<xsd:element name="pOBoxNumber" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="postalCode" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="provinceCode" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="state" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="streetAddressOne" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="streetAddressTwo" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="streetAddressThree" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="streetAddressFour" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="80" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Range Components -->
+	<xsd:complexType name="RangeType">
+		<xsd:sequence>
+			<xsd:element name="maximum" type="xsd:float"/>
+			<xsd:element name="minimum" type="xsd:float"/>
+			<xsd:element name="maximumType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="minimumType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeasurementRangeType">
+		<xsd:sequence>
+			<xsd:element name="maximum" type="MeasurementValueType"/>
+			<xsd:element name="minimum" type="MeasurementValueType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AmountRangeType">
+		<xsd:sequence>
+			<xsd:element name="maximum" type="AmountType"/>
+			<xsd:element name="minimum" type="AmountType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Response Components -->
+	<xsd:complexType name="ResponseType">
+		<xsd:sequence>
+			<xsd:element name="responseIdentification" type="EntityIdentificationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="responseStatus" type="ResponseStatusListType" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="ResponseStatusListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ACCEPTED"/>
+			<xsd:enumeration value="MODIFIED"/>
+			<xsd:enumeration value="REJECTED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- Trade Item Hazardous Information Components -->
+	<xsd:complexType name="TradeItemHazardousInformationType">
+		<xsd:sequence>
+			<xsd:element name="classOfDangerousGoods">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dangerousGoodsAMarginNumber">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dangerousGoodsHazardousCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dangerousGoodsPackingGroup">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dangerousGoodsRegulationCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dangerousGoodsShippingName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dangerousGoodsTechnicalName" type="TextDescriptionType"/>
+			<xsd:element name="flashPointTemperature" type="MeasurementType"/>
+			<xsd:element name="unitedNationsDangerousGoodsNumber" type="xsd:integer"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

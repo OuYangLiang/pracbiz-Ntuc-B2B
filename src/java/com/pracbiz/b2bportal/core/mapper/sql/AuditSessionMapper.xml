@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.AuditSessionMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.AuditSessionHolder" >
+    <id column="SESSION_OID" property="sessionOid" jdbcType="DECIMAL" />
+    <result column="SESSION_ID" property="sessionId" jdbcType="CHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="SESSION_SUMMARY" property="sessionSummary" jdbcType="VARCHAR" />
+    <result column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="BKEND_OPN_ID" property="bkendOpnId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    SESSION_OID, SESSION_ID, START_DATE, END_DATE, SESSION_SUMMARY, USER_OID, LOGIN_ID, 
+    BKEND_OPN_ID
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.AuditSessionHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from AUDIT_SESSION
+    <where>
+      <if test="sessionId != null" >
+        SESSION_ID = #{sessionId,jdbcType=CHAR}
+      </if>
+      <if test="startDate != null" >
+        AND START_DATE = #{startDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null" >
+        AND END_DATE = #{endDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sessionSummary != null" >
+        AND SESSION_SUMMARY = #{sessionSummary,jdbcType=VARCHAR}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+      </if>
+      <if test="bkendOpnId != null" >
+        AND BKEND_OPN_ID = #{bkendOpnId,jdbcType=VARCHAR}
+      </if>
+      <if test="sessionOid != null">
+        AND SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.AuditSessionHolder" >
+    delete from AUDIT_SESSION
+    <where>
+      <if test="sessionId != null" >
+        SESSION_ID = #{sessionId,jdbcType=CHAR}
+      </if>
+      <if test="startDate != null" >
+        AND START_DATE = #{startDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null" >
+        AND END_DATE = #{endDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sessionSummary != null" >
+        AND SESSION_SUMMARY = #{sessionSummary,jdbcType=VARCHAR}
+      </if>
+      <if test="userOid != null" >
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+      </if>
+      <if test="bkendOpnId != null" >
+        AND BKEND_OPN_ID = #{bkendOpnId,jdbcType=VARCHAR}
+      </if>
+       <if test="sessionOid != null">
+        AND SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.AuditSessionHolder" >
+    insert into AUDIT_SESSION (SESSION_OID, SESSION_ID, START_DATE, 
+      END_DATE, SESSION_SUMMARY, USER_OID, 
+      LOGIN_ID, BKEND_OPN_ID)
+    values (#{sessionOid,jdbcType=DECIMAL}, #{sessionId,jdbcType=CHAR}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{sessionSummary,jdbcType=VARCHAR}, #{userOid,jdbcType=DECIMAL}, 
+      #{loginId,jdbcType=VARCHAR}, #{bkendOpnId,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.AuditSessionHolder" >
+    update AUDIT_SESSION
+    <set >
+      <if test="sessionId != null" >
+        SESSION_ID = #{sessionId,jdbcType=CHAR},
+      </if>
+      <if test="startDate != null" >
+        START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sessionSummary != null" >
+        SESSION_SUMMARY = #{sessionSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL},
+      </if>
+      <if test="loginId != null" >
+        LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="bkendOpnId != null" >
+        BKEND_OPN_ID = #{bkendOpnId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.AuditSessionHolder" >
+    update AUDIT_SESSION
+    set SESSION_ID = #{sessionId,jdbcType=CHAR},
+      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      SESSION_SUMMARY = #{sessionSummary,jdbcType=VARCHAR},
+      USER_OID = #{userOid,jdbcType=DECIMAL},
+      LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      BKEND_OPN_ID = #{bkendOpnId,jdbcType=VARCHAR}
+    where SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

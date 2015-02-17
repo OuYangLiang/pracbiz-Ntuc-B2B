@@ -1,0 +1,42 @@
+<html>
+    <head>
+        Dear ${SUPPLIER_NAME},
+        <br/><br/><br/>
+        The following User Id and Password has been created for you to login to Supplier Portal..
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td width="100" align="left">User Id</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">${LOGIN_ID}</td>
+                </tr>
+                <tr>
+                    <td width="100" align="left">Password</td>
+                    <td align="right">:</td>
+                    <td align="left">${PASSWORD}</td>
+                </tr>
+            </table>
+            <br/><br/>
+            On first login, please change to a secured password.<br/>
+            For helpdesk support, please contact ${TELPHONE} .
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         FairPrice Supplier Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+        </form>
+        <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

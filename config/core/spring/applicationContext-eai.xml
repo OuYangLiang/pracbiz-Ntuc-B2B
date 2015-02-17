@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+         
+    <context:annotation-config />
+    
+    <import resource="classpath:applicationContext-resources.xml"/>
+    <import resource="classpath:applicationContext-ibatis.xml"/>
+    <import resource="classpath:applicationContext-service.xml"/>
+    <import resource="classpath:applicationContext-aop.xml"/>
+    <import resource="classpath:applicationContext-otherservice.xml"/>
+    <import resource="classpath:applicationContext-ehcache.xml"/>
+    <import resource="classpath:applicationContext-quartz.xml"/>
+    <import resource="classpath:applicationContext-fileHandler.xml"/>
+    <import resource="classpath:applicationContext-component.xml"/>
+    <import resource="classpath:applicationContext-visitor.xml"/>
+	<import resource="classpath:applicationContext-visitor-txnLogger.xml"/>
+	<import resource="classpath:applicationContext-reportEngine.xml"/>
+	<import resource="classpath:applicationContext-fileParser.xml"/>
+	<import resource="classpath:applicationContext-fileValidator.xml"/>
+	<import resource="classpath:applicationContext-reportExcel.xml"/>
+	<import resource="classpath:applicationContext-sourceTranslator.xml"/>
+</beans>

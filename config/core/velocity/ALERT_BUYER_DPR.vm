@@ -1,0 +1,106 @@
+<html>
+    <body>
+        Daily PO Report<br/><br/>
+        
+        Summary<br/>
+        
+        Buyer : ${buyerName}<br/>
+        Daily PO Report file: ${filename}<br/>
+        PO query date range: from ${dateFrom} to ${dateTo}<br/><br/>
+        
+        #if($fileErrorList.size() > 0)
+        <table>
+        <tr>
+            <td colspan="2" style="text-decoration: underline;">
+                <strong>Incorrect file lines.</strong>
+            </td>
+        </tr>
+        #foreach($o in $fileErrorList)
+        <tr>
+            <td width="30" align="left">$velocityCount.</td>
+            <td align="left">$o</td>
+        </tr>
+        #end
+        </table>
+        #end
+        
+        
+        #if($unfindedPos.size() > 0)
+        <br/><br/>
+        <table>
+        <tr>
+            <td colspan="2" style="text-decoration: underline;">
+                <strong>PO(s) that are listed in summary file, but not in system.</strong>
+            </td>
+        </tr>
+        #foreach($o in $unfindedPos)
+        <tr>
+            <td width="30" align="left">$velocityCount.</td>
+            <td align="left">$o</td>
+        </tr>
+        #end
+        </table>
+        #end
+        
+        
+        #if($extraPos.size() > 0)
+        <br/><br/>
+        <table>
+        <tr>
+            <td colspan="2" style="text-decoration: underline;">
+                <strong>PO(s) that are not listed in summary file, but found in system.</strong>
+            </td>
+        </tr>
+        #foreach($o in $extraPos)
+        <tr>
+            <td width="30" align="left">$velocityCount.</td>
+            <td align="left">$o</td>
+        </tr>
+        #end
+        </table>
+        #end
+        
+        
+        #if($unmatchedPos.size() > 0)
+        <br/><br/>
+        <table>
+        <tr>
+            <td colspan="2" style="text-decoration: underline;">
+                <strong>PO(s) that are unmatched.</strong>
+            </td>
+        </tr>
+        #foreach($o in $unmatchedPos)
+        <tr>
+            <td width="30" align="left">$velocityCount.</td>
+            <td align="left">$o</td>
+        </tr>
+        #end
+        </table>
+        #end
+        
+        
+        #if($matchedPos.size() > 0)
+        <br/><br/>
+        <table>
+        <tr>
+            <td colspan="2" style="text-decoration: underline;">
+                <strong>PO(s) matched.</strong>
+            </td>
+        </tr>
+        #foreach($o in $matchedPos)
+        <tr>
+            <td width="30" align="left">$velocityCount.</td>
+            <td align="left">$o</td>
+        </tr>
+        #end
+        </table>
+        #end
+        <br/><br/>
+        
+
+        PracBiz B2B Portal System<br/>
+        Customer Support<br/><br/>
+
+        Server URL: <a href="$appUrl">$appUrl</a>
+    </body>
+<html>

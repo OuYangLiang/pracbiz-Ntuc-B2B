@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SalesDateLocationDetailExtendedMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailExtendedHolder" >
+    <id column="FIELD_NAME" property="fieldName" jdbcType="VARCHAR" />
+    <id column="SALES_OID" property="salesOid" jdbcType="DECIMAL" />
+    <id column="DETAIL_LINE_SEQ_NO" property="detailLineSeqNo" jdbcType="INTEGER" />
+    <id column="DATE_LINE_SEQ_NO" property="dateLineSeqNo" jdbcType="INTEGER" />
+    <id column="LOCATION_LINE_SEQ_NO" property="locationLineSeqNo" jdbcType="INTEGER" />
+    <result column="FIELD_TYPE" property="fieldType" jdbcType="CHAR" />
+    <result column="INT_VALUE" property="intValue" jdbcType="INTEGER" />
+    <result column="FLOAT_VALUE" property="floatValue" jdbcType="DECIMAL" />
+    <result column="STRING_VALUE" property="stringValue" jdbcType="VARCHAR" />
+    <result column="BOOL_VALUE" property="boolValue" jdbcType="BIT" />
+    <result column="DATE_VALUE" property="dateValue" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FIELD_NAME, SALES_OID, DETAIL_LINE_SEQ_NO, DATE_LINE_SEQ_NO, LOCATION_LINE_SEQ_NO, 
+    FIELD_TYPE, INT_VALUE, FLOAT_VALUE, STRING_VALUE, BOOL_VALUE, DATE_VALUE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailExtendedHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SALES_DATE_LOCATION_DETAIL_EXTENDED
+    <where>
+      <if test="salesOid != null" >
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="fieldName != null" >
+        and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldType != null" >
+        and FIELD_TYPE = #{fieldType,jdbcType=CHAR}
+      </if>
+      <if test="intValue != null" >
+        and INT_VALUE = #{intValue,jdbcType=INTEGER}
+      </if>
+      <if test="floatValue != null" >
+        and FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL}
+      </if>
+      <if test="stringValue != null" >
+        and STRING_VALUE = #{stringValue,jdbcType=VARCHAR}
+      </if>
+      <if test="boolValue != null" >
+        and BOOL_VALUE = #{boolValue,jdbcType=BIT}
+      </if>
+       <if test="dateValue != null" >
+        and DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP}
+      </if>
+	  <if test="detailLineSeqNo != null" >
+	   	and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+	  </if>
+	  <if test="dateLineSeqNo != null" >
+	   	and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+	  </if>
+	  <if test="locationLineSeqNo != null" >
+    	and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+   	  </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailExtendedHolder" >
+    delete from SALES_DATE_LOCATION_DETAIL_EXTENDED
+    <where>
+      <if test="salesOid != null" >
+        SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      </if>
+      <if test="fieldName != null" >
+        and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldType != null" >
+        and FIELD_TYPE = #{fieldType,jdbcType=CHAR}
+      </if>
+      <if test="intValue != null" >
+        and INT_VALUE = #{intValue,jdbcType=INTEGER}
+      </if>
+      <if test="floatValue != null" >
+        and FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL}
+      </if>
+      <if test="stringValue != null" >
+        and STRING_VALUE = #{stringValue,jdbcType=VARCHAR}
+      </if>
+      <if test="boolValue != null" >
+        and BOOL_VALUE = #{boolValue,jdbcType=BIT}
+      </if>
+       <if test="dateValue != null" >
+        and DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP}
+      </if>
+	  <if test="detailLineSeqNo != null" >
+	   	and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+	  </if>
+	  <if test="dateLineSeqNo != null" >
+	   	and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+	  </if>
+	  <if test="locationLineSeqNo != null" >
+    	and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+   	  </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailExtendedHolder" >
+    insert into SALES_DATE_LOCATION_DETAIL_EXTENDED (FIELD_NAME, SALES_OID, DETAIL_LINE_SEQ_NO, 
+      DATE_LINE_SEQ_NO, LOCATION_LINE_SEQ_NO, FIELD_TYPE, 
+      INT_VALUE, FLOAT_VALUE, STRING_VALUE, 
+      BOOL_VALUE, DATE_VALUE)
+    values (#{fieldName,jdbcType=VARCHAR}, #{salesOid,jdbcType=DECIMAL}, #{detailLineSeqNo,jdbcType=INTEGER}, 
+      #{dateLineSeqNo,jdbcType=INTEGER}, #{locationLineSeqNo,jdbcType=INTEGER}, #{fieldType,jdbcType=CHAR}, 
+      #{intValue,jdbcType=INTEGER}, #{floatValue,jdbcType=DECIMAL}, #{stringValue,jdbcType=VARCHAR}, 
+      #{boolValue,jdbcType=BIT}, #{dateValue,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailExtendedHolder" >
+    update SALES_DATE_LOCATION_DETAIL_EXTENDED
+    <set >
+      <if test="fieldType != null" >
+        FIELD_TYPE = #{fieldType,jdbcType=CHAR},
+      </if>
+      <if test="intValue != null" >
+        INT_VALUE = #{intValue,jdbcType=INTEGER},
+      </if>
+      <if test="floatValue != null" >
+        FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="stringValue != null" >
+        STRING_VALUE = #{stringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="boolValue != null" >
+        BOOL_VALUE = #{boolValue,jdbcType=BIT},
+      </if>
+      <if test="dateValue != null" >
+        DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detailLineSeqNo != null" >
+	   	DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER},
+	  </if>
+	  <if test="dateLineSeqNo != null" >
+	   	DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER},
+	  </if>
+	  <if test="locationLineSeqNo != null" >
+    	LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+   	  </if>
+    </set>
+    where FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+      and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SalesDateLocationDetailExtendedHolder" >
+    update SALES_DATE_LOCATION_DETAIL_EXTENDED
+    set FIELD_TYPE = #{fieldType,jdbcType=CHAR},
+      INT_VALUE = #{intValue,jdbcType=INTEGER},
+      FLOAT_VALUE = #{floatValue,jdbcType=DECIMAL},
+      STRING_VALUE = #{stringValue,jdbcType=VARCHAR},
+      BOOL_VALUE = #{boolValue,jdbcType=BIT},
+      DATE_VALUE = #{dateValue,jdbcType=TIMESTAMP},
+	  DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER},
+	  DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER},
+      LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+    where FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      and SALES_OID = #{salesOid,jdbcType=DECIMAL}
+      and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      and DATE_LINE_SEQ_NO = #{dateLineSeqNo,jdbcType=INTEGER}
+      and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+  </update>
+</mapper>

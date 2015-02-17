@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <bean id="oidService" class="com.pracbiz.b2bportal.core.service.impl.OidServiceImpl"/>
+    <bean id="buyerService" class="com.pracbiz.b2bportal.core.service.impl.BuyerServiceImpl"/>
+    <bean id="supplierService" class="com.pracbiz.b2bportal.core.service.impl.SupplierServiceImpl"/>
+    <bean id="userProfileService" class="com.pracbiz.b2bportal.core.service.impl.UserProfileServiceImpl"/>
+    <bean id="userProfileTmpService" class="com.pracbiz.b2bportal.core.service.impl.UserProfileTmpServiceImpl"/>
+    <bean id="userTypeService" class="com.pracbiz.b2bportal.core.service.impl.UserTypeServiceImpl"/>
+    <bean id="roleService" class="com.pracbiz.b2bportal.core.service.impl.RoleServiceImpl"/>
+    <bean id="roleTmpService" class="com.pracbiz.b2bportal.core.service.impl.RoleTmpServiceImpl"/>
+    <bean id="operationService" class="com.pracbiz.b2bportal.core.service.impl.OperationServiceImpl"/>
+    <bean id="operationUrlService" class="com.pracbiz.b2bportal.core.service.impl.OperationUrlServiceImpl"/>
+    <bean id="forgetPasswordService" class="com.pracbiz.b2bportal.core.service.impl.ForgetPasswordServiceImpl"/>
+    <bean id="controlParameterService" class="com.pracbiz.b2bportal.core.service.impl.ControlParameterServiceImpl"/>
+    <bean id="groupService" class="com.pracbiz.b2bportal.core.service.impl.GroupServiceImpl"/>
+    <bean id="groupTmpService" class="com.pracbiz.b2bportal.core.service.impl.GroupTmpServiceImpl"/>
+    <bean id="userSessionService" class="com.pracbiz.b2bportal.core.service.impl.UserSessionServiceImpl"/>
+    <bean id="reserveMessageService" class="com.pracbiz.b2bportal.core.service.impl.ReserveMessageServiceImpl"/>
+    <bean id="loginService" class="com.pracbiz.b2bportal.core.service.impl.LoginServiceImpl"/>
+    <bean id="passwordHistoryService" class="com.pracbiz.b2bportal.core.service.impl.PasswordHistoryServiceImpl"/>
+    <bean id="resetPasswordRequestHistoryService" class="com.pracbiz.b2bportal.core.service.impl.ResetPasswordRequestHistoryServiceImpl"/>
+    <bean id="dictionaryWordService" class="com.pracbiz.b2bportal.core.service.impl.DictionaryWordServiceImpl"/>
+    <bean id="changePasswordService" class="com.pracbiz.b2bportal.core.service.impl.ChangePasswordServiceImpl"/>
+    <bean id="roleOperationService" class="com.pracbiz.b2bportal.core.service.impl.RoleOperationServiceImpl"/>
+    <bean id="roleOperationTmpService" class="com.pracbiz.b2bportal.core.service.impl.RoleOperationTmpServiceImpl"/>
+    <bean id="supplierRoleService" class="com.pracbiz.b2bportal.core.service.impl.SupplierRoleServiceImpl"/>
+    <bean id="supplierRoleTmpService" class="com.pracbiz.b2bportal.core.service.impl.SupplierRoleTmpServiceImpl"/>
+    <bean id="groupUserService" class="com.pracbiz.b2bportal.core.service.impl.GroupUserServiceImpl"/>
+    <bean id="groupUserTmpService" class="com.pracbiz.b2bportal.core.service.impl.GroupUserTmpServiceImpl"/>
+    <bean id="roleUserService" class="com.pracbiz.b2bportal.core.service.impl.RoleUserServiceImpl"/>
+    <bean id="roleUserTmpService" class="com.pracbiz.b2bportal.core.service.impl.RoleUserTmpServiceImpl"/>
+    <bean id="tradingPartnerService" class="com.pracbiz.b2bportal.core.service.impl.TradingPartnerServiceImpl"/>
+    <bean id="buyerMsgSettingService" class="com.pracbiz.b2bportal.core.service.impl.BuyerMsgSettingServiceImpl"/>
+    <bean id="countryService" class="com.pracbiz.b2bportal.core.service.impl.CountryServiceImpl"/>
+    <bean id="currencyService" class="com.pracbiz.b2bportal.core.service.impl.CurrencyServiceImpl"/>
+	<bean id="supplierMsgSettingService" class="com.pracbiz.b2bportal.core.service.impl.SupplierMsgSettingServiceImpl"/>
+    <bean id="roleGroupService" class="com.pracbiz.b2bportal.core.service.impl.RoleGroupServiceImpl"/>
+    <bean id="roleGroupTmpService" class="com.pracbiz.b2bportal.core.service.impl.RoleGroupTmpServiceImpl"/>
+    <bean id="groupSupplierService" class="com.pracbiz.b2bportal.core.service.impl.GroupSupplierServiceImpl"/>
+    <bean id="groupSupplierTmpService" class="com.pracbiz.b2bportal.core.service.impl.GroupSupplierTmpServiceImpl"/>
+    <bean id="groupTradingPartnerService" class="com.pracbiz.b2bportal.core.service.impl.GroupTradingPartnerServiceImpl"/>
+    <bean id="groupTradingPartnerTmpService" class="com.pracbiz.b2bportal.core.service.impl.GroupTradingPartnerTmpServiceImpl"/>
+    <bean id="termConditionService" class="com.pracbiz.b2bportal.core.service.impl.TermConditionServiceImpl"/>
+    <bean id="popupSupplierService" class="com.pracbiz.b2bportal.core.service.impl.PopupSupplierServiceImpl"/>
+    <bean id="emailSendService" class="com.pracbiz.b2bportal.core.service.impl.EmailSendServiceImpl"/>
+    <bean id="auditAccessService" class="com.pracbiz.b2bportal.core.service.impl.AuditAccessServiceImpl"/>
+    <bean id="auditSessionService" class="com.pracbiz.b2bportal.core.service.impl.AuditSessionServiceImpl"/>
+    <bean id="auditTrailService" class="com.pracbiz.b2bportal.core.service.impl.AuditTrailServiceImpl"/>
+    <bean id="msgTransactionsService" class="com.pracbiz.b2bportal.core.service.impl.MsgTransactionsServiceImpl"/>
+    <bean id="summaryFieldService" class="com.pracbiz.b2bportal.core.service.impl.SummaryFieldServiceImpl"/>
+    <bean id="toolTipService" class="com.pracbiz.b2bportal.core.service.impl.ToolTipServiceImpl"/>
+	
+	<bean id="poService" class="com.pracbiz.b2bportal.core.service.impl.PoServiceImpl"/>
+	<bean id="poHeaderService" class="com.pracbiz.b2bportal.core.service.impl.PoHeaderServiceImpl"/>
+	<bean id="poHeaderExtendedSerivce" class="com.pracbiz.b2bportal.core.service.impl.PoHeaderExtendedServiceImpl"/>
+	<bean id="poDetailService" class="com.pracbiz.b2bportal.core.service.impl.PoDetailServiceImpl"/>
+	<bean id="poDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.PoDetailExtendedServiceImpl"/>
+	<bean id="poLocationService" class="com.pracbiz.b2bportal.core.service.impl.PoLocationServiceImpl"/>
+	<bean id="poLocationDetailService" class="com.pracbiz.b2bportal.core.service.impl.PoLocationDetailServiceImpl"/>
+	<bean id="poLocationDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.PoLocationDetailExtendedServiceImpl"/>
+	
+	<bean id="transactionBatchService" class="com.pracbiz.b2bportal.core.service.impl.TransactionBatchServiceImpl"/>
+	<bean id="dnHeaderService" class="com.pracbiz.b2bportal.core.service.impl.DnHeaderServiceImpl"/>
+	<bean id="dnHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.DnHeaderExtendedServiceImpl"/>
+	<bean id="dnDetailService" class="com.pracbiz.b2bportal.core.service.impl.DnDetailServiceImpl"/>
+	<bean id="dnDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.DnDetailExtendedServiceImpl"/>
+	<bean id="doHeaderService" class="com.pracbiz.b2bportal.core.service.impl.DoHeaderServiceImpl"/>
+	<bean id="doHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.DoHeaderExtendedServiceImpl"/>
+	<bean id="doDetailService" class="com.pracbiz.b2bportal.core.service.impl.DoDetailServiceImpl"/>
+	<bean id="doDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.DoDetailExtendedServiceImpl"/>
+	
+	<bean id="grnService" class="com.pracbiz.b2bportal.core.service.impl.GrnServiceImpl"/>
+	<bean id="grnHeaderService" class="com.pracbiz.b2bportal.core.service.impl.GrnHeaderServiceImpl"/>
+	<bean id="grnHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.GrnHeaderExtendedServiceImpl"/>
+	<bean id="grnDetailService" class="com.pracbiz.b2bportal.core.service.impl.GrnDetailServiceImpl"/>
+	<bean id="grnDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.GrnDetailExtendedServiceImpl"/>
+	<bean id="invHeaderService" class="com.pracbiz.b2bportal.core.service.impl.InvHeaderServiceImpl"/>
+	<bean id="InvHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.InvHeaderExtendedServiceImpl"/>
+	<bean id="invDetailService" class="com.pracbiz.b2bportal.core.service.impl.InvDetailServiceImpl"/>
+	<bean id="invDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.InvDetailExtendedServiceImpl"/>
+	<bean id="pnHeaderService" class="com.pracbiz.b2bportal.core.service.impl.PnHeaderServiceImpl"/>
+	<bean id="pnHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.PnHeaderExtendedServiceImpl"/>
+	<bean id="pnDetailService" class="com.pracbiz.b2bportal.core.service.impl.PnDetailServiceImpl"/>
+	<bean id="pnDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.PnDetailExtendedServiceImpl"/>
+	<bean id="rtvHeaderService" class="com.pracbiz.b2bportal.core.service.impl.RtvHeaderServiceImpl"/>
+	<bean id="rtvHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.RtvHeaderExtendedServiceImpl"/>
+	<bean id="rtvDetailService" class="com.pracbiz.b2bportal.core.service.impl.RtvDetailServiceImpl"/>
+	<bean id="rtvDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.RtvDetailExtendedServiceImpl"/>
+	<bean id="rtvLocationService" class="com.pracbiz.b2bportal.core.service.impl.RtvLocationServiceImpl"/>
+	<bean id="rtvLocationDetailService" class="com.pracbiz.b2bportal.core.service.impl.RtvLocationDetailServiceImpl"/>
+	<bean id="rtvLocationDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.RtvLocationDetailExtendedServiceImpl"/>
+	<bean id="summaryPageSettingService" class="com.pracbiz.b2bportal.core.service.impl.SummaryPageSettingServiceImpl"/>
+	<bean id="invoiceService" class="com.pracbiz.b2bportal.core.service.impl.InvoiceServiceImpl"/>
+	<bean id="businessRuleService" class="com.pracbiz.b2bportal.core.service.impl.BusinessRuleServiceImpl"/>
+	<bean id="buyerRuleService" class="com.pracbiz.b2bportal.core.service.impl.BuyerRuleServiceImpl"/>
+	<bean id="buyerOperationService" class="com.pracbiz.b2bportal.core.service.impl.BuyerOperationServiceImpl"/>
+    <bean id="buyerGivenSuppleirOperationService" class="com.pracbiz.b2bportal.core.service.impl.BuyerGivenSupplierOperationServiceImpl"/>
+    <bean id="buyerStoreService" class="com.pracbiz.b2bportal.core.service.impl.BuyerStoreServiceImpl"/>
+    <bean id="poInvGrnDnMatchingService" class="com.pracbiz.b2bportal.core.service.impl.PoInvGrnDnMatchingServiceImpl"/>
+    <bean id="poInvGrnDnMatchingGrnService" class="com.pracbiz.b2bportal.core.service.impl.PoInvGrnDnMatchingGrnServiceImpl"/>
+    <bean id="restRequestAuthenticationService" class="com.pracbiz.b2bportal.core.service.impl.RestRequestAuthenticationServiceImpl"/>
+    <bean id="clientAuditTrailService" class="com.pracbiz.b2bportal.core.service.impl.ClientAuditTrailServiceImpl"/>
+    <bean id="dnService" class="com.pracbiz.b2bportal.core.service.impl.DnServiceImpl"/>
+    <bean id="buyerStoreAreaService" class="com.pracbiz.b2bportal.core.service.impl.BuyerStoreAreaServiceImpl"/>
+    <bean id="buyerStoreUserService" class="com.pracbiz.b2bportal.core.service.impl.BuyerStoreUserServiceImpl"/>
+    <bean id="buyerStoreUserTmpService" class="com.pracbiz.b2bportal.core.service.impl.BuyerStoreUserTmpServiceImpl"/>
+    <bean id="buyerStoreAreaUserService" class="com.pracbiz.b2bportal.core.service.impl.BuyerStoreAreaUserServiceImpl"/>
+    <bean id="buyerStoreAreaUserTmpService" class="com.pracbiz.b2bportal.core.service.impl.BuyerStoreAreaUserTmpServiceImpl"/>
+    <bean id="supplierSetService" class="com.pracbiz.b2bportal.core.service.impl.SupplierSetServiceImpl"/>
+    <bean id="supplierSharedService" class="com.pracbiz.b2bportal.core.service.impl.SupplierSharedServiceImpl"/>
+    <bean id="allowedAccessCompanyService" class="com.pracbiz.b2bportal.core.service.impl.AllowedAccessCompanyServiceImpl"/>
+    <bean id="allowedAccessCompanyTmpService" class="com.pracbiz.b2bportal.core.service.impl.AllowedAccessCompanyTmpServiceImpl"/>
+    <bean id="runningNumberService" class="com.pracbiz.b2bportal.core.service.impl.RunningNumberServiceImpl"/>
+    <bean id="favouriteListService" class="com.pracbiz.b2bportal.core.service.impl.FavouriteListServiceImpl"/>
+    <bean id="favouriteListSupplierService" class="com.pracbiz.b2bportal.core.service.impl.FavouriteListSupplierServiceImpl"/>
+    <bean id="supplierAdminRolloutService" class="com.pracbiz.b2bportal.core.service.impl.SupplierAdminRolloutServiceImpl"/>
+    <bean id="jobService" class="com.pracbiz.b2bportal.core.service.impl.JobServiceImpl" />
+    <bean id="itemMasterService" class="com.pracbiz.b2bportal.core.service.impl.ItemMasterServiceImpl" />
+	<bean id="itemService" class="com.pracbiz.b2bportal.core.service.impl.ItemServiceImpl" />
+    <bean id="classService" class="com.pracbiz.b2bportal.core.service.impl.ClassServiceImpl" />
+    <bean id="subclassService" class="com.pracbiz.b2bportal.core.service.impl.SubclassServiceImpl" />
+    <bean id="userclassService" class="com.pracbiz.b2bportal.core.service.impl.UserClassServiceImpl" />
+    <bean id="userSubclassService" class="com.pracbiz.b2bportal.core.service.impl.UserSubclassServiceImpl" />
+    <bean id="userclassTmpService" class="com.pracbiz.b2bportal.core.service.impl.UserClassTmpServiceImpl" />
+    <bean id="userSubclassTmpService" class="com.pracbiz.b2bportal.core.service.impl.UserSubclassTmpServiceImpl" />
+    <bean id="poInvGrnDnMatchingDetailService" class="com.pracbiz.b2bportal.core.service.impl.PoInvGrnDnMatchingDetailServiceImpl" />
+    <bean id="giHeaderService" class="com.pracbiz.b2bportal.core.service.impl.GiHeaderServiceImpl" />
+    <bean id="giDetailService" class="com.pracbiz.b2bportal.core.service.impl.GiDetailServiceImpl" />
+	<bean id="giHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.GiHeaderExtendedServiceImpl" />
+    <bean id="giDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.GiDetailExtendedServiceImpl" />
+    <bean id="notificationService" class="com.pracbiz.b2bportal.core.service.impl.NotificationServiceImpl" />
+	<bean id="itemBarcodeService" class="com.pracbiz.b2bportal.core.service.impl.ItemBarcodeServiceImpl" />
+	<bean id="ccHeaderService" class="com.pracbiz.b2bportal.core.service.impl.CcHeaderServiceImpl" />
+	<bean id="ccHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.CcHeaderExtendedServiceImpl" />
+	<bean id="ccDetailService" class="com.pracbiz.b2bportal.core.service.impl.CcDetailServiceImpl" />
+	<bean id="ccDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.CcDetailExtendedServiceImpl" />
+	<bean id="ccService" class="com.pracbiz.b2bportal.core.service.impl.CcServiceImpl" />
+	<bean id="giService" class="com.pracbiz.b2bportal.core.service.impl.GiServiceImpl" />
+	<bean id="rtvService" class="com.pracbiz.b2bportal.core.service.impl.RtvServiceImpl" />
+	<bean id="pnService" class="com.pracbiz.b2bportal.core.service.impl.PnServiceImpl" />
+	
+	<bean id="salesDateLocationDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.SalesDateLocationDetailExtendedServiceImpl" />
+	<bean id="salesDateLocationDetailService" class="com.pracbiz.b2bportal.core.service.impl.SalesDateLocationDetailServiceImpl" />
+	<bean id="salesDateService" class="com.pracbiz.b2bportal.core.service.impl.SalesDateServiceImpl" />
+	<bean id="salesDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.SalesDetailExtendedServiceImpl" />
+	<bean id="salesDetailService" class="com.pracbiz.b2bportal.core.service.impl.SalesDetailServiceImpl" />
+	<bean id="salesHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.SalesHeaderExtendedServiceImpl" />
+	<bean id="salesHeaderService" class="com.pracbiz.b2bportal.core.service.impl.SalesHeaderServiceImpl" />
+	<bean id="salesLocationService" class="com.pracbiz.b2bportal.core.service.impl.SalesLocationServiceImpl" />
+	<bean id="salesService" class="com.pracbiz.b2bportal.core.service.impl.SalesServiceImpl" />
+	
+	
+	<bean id="startupService" init-method="init" lazy-init="false" class="com.pracbiz.b2bportal.core.service.impl.StartupServiceImpl" />
+	
+	<bean id="buyerMsgSettingReportService" class="com.pracbiz.b2bportal.core.service.impl.BuyerMsgSettingReportServiceImpl" />
+	<bean id="cnHeaderService" class="com.pracbiz.b2bportal.core.service.impl.CnHeaderServiceImpl" />
+	<bean id="cnHeaderExtendedService" class="com.pracbiz.b2bportal.core.service.impl.CnHeaderExtendedServiceImpl" />
+	<bean id="cnDetailService" class="com.pracbiz.b2bportal.core.service.impl.CnDetailServiceImpl" />
+	<bean id="cnDetailExtendedService" class="com.pracbiz.b2bportal.core.service.impl.CnDetailExtendedServiceImpl" />
+	<bean id="cnService" class="com.pracbiz.b2bportal.core.service.impl.CnServiceImpl" />
+</beans>

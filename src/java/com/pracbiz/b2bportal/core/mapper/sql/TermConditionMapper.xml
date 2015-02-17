@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.TermConditionMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.TermConditionHolder" >
+    <id column="TC_OID" property="termConditionOid" jdbcType="DECIMAL" />
+    <result column="SEQ" property="seq" jdbcType="SMALLINT" />
+    <result column="TC_CODE" property="termConditionCode" jdbcType="VARCHAR" />
+    <result column="TERM_CONDITION_1" property="termCondition1" jdbcType="VARCHAR" />
+    <result column="TERM_CONDITION_2" property="termCondition2" jdbcType="VARCHAR" />
+    <result column="TERM_CONDITION_3" property="termCondition3" jdbcType="VARCHAR" />
+    <result column="TERM_CONDITION_4" property="termCondition4" jdbcType="VARCHAR" />
+    <result column="DEFAULT_SELECTED" property="defaultSelected" jdbcType="BIT" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    TC_OID, SEQ, TC_CODE, TERM_CONDITION_1, TERM_CONDITION_2, TERM_CONDITION_3, TERM_CONDITION_4, 
+    DEFAULT_SELECTED, SUPPLIER_OID
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.TermConditionHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from TERM_CONDITION
+    <where>
+      <if test="termConditionOid != null" >
+        TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+      </if>
+      <if test="seq != null" >
+        AND SEQ = #{seq,jdbcType=SMALLINT}
+      </if>
+      <if test="termConditionCode != null" >
+        AND TC_CODE = #{termConditionCode,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition1 != null" >
+        AND TERM_CONDITION_1 = #{termCondition1,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition2 != null" >
+        AND TERM_CONDITION_2 = #{termCondition2,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition3 != null" >
+        AND TERM_CONDITION_3 = #{termCondition3,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition4 != null" >
+        AND TERM_CONDITION_4 = #{termCondition4,jdbcType=VARCHAR}
+      </if>
+      <if test="defaultSelected != null" >
+        AND DEFAULT_SELECTED = #{defaultSelected,jdbcType=BIT}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.TermConditionHolder" >
+    delete from TERM_CONDITION
+    <where>
+      <if test="termConditionOid != null" >
+        TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+      </if>
+      <if test="seq != null" >
+        AND SEQ = #{seq,jdbcType=SMALLINT}
+      </if>
+      <if test="termConditionCode != null" >
+        AND TC_CODE = #{termConditionCode,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition1 != null" >
+        AND TERM_CONDITION_1 = #{termCondition1,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition2 != null" >
+        AND TERM_CONDITION_2 = #{termCondition2,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition3 != null" >
+        AND TERM_CONDITION_3 = #{termCondition3,jdbcType=VARCHAR}
+      </if>
+      <if test="termCondition4 != null" >
+        AND TERM_CONDITION_4 = #{termCondition4,jdbcType=VARCHAR}
+      </if>
+      <if test="defaultSelected != null" >
+        AND DEFAULT_SELECTED = #{defaultSelected,jdbcType=BIT}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.TermConditionHolder" >
+    insert into TERM_CONDITION (TC_OID, SEQ, TC_CODE, 
+      TERM_CONDITION_1, TERM_CONDITION_2, TERM_CONDITION_3, 
+      TERM_CONDITION_4, DEFAULT_SELECTED, SUPPLIER_OID
+      )
+    values (#{termConditionOid,jdbcType=DECIMAL}, #{seq,jdbcType=SMALLINT}, #{termConditionCode,jdbcType=VARCHAR}, 
+      #{termCondition1,jdbcType=VARCHAR}, #{termCondition2,jdbcType=VARCHAR}, #{termCondition3,jdbcType=VARCHAR}, 
+      #{termCondition4,jdbcType=VARCHAR}, #{defaultSelected,jdbcType=BIT}, #{supplierOid,jdbcType=DECIMAL}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.TermConditionHolder" >
+    update TERM_CONDITION
+    <set >
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=SMALLINT},
+      </if>
+      <if test="termConditionCode != null" >
+        TC_CODE = #{termConditionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="termCondition1 != null" >
+        TERM_CONDITION_1 = #{termCondition1,jdbcType=VARCHAR},
+      </if>
+      <if test="termCondition2 != null" >
+        TERM_CONDITION_2 = #{termCondition2,jdbcType=VARCHAR},
+      </if>
+      <if test="termCondition3 != null" >
+        TERM_CONDITION_3 = #{termCondition3,jdbcType=VARCHAR},
+      </if>
+      <if test="termCondition4 != null" >
+        TERM_CONDITION_4 = #{termCondition4,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultSelected != null" >
+        DEFAULT_SELECTED = #{defaultSelected,jdbcType=BIT},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.TermConditionHolder" >
+    update TERM_CONDITION
+    set SEQ = #{seq,jdbcType=SMALLINT},
+      TC_CODE = #{termConditionCode,jdbcType=VARCHAR},
+      TERM_CONDITION_1 = #{termCondition1,jdbcType=VARCHAR},
+      TERM_CONDITION_2 = #{termCondition2,jdbcType=VARCHAR},
+      TERM_CONDITION_3 = #{termCondition3,jdbcType=VARCHAR},
+      TERM_CONDITION_4 = #{termCondition4,jdbcType=VARCHAR},
+      DEFAULT_SELECTED = #{defaultSelected,jdbcType=BIT},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    where TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.sanc.org.sg/schemas/ean" xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+	    <xsd:documentation>
+	Singapore Adopted version
+	      Version Information:
+        	Version Number: S1.1
+	        Date of creation: June, 2004
+	    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="CommonComponentLibrary.xsd"/>
+	<xsd:complexType name="PartyInformationType">
+		<xsd:sequence>
+			<xsd:element name="partyDates" type="PartyDatesType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="partyTaxInformation" type="PartyTaxInformationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="partyRole" type="PartyRoleListType" maxOccurs="unbounded"/>
+			<xsd:element name="allowanceCharge" type="AllowanceChargeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="paymentTerms" type="PaymentTermsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="contact" type="ContactType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="facilitySpecification" type="FacilitySpecificationType" minOccurs="0"/>
+			<xsd:element name="nameAndAddress" type="NameAndAddressType"/>
+			<xsd:element name="bankingInformation" type="FinancialInstitutionInformationType" minOccurs="0"/>
+			<xsd:element name="planningManagementProfile" type="PlanningManagementProfileType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyDatesType">
+		<xsd:sequence>
+			<xsd:element name="effectiveChangeDate" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="partyEndDate" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="partyStartDate" type="xsd:dateTime"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyTaxInformationType">
+		<xsd:sequence>
+			<xsd:element name="taxAmount" type="MonetaryAmountType"/>
+			<xsd:element name="taxAuthority">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="taxPercent" type="PercentageType"/>
+			<xsd:element name="taxRegistrationNumber">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="typeOfTaxRegistration">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="PartyRoleListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BILL_TO"/>
+			<xsd:enumeration value="BUYER"/>
+
+			<xsd:enumeration value="CORPORATE_IDENTITY"/>
+			<xsd:enumeration value="DELIVERY_PARTY"/>
+			<xsd:enumeration value="DISTRIBUTOR_AND_OR_BROKER"/>
+			<xsd:enumeration value="INFORMATION_PROVIDER"/>
+			<xsd:enumeration value="INVOICEE"/>
+			<xsd:enumeration value="ISSUER_OF_INVOICE"/>
+			<xsd:enumeration value="LOGISTICS_SERVICE_PROVIDER"/>
+			<xsd:enumeration value="MANUFACTURING_PLANT"/>
+			<xsd:enumeration value="MARK_FOR"/>
+			<xsd:enumeration value="MESSAGE_FROM"/>
+			<xsd:enumeration value="MESSAGE_RECIPIENT"/>
+			<xsd:enumeration value="OPERATOR"/>
+			<xsd:enumeration value="PARTY_TO_RECEIVE_COMMERCIAL_INVOICE"/>
+			<xsd:enumeration value="PAYEE"/>
+			<xsd:enumeration value="PAYER"/>
+			<xsd:enumeration value="SELLER"/>
+			<xsd:enumeration value="SHIP_FROM"/>
+			<xsd:enumeration value="SHIP_TO"/>
+			<xsd:enumeration value="STORE"/>
+			<xsd:enumeration value="SUPPLIER"/>
+			<xsd:enumeration value="WAREHOUSE_AND_OR_DEPOT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="FacilitySpecificationType">
+		<xsd:sequence>
+			<xsd:element name="isAppointmentRequired" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="operatingDayFrom" type="DaysOfTheWeekListType" minOccurs="0"/>
+			<xsd:element name="operatingDayTo" type="DaysOfTheWeekListType" minOccurs="0"/>
+			<xsd:element name="operatingTimeFrom" type="xsd:time" minOccurs="0"/>
+			<xsd:element name="operatingTimeTo" type="xsd:time" minOccurs="0"/>
+			<xsd:element name="timeZoneOfTheLocation" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PlanningManagementProfileType">
+		<xsd:sequence>
+			<xsd:element name="roundingRulesDescription">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="safetyStockRulesDescription">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="transportationStrategyDescription">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="80"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyContainmentType">
+		<xsd:sequence>
+			<xsd:element name="partyChild" type="PartyChildType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyChildType">
+		<xsd:sequence>
+			<xsd:element name="partyChildRole" type="PartyRoleListType"/>
+			<xsd:element name="partyIdentification" type="PartyIdentificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

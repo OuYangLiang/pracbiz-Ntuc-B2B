@@ -1,0 +1,75 @@
+<html>
+    <head>
+        Batch Validate Report
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" align="left">Batch File</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">$BATCH_FILE_NAME</td>
+                </tr>
+                #if($SOURCE_FILE_NAMES.size() > 0)
+	            <tr>
+	                <td width="120" align="left"> Source File(s)</td>
+	                <td width="30" align="right">:</td>
+	                <td align="left">
+	                #foreach($o in $SOURCE_FILE_NAMES)
+	                    $o</br>
+	                #end
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="120" align="left"> Transformed by</td>
+	                <td width="30" align="right">:</td>
+	                <td align="left">$TRANSFORMED_BY</td>
+	            </tr>
+	            #end
+                <tr>
+                	<td align="left" colspan="3">$!ERROR_MSG</td>  
+                </tr>
+            </table>
+            <table>
+                #foreach($error in $ERROR_MAP.entrySet())                
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            $error.key
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $error.value)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        <td align="left">$o</td>
+                    </tr>
+                #end
+                #end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         PracBiz B2B Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+            <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,202 @@
+<html>
+    <head>
+        Batch Run Status Report
+        <br/><br/><br/>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">
+                    <strong> 
+                        Summary
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td width="130" align="left"> Batch#</td>
+                <td width="30" align="right">:</td>
+                <td align="left">$BUTCH_FILE_NAME</td>
+            </tr>
+            #if($SOURCE_FILE_NAMES.size() > 0)
+            <tr>
+                <td width="130" align="left"> Source File(s)</td>
+                <td width="30" align="right">:</td>
+                <td align="left">
+                #foreach($o in $SOURCE_FILE_NAMES)
+                    $o</br>
+                #end
+                </td>
+            </tr>
+            <tr>
+                <td width="130" align="left"> Transformed by</td>
+                <td width="30" align="right">:</td>
+                <td align="left">$TRANSFORMED_BY</td>
+            </tr>
+            #end
+            <tr>
+                <td width="130" align="left"> Buyer</td>
+                <td align="right">:</td>
+                <td align="left">${BUYER_NAME} (${BUYER_CODE})</td>
+            </tr>
+            <tr>
+                <td width="130" align="left"> Total Docs</td>
+                <td align="right">:</td>
+                <td align="left">$TOTAL_LIST.size()</td>
+            </tr>
+            <tr>
+                <td width="130" align="left"> Total OK</td>
+                <td align="right">:</td>
+                <td align="left">$SUCC_LIST.size()</td>
+            </tr>
+            <tr>
+                <td width="130" align="left"> Total Error</td>
+                <td align="right">:</td>
+                <td align="left">$ERROR_LIST.size()</td>
+            </tr>
+            <tr>
+                <td width="130" align="left"> Total Inactive</td>
+                <td align="right">:</td>
+                <td align="left">$INACTIVE_LIST.size()</td>
+            </tr>
+        </table>
+        <p/>
+        #if($SUCC_LIST.size() > 0)
+        <table>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">
+                    <strong> 
+                        Success List
+                    </strong>
+                </td>
+            </tr>
+            #foreach($o in $SUCC_LIST)
+                <tr>
+                    <td width="30" align="left">$velocityCount.</td>
+                    <td align="left">$o.originalFilename</td>
+                </tr>
+            #end
+        </table>
+        <p/>
+        #end
+        #if($ERROR_LIST.size() > 0)
+        <table>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">
+                    <strong> 
+                        Error List
+                    </strong>
+                </td>
+            </tr>
+            #foreach($o in $ERROR_LIST)
+                <tr>
+                    <td width="30" align="left">$velocityCount.</td>
+                    <td align="left">$o.originalFilename</td>
+                </tr>
+                <tr>
+                    <td width="30"></td>
+                    <td align="left">
+                    #if($o.errorMsg.size() > 0)
+                        #foreach($msg in $o.errorMsg)
+                            $msg<br/>
+                        #end
+                    #else
+                    $o.remarks
+                    #end
+                    </td>
+                </tr>
+            #end
+        </table>
+        <p/>
+        #end
+        #if($INACTIVE_LIST.size() > 0)
+        <table>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">
+                    <strong> 
+                        Inactive List
+                    </strong>
+                </td>
+            </tr>
+            #foreach($o in $INACTIVE_LIST)
+                <tr>
+                    <td width="30" align="left">$velocityCount.</td>
+                    <td align="left">$o.originalFilename</td>
+                </tr>
+                <tr>
+                    <td width="30"></td>
+                    <td align="left">$o.remarks</td>
+                </tr>
+            #end
+        </table>
+        <p/>
+        #end
+        #if($UNMATCHED_POS.size() > 0)
+        <table>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">
+                    <strong> 
+                        Unmatched PO(s)
+                    </strong>
+                </td>
+            </tr>
+            #foreach($o in $UNMATCHED_POS)
+                <tr>
+                    <td width="30" align="left">$velocityCount.</td>
+                    <td align="left">$o</td>
+                </tr>
+            #end
+        </table>
+        <p/>
+        #end
+        #if($EXTRA_POS.size() > 0)
+        <table>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">
+                    <strong> 
+                        PO(s) that are processed, but not found in summary file.
+                    </strong>
+                </td>
+            </tr>
+            #foreach($o in $EXTRA_POS)
+                <tr>
+                    <td width="30" align="left">$velocityCount.</td>
+                    <td align="left">$o</td>
+                </tr>
+            #end
+        </table>
+        <p/>
+        #end
+        #if($UNFINDED_POS.size() > 0)
+        <table>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">
+                    <strong> 
+                        PO(s) that are listed in summary file, but not in batch.
+                    </strong>
+                </td>
+            </tr>
+            #foreach($o in $UNFINDED_POS)
+                <tr>
+                    <td width="30" align="left">$velocityCount.</td>
+                    <td align="left">$o</td>
+                </tr>
+            #end
+        </table>
+        #end
+        <br/><br/>
+        <table>
+             <tr>
+                 <td colspan="2">
+                     PracBiz B2B Portal System
+                 </td>
+             </tr>
+             <tr>
+                 <td colspan="2">
+                     Customer Support
+                 </td>
+             </tr>
+        </table>
+        <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PracBiz B2B System - eai - Unity" basedir="." default="help">
+	<import file="build-unity.xml" />
+
+	<property name="dir.mule.home" value="/Users/ouyang/Develop/mule-standalone-3.3.0" />
+	<property name="dir.mule.lib" value="${dir.mule.home}/lib/mule/" />
+
+	<property name="eai.dir" value="${build.dir}/eai" />
+	<property name="eai.lib.dir" value="${eai.dir}/lib" />
+	<property name="eai.classes.dir" value="${eai.dir}/classes" />
+
+	<path id="anttasks.path">
+		<fileset dir="${dir.mule.lib}" includes="mule-tools-anttasks-*.jar" />
+	</path>
+	<taskdef resource="org/mule/mulePackagingTasks.properties" classpathref="anttasks.path" />
+
+	<target name="setup-eai" depends="jar">
+		<mkdir dir="${eai.dir}" />
+		<mkdir dir="${eai.lib.dir}" />
+		<mkdir dir="${eai.classes.dir}" />
+	</target>
+
+
+	<target name="prepare-eai" depends="setup-eai">
+		<copy todir="${eai.lib.dir}">
+			<fileset dir="${jar.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+		<copy todir="${eai.lib.dir}">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+		<copy todir="${eai.dir}">
+			<fileset dir="${core.mule.dir}">
+				<include name="mule-config.xml" />
+			</fileset>
+		</copy>
+
+		<copy todir="${eai.classes.dir}">
+			<fileset dir="${core.mule.dir}">
+				<include name="config.properties" />
+			</fileset>
+		</copy>
+
+		<copy todir="${eai.classes.dir}">
+			<fileset dir="${core.spring.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${eai.classes.dir}">
+			<fileset dir="${core.log4j.dir}">
+				<include name="log4j.properties" />
+			</fileset>
+		</copy>
+
+		<copy todir="${eai.classes.dir}">
+			<fileset dir="${core.application.dir}">
+				<include name="*.xml" />
+			</fileset>
+		</copy>
+
+		<copy todir="${eai.classes.dir}">
+			<fileset dir="${core.resource.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${eai.classes.dir}">
+			<fileset dir="${core.resource.dir}/unity">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${eai.classes.dir}">
+			<fileset dir="${core.velocity.dir}">
+				<include name="*.vm" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="package" depends="prepare-eai" description="Package the application">
+
+		<mulePackage applicationFile="${ear.dir}/${project.shortname}-EAI-${project.version}.zip">
+			<fileset dir="${eai.dir}">
+				<include name="**/*" />
+			</fileset>
+		</mulePackage>
+	</target>
+
+	
+	<target name="deploy" depends="package" description="Deploy the application to the Mule server">
+		<muleDeploy applicationFile="${ear.dir}/${project.shortname}-EAI-${project.version}.zip" />
+	</target>
+
+</project>

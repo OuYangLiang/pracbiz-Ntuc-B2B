@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.TradingPartnerMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.TradingPartnerHolder" >
+    <id column="TP_OID" property="tradingPartnerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_SUPPLIER_CODE" property="buyerSupplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_BUYER_CODE" property="supplierBuyerCode" jdbcType="VARCHAR" />
+    <result column="BUYER_CONTACT_PERSON" property="buyerContactPerson" jdbcType="VARCHAR" />
+    <result column="BUYER_CONTACT_TEL" property="buyerContactTel" jdbcType="VARCHAR" />
+    <result column="BUYER_CONTACT_MOBILE" property="buyerContactMobile" jdbcType="VARCHAR" />
+    <result column="BUYER_CONTACT_FAX" property="buyerContactFax" jdbcType="VARCHAR" />
+    <result column="BUYER_CONTACT_EMAIL" property="buyerContactEmail" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CONTACT_PERSON" property="supplierContactPerson" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CONTACT_TEL" property="supplierContactTel" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CONTACT_MOBILE" property="supplierContactMobile" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CONTACT_FAX" property="supplierContactFax" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CONTACT_EMAIL" property="supplierContactEmail" jdbcType="VARCHAR" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="CONCESSIVE" property="concessive" jdbcType="BIT" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="TC_OID" property="termConditionOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="exResultMap" type="com.pracbiz.b2bportal.core.holder.extension.TradingPartnerExHolder" >
+    <id column="TP_OID" property="tradingPartnerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_SUPPLIER_CODE" property="buyerSupplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_BUYER_CODE" property="supplierBuyerCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR"/>
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR"/>
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR"/>
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR"/>
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="TC_OID" property="termConditionOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    TP_OID, BUYER_SUPPLIER_CODE, SUPPLIER_BUYER_CODE, BUYER_CONTACT_PERSON, BUYER_CONTACT_TEL, 
+    BUYER_CONTACT_MOBILE, BUYER_CONTACT_FAX, BUYER_CONTACT_EMAIL, SUPPLIER_CONTACT_PERSON, 
+    SUPPLIER_CONTACT_TEL, SUPPLIER_CONTACT_MOBILE, SUPPLIER_CONTACT_FAX, SUPPLIER_CONTACT_EMAIL, 
+    ACTIVE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, CONCESSIVE, BUYER_OID, SUPPLIER_OID, 
+    TC_OID
+  </sql>
+  
+  <sql id="Ex_Column_List" >
+     T.TP_OID, T.BUYER_SUPPLIER_CODE, T.SUPPLIER_BUYER_CODE,S.SUPPLIER_CODE,S.SUPPLIER_NAME,
+        B.BUYER_CODE,B.BUYER_NAME,T.ACTIVE, T.UPDATE_DATE, T.BUYER_OID, T.SUPPLIER_OID,T.TC_OID
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.TradingPartnerExHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from TRADING_PARTNER
+    <where>
+      <if test="tradingPartnerOid != null" >
+        TP_OID = #{tradingPartnerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerSupplierCode != null" >
+        AND BUYER_SUPPLIER_CODE = #{buyerSupplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierBuyerCode != null" >
+        AND SUPPLIER_BUYER_CODE = #{supplierBuyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactPerson != null" >
+        AND BUYER_CONTACT_PERSON = #{buyerContactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactTel != null" >
+        AND BUYER_CONTACT_TEL = #{buyerContactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactMobile != null" >
+        AND BUYER_CONTACT_MOBILE = #{buyerContactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactFax != null" >
+        AND BUYER_CONTACT_FAX = #{buyerContactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactEmail != null" >
+        AND BUYER_CONTACT_EMAIL = #{buyerContactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactPerson != null" >
+        AND SUPPLIER_CONTACT_PERSON = #{supplierContactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactTel != null" >
+        AND SUPPLIER_CONTACT_TEL = #{supplierContactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactMobile != null" >
+        AND SUPPLIER_CONTACT_MOBILE = #{supplierContactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactFax != null" >
+        AND SUPPLIER_CONTACT_FAX = #{supplierContactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactEmail != null" >
+        AND SUPPLIER_CONTACT_EMAIL = #{supplierContactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="concessive != null" >
+        AND CONCESSIVE = #{concessive,jdbcType=BIT}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="termConditionOid != null" >
+        AND TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+      </if>
+      <if test="tradingPartnerOids != null">
+        AND TP_OID IN
+        <foreach collection="tradingPartnerOids" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.TradingPartnerHolder" >
+    delete from TRADING_PARTNER
+    <where>
+      <if test="tradingPartnerOid != null" >
+        TP_OID = #{tradingPartnerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerSupplierCode != null" >
+        AND BUYER_SUPPLIER_CODE = #{buyerSupplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierBuyerCode != null" >
+        AND SUPPLIER_BUYER_CODE = #{supplierBuyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactPerson != null" >
+        AND BUYER_CONTACT_PERSON = #{buyerContactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactTel != null" >
+        AND BUYER_CONTACT_TEL = #{buyerContactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactMobile != null" >
+        AND BUYER_CONTACT_MOBILE = #{buyerContactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactFax != null" >
+        AND BUYER_CONTACT_FAX = #{buyerContactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerContactEmail != null" >
+        AND BUYER_CONTACT_EMAIL = #{buyerContactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactPerson != null" >
+        AND SUPPLIER_CONTACT_PERSON = #{supplierContactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactTel != null" >
+        AND SUPPLIER_CONTACT_TEL = #{supplierContactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactMobile != null" >
+        AND SUPPLIER_CONTACT_MOBILE = #{supplierContactMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactFax != null" >
+        AND SUPPLIER_CONTACT_FAX = #{supplierContactFax,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierContactEmail != null" >
+        AND SUPPLIER_CONTACT_EMAIL = #{supplierContactEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null" >
+        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="concessive != null" >
+        AND CONCESSIVE = #{concessive,jdbcType=BIT}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierOid != null" >
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="termConditionOid != null" >
+        AND TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.TradingPartnerHolder" >
+    insert into TRADING_PARTNER (TP_OID, BUYER_SUPPLIER_CODE, SUPPLIER_BUYER_CODE, 
+      BUYER_CONTACT_PERSON, BUYER_CONTACT_TEL, BUYER_CONTACT_MOBILE, 
+      BUYER_CONTACT_FAX, BUYER_CONTACT_EMAIL, SUPPLIER_CONTACT_PERSON, 
+      SUPPLIER_CONTACT_TEL, SUPPLIER_CONTACT_MOBILE, 
+      SUPPLIER_CONTACT_FAX, SUPPLIER_CONTACT_EMAIL, 
+      ACTIVE, CREATE_DATE, CREATE_BY, 
+      UPDATE_DATE, UPDATE_BY, CONCESSIVE, 
+      BUYER_OID, SUPPLIER_OID, TC_OID
+      )
+    values (#{tradingPartnerOid,jdbcType=DECIMAL}, #{buyerSupplierCode,jdbcType=VARCHAR}, #{supplierBuyerCode,jdbcType=VARCHAR}, 
+      #{buyerContactPerson,jdbcType=VARCHAR}, #{buyerContactTel,jdbcType=VARCHAR}, #{buyerContactMobile,jdbcType=VARCHAR}, 
+      #{buyerContactFax,jdbcType=VARCHAR}, #{buyerContactEmail,jdbcType=VARCHAR}, #{supplierContactPerson,jdbcType=VARCHAR}, 
+      #{supplierContactTel,jdbcType=VARCHAR}, #{supplierContactMobile,jdbcType=VARCHAR}, 
+      #{supplierContactFax,jdbcType=VARCHAR}, #{supplierContactEmail,jdbcType=VARCHAR}, 
+      #{active,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{concessive,jdbcType=BIT}, 
+      #{buyerOid,jdbcType=DECIMAL}, #{supplierOid,jdbcType=DECIMAL}, #{termConditionOid,jdbcType=DECIMAL}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.TradingPartnerHolder" >
+    update TRADING_PARTNER
+    <set >
+      <if test="buyerSupplierCode != null" >
+        BUYER_SUPPLIER_CODE = #{buyerSupplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierBuyerCode != null" >
+        SUPPLIER_BUYER_CODE = #{supplierBuyerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerContactPerson != null" >
+        BUYER_CONTACT_PERSON = #{buyerContactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerContactTel != null" >
+        BUYER_CONTACT_TEL = #{buyerContactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerContactMobile != null" >
+        BUYER_CONTACT_MOBILE = #{buyerContactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerContactFax != null" >
+        BUYER_CONTACT_FAX = #{buyerContactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerContactEmail != null" >
+        BUYER_CONTACT_EMAIL = #{buyerContactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContactPerson != null" >
+        SUPPLIER_CONTACT_PERSON = #{supplierContactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContactTel != null" >
+        SUPPLIER_CONTACT_TEL = #{supplierContactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContactMobile != null" >
+        SUPPLIER_CONTACT_MOBILE = #{supplierContactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContactFax != null" >
+        SUPPLIER_CONTACT_FAX = #{supplierContactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContactEmail != null" >
+        SUPPLIER_CONTACT_EMAIL = #{supplierContactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null" >
+        ACTIVE = #{active,jdbcType=BIT},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="concessive != null" >
+        CONCESSIVE = #{concessive,jdbcType=BIT},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+      <if test="termConditionOid != null" >
+        TC_OID = #{termConditionOid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where TP_OID = #{tradingPartnerOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.TradingPartnerHolder" >
+    update TRADING_PARTNER
+    set BUYER_SUPPLIER_CODE = #{buyerSupplierCode,jdbcType=VARCHAR},
+      SUPPLIER_BUYER_CODE = #{supplierBuyerCode,jdbcType=VARCHAR},
+      BUYER_CONTACT_PERSON = #{buyerContactPerson,jdbcType=VARCHAR},
+      BUYER_CONTACT_TEL = #{buyerContactTel,jdbcType=VARCHAR},
+      BUYER_CONTACT_MOBILE = #{buyerContactMobile,jdbcType=VARCHAR},
+      BUYER_CONTACT_FAX = #{buyerContactFax,jdbcType=VARCHAR},
+      BUYER_CONTACT_EMAIL = #{buyerContactEmail,jdbcType=VARCHAR},
+      SUPPLIER_CONTACT_PERSON = #{supplierContactPerson,jdbcType=VARCHAR},
+      SUPPLIER_CONTACT_TEL = #{supplierContactTel,jdbcType=VARCHAR},
+      SUPPLIER_CONTACT_MOBILE = #{supplierContactMobile,jdbcType=VARCHAR},
+      SUPPLIER_CONTACT_FAX = #{supplierContactFax,jdbcType=VARCHAR},
+      SUPPLIER_CONTACT_EMAIL = #{supplierContactEmail,jdbcType=VARCHAR},
+      ACTIVE = #{active,jdbcType=BIT},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      CONCESSIVE = #{concessive,jdbcType=BIT},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      TC_OID = #{termConditionOid,jdbcType=DECIMAL}
+    where TP_OID = #{tradingPartnerOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectTradingPartnerByGroupOidAndSupplierOid" resultMap="exResultMap" parameterType="java.util.HashMap" >
+    SELECT 
+    <include refid="Ex_Column_List" />
+    FROM (
+        SELECT V.TP_OID, V.BUYER_SUPPLIER_CODE, V.SUPPLIER_BUYER_CODE, V.BUYER_CONTACT_PERSON, V.BUYER_CONTACT_TEL, V.BUYER_CONTACT_MOBILE,
+			V.BUYER_CONTACT_FAX, V.BUYER_CONTACT_EMAIL, V.SUPPLIER_CONTACT_PERSON, V.SUPPLIER_CONTACT_TEL, V.SUPPLIER_CONTACT_MOBILE,
+			V.SUPPLIER_CONTACT_FAX, V.SUPPLIER_CONTACT_EMAIL, V.ACTIVE, V.CREATE_DATE, V.CREATE_BY, V.UPDATE_DATE, V.UPDATE_BY, V.CONCESSIVE,
+			V.BUYER_OID, V.SUPPLIER_OID, V.TC_OID
+		FROM GROUP_TRADING_PARTNER GT ,TRADING_PARTNER V 
+        WHERE  V.TP_OID=GT.TP_OID 
+        AND GT.GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+        AND V.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}) T,
+        SUPPLIER S, BUYER B
+    WHERE T.SUPPLIER_OID = S.SUPPLIER_OID 
+    AND T.BUYER_OID = B.BUYER_OID
+  </select>
+  
+  <select id="selectTradingPartnerBySupplierOid" resultMap="exResultMap" parameterType="java.util.HashMap" >
+    SELECT 
+    <include refid="Ex_Column_List" />
+    FROM (
+        SELECT V.TP_OID, V.BUYER_SUPPLIER_CODE, V.SUPPLIER_BUYER_CODE, V.BUYER_CONTACT_PERSON, V.BUYER_CONTACT_TEL, V.BUYER_CONTACT_MOBILE,
+			V.BUYER_CONTACT_FAX, V.BUYER_CONTACT_EMAIL, V.SUPPLIER_CONTACT_PERSON, V.SUPPLIER_CONTACT_TEL, V.SUPPLIER_CONTACT_MOBILE,
+			V.SUPPLIER_CONTACT_FAX, V.SUPPLIER_CONTACT_EMAIL, V.ACTIVE, V.CREATE_DATE, V.CREATE_BY, V.UPDATE_DATE, V.UPDATE_BY, V.CONCESSIVE,
+			V.BUYER_OID, V.SUPPLIER_OID, V.TC_OID
+	    FROM TRADING_PARTNER V 
+        WHERE V.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}) T,
+        SUPPLIER S, BUYER B
+    WHERE T.SUPPLIER_OID = S.SUPPLIER_OID 
+    AND T.BUYER_OID = B.BUYER_OID
+  </select>
+  
+  <select id="selectTradingPartnerByTmpGroupOidAndSupplierOid" resultMap="exResultMap" parameterType="java.util.HashMap" >
+    SELECT 
+    <include refid="Ex_Column_List" />
+    FROM (
+        SELECT V.TP_OID, V.BUYER_SUPPLIER_CODE, V.SUPPLIER_BUYER_CODE, V.BUYER_CONTACT_PERSON, V.BUYER_CONTACT_TEL, V.BUYER_CONTACT_MOBILE,
+			V.BUYER_CONTACT_FAX, V.BUYER_CONTACT_EMAIL, V.SUPPLIER_CONTACT_PERSON, V.SUPPLIER_CONTACT_TEL, V.SUPPLIER_CONTACT_MOBILE,
+			V.SUPPLIER_CONTACT_FAX, V.SUPPLIER_CONTACT_EMAIL, V.ACTIVE, V.CREATE_DATE, V.CREATE_BY, V.UPDATE_DATE, V.UPDATE_BY, V.CONCESSIVE,
+			V.BUYER_OID, V.SUPPLIER_OID, V.TC_OID
+		FROM T_GROUP_TRADING_PARTNER GT ,TRADING_PARTNER V 
+        WHERE  V.TP_OID=GT.TP_OID 
+        AND GT.GROUP_OID = #{groupOid,jdbcType=DECIMAL}
+        AND V.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}) T,
+        SUPPLIER S, BUYER B
+    WHERE T.SUPPLIER_OID = S.SUPPLIER_OID 
+    AND T.BUYER_OID = B.BUYER_OID
+  </select>
+  
+  <select id="selectTradingPartnerTradingPartnerOids" resultMap="exResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.TradingPartnerExHolder" >
+    SELECT 
+    <include refid="Ex_Column_List" />
+    FROM TRADING_PARTNER T, SUPPLIER S, BUYER B
+        WHERE T.SUPPLIER_OID = S.SUPPLIER_OID 
+        AND T.BUYER_OID = B.BUYER_OID
+      <if test="tradingPartnerOids != null">
+         AND TP_OID IN
+        <foreach collection="tradingPartnerOids" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+      </if>
+ 
+  </select>
+
+
+  <select id="selectTradingPartnerBySupplierOids" resultMap="exResultMap" parameterType="java.util.HashMap" >
+    SELECT 
+    <include refid="Ex_Column_List" />
+    FROM (
+        SELECT V.TP_OID, V.BUYER_SUPPLIER_CODE, V.SUPPLIER_BUYER_CODE, V.BUYER_CONTACT_PERSON, V.BUYER_CONTACT_TEL, V.BUYER_CONTACT_MOBILE,
+			V.BUYER_CONTACT_FAX, V.BUYER_CONTACT_EMAIL, V.SUPPLIER_CONTACT_PERSON, V.SUPPLIER_CONTACT_TEL, V.SUPPLIER_CONTACT_MOBILE,
+			V.SUPPLIER_CONTACT_FAX, V.SUPPLIER_CONTACT_EMAIL, V.ACTIVE, V.CREATE_DATE, V.CREATE_BY, V.UPDATE_DATE, V.UPDATE_BY, V.CONCESSIVE,
+			V.BUYER_OID, V.SUPPLIER_OID, V.TC_OID
+	    FROM TRADING_PARTNER V 
+		 <if test="supplierOids != null">
+        	 WHERE V.SUPPLIER_OID IN 
+        	 <foreach collection="supplierOids" index="index" item="item" open="(" separator="," close=")"> 
+          	 	 #{item} 
+         	 </foreach> 
+         </if>
+		) T,
+        SUPPLIER S, BUYER B
+    WHERE T.SUPPLIER_OID = S.SUPPLIER_OID 
+    AND T.BUYER_OID = B.BUYER_OID
+  </select>
+</mapper>

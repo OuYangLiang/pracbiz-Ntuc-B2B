@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.AuditSessionMapper" >
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.extension.AuditSessionExHolder" >
+    <id column="SESSION_OID" property="sessionOid" jdbcType="DECIMAL" />
+    <result column="SESSION_ID" property="sessionId" jdbcType="CHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Grid_Column_List" >
+    SESSION_OID, SESSION_ID, START_DATE, END_DATE, LOGIN_ID
+  </sql>
+  
+  <select id="getCountOfSummary" resultType="int" parameterType="com.pracbiz.b2bportal.core.holder.extension.AuditSessionExHolder" >
+    select COUNT(*)
+    from AUDIT_SESSION
+    <where>
+      <if test="dateFrom != null" >
+        <![CDATA[AND START_DATE >= #{dateFrom,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="dateTo != null" >
+        <![CDATA[AND START_DATE <= #{dateTo,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="sessionSummary != null" >
+        AND SESSION_SUMMARY = #{sessionSummary,jdbcType=VARCHAR}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID like concat('%', #{loginId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="userOid != null">
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null">
+        AND USER_OID IN (SELECT USER_OID FROM USER_PROFILE WHERE BUYER_OID=#{buyerOid,jdbcType=DECIMAL})
+      </if>
+      <if test="supplierOid != null">
+        AND USER_OID IN (SELECT USER_OID FROM USER_PROFILE WHERE SUPPLIER_OID=#{supplierOid,jdbcType=DECIMAL})
+      </if>
+    </where>
+  </select>
+  
+  <select id="getListOfSummary"  resultMap="GridMap"  parameterType="com.pracbiz.b2bportal.core.holder.extension.AuditSessionExHolder" >
+    select 
+    <include refid="Grid_Column_List"/>
+    from AUDIT_SESSION
+    <where>
+      <if test="dateFrom != null" >
+        <![CDATA[AND START_DATE >= #{dateFrom,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="dateTo != null" >
+        <![CDATA[AND START_DATE <= #{dateTo,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="sessionSummary != null" >
+        AND SESSION_SUMMARY = #{sessionSummary,jdbcType=VARCHAR}
+      </if>
+      <if test="loginId != null" >
+        AND LOGIN_ID like concat('%', #{loginId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="userOid != null">
+        AND USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerOid != null">
+        AND USER_OID IN (SELECT USER_OID FROM USER_PROFILE WHERE BUYER_OID=#{buyerOid,jdbcType=DECIMAL})
+      </if>
+      <if test="supplierOid != null">
+        AND USER_OID IN (SELECT USER_OID FROM USER_PROFILE WHERE SUPPLIER_OID=#{supplierOid,jdbcType=DECIMAL})
+      </if>
+    </where>
+    <if test="sortField != null" >
+      order by ${sortField} ${sortOrder}
+    </if>
+      limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>

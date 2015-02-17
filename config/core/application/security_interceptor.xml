@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<methods>
+    <!-- buyer module -->
+    <method name="/buyer/view.action" param="param.buyerOid" moduleKey="module_key_buyer"></method>
+    <method name="/buyer/initEdit.action" param="param.buyerOid" moduleKey="module_key_buyer"></method>
+    <method name="/buyer/saveEdit.action" param="param.buyerOid" moduleKey="module_key_buyer"></method>
+    <method name="/buyer/initEditMsgSetting.action" param="param.buyerOid" moduleKey="module_key_buyer"></method>
+    <method name="/buyer/saveEditMsgSetting.action" param="param.buyerOid" moduleKey="module_key_buyer"></method>
+    <method name="/buyer/initEditBusinessRule.action" param="param.buyerOid" moduleKey="module_key_buyer"></method>
+    <method name="/buyer/saveBusinessRule.action" param="param.buyerOid" moduleKey="module_key_buyer"></method>
+    <method name="/buyer/putParamIntoSession.action" param="selectedOids" moduleKey="module_key_buyer"></method>
+    <!-- po module -->
+    <method name="/po/putParamIntoSession.action" param="selectedOids" moduleKey="module_key_po" separator="-"></method>
+    <!-- invoice module -->
+    <method name="/inv/putParamIntoSession.action" param="selectedOids" moduleKey="module_key_inv" separator="-"></method>
+    <method name="/inv/initEdit.action" param="param.invOid" moduleKey="module_key_inv"></method>
+    <!-- grn module -->
+    <method name="/grn/putParamIntoSession.action" param="selectedOids" moduleKey="module_key_grn" separator="-"></method>
+    <!-- dn module -->
+    <method name="/dn/putOidsParamIntoSession.action" param="selectedOids" moduleKey="module_key_dn" separator="-"></method>
+    <method name="/dn/saveEdit.action" param="dnHeaderEx.dnOid" moduleKey="module_key_dn"></method>
+    <!-- rtv module -->
+    <method name="/rtv/putParamIntoSession.action" param="selectedOids" moduleKey="module_key_rtv" separator="-"></method>
+    <!--  pn module -->
+    <method name="/pn/putParamIntoSession.action" param="selectedOids" moduleKey="module_key_pn" separator="-"></method>
+    <!--  match module -->
+    <method name="/poInvGrnDnMatching/putParamIntoSession.action" param="selectedOids" moduleKey="module_key_match" separator="-"></method>
+    <method name="/poInvGrnDnMatching/approve.action" param="param.matchingOid" moduleKey="module_key_match"></method>
+    <!--  audit trail module -->
+    <method name="/auditTrail/getXmlDocument.action" param="param.auditTrailOid" moduleKey="module_key_auditTrail"></method>
+</methods>

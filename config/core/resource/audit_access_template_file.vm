@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<auditAccessReport reportDate="$!{AUDIT_ACCESS.REPORT_DATE}" >
+  <searchCriterion>
+    <key name="AccessParty"><![CDATA[$!{AUDIT_ACCESS.ACCESS_TYPE}]]></key>
+    <key name="UserType"><![CDATA[$!{AUDIT_ACCESS.USER_TYPE}]]></key>
+    <key name="ActionType"><![CDATA[$!{AUDIT_ACCESS.ACTION_TYPE}]]></key>
+    <key name="ActionDate" hasSubKey="true">
+      <subKey name="From"><![CDATA[$!{AUDIT_ACCESS.ACTION_DATE_FROM}]]></subKey>
+      <subKey name="To"><![CDATA[$!{AUDIT_ACCESS.ACTION_DATE_TO}]]></subKey>
+    </key>
+    <key name="AttemptNo"><![CDATA[$!{AUDIT_ACCESS.ATTEMPT_NO}]]></key>
+    <key name="Actor"><![CDATA[$!{AUDIT_ACCESS.LOGIN_ID}]]></key>
+    <key name="Access IP"><![CDATA[$!{AUDIT_ACCESS.CLIENT_IP}]]></key>
+  </searchCriterion>
+    
+  <recordSet total="$!{AUDIT_ACCESS.TOTAL_RECORD}">
+    #foreach($item in $RECORDS)
+    <record number="$velocityCount">
+      <field name="AccessParty"><![CDATA[$!{item.ACCESS_TYPE}]]></field>
+      <field name="User ID(OID)"><![CDATA[$!{item.LOGIN_ID}($!{item.PRINCIPAL_OID})]]></field>
+      <field name="Timestamp"><![CDATA[$!{item.ACTION_DATE}]]></field>
+      <field name="Action"><![CDATA[$!{item.ACTION_TYPE}]]></field>
+      <field name="Success"><![CDATA[$!{item.SUCCESS}]]></field>
+      <field name="AttemptNo"><![CDATA[$!{item.ATTEMPT_NO}]]></field>
+      <field name="ErrorCode"><![CDATA[$!{item.ERROR_DESC}]]></field>
+      <field name="Access IP"><![CDATA[$!{item.CLIENT_IP}]]></field>
+    </record>
+    #end
+  </recordSet>
+</auditAccessReport>

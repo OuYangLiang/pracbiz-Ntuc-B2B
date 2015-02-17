@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.BusinessRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.BusinessRuleHolder" >
+    <id column="RULE_OID" property="ruleOid" jdbcType="DECIMAL" />
+    <result column="FUNC_GROUP" property="funcGroup" jdbcType="VARCHAR" />
+    <result column="FUNC_ID" property="funcId" jdbcType="VARCHAR" />
+    <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
+    <result column="RULE_DESC" property="ruleDesc" jdbcType="VARCHAR" />
+    <result column="RULE_DESC_KEY" property="ruleDescKey" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="extensionResultMap" type="com.pracbiz.b2bportal.core.holder.extension.BusinessRuleExHolder" >
+    <id column="RULE_OID" property="ruleOid" jdbcType="DECIMAL" />
+    <result column="FUNC_GROUP" property="funcGroup" jdbcType="VARCHAR" />
+    <result column="FUNC_ID" property="funcId" jdbcType="VARCHAR" />
+    <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
+    <result column="RULE_DESC" property="ruleDesc" jdbcType="VARCHAR" />
+    <result column="RULE_DESC_KEY" property="ruleDescKey" jdbcType="VARCHAR" />
+    <result column="NUM_VALUE" property="numValue" jdbcType="DECIMAL"/>
+    <result column="STRING_VALUE" property="stringValue" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.BusinessRuleHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from BUSINESS_RULE
+    <where>
+        <if test="ruleOid != null">
+            RULE_OID = #{ruleOid,jdbcType=DECIMAL}
+        </if>
+        <if test="funcGroup != null">
+            and FUNC_GROUP = #{funcGroup,jdbcType=VARCHAR}
+        </if>
+        <if test="funcId != null">
+            and FUNC_ID = #{funcId,jdbcType=VARCHAR}
+        </if>
+        <if test="ruleId != null">
+            and RULE_ID = #{ruleId,jdbcType=VARCHAR}
+        </if>
+        <if test="ruleDesc != null">
+            and RULE_DESC = #{ruleDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="ruleDescKey != null">
+            and RULE_DESC_KEY = #{ruleDescKey,jdbcType=VARCHAR}
+        </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.BusinessRuleHolder" >
+    delete from BUSINESS_RULE
+    <where>
+        <if test="ruleOid != null">
+            RULE_OID = #{ruleOid,jdbcType=DECIMAL}
+        </if>
+        <if test="funcGroup != null">
+            and FUNC_GROUP = #{funcGroup,jdbcType=VARCHAR}
+        </if>
+        <if test="funcId != null">
+            and FUNC_ID = #{funcId,jdbcType=VARCHAR}
+        </if>
+        <if test="ruleId != null">
+            and RULE_ID = #{ruleId,jdbcType=VARCHAR}
+        </if>
+        <if test="ruleDesc != null">
+            and RULE_DESC = #{ruleDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="ruleDescKey != null">
+            and RULE_DESC_KEY = #{ruleDescKey,jdbcType=VARCHAR}
+        </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.BusinessRuleHolder" >
+    insert into BUSINESS_RULE (RULE_OID, FUNC_GROUP, FUNC_ID, 
+      RULE_ID, RULE_DESC, RULE_DESC_KEY
+      )
+    values (#{ruleOid,jdbcType=DECIMAL}, #{funcGroup,jdbcType=VARCHAR}, #{funcId,jdbcType=VARCHAR}, 
+      #{ruleId,jdbcType=VARCHAR}, #{ruleDesc,jdbcType=VARCHAR}, #{ruleDescKey,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.BusinessRuleHolder" >
+    update BUSINESS_RULE
+    <set >
+      <if test="funcGroup != null" >
+        FUNC_GROUP = #{funcGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="funcId != null" >
+        FUNC_ID = #{funcId,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleId != null" >
+        RULE_ID = #{ruleId,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleDesc != null" >
+        RULE_DESC = #{ruleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleDescKey != null" >
+        RULE_DESC_KEY = #{ruleDescKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RULE_OID = #{ruleOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.BusinessRuleHolder" >
+    update BUSINESS_RULE
+    set FUNC_GROUP = #{funcGroup,jdbcType=VARCHAR},
+      FUNC_ID = #{funcId,jdbcType=VARCHAR},
+      RULE_ID = #{ruleId,jdbcType=VARCHAR},
+      RULE_DESC = #{ruleDesc,jdbcType=VARCHAR},
+      RULE_DESC_KEY = #{ruleDescKey,jdbcType=VARCHAR}
+    where RULE_OID = #{ruleOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectRulesByBuyerOidAndFuncGroupAndFuncId" resultMap="extensionResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.BusinessRuleExHolder" >
+  	 SELECT B.RULE_OID, B.FUNC_GROUP, B.FUNC_ID, B.RULE_ID, B.RULE_DESC, B.RULE_DESC_KEY, 
+     P.NUM_VALUE, P.STRING_VALUE, P.BUYER_OID FROM BUSINESS_RULE B, BUYER_RULE P 
+  	 WHERE P.RULE_OID=B.RULE_OID 
+  	 AND FUNC_ID = #{funcId,jdbcType=VARCHAR}
+  	 AND FUNC_GROUP = #{funcGroup,jdbcType=VARCHAR}
+  	 AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectRulesByBuyerOidAndFuncGroupAndFuncIdAndRuleId" resultMap="extensionResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.BusinessRuleExHolder" >
+  	 SELECT B.RULE_OID, B.FUNC_GROUP, B.FUNC_ID, B.RULE_ID, B.RULE_DESC, B.RULE_DESC_KEY, 
+	 P.NUM_VALUE, P.STRING_VALUE, P.BUYER_OID FROM BUSINESS_RULE B, BUYER_RULE P 
+  	 WHERE P.RULE_OID=B.RULE_OID 
+  	 AND FUNC_ID = #{funcId,jdbcType=VARCHAR}
+  	 AND RULE_ID = #{ruleId,jdbcType=VARCHAR}
+  	 AND FUNC_GROUP = #{funcGroup,jdbcType=VARCHAR}
+  	 AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+</mapper>

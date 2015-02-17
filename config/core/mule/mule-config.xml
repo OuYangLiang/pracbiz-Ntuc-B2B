@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd ">
+
+    <spring:beans>
+        <spring:import resource="classpath:applicationContext-eai.xml"/>
+    </spring:beans>
+
+    <file:connector name="fileConnector" autoDelete="false" streaming="false" validateConnections="true" pollingFrequency="3000" fileAge="1000" >
+    	<service-overrides messageFactory="org.mule.transport.file.FileMuleMessageFactory"/>
+    </file:connector>
+    
+    <queued-asynchronous-processing-strategy name="allow5Threads" maxThreads="5"/>
+    
+    <flow name="outboundFlow">
+        <file:inbound-endpoint path="${mailbox.root.buyer}/indicator/outbound" responseTimeout="10000"
+            moveToDirectory="${mailbox.root.buyer}/indicator/outbound"
+            moveToPattern="#[header:originalFilename].proc---#[function:uuid]" connector-ref="fileConnector">
+            <file:filename-regex-filter pattern=".*\.tok" caseSensitive="true"/>
+        </file:inbound-endpoint>
+        
+        <pooled-component><spring-object bean="outboundFileArrivalNoticeComp" /></pooled-component>
+        <pooled-component><spring-object bean="outboundBatchSplitterComp" /></pooled-component>
+        <collection-splitter enableCorrelation="IF_NOT_SET"/>
+        <async processingStrategy="allow5Threads">
+	        <pooled-component><spring-object bean="outboundDocTransformerComp" /></pooled-component>
+	        <collection-aggregator timeout="0" failOnTimeout="true"/>
+	        <pooled-component><spring-object bean="outboundAggregatorComp" /></pooled-component>
+	        <pooled-component><spring-object bean="outboundTxnLoggingComp" /></pooled-component>
+	        <pooled-component><spring-object bean="outboundDistributionComp" /></pooled-component>
+	        <pooled-component><spring-object bean="outboundAcknowledgementComp" /></pooled-component>
+	        <pooled-component><spring-object bean="outboundHousekeepingComp" /></pooled-component>
+	        <pooled-component><spring-object bean="outboundNotificationComp" /></pooled-component>
+        </async>
+    </flow>
+    
+    <flow name="inboundFlow">
+        <file:inbound-endpoint path="${mailbox.root.supplier}/indicator/outbound" responseTimeout="10000"
+            moveToDirectory="${mailbox.root.supplier}/indicator/outbound"
+            moveToPattern="#[header:originalFilename].proc---#[function:uuid]" connector-ref="fileConnector">
+            <file:filename-regex-filter pattern=".*\.tok" caseSensitive="true"/>
+        </file:inbound-endpoint>
+        
+        <pooled-component><spring-object bean="inboundFileArrivalNoticeComp" /></pooled-component>
+        <pooled-component><spring-object bean="inboundBatchSplitterComp" /></pooled-component>
+        <collection-splitter enableCorrelation="IF_NOT_SET"/>
+        <async processingStrategy="allow5Threads">
+            <pooled-component><spring-object bean="inboundDocTransformerComp" /></pooled-component>
+            <collection-aggregator timeout="0" failOnTimeout="true"/>
+            <pooled-component><spring-object bean="inboundAggregatorComp" /></pooled-component>
+            <pooled-component><spring-object bean="inboundTxnLoggingComp" /></pooled-component>
+            <pooled-component><spring-object bean="inboundDistributionComp" /></pooled-component>
+            <pooled-component><spring-object bean="inboundAcknowledgementComp" /></pooled-component>
+            <pooled-component><spring-object bean="inboundHousekeepingComp" /></pooled-component>
+            <pooled-component><spring-object bean="inboundNotificationComp" /></pooled-component>
+        </async>
+    </flow>
+</mule>

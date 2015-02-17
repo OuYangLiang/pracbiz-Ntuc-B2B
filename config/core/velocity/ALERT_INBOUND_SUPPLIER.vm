@@ -1,0 +1,120 @@
+<html>
+    <head>
+        Hi ${SUPPLIER_NAME} (${BUYER_GIVEN_SUPPLIER_CODE})
+        <br/><br/>
+        Dispatch Status Report
+        <br/><br/><br/>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr>
+                    <td colspan="3" style="text-decoration: underline;">
+                        <strong> 
+                            Summary
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="left"> Total Docs</td>
+                    <td width="30" align="right">:</td>
+                    <td align="left">$TOTAL_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="100" align="left"> Total OK</td>
+                    <td align="right">:</td>
+                    <td align="left">$SUCC_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="100" align="left"> Total Error</td>
+                    <td align="right">:</td>
+                    <td align="left">$ERROR_LIST.size()</td>
+                </tr>
+                <tr>
+                    <td width="100" align="left"> Total Inactive</td>
+                    <td align="right">:</td>
+                    <td align="left">$INACTIVE_LIST.size()</td>
+                </tr>
+            </table>
+            <p/>
+            <table>
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            Success List
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $SUCC_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        <td align="left">Ref# $o.refNo  ($o.originalFilename)</td>
+                    </tr>
+                #end
+            </table>
+            <p/>
+            <table>
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            Error List
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $ERROR_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        <td align="left">Ref# $o.refNo  ($o.originalFilename)</td>
+                    </tr>
+                    <tr>
+                        <td width="30"></td>
+                        <td align="left">
+                        #if($o.errorMsg.size() > 0)
+                            #foreach($msg in $o.errorMsg)
+                                $msg<br/>
+                            #end
+                        #else
+                        $o.remarks
+                        #end
+                        </td>
+                    </tr>
+                #end
+            </table>
+            <p/>
+            <table>
+                <tr>
+                    <td colspan="2" style="text-decoration: underline;">
+                        <strong> 
+                            Inactive List
+                        </strong>
+                    </td>
+                </tr>
+                #foreach($o in $INACTIVE_LIST)
+                    <tr>
+                        <td width="30" align="left">$velocityCount.</td>
+                        <td align="left">Ref# $o.refNo  ($o.originalFilename)</td>
+                    </tr>
+                    <tr>
+                        <td width="30"></td>
+                        <td align="left">$o.remarks</td>
+                    </tr>
+                #end
+            </table>
+            <br/><br/>
+            <table>
+                 <tr>
+                     <td colspan="2">
+                         PracBiz B2B Portal System
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="2">
+                         Customer Support
+                     </td>
+                 </tr>
+            </table>
+        </form>
+        <p/>
+Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

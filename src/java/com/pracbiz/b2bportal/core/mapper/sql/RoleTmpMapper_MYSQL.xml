@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.RoleTmpMapper" >
+  
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.extension.RoleTmpExHolder" >
+    <id column="ROLE_OID" property="roleOid" jdbcType="DECIMAL" />
+    <result column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="ROLE_TYPE" property="roleType" jdbcType="VARCHAR" />
+    <result column="CREATED_FROM_SYSADMIN" property="createdFromSysadmin" jdbcType="BIT" />
+    <result column="USER_TYPE_ID" property="userTypeId" jdbcType="VARCHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="ACTOR" property="actor" jdbcType="VARCHAR" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="VARCHAR" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="CTRL_STATUS" property="ctrlStatus" jdbcType="VARCHAR" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  
+  <sql id="Grid_Column_List" >
+    T1.ROLE_OID, T1.ROLE_ID, T1.ROLE_NAME, T1.ROLE_TYPE, U.USER_TYPE_ID,
+    T1.COMPANY, T1.ACTOR, T1.ACTION_TYPE, T1.ACTION_DATE, T1.CTRL_STATUS, T1.CREATED_FROM_SYSADMIN, T1.BUYER_OID
+  </sql>
+  
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.RoleTmpExHolder"
+    resultType="int">
+    SELECT COUNT(*) FROM
+    (SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, NULL AS COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+    FROM T_ROLE T
+    WHERE T.ROLE_TYPE = 'ADMIN'
+      <if test="roleId != null" >
+        AND T.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleName != null" >
+        AND T.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleType != null" >
+        AND T.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="currentUserOid != null and currentUserOid != 1 and currentUserOid != 2">
+        AND T.ROLE_OID != 1 AND T.ROLE_OID != 2
+      </if>
+      <if test="company != null" >
+        AND 1=2
+      </if>
+    UNION
+    SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, B.BUYER_NAME AS COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+    FROM T_ROLE T, BUYER B
+    WHERE T.BUYER_OID = B.BUYER_OID AND T.ROLE_TYPE = 'BUYER'
+      <if test="currentUserBuyerOid != null" >
+        AND T.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="company != null" >
+        AND B.BUYER_NAME like concat('%',#{company,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleId != null" >
+        AND T.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleName != null" >
+        AND T.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleType != null" >
+        AND T.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+    UNION
+    
+    SELECT TMP.ROLE_OID, TMP.ROLE_ID, TMP.ROLE_NAME, TMP.ROLE_TYPE, TMP.USER_TYPE_OID, TMP.ACTOR, TMP.ACTION_TYPE, TMP.ACTION_DATE, TMP.CTRL_STATUS, TMP.COMPANY, TMP.CREATED_FROM_SYSADMIN, TMP.BUYER_OID
+    FROM 
+        (SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, #{allSupplierKey,jdbcType=VARCHAR} as COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+        FROM T_ROLE T
+        WHERE EXISTS
+            (SELECT * FROM T_SUPPLIER_ROLE SR WHERE T.ROLE_OID = SR.ROLE_OID AND SR.SUPPLIER_OID = -1)) TMP
+    <where>
+        <if test="company != null" >
+            TMP.COMPANY like concat('%',#{company,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="roleId != null" >
+            AND TMP.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="roleName != null" >
+            AND TMP.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="roleType != null" >
+            AND TMP.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+        </if>
+        <if test="userTypeOid != null" >
+            AND TMP.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+        </if>
+        <if test="ctrlStatus != null" >
+            AND TMP.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+        </if>
+    </where>
+    
+    UNION
+    
+    SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, TMP.COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+    FROM T_ROLE T, 
+    
+    (select * from (
+    select ROLE_OID, GROUP_CONCAT(SUPPLIER_NAME SEPARATOR '<![CDATA[new-line]]>') AS COMPANY FROM T_SUPPLIER_ROLE TSR LEFT JOIN SUPPLIER S ON S.SUPPLIER_OID =  TSR.SUPPLIER_OID
+    where TSR.SUPPLIER_OID <![CDATA[<>]]> -1
+    <if test="currentUserSupplierOid != null" >
+        AND TSR.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+    </if>
+    group by ROLE_OID ) innertmp 
+    
+    <where>
+        <if test="company != null" >
+            innertmp.COMPANY like concat('%',#{company,jdbcType=VARCHAR},'%')
+        </if>
+    </where>
+    ) TMP
+    
+    WHERE T.ROLE_OID = TMP.ROLE_OID
+      <if test="roleId != null" >
+        AND T.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleName != null" >
+        AND T.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleType != null" >
+        AND T.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+    ) T1, USER_TYPE U
+    WHERE T1.USER_TYPE_OID = U.USER_TYPE_OID
+    AND T1.USER_TYPE_OID IN 
+    (SELECT DISTINCT U.USER_TYPE_OID FROM USER_TYPE U, PARENT_USER_TYPE P
+        WHERE U.USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL} OR 
+        (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL}))
+  </select>
+  
+  
+  <select id="getListOfSummary" resultMap="GridMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.RoleTmpExHolder" >
+    SELECT <include refid="Grid_Column_List" /> FROM
+    (SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, NULL AS COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+    FROM T_ROLE T
+    WHERE T.ROLE_TYPE = 'ADMIN'
+      <if test="roleId != null" >
+        AND T.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleName != null" >
+        AND T.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleType != null" >
+        AND T.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="currentUserOid != null and currentUserOid != 1 and currentUserOid != 2">
+        AND T.ROLE_OID != 1 AND T.ROLE_OID != 2
+      </if>
+      <if test="company != null" >
+        AND 1=2
+      </if>
+    UNION
+    SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, B.BUYER_NAME AS COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+    FROM T_ROLE T, BUYER B
+    WHERE T.BUYER_OID = B.BUYER_OID AND T.ROLE_TYPE = 'BUYER'
+      <if test="currentUserBuyerOid != null" >
+        AND T.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="company != null" >
+        AND B.BUYER_NAME like concat('%',#{company,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleId != null" >
+        AND T.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleName != null" >
+        AND T.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleType != null" >
+        AND T.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+    UNION
+    
+    SELECT TMP.ROLE_OID, TMP.ROLE_ID, TMP.ROLE_NAME, TMP.ROLE_TYPE, TMP.USER_TYPE_OID, TMP.ACTOR, TMP.ACTION_TYPE, TMP.ACTION_DATE, TMP.CTRL_STATUS, TMP.COMPANY, TMP.CREATED_FROM_SYSADMIN, TMP.BUYER_OID
+    FROM 
+        (SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, #{allSupplierKey,jdbcType=VARCHAR} as COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+        FROM T_ROLE T
+        WHERE EXISTS
+            (SELECT * FROM T_SUPPLIER_ROLE SR WHERE T.ROLE_OID = SR.ROLE_OID AND SR.SUPPLIER_OID = -1)) TMP
+    <where>
+        <if test="company != null" >
+            TMP.COMPANY like concat('%',#{company,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="roleId != null" >
+            AND TMP.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="roleName != null" >
+            AND TMP.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="roleType != null" >
+            AND TMP.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+        </if>
+        <if test="userTypeOid != null" >
+            AND TMP.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+        </if>
+        <if test="ctrlStatus != null" >
+            AND TMP.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+        </if>
+    </where>
+    
+    UNION
+    SELECT T.ROLE_OID, T.ROLE_ID, T.ROLE_NAME, T.ROLE_TYPE, T.USER_TYPE_OID, T.ACTOR, T.ACTION_TYPE, T.ACTION_DATE, T.CTRL_STATUS, TMP.COMPANY, T.CREATED_FROM_SYSADMIN, T.BUYER_OID
+    FROM T_ROLE T, 
+    
+    (select * from (
+    select ROLE_OID, GROUP_CONCAT(SUPPLIER_NAME SEPARATOR '<![CDATA[new-line]]>') AS COMPANY FROM T_SUPPLIER_ROLE TSR LEFT JOIN SUPPLIER S ON S.SUPPLIER_OID =  TSR.SUPPLIER_OID
+    where TSR.SUPPLIER_OID <![CDATA[<>]]> -1
+    <if test="currentUserSupplierOid != null" >
+        AND TSR.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+    </if>
+    group by ROLE_OID ) innertmp 
+    
+    <where>
+        <if test="company != null" >
+            innertmp.COMPANY like concat('%',#{company,jdbcType=VARCHAR},'%')
+        </if>
+    </where>
+    ) TMP
+    
+    WHERE T.ROLE_OID = TMP.ROLE_OID
+      <if test="roleId != null" >
+        AND T.ROLE_ID like concat('%',#{roleId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleName != null" >
+        AND T.ROLE_NAME like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="roleType != null" >
+        AND T.ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeOid != null" >
+        AND T.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="ctrlStatus != null" >
+        AND T.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+      </if>
+    ) T1, USER_TYPE U
+    WHERE T1.USER_TYPE_OID = U.USER_TYPE_OID
+    AND T1.USER_TYPE_OID IN 
+    (SELECT DISTINCT U.USER_TYPE_OID FROM USER_TYPE U, PARENT_USER_TYPE P
+        WHERE U.USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL} OR 
+        (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL}))
+    <if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+    </if>
+        limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>

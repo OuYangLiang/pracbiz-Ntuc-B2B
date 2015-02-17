@@ -1,0 +1,12 @@
+Hello Administrator,
+
+There is any exception on ${ID}.
+
+
+Date time: ${TIME}
+
+Ticket No: ${TICK_NO}
+
+Exception: ${EXCEPTION}
+
+Server Url: $appUrl

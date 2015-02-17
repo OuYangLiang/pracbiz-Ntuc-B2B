@@ -1,0 +1,1 @@
+insert into OID_GENERIC VALUES(500);

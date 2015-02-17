@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.UserProfileTmpMapper" >
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.extension.UserProfileTmpExHolder" >
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="BLOCKED" property="blocked" jdbcType="BIT" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="USER_TYPE_DESC" property="userTypeDesc" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="DECIMAL" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="ACTOR" property="actor" jdbcType="VARCHAR" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="CTRL_STATUS" property="ctrlStatus" jdbcType="CHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Grid_Column_List" >
+    U.USER_OID, U.USER_NAME, U.LOGIN_ID, U.ACTIVE, U.BLOCKED,  U.UPDATE_DATE, 
+    U.UPDATE_BY, T.USER_TYPE_DESC, U.USER_TYPE, U.BUYER_OID, U.SUPPLIER_OID,
+    U.ACTOR, U.ACTION_TYPE, U.ACTION_DATE, U.CTRL_STATUS
+  </sql>
+  
+  <select id="getListOfSummary" resultMap="GridMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.UserProfileTmpExHolder" >
+    select USER_OID, USER_NAME, LOGIN_ID, ACTIVE, BLOCKED,  UPDATE_DATE, 
+    UPDATE_BY, USER_TYPE_DESC, USER_TYPE, BUYER_OID, SUPPLIER_OID,
+    ACTOR, ACTION_TYPE, ACTION_DATE, CTRL_STATUS, COMPANY from (
+    select 
+    <include refid="Grid_Column_List" />
+    ,(CASE WHEN U.BUYER_OID IS NOT NULL THEN (SELECT B.BUYER_NAME FROM BUYER B WHERE B.BUYER_OID=U.BUYER_OID)
+    WHEN U.SUPPLIER_OID IS NOT NULL THEN (SELECT SUPPLIER_NAME FROM SUPPLIER S WHERE S.SUPPLIER_OID=U.SUPPLIER_OID) ELSE NULL END) AS COMPANY
+    from T_USER_PROFILE U, USER_TYPE T where U.USER_TYPE = T.USER_TYPE_OID and 
+    U.USER_TYPE in (SELECT DISTINCT U.USER_TYPE_OID FROM USER_TYPE U, PARENT_USER_TYPE P
+        WHERE U.USER_TYPE_OID = #{currentUserType,jdbcType=DECIMAL} OR 
+        (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{currentUserType,jdbcType=DECIMAL}))
+    <if test="userOid != null" >
+      AND U.USER_OID = #{userOid,jdbcType=DECIMAL}
+    </if>
+    <if test="userName != null" >
+      AND U.USER_NAME like concat('%',#{userName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginId != null" >
+      AND U.LOGIN_ID like concat('%',#{loginId,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginMode != null" >
+      AND U.LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+    </if>
+    <if test="paramActive != null" >
+      AND U.ACTIVE = #{paramActive,jdbcType=BIT}
+    </if>
+    <if test="paramActive == null" >
+      AND (U.ACTIVE = 1 or U.ACTIVE = 0)
+    </if>
+    <if test="paramBlocked != null" >
+      AND U.BLOCKED = #{paramBlocked,jdbcType=BIT}
+    </if>
+    <if test="paramBlocked == null" >
+      AND (U.BLOCKED = 1 or U.BLOCKED = 0)
+    </if>
+    <if test="init != null and init == false">
+      AND U.INIT = #{init,jdbcType=BIT}
+    </if>
+    <if test="init == null" >
+      AND (U.INIT = true or U.INIT = false)
+    </if>
+    <if test="createDate != null" >
+      AND U.CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createBy != null" >
+      AND U.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="updateDate != null" >
+      AND U.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateBy != null" >
+      AND U.UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="blockDate != null" >
+      AND U.BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="blockBy != null" >
+      AND U.BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+    </if>
+    <if test="ctrlStatus != null" >
+      AND U.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="inactivateDate != null" >
+      AND U.INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="inactivateBy != null" >
+      AND U.INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="userType != null" >
+      AND USER_TYPE = #{userType,jdbcType=DECIMAL}
+    </if>
+    <if test="buyerOid != null" >
+      AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+    <if test="supplierOid != null" >
+      AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+   	<if test="currentBuyerOid != null">
+  	  AND CASE WHEN BUYER_OID IS NOT NULL THEN BUYER_OID=#{currentBuyerOid,jdbcType=DECIMAL} ELSE 1=1 END
+  	  AND CASE WHEN SUPPLIER_OID IS NOT NULL THEN SUPPLIER_OID IN 
+      (SELECT SUPPLIER_OID FROM TRADING_PARTNER TP WHERE TP.BUYER_OID=#{currentBuyerOid,jdbcType=DECIMAL}) ELSE 1=1 END
+  	</if>
+   	<if test="currentSupplierOid != null">
+  	  AND CASE WHEN SUPPLIER_OID IS NOT NULL THEN SUPPLIER_OID=#{currentSupplierOid,jdbcType=DECIMAL} ELSE 1=1 END
+  	</if>
+  	) V
+  	<if test="company != null" >
+        WHERE COMPANY like concat('%',#{company,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+    </if>
+        limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+  <select id="getCountOfSummary" resultType="int" parameterType="com.pracbiz.b2bportal.core.holder.extension.UserProfileTmpExHolder" >
+    select COUNT(0) from (
+    select 1
+    ,(CASE WHEN U.BUYER_OID IS NOT NULL THEN (SELECT B.BUYER_NAME FROM BUYER B WHERE B.BUYER_OID=U.BUYER_OID)
+    WHEN U.SUPPLIER_OID IS NOT NULL THEN (SELECT SUPPLIER_NAME FROM SUPPLIER S WHERE S.SUPPLIER_OID=U.SUPPLIER_OID) ELSE NULL END) AS COMPANY
+    from T_USER_PROFILE U where 
+    U.USER_TYPE in (SELECT DISTINCT U.USER_TYPE_OID FROM USER_TYPE U, PARENT_USER_TYPE P
+        WHERE U.USER_TYPE_OID = #{currentUserType,jdbcType=DECIMAL} OR 
+        (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{currentUserType,jdbcType=DECIMAL}))
+    <if test="userOid != null" >
+      AND U.USER_OID = #{userOid,jdbcType=DECIMAL}
+    </if>
+    <if test="userName != null" >
+      AND U.USER_NAME like concat('%',#{userName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginId != null" >
+      AND U.LOGIN_ID like concat('%',#{loginId,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginMode != null" >
+      AND U.LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+    </if>
+    <if test="paramActive != null" >
+      AND U.ACTIVE = #{paramActive,jdbcType=BIT}
+    </if>
+    <if test="paramActive == null" >
+      AND (U.ACTIVE = 1 or U.ACTIVE = 0)
+    </if>
+    <if test="paramBlocked != null" >
+      AND U.BLOCKED = #{paramBlocked,jdbcType=BIT}
+    </if>
+    <if test="paramBlocked == null" >
+      AND (U.BLOCKED = 1 or U.BLOCKED = 0)
+    </if>
+    <if test="init != null and init == false">
+      AND U.INIT = #{init,jdbcType=BIT}
+    </if>
+    <if test="init == null" >
+      AND (U.INIT = true or U.INIT = false)
+    </if>
+    <if test="createDate != null" >
+      AND U.CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createBy != null" >
+      AND U.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="updateDate != null" >
+      AND U.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateBy != null" >
+      AND U.UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="blockDate != null" >
+      AND U.BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="blockBy != null" >
+      AND U.BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+    </if>
+    <if test="ctrlStatus != null" >
+      AND U.CTRL_STATUS = #{ctrlStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="inactivateDate != null" >
+      AND U.INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="inactivateBy != null" >
+      AND U.INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="userType != null" >
+      AND USER_TYPE = #{userType,jdbcType=DECIMAL}
+    </if>
+    <if test="buyerOid != null" >
+      AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+    <if test="supplierOid != null" >
+      AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+    <if test="currentBuyerOid != null">
+      AND CASE WHEN BUYER_OID IS NOT NULL THEN BUYER_OID=#{currentBuyerOid,jdbcType=DECIMAL} ELSE 1=1 END
+      AND CASE WHEN SUPPLIER_OID IS NOT NULL THEN SUPPLIER_OID IN 
+      (SELECT SUPPLIER_OID FROM TRADING_PARTNER TP WHERE TP.BUYER_OID=#{currentBuyerOid,jdbcType=DECIMAL}) ELSE 1=1 END
+    </if>
+    <if test="currentSupplierOid != null">
+      AND CASE WHEN SUPPLIER_OID IS NOT NULL THEN SUPPLIER_OID=#{currentSupplierOid,jdbcType=DECIMAL} ELSE 1=1 END
+    </if>
+    ) V
+    <if test="company != null" >
+        WHERE COMPANY like concat('%',#{company,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  
+</mapper>

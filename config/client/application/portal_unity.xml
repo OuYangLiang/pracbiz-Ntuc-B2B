@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appConfig>
+    <portal identifier="unity">
+		<support-portal-mailboxes>
+			<list>
+				<value>52261</value>
+				<value>52186</value>
+			</list>
+		</support-portal-mailboxes>
+		
+		<webServiceSetting>
+	        <timeout>10000</timeout>
+	        <retryTimes>0</retryTimes>
+	        <retryInterval>5000</retryInterval>
+	        
+	        <remoteServer>http://192.168.0.118:8081/b2bportal</remoteServer>
+	    </webServiceSetting>
+	    
+	    <dispatchSetting>
+	        <maxFilesPerZip>5</maxFilesPerZip>
+	    </dispatchSetting>
+	    
+	    <outboundMsgSetting>
+	       <pattern msgType="INV">^INV_[0-9]{14}_[0-9]*.CSV$</pattern>
+	       <pattern msgType="CN">^CN_[0-9]{14}_[0-9]+.CSV$</pattern>
+	    </outboundMsgSetting>
+	    
+	    <printSetting autoPrint="Y">
+	        <printer supplierCode="52261">hpLaserJ</printer>
+	        <printer supplierCode="1004">\\PBNJ\hp LaserJet 1010</printer>
+	    </printSetting>
+    </portal>
+    
+    
+    <!-- <portal identifier="fp">
+        <support-portal-mailboxes>
+            <list>
+                <value>123</value>
+                <value>1234</value>
+            </list>
+        </support-portal-mailboxes>
+        
+        <webServiceSetting>
+            <timeout>1</timeout>
+            <retryTimes>2</retryTimes>
+            <retryInterval>3</retryInterval>
+            
+            <remoteServer>http://192.168.0.123102:8081/b2bportal</remoteServer>
+        </webServiceSetting>
+        
+        <dispatchSetting>
+            <maxFilesPerZip>50</maxFilesPerZip>
+        </dispatchSetting>
+        
+        <outboundMsgSetting>
+           <pattern msgType="INV234141">^INV1341241231241_[0-9]{14}_[0-9]*.CSV$</pattern>
+           <pattern msgType="CN123412">^CN123412412412_[0-9]{14}_[0-9]+.CSV$</pattern>
+        </outboundMsgSetting>
+        
+        <printSetting autoPrint="N">
+            <printer supplierCode="5226122222">hpLaser222222J</printer>
+            <printer supplierCode="100422222">\\PBNJ\hp LaserJet 101022222</printer>
+        </printSetting>
+    </portal> -->
+</appConfig>

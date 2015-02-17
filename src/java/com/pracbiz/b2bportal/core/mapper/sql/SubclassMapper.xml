@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SubclassMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SubclassHolder" >
+    <id column="SUBCLASS_OID" property="subclassOid" jdbcType="DECIMAL" />
+    <result column="SUBCLASS_CODE" property="subclassCode" jdbcType="VARCHAR" />
+    <result column="SUBCLASS_DESC" property="subclassDesc" jdbcType="VARCHAR" />
+    <result column="CLASS_OID" property="classOid" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ExResultMap" type="com.pracbiz.b2bportal.core.holder.extension.SubclassExHolder" >
+    <id column="SUBCLASS_OID" property="subclassOid" jdbcType="DECIMAL" />
+    <result column="SUBCLASS_CODE" property="subclassCode" jdbcType="VARCHAR" />
+    <result column="SUBCLASS_DESC" property="subclassDesc" jdbcType="VARCHAR" />
+    <result column="CLASS_OID" property="classOid" jdbcType="DECIMAL" />
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SUBCLASS_OID, SUBCLASS_CODE, SUBCLASS_DESC, CLASS_OID
+  </sql>
+  <sql id="Ex_Column_List" >
+    S.SUBCLASS_OID, S.SUBCLASS_CODE, S.SUBCLASS_DESC, S.CLASS_OID, C.CLASS_CODE, C.BUYER_OID, B.BUYER_CODE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SubclassHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUBCLASS
+    <where>
+      <if test="subclassOid != null" >
+        SUBCLASS_OID = #{subclassOid,jdbcType=DECIMAL}
+      </if>
+      <if test="subclassCode != null" >
+        and SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassDesc != null" >
+        and SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="classOid != null" >
+        and CLASS_OID = #{classOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  <select id="selectSubclassExByUserOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Ex_Column_List" />
+    from SUBCLASS S, CLASS C, BUYER B where S.CLASS_OID = C.CLASS_OID and C.BUYER_OID = B.BUYER_OID and
+    if ((select 1 from USER_SUBCLASS where USER_OID = #{userOid,jdbcType=DECIMAL} and SUBCLASS_OID=-1) is null,
+    (exists (select 1 from USER_SUBCLASS US where S.SUBCLASS_OID=US.SUBCLASS_OID and US.USER_OID = #{userOid,jdbcType=DECIMAL})),
+    (C.BUYER_OID=(select BUYER_OID from USER_PROFILE UP where UP.USER_OID = #{userOid,jdbcType=DECIMAL})
+    OR C.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY WHERE USER_OID = #{userOid,jdbcType=DECIMAL})));
+  </select>
+  <select id="selectTmpSubclassExByUserOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Ex_Column_List" />
+    from SUBCLASS S, CLASS C, BUYER B where S.CLASS_OID = C.CLASS_OID and C.BUYER_OID = B.BUYER_OID and 
+    if ((select 1 from T_USER_SUBCLASS where USER_OID = #{userOid,jdbcType=DECIMAL} and SUBCLASS_OID=-1) is null,
+    (exists (select 1 from T_USER_SUBCLASS US where S.SUBCLASS_OID=US.SUBCLASS_OID and US.USER_OID = #{userOid,jdbcType=DECIMAL})),
+    (C.BUYER_OID = (select BUYER_OID from USER_PROFILE UP where UP.USER_OID = #{userOid,jdbcType=DECIMAL})
+    OR C.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY WHERE USER_OID = #{userOid,jdbcType=DECIMAL})));
+  </select>
+  <select id="selectSubclassExByBuyerOid" resultMap="ExResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Ex_Column_List" />
+    from SUBCLASS S, CLASS C, BUYER B where S.CLASS_OID = C.CLASS_OID and C.BUYER_OID = B.BUYER_OID and 
+    C.BUYER_OID= #{buyerOid,jdbcType=DECIMAL};
+  </select>
+  <select id="selectSubclassByItemCodeAndBuyerOid" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    	S.SUBCLASS_OID, S.SUBCLASS_CODE, S.SUBCLASS_DESC, S.CLASS_OID
+    from ITEM I,SUBCLASS S, CLASS C where I.SUBCLASS_CODE = S.SUBCLASS_CODE 
+    AND I.BUYER_OID = C.BUYER_OID AND S.CLASS_OID = C.CLASS_OID AND I.CLASS_CODE = C.CLASS_CODE
+    AND I.BUYER_ITEM_CODE = #{buyerItemCode, jdbcType=VARCHAR} 
+    AND I.BUYER_OID = #{buyerOid,jdbcType=DECIMAL};
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SubclassHolder" >
+    delete from SUBCLASS
+    <where>
+      <if test="subclassOid != null" >
+        and SUBCLASS_OID = #{subclassOid,jdbcType=DECIMAL}
+      </if>
+      <if test="subclassCode != null" >
+        and SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassDesc != null" >
+        and SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="classOid != null" >
+        and CLASS_OID = #{classOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SubclassHolder" >
+    insert into SUBCLASS (SUBCLASS_OID, SUBCLASS_CODE, SUBCLASS_DESC, CLASS_OID)
+    values (#{subclassOid,jdbcType=DECIMAL}, #{subclassCode,jdbcType=VARCHAR}, 
+    #{subclassDesc,jdbcType=VARCHAR}, #{classOid,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SubclassHolder" >
+    update SUBCLASS
+    <set >
+      <if test="subclassCode != null" >
+        SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subclassDesc != null" >
+        SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="classOid != null" >
+        CLASS_OID = #{classOid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SUBCLASS_OID = #{subclassOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SubclassHolder" >
+    UPDATE SUBCLASS
+    SET SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR},
+      SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR},
+      CLASS_OID = #{classOid,jdbcType=DECIMAL}
+    WHERE SUBCLASS_OID = #{subclassOid,jdbcType=DECIMAL}
+  </update>
+  
+  <delete id="deleteByBuyerOid" parameterType="java.math.BigDecimal">
+	 DELETE FROM SUBCLASS  WHERE  EXISTS (SELECT 1 FROM CLASS C WHERE BUYER_OID = #{buyerOid, jdbcType=DECIMAL} and SUBCLASS.CLASS_OID = C.CLASS_OID)
+  </delete>
+</mapper>

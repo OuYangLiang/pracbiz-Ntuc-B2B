@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <bean id="auditTrailAdvice" class="com.pracbiz.b2bportal.core.advice.AuditTrailAdvice" />
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- all methods requires a transaction -->
+            <tx:method name="*" read-only="false" propagation="REQUIRED"
+                rollback-for="Exception" />
+        </tx:attributes>
+    </tx:advice>
+    
+    <tx:advice id="oidAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="getOid" read-only="false" propagation="REQUIRES_NEW"
+                rollback-for="Exception" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+		<aop:advisor advice-ref="auditTrailAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.base.service.DBActionService.audit*(..))" />
+			
+		<aop:advisor advice-ref="auditTrailAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.base.service.MakerCheckerService.*(..))" />
+			
+		<aop:advisor advice-ref="auditTrailAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerService.audit*(..))" />
+			
+		<aop:advisor advice-ref="auditTrailAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierService.audit*(..))" />
+	
+		<aop:advisor advice-ref="oidAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.OidService.getOid(..))" />
+			
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.LoginService.doLogin(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.ForgetPasswordService.resetPassword(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.ForgetPasswordService.saveNewPassword(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.createUserProfile(..))" />
+
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.createUserProfileForImportSupplier(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.updateUserProfile(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.removeUserProfile(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.approveUserProfile(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.rejectUserProfile(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.withdrawUserProfile(..))" />
+	
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.pracbiz.b2bportal.core.service.RoleService.createRoleProfile(..))" />
+			
+	    <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.RoleService.updateRoleProfile(..))" />
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.RoleService.removeRoleProfile(..))" />
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.RoleService.approveRoleProfile(..))" />
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.RoleService.rejectRoleProfile(..))" />
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.RoleService.withdrawRoleProfile(..))" />
+        
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.ChangePasswordService.doChangePassword(..))" />
+        
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.updateMyProfile(..))"/>
+        
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.GroupService.createGroupProfile(..))"/>
+        
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.GroupService.updateGroupProfile(..))"/>
+        
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.GroupService.removeGroupProfile(..))"/>
+        
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.GroupService.approveGroupProfile(..))"/>
+        
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.GroupService.rejectGroupProfile(..))"/>
+
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.GroupService.withdrawGroupProfile(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.TradingPartnerService.removeTradingPartner(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerService.deleteBuyer(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerService.insertBuyerWithMsgSetting(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerService.updateBuyerWithMsgSetting(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerService.updateBuyerWithBuyerRule(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerService.updateBuyerWithBuyerOperation(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerService.updateBuyerWithBuyerGivenSupplierOperation(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierService.insertSupplierWithMsgSetting(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierService.updateSupplierWithMsgSetting(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierService.insertSupplierMasterBatch(..))"/>
+   
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.TransactionBatchService.insertOutboundBatch(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.TransactionBatchService.insertInboundBatch(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.TransactionBatchService.insertStoreMaster(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.InvoiceService.createInvoice(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.InvoiceService.createAndSentInvoice(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SummaryFieldService.updateWithToolTip(..))"/>
+		
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.InvoiceService.sentInvoice(..))"/>	
+		
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.ChangePasswordService.doChangePassword(..))"/>	
+
+		<!-- <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.PoInvGrnDnMatchingService.updateMatchingList(..))"/> -->	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.DnService.insertDnWithMsgTransaction(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.DnService.updateDnWithMsgTransaction(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.DnService.saveClose(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerStoreService.assignUserToStore(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.BuyerStoreAreaService.assignUserToArea(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.importUsers(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.UserProfileService.resetSupplierAdminPwd(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierService.insertNewSupplierFromSupplierMaster(..))"/>	
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierService.updateOldSupplierFromSupplierMaster(..))"/>	
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.PoInvGrnDnMatchingService.createNewMatchingRecord(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.PoInvGrnDnMatchingService.updateDocRelationshipsForMatchingRecord(..))"/>
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierSetService.insertSupplierSet(..))"/>
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierSetService.updateSupplierSet(..))"/>
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.SupplierSetService.deleteSupplierSet(..))"/>
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.ItemMasterService.saveItemIn(..))"/>
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.ItemMasterService.sendItemIn(..))"/>
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.ItemMasterService.deleteItemIn(..))"/>
+
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.ItemService.deleteAndInsertItem(..))"/>
+			
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.ItemService.updateItem(..))"/>
+			
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.PoInvGrnDnMatchingService.deleteRecordByKey(..))"/>
+			
+		<aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.PoInvGrnDnMatchingDetailService.insertDetailList(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.PoService.insert(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.InvHeaderService.voidInvoice(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.CnService.createCn(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.CnService.createAndSentCn(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.CnHeaderService.send(..))"/>
+            
+        <aop:advisor advice-ref="txAdvice"
+            pointcut="execution(* com.pracbiz.b2bportal.core.service.MsgTransactionsService.insertSupplierLiveDate(..))"/>
+    </aop:config>
+</beans>

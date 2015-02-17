@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="userProfile.email">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0915")}</message>
+		</field-validator>
+		<field-validator type="emailAddress">
+			<message>${getText("B2BPC0906")}</message>
+		</field-validator>
+	</field>
+
+	<field name="userProfile.tel">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0916")}</message>
+		</field-validator>
+		<field-validator type="phonenumber">
+			<message>${getText("B2BPC0909")} </message>
+		</field-validator>
+	</field>
+
+	<field name="userProfile.mobile">
+		<field-validator type="mobilenumber">
+			<message>${getText("B2BPC0910")}</message>
+		</field-validator>
+	</field>
+
+	<field name="userProfile.loginId">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0914")}</message>
+		</field-validator>
+		<field-validator type="loginId">
+			<message>${getText("B2BPC0904")}</message>
+		</field-validator>
+	</field>
+
+	<field name="userProfile.userName">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0917")}</message>
+		</field-validator>
+	</field>
+</validators>

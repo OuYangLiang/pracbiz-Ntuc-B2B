@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PracBiz B2B System - findbugs" basedir="." default="help">
+
+	<import file="build.xml" />
+	<property name="findbugs.output.dir" value="${build.dir}/findbugs" />
+
+	<!-- below to find bugs in gt-->
+	<target name="set.findbugs.home">
+		<available type="dir" file="${findbugs.home.dir}" property="findbugs.home.dir.present" />
+		<echo message="Findbugs home found = ${findbugs.home.dir.present}" />
+	</target>
+
+
+	<target name="check.findbugs.home" depends="set.findbugs.home" unless="findbugs.home.dir.present">
+		<fail message="Findbugs home is not set up correctly" />
+	</target>
+
+
+	<target name="findbugs" depends="check.findbugs.home,jar">
+		<mkdir dir="${findbugs.output.dir}" />
+		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
+			<classpath refid="common.classpath" />
+		</taskdef>
+		<findbugs home="${findbugs.home.dir}"
+				  output="html"
+				  outputFile="${findbugs.output.dir}/findbugs_b2bportal.html" 
+				  jvmargs="-Xmx700M"
+				  stylesheet="fancy.xsl">
+			<auxClasspath refid="common.classpath" />
+			<sourcePath path="${src.dir}" />
+			<class location="${jar.dir}" />
+		</findbugs>
+	</target>
+
+
+	<target name="zip.findbugs" depends="findbugs">
+		<zip destfile="${findbugs.output.dir}/findbugs_b2bportal.zip" update="yes">
+			<zipfileset dir="${findbugs.output.dir}">
+				<exclude name="*.zip"/>
+			</zipfileset>
+		</zip>
+	</target>
+
+
+	<target name="email.findbugs" depends="zip.findbugs">
+		<tstamp />
+		<mail mailhost="${mail.host}" user="${mail.username}" password="${mail.password}" from="${mail.from}" tolist="${mail.to}" subject="[${project.name}] Code Checking Results for Findbugs : ${DSTAMP} ${TSTAMP}"  ssl="${mail.ssl}">
+			<message mimetype="text/html">
+					Please take a look at the reports checked by Findbugs and fix the listed issues.
+					&lt;br&gt;
+					&lt;br&gt;
+					Don't reply since it sent automatically.
+					&lt;br&gt;
+					&lt;br&gt;
+					&lt;br&gt;
+					Sent by ${project.name} team.
+					&lt;br&gt;
+					${company.shortname}.
+			</message>
+			<fileset dir="${findbugs.output.dir}">
+				<include name="*.zip" />
+			</fileset>
+		</mail>
+	</target>
+</project>

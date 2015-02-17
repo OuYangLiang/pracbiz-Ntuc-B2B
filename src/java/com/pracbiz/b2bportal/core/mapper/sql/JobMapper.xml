@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.JobMapper" >
+
+	<resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.JobHolder">
+		<id column="JOB_OID" property="jobOid" jdbcType="DECIMAL" />
+		<result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+		<result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR" />
+		<result column="TRIGGER_NAME" property="triggerName" jdbcType="VARCHAR" />
+		<result column="TRIGGER_GROUP" property="triggerGroup" jdbcType="VARCHAR" />
+		<result column="JOB_DESCRIPTION" property="jobDescription" jdbcType="VARCHAR" />
+		<result column="CRON_EXPRESSION" property="cronExpression" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+		<result column="ENABLED" property="enabled" jdbcType="BIT" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		JOB_OID, JOB_NAME, JOB_GROUP, TRIGGER_NAME, TRIGGER_GROUP, JOB_DESCRIPTION,
+		CRON_EXPRESSION, UPDATE_DATE, UPDATE_BY, ENABLED
+	</sql>
+  
+    <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.JobHolder">
+		SELECT <include refid="Base_Column_List" />
+		FROM JOB
+		<where>
+			<if test="jobOid != null">
+				JOB_OID = #{jobOid,jdbcType=DECIMAL}
+			</if>
+			<if test="jobName != null">
+				AND JOB_NAME = #{jobName,jdbcType=VARCHAR}
+			</if>
+			<if test="jobGroup != null">
+				AND JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+			</if>
+			<if test="triggerName != null">
+				AND TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+			</if>
+			<if test="triggerGroup != null">
+				AND TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+			</if>
+			<if test="jobDescription != null">
+				AND JOB_DESCRIPTION = #{jobDescription,jdbcType=VARCHAR}
+			</if>
+			<if test="cronExpression != null">
+				AND CRON_EXPRESSION = #{cronExpression,jdbcType=VARCHAR}
+			</if>
+			<if test="updateDate != null">
+				AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateBy != null">
+				AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+			</if>
+			<if test="enabled != null">
+            	AND ENABLED = #{enabled,jdbcType=BIT}
+            </if>
+		</where>
+	</select>
+	
+	
+    <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.JobHolder" >
+    UPDATE JOB
+    <set>
+	    <if test="jobName != null">
+	        JOB_NAME = #{jobName,jdbcType=VARCHAR},
+	    </if>
+		<if test="jobGroup != null">
+			JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+		</if>
+		<if test="triggerName != null">
+			TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR},
+		</if>
+		<if test="triggerGroup != null">
+			TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR},
+		</if>
+		<if test="jobDescription != null">
+			JOB_DESCRIPTION = #{jobDescription,jdbcType=VARCHAR},
+		</if>
+		<if test="cronExpression != null">
+			CRON_EXPRESSION = #{cronExpression,jdbcType=VARCHAR},
+		</if>
+		<if test="updateDate != null">
+			UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateBy != null">
+			UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+		</if>
+		<if test="enabled != null">
+            ENABLED = #{enabled,jdbcType=BIT},
+        </if>
+    </set>
+    WHERE JOB_OID = #{jobOid,jdbcType=DECIMAL}
+    </update>
+  
+  
+    <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.JobHolder" >
+	    UPDATE JOB SET
+	    JOB_NAME = #{jobName,jdbcType=VARCHAR},
+	    JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+	    TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR},
+	    TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR},
+	    JOB_DESCRIPTION = #{jobDescription,jdbcType=VARCHAR},
+	    CRON_EXPRESSION = #{cronExpression,jdbcType=VARCHAR},
+	    UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+	    UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+	    ENABLED = #{enabled,jdbcType=BIT}
+	    WHERE JOB_OID = #{jobOid,jdbcType=DECIMAL}
+    </update>
+  
+</mapper>

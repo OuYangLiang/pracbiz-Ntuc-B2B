@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    
+    <!-- Po Handler Start -->
+    <bean id="canonicalPoDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.canonical.PoDocFileHandler">
+		<property name="successor">
+			<ref bean="ebxmlPoDocFileHandler" />
+		</property>
+    </bean>
+    
+    <bean id="ebxmlPoDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.ebxml.PoDocFileHandler">
+        <property name="successor">
+            <ref bean="idocPoDocFileHandler" />
+        </property>
+    </bean>
+    
+    <bean id="idocPoDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.idoc.PoDocFileHandler">
+	    <property name="successor">
+            <ref bean="watsonsPoDocFileHandler" />
+        </property>
+    </bean>
+    
+    <bean id="watsonsPoDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.watsons.PoDocFileHandler">
+    </bean>
+    <!-- Po Handler End -->
+    
+    <!-- Inv Handler Start -->
+    <bean id="canonicalInvDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.canonical.InvDocFileHandler">
+		<property name="successor">
+			<ref bean="ebxmlInvDocFileHandler" />
+		</property>
+    </bean>
+    
+    <bean id="ebxmlInvDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.ebxml.InvDocFileHandler">
+        <property name="successor">
+            <ref bean="idocInvDocFileHandler" />
+        </property>
+    </bean>
+    
+    <bean id="idocInvDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.idoc.InvDocFileHandler">
+        <property name="successor">
+            <ref bean="watsonsInvDocFileHandler" />
+        </property>
+    </bean>
+    
+    <bean id="watsonsInvDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.watsons.InvDocFileHandler">
+        <property name="successor">
+            <ref bean="tangsInvDocFileHandler" />
+        </property>
+    </bean>
+    
+    <bean id="tangsInvDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.tangs.InvDocFileHandler">
+    </bean>
+    <!-- Inv Handler End -->
+    
+    <!-- Grn Handler Start -->
+    <bean id="canonicalGrnDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.canonical.GrnDocFileHandler">
+		<property name="successor">
+            <ref bean="fairpriceGrnDocFileHandler" />
+        </property> 
+    </bean>
+
+	<bean id="fairpriceGrnDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.fairprice.GrnDocFileHandler">
+		<!-- <property name="successor">
+            <ref bean="ebxmlPoDocFileHandler" />
+        </property> -->
+    </bean>
+    <!-- Grn Handler End -->
+    
+    <!-- Pn Handler Start -->
+    <bean id="canonicalPnDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.canonical.PnDocFileHandler">
+		<!-- <property name="successor">
+            <ref bean="ebxmlPoDocFileHandler" />
+        </property> -->
+    </bean>
+    <!-- Pn Handler End -->
+    
+    <!-- RTV Handler Start -->
+    <bean id="canonicalRtvDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.canonical.RtvDocFileHandler">
+		<property name="successor">
+            <ref bean="idocRtvDocFileHandler" />
+        </property>
+    </bean>
+
+	<bean id="idocRtvDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.idoc.RtvDocFileHandler">
+		<!-- <property name="successor">
+            <ref bean="ebxmlPoDocFileHandler" />
+        </property> -->
+    </bean>
+     <!-- RTV Handler End -->
+    
+    <!-- DN Handler Start -->
+    <bean id="canonicalDnDocFileHandler"
+	   class="com.pracbiz.b2bportal.core.eai.file.canonical.DnDocFileHandler">
+		<property name="successor">
+            <ref bean="idocDnDocFileHandler" />
+        </property>
+    </bean>
+    
+    <bean id="idocDnDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.idoc.DnDocFileHandler">
+        <!-- <property name="successor">
+            <ref bean="ebxmlDnDocFileHandler" />
+        </property> -->
+    </bean>
+     <!-- DN Handler End -->
+     
+     <!-- ITEMIN Handler Start -->
+    <bean id="canonicalItemInDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.canonical.ItemInDocFileHandler">
+    </bean>
+     <!-- ITEMIN Handler End -->
+     
+    <!-- POCN Handler Start -->
+    <bean id="canonicalPocnDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.canonical.PocnDocFileHandler">
+    </bean>
+    <!-- POCN Handler End -->
+
+	<!-- GI Handler Start -->
+    <bean id="fairpriceGiDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.fairprice.GiDocFileHandler">
+    </bean>
+    <!-- GI Handler End -->
+    
+    <!-- CreditClaim Handler Start -->
+    <bean id="canonicalCcDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.canonical.CcDocFileHandler">
+    </bean>
+    <!-- CreditClaim Handler End -->
+    
+    <!-- Sales Handler Start -->
+    <bean id="canonicalSalesDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.canonical.SalesDocFileHandler">
+    </bean>
+    <!-- Sales Handler End -->
+    
+    <!-- Credit Note Handler Start -->
+    <bean id="canonicalCnDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.canonical.CnDocFileHandler">
+       <property name="successor">
+            <ref bean="tangsCnDocFileHandler" />
+        </property>
+    </bean>
+    
+     <bean id="tangsCnDocFileHandler"
+       class="com.pracbiz.b2bportal.core.eai.file.tangs.CnDocFileHandler">
+    </bean>
+    <!-- Credit Note Handler End -->
+</beans>

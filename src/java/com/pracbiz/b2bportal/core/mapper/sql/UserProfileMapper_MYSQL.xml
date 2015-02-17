@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.UserProfileMapper" >
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.extension.UserProfileExHolder" >
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="BLOCKED" property="blocked" jdbcType="BIT" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="USER_TYPE_DESC" property="userTypeDesc" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="DECIMAL" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Grid_Column_List" >
+    T.USER_OID, T.USER_NAME, T.LOGIN_ID, T.ACTIVE, T.BLOCKED,  T.UPDATE_DATE, 
+    T.UPDATE_BY, UT.USER_TYPE_DESC, T.USER_TYPE, T.BUYER_OID, T.SUPPLIER_OID
+  </sql>
+  
+  <select id="getListOfSummary" resultMap="GridMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.UserProfileExHolder" >
+    SELECT 
+    <include refid="Grid_Column_List" />
+    FROM (
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER,
+    	 U.TEL, U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE,
+    	 U.ACTIVE, U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE,
+    	 U.UPDATE_BY, U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    	 U.BUYER_OID, U.SUPPLIER_OID, NULL AS COMPANY_CODE,NULL AS COMPANY_NAME 
+        FROM USER_PROFILE U  WHERE U.BUYER_OID IS NULL AND U.SUPPLIER_OID IS NULL
+        AND U.USER_OID NOT IN (SELECT USER_OID FROM T_GROUP_USER TGU, T_GROUP TG WHERE TGU.GROUP_OID = TG.GROUP_OID AND CTRL_STATUS != 'REJECT' 
+        <if test="groupOid != null" >
+         AND TGU.GROUP_OID != #{groupOid,jdbcType=DECIMAL}
+        </if>
+        )
+    UNION 
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER,
+    	 U.TEL, U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE,
+    	 U.ACTIVE, U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE,
+    	 U.UPDATE_BY, U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    	 U.BUYER_OID, U.SUPPLIER_OID, B.BUYER_CODE AS COMPANY_CODE,B.BUYER_NAME AS COMPANY_NAME 
+		FROM  USER_PROFILE U, BUYER B WHERE U.BUYER_OID = B.BUYER_OID AND U.SUPPLIER_OID IS NULL AND U.BUYER_OID IS NOT NULL
+        AND U.USER_OID NOT IN (SELECT USER_OID FROM T_GROUP_USER TGU, T_GROUP TG WHERE TGU.GROUP_OID = TG.GROUP_OID AND CTRL_STATUS != 'REJECT' 
+        <if test="groupOid != null" >
+         AND TGU.GROUP_OID != #{groupOid,jdbcType=DECIMAL}
+        </if>
+        )
+    UNION
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER,
+    	 U.TEL, U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE,
+    	 U.ACTIVE, U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE,
+    	 U.UPDATE_BY, U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    	 U.BUYER_OID, U.SUPPLIER_OID,S.SUPPLIER_CODE AS COMPANY_CODE,S.SUPPLIER_NAME AS COMPANY_NAME 
+		FROM USER_PROFILE U, SUPPLIER S WHERE U.SUPPLIER_OID = S.SUPPLIER_OID AND U.SUPPLIER_OID IS NOT NULL AND U.BUYER_OID IS NULL
+        AND U.USER_OID NOT IN (SELECT USER_OID FROM T_GROUP_USER TGU, T_GROUP TG WHERE TGU.GROUP_OID = TG.GROUP_OID AND CTRL_STATUS != 'REJECT' 
+        <if test="groupOid != null" >
+         AND TGU.GROUP_OID != #{groupOid,jdbcType=DECIMAL}
+        </if>)
+        ) T , USER_TYPE UT WHERE UT.USER_TYPE_OID = T.USER_TYPE
+    <if test="userOid != null" >
+      AND T.USER_OID = #{userOid,jdbcType=DECIMAL}
+    </if>
+    <if test="userName != null" >
+      AND T.USER_NAME like concat('%',#{userName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginId != null" >
+      AND T.LOGIN_ID like concat('%',#{loginId,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginMode != null" >
+      AND T.LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+    </if>
+    <if test="active != null" >
+      AND T.ACTIVE = #{active,jdbcType=BIT}
+    </if>
+    
+    <if test="createDate != null" >
+      AND T.CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createBy != null" >
+      AND T.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="updateDate != null" >
+      AND T.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateBy != null" >
+      AND T.UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="blockDate != null" >
+      AND T.BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="blockBy != null" >
+      AND T.BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+    </if>
+    <if test="inactivateDate != null" >
+      AND T.INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="inactivateBy != null" >
+      AND T.INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="userType != null" >
+      AND T.USER_TYPE = #{userType,jdbcType=DECIMAL}
+    </if>
+    <if test="buyerOid != null" >
+      AND T.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+    <if test="supplierOid != null" >
+      AND T.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+    <if test="buyerCode != null" >
+      AND T.COMPANY_CODE like concat('%',#{buyerCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="buyerName != null" >
+      AND T.COMPANY_NAME like concat('%',#{buyerName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="supplierCode != null" >
+      AND T.COMPANY_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="supplierName != null" >
+      AND T.COMPANY_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+    </if>
+        limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+  <select id="getCountOfSummary" resultType="int" parameterType="com.pracbiz.b2bportal.core.holder.extension.UserProfileExHolder" >
+    select 
+    count(0)
+    FROM (
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER,
+    	 U.TEL, U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE,
+    	 U.ACTIVE, U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE,
+    	 U.UPDATE_BY, U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    	 U.BUYER_OID, U.SUPPLIER_OID,NULL AS COMPANY_CODE,NULL AS COMPANY_NAME 
+  		FROM USER_PROFILE U  WHERE U.BUYER_OID IS NULL AND U.SUPPLIER_OID IS NULL
+        AND U.USER_OID NOT IN (SELECT USER_OID FROM T_GROUP_USER TGU, T_GROUP TG WHERE TGU.GROUP_OID = TG.GROUP_OID AND CTRL_STATUS != 'REJECT' 
+        <if test="groupOid != null" >
+         AND TGU.GROUP_OID != #{groupOid,jdbcType=DECIMAL}
+        </if>
+        )
+    UNION 
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER,
+    	 U.TEL, U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE,
+    	 U.ACTIVE, U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE,
+    	 U.UPDATE_BY, U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    	 U.BUYER_OID, U.SUPPLIER_OID,B.BUYER_CODE AS COMPANY_CODE,B.BUYER_NAME AS COMPANY_NAME 
+		FROM  USER_PROFILE U, BUYER B WHERE U.BUYER_OID = B.BUYER_OID AND U.SUPPLIER_OID IS NULL AND U.BUYER_OID IS NOT NULL
+        AND U.USER_OID NOT IN (SELECT USER_OID FROM T_GROUP_USER TGU, T_GROUP TG WHERE TGU.GROUP_OID = TG.GROUP_OID AND CTRL_STATUS != 'REJECT' 
+        <if test="groupOid != null" >
+         AND TGU.GROUP_OID != #{groupOid,jdbcType=DECIMAL}
+        </if>
+        )
+    UNION
+        SELECT U.USER_OID, U.USER_NAME, U.SALUTATION, U.LOGIN_ID, U.LOGIN_PWD, U.LOGIN_MODE, U.GENDER,
+    	 U.TEL, U.MOBILE, U.FAX, U.EMAIL, U.FAIL_ATTEMPTS, U.LAST_RESET_PWD_DATE, U.LAST_LOGIN_DATE,
+    	 U.ACTIVE, U.BLOCKED, U.BLOCK_REMARKS, U.INIT, U.CREATE_DATE, U.CREATE_BY, U.UPDATE_DATE,
+    	 U.UPDATE_BY, U.BLOCK_DATE, U.BLOCK_BY, U.INACTIVATE_DATE, U.INACTIVATE_BY, U.USER_TYPE,
+    	 U.BUYER_OID, U.SUPPLIER_OID ,S.SUPPLIER_CODE AS COMPANY_CODE,S.SUPPLIER_NAME AS COMPANY_NAME 
+		FROM USER_PROFILE U, SUPPLIER S WHERE U.SUPPLIER_OID = S.SUPPLIER_OID AND U.SUPPLIER_OID IS NOT NULL AND U.BUYER_OID IS NULL
+        AND U.USER_OID NOT IN (SELECT USER_OID FROM T_GROUP_USER TGU, T_GROUP TG WHERE TGU.GROUP_OID = TG.GROUP_OID AND CTRL_STATUS != 'REJECT' 
+        <if test="groupOid != null" >
+         AND TGU.GROUP_OID != #{groupOid,jdbcType=DECIMAL}
+        </if>)
+        ) T , USER_TYPE UT WHERE UT.USER_TYPE_OID = T.USER_TYPE
+   <if test="userOid != null" >
+      AND T.USER_OID = #{userOid,jdbcType=DECIMAL}
+    </if>
+    <if test="userName != null" >
+      AND T.USER_NAME like concat('%',#{userName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginId != null" >
+      AND T.LOGIN_ID like concat('%',#{loginId,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="loginMode != null" >
+      AND T.LOGIN_MODE = #{loginMode,jdbcType=CHAR}
+    </if>
+    <if test="active != null" >
+      AND T.ACTIVE = #{active,jdbcType=BIT}
+    </if>
+    <if test="createDate != null" >
+      AND T.CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createBy != null" >
+      AND T.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="updateDate != null" >
+      AND T.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateBy != null" >
+      AND T.UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="blockDate != null" >
+      AND T.BLOCK_DATE = #{blockDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="blockBy != null" >
+      AND T.BLOCK_BY = #{blockBy,jdbcType=VARCHAR}
+    </if>
+    <if test="inactivateDate != null" >
+      AND T.INACTIVATE_DATE = #{inactivateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="inactivateBy != null" >
+      AND T.INACTIVATE_BY = #{inactivateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="userType != null" >
+      AND T.USER_TYPE = #{userType,jdbcType=DECIMAL}
+    </if>
+    <if test="buyerOid != null" >
+      AND T.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+    <if test="supplierOid != null" >
+      AND T.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+   <if test="buyerCode != null" >
+      AND T.COMPANY_CODE like concat('%',#{buyerCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="buyerName != null" >
+      AND T.COMPANY_NAME like concat('%',#{buyerName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="supplierCode != null" >
+      AND T.COMPANY_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="supplierName != null" >
+      AND T.COMPANY_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  
+</mapper>

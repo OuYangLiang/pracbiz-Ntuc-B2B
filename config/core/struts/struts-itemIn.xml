@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="/itemIn" extends="pracbiz-default" namespace="/itemIn"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="init">
+            <param name="moduleMsgType">ITEMIN</param>
+            <result>/WEB-INF/views/core/itemIn/summary.jsp</result>
+        </action>
+        
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initUpload" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="initUpload">
+            <result>/WEB-INF/views/core/itemIn/upload.jsp</result>
+        </action>
+        
+        <action name="save" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="save">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+            <result name="input">/WEB-INF/views/core/itemIn/upload.jsp</result>
+            <result type="redirect">/itemIn/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="saveAndSend" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="saveAndSend">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+            <result name="input">/WEB-INF/views/core/itemIn/upload.jsp</result>
+            <result type="redirect">/itemIn/init.action?keepSp=Y</result>
+        </action>
+        
+        
+        <action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="send" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="send" >
+        </action>
+        
+        <action name="delete" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="delete" >
+        </action>
+        
+        
+        <action name="downloadOriginalFile" class="com.pracbiz.b2bportal.core.action.ItemMasterAction" method="downloadOriginalFile">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">${uploadContentType}</param>
+                <param name="inputName">resultStream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">attachment;filename="${uploadFileName}"</param>
+            </result>
+        </action>
+        
+    </package>
+</struts>

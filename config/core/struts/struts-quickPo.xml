@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="quickPo" extends="pracbiz-default" namespace="/quickPo"> 
+        <action name="init" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="init">
+            <result>/WEB-INF/views/core/quickPurchaseOrder/summary.jsp</result>
+        </action>
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="invoiceData" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="invoiceData">
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initGenerateInv" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="initGenerateInv">
+            <result name="POC" type="chain">initGenerateInvForPoc</result>
+            <result name="SOR" type="chain">initGenerateInvForSor</result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initGenerateInvForPoc" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="generateInvForPoc">
+           <result>/WEB-INF/views/core/quickPurchaseOrder/generateInvForPoc.jsp</result>
+           <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initGenerateInvForSor" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="initGenerateInvForSor">
+            <result type="chain">generateInvForSor</result>
+            <result name="SOR">/WEB-INF/views/core/quickPurchaseOrder/selectStore.jsp</result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="generateInvForSor" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="generateInvForSor">
+        	<result>/WEB-INF/views/core/quickPurchaseOrder/generateInvForSor.jsp</result>
+            <result name="input">/WEB-INF/views/core/quickPurchaseOrder/selectStore.jsp</result>
+        </action>
+        
+       	<action name="save" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="save">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveAndSent" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="saveAndSent">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+             <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+		
+		<action name="print" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+			<result name="INV"  type="redirect">/inv/print.action</result>
+		</action>
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="exportExcel" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="exportExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+        </action>
+        
+        <action name="initEditDeliveryDate" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="initEditDeliveryDate">
+            <result type="json">
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveEditDeliveryDate" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="saveEditDeliveryDate">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result type="json">
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+		<action name="exportSummaryExcel" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="exportSummaryExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+			<result name="input" type="redirect">init.action?keepSp=Y</result>
+        </action>
+        
+          <action name="initEditInvoiceNo" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="initEditInvoiceNo">
+            <result type="json">
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveEditInvoiceNo" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="saveEditInvoiceNo">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result type="json">
+            	<param name="root"></param> 
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result name="input" type="json">
+            	<param name="root"></param> 
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="checkInitBatchGenerateInv" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="checkInitBatchGenerateInv">
+        	<result type="json">
+        		<param name="root" ></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result name="input" type="json">
+                <param name="root"></param> 
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initBatchGenerateInv" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="initBatchGenerateInv">
+            <result>/WEB-INF/views/core/quickPurchaseOrder/batchGenerateInv.jsp</result>
+        </action>
+        
+        <action name="saveBatchGenerateInv" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="saveBatchGenerateInv">
+        	<interceptor-ref name="token"/>
+	        <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+			<result name="ackMsg">/WEB-INF/views/core/quickPurchaseOrder/ackMessage.jsp</result>
+        </action>
+        
+        <action name="checkOtherPdfData" class="com.pracbiz.b2bportal.core.action.QuickPurchaseOrderAction" method="checkOtherPdfData" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+            <result name="input" type="json">
+                 <param name="root">errorMsg</param>
+                <param name="ignoreHierarchy">true</param>
+            </result>
+        </action>
+    </package>
+</struts>

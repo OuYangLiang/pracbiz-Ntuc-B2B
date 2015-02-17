@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.RtvLocationDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.RtvLocationDetailHolder" >
+    <id column="RTV_OID" property="rtvOid" jdbcType="DECIMAL" />
+    <id column="LOCATION_LINE_SEQ_NO" property="locationLineSeqNo" jdbcType="INTEGER" />
+    <id column="DETAIL_LINE_SEQ_NO" property="detailLineSeqNo" jdbcType="INTEGER" />
+    <result column="LOCATION_SHIP_QTY" property="locationShipQty" jdbcType="DECIMAL" />
+    <result column="LOCATION_FOC_QTY" property="locationFocQty" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RTV_OID, LOCATION_LINE_SEQ_NO, DETAIL_LINE_SEQ_NO, LOCATION_SHIP_QTY, LOCATION_FOC_QTY
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationDetailHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from RTV_LOCATION_DETAIL
+    <where>
+      <if test="rtvOid != null" >
+        RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      </if>
+      <if test="locationLineSeqNo != null" >
+        and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="detailLineSeqNo != null" >
+        and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationShipQty != null" >
+        and LOCATION_SHIP_QTY = #{locationShipQty,jdbcType=DECIMAL}
+      </if>
+      <if test="locationFocQty != null" >
+        and LOCATION_FOC_QTY = #{locationFocQty,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationDetailHolder" >
+    delete from RTV_LOCATION_DETAIL
+    <where>
+      <if test="rtvOid != null" >
+        RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      </if>
+      <if test="locationLineSeqNo != null" >
+        and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="detailLineSeqNo != null" >
+        and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="locationShipQty != null" >
+        and LOCATION_SHIP_QTY = #{locationShipQty,jdbcType=DECIMAL}
+      </if>
+      <if test="locationFocQty != null" >
+        and LOCATION_FOC_QTY = #{locationFocQty,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationDetailHolder" >
+    insert into RTV_LOCATION_DETAIL (RTV_OID, LOCATION_LINE_SEQ_NO, DETAIL_LINE_SEQ_NO, 
+      LOCATION_SHIP_QTY, LOCATION_FOC_QTY)
+    values (#{rtvOid,jdbcType=DECIMAL}, #{locationLineSeqNo,jdbcType=INTEGER}, #{detailLineSeqNo,jdbcType=INTEGER}, 
+      #{locationShipQty,jdbcType=DECIMAL}, #{locationFocQty,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationDetailHolder" >
+    update RTV_LOCATION_DETAIL
+    <set >
+      <if test="locationShipQty != null" >
+        LOCATION_SHIP_QTY = #{locationShipQty,jdbcType=DECIMAL},
+      </if>
+      <if test="locationFocQty != null" >
+        LOCATION_FOC_QTY = #{locationFocQty,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+      and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.RtvLocationDetailHolder" >
+    update RTV_LOCATION_DETAIL
+    set LOCATION_SHIP_QTY = #{locationShipQty,jdbcType=DECIMAL},
+      LOCATION_FOC_QTY = #{locationFocQty,jdbcType=DECIMAL}
+    where RTV_OID = #{rtvOid,jdbcType=DECIMAL}
+      and LOCATION_LINE_SEQ_NO = #{locationLineSeqNo,jdbcType=INTEGER}
+      and DETAIL_LINE_SEQ_NO = #{detailLineSeqNo,jdbcType=INTEGER}
+  </update>
+</mapper>

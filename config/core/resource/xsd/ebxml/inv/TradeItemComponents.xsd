@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.sanc.org.sg/schemas/ean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.sanc.org.sg/schemas/ean" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>
+	Singapore Adopted version
+	      Version Information:
+        	Version Number: S1.1
+	        Date of creation: June, 2004
+	    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="CommonComponentLibrary.xsd"/>
+	<xsd:complexType name="TradeItemInformationType">
+		<xsd:sequence>
+			<xsd:element name="tradeItemAllowanceCharge" type="AllowanceChargeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="informationProviderOfTradeItem" type="InformationProviderType" minOccurs="0"/>
+			<xsd:element name="tradeItemPaymentTerms" type="PaymentTermsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="targetMarketInformation" type="TargetMarketInformationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="classificationCategoryCode" type="TradeItemClassificationType" minOccurs="0"/>
+			<xsd:element name="tradeItemDescription" type="TradeItemDescriptionType" minOccurs="0"/>
+			<xsd:element name="tradingPartnerNeutralTradeItemInformation" type="TradingPartnerNeutralTradeItemInformationType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemClassificationType">
+		<xsd:sequence>
+			<xsd:element name="classificationCategoryCode" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="10"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="classificationCategoryDefinition" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="700"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="classificationCategoryName" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="105"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="additionalClassification" type="ClassificationCategoryType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="eANUCCTradeItemClassification" type="EANUCCTradeItemClassificationType" minOccurs="0" maxOccurs="7"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EANUCCTradeItemClassificationType">
+		<xsd:sequence>
+			<xsd:element name="eANUCCClassificationAttributeTypeCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="8"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="eANUCCClassificationAttributeTypeName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="105"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="eANUCCClassificationAttributeTypeDefinition" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="700"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="eANUCCTradeItemClassificationValue" type="EANUCCTradeItemClassificationValueType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ClassificationCategoryType">
+		<xsd:sequence>
+			<xsd:element name="classificationAgencyName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="classificationCategoryCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="10"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="classificationCategoryDescription">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="70"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EANUCCTradeItemClassificationValueType">
+		<xsd:sequence>
+			<xsd:element name="eANUCCClassificationAttributeValueCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="8"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="eANUCCClassificationAttributeValueName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="105"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemTaxInformationType">
+		<xsd:choice>
+			<xsd:element name="tradeItemTaxAmount" type="TradeItemTaxAmountType" maxOccurs="unbounded"/>
+			<xsd:element name="tradeItemTaxRate" type="TradeItemTaxRateType" maxOccurs="unbounded"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemTaxAmountType">
+		<xsd:sequence>
+			<xsd:element name="taxAmount" type="AmountType"/>
+			<xsd:element name="taxAgency" type="TaxAgencyType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemTaxRateType">
+		<xsd:sequence>
+			<xsd:element name="taxRate" type="PercentageType"/>
+			<xsd:element name="taxAgency" type="TaxAgencyType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TaxAgencyType">
+		<xsd:sequence>
+			<xsd:element name="taxAgencyCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="taxTypeCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="14"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="taxTypeDescription">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TargetMarketInformationType">
+		<xsd:sequence>
+			<xsd:element name="targetMarketCountryCode" type="CountryISOCodeType"/>
+			<xsd:element name="targetMarketDescription" type="DescriptionType"/>
+			<xsd:element name="targetMarketSubdivisionCode" type="RegionISOCodeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InformationProviderType">
+		<xsd:sequence>
+			<xsd:element name="informationProvider" type="PartyIdentificationType"/>
+			<xsd:element name="nameOfInformationProvider">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemDescriptionType">
+		<xsd:sequence>
+			<xsd:element name="brandName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="descriptionShort" type="TextDescriptionType"/>
+			<xsd:element name="functionalName" type="TextDescriptionType" minOccurs="0"/>
+			<xsd:element name="tradeItemDescription" type="TextDescriptionType" minOccurs="0"/>
+			<xsd:element name="additionalTradeItemDescription" type="DescriptionType" minOccurs="0"/>
+			<xsd:element name="invoiceName" type="TextDescriptionType" minOccurs="0"/>
+			<xsd:element name="productRange" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="subBrand" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="tradeItemGroupIdentificationCode" minOccurs="0" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="20"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="tradeItemGroupIdentificationDescription" minOccurs="0" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="tradeItemFormDescription" minOccurs="0" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="variant" type="TextDescriptionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingPartnerNeutralTradeItemInformationType">
+		<xsd:sequence>
+			<xsd:element name="tradeItemUnitIndicator" type="TradeItemUnitIndicatorType" minOccurs="0"/>
+			<xsd:element name="barCodeType" type="BarCodeTypeListType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="brandOwnerOfTradeItem" type="BrandOwnerOfTradeItemType" minOccurs="0"/>
+			<xsd:element name="manufacturerOfTradeItem" type="ManufacturerOfTradeItemType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="materialSafetyData" type="MaterialSafetyDataType" minOccurs="0"/>
+			<xsd:element name="organicTradeItemCharacteristics" type="OrganicTradeItemCharacteristicsType" minOccurs="0"/>
+			<xsd:element name="packagingMarking" type="PackagingMarkingType" minOccurs="0"/>
+			<xsd:element name="packagingMaterial" type="PackagingMaterialType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="packagingType" type="PackagingTypeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="priceOnTradeItem" type="PriceOnTradeItemType" minOccurs="0"/>
+			<xsd:element name="privateInformation" type="PrivateInformationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="tradeItemColorDescription" type="TradeItemColorDescriptionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="tradeItemCountryOfOrigin" type="TradeItemCountryOfOriginType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="tradeItemCoupon" type="TradeItemCouponType" minOccurs="0"/>
+			<xsd:element name="tradeItemDateInformation" type="TradeItemDateInformationType" minOccurs="0"/>
+			<xsd:element name="tradeItemHandlingInformation" type="TradeItemHandlingInformationType" minOccurs="0"/>
+			<xsd:element name="tradeItemHazardousInformation" type="TradeItemHazardousInformationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="tradeItemHierarchy" type="TradeItemHierarchyType" minOccurs="0"/>
+			<xsd:element name="tradeItemMarking" type="TradeItemMarkingType" minOccurs="0"/>
+			<xsd:element name="tradeItemMeasurements" type="TradeItemMeasurementsType" minOccurs="0"/>
+			<xsd:element name="tradeItemOrderInformation" type="TradeItemOrderInformationType" minOccurs="0"/>
+			<xsd:element name="tradeItemPalletInformation" type="TradeItemPalletInformationType" minOccurs="0"/>
+			<xsd:element name="cataloguePrice" type="TradeItemPriceDateInformationType" minOccurs="0"/>
+			<xsd:element name="suggestedRetailPrice" type="TradeItemPriceDateInformationType" minOccurs="0"/>
+			<xsd:element name="tradeItemSizeDescription" type="TradeItemSizeDescriptionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="tradeItemTaxInformation" type="TradeItemTaxInformationType" minOccurs="0"/>
+			<xsd:element name="tradeItemTemperatureInformation" type="TradeItemTemperatureInformationType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="BarCodeTypeListType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="COMPOSITE_COMPONENT_A"/>
+			<xsd:enumeration value="COMPOSITE_COMPONENT_B"/>
+			<xsd:enumeration value="COMPOSITE_COMPONENT_C"/>
+			<xsd:enumeration value="EAN_UCC_8_SYMBOL"/>
+			<xsd:enumeration value="EAN_UCC_13_SYMBOL"/>
+			<xsd:enumeration value="EAN_UCC_14_SYMBOL"/>
+			<xsd:enumeration value="ITF_14_SYMBOL"/>
+			<xsd:enumeration value="RSS_14"/>
+			<xsd:enumeration value="RSS_14_STACKED"/>
+			<xsd:enumeration value="RSS_14_STACKED_OMNIDIRECTIONAL"/>
+			<xsd:enumeration value="RSS_14_TRUNCATED"/>
+			<xsd:enumeration value="RSS_EXPANDED"/>
+			<xsd:enumeration value="RSS_EXPANDED_STACKED"/>
+			<xsd:enumeration value="RSS_LIMITED"/>
+			<xsd:enumeration value="UPC_A_SYMBOL"/>
+			<xsd:enumeration value="UPC_E_SYMBOL"/>
+			<xsd:enumeration value="UCC_EAN_128_SYMBOL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="BrandOwnerOfTradeItemType">
+		<xsd:sequence>
+			<xsd:element name="brandOwner" type="PartyIdentificationType"/>
+			<xsd:element name="nameOfBrandOwner">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ManufacturerOfTradeItemType">
+		<xsd:sequence>
+			<xsd:element name="manufacturer" type="PartyIdentificationType"/>
+			<xsd:element name="nameOfManufacturer">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MaterialSafetyDataType">
+		<xsd:sequence>
+			<xsd:element name="materialSafetyDataSheetNumber">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="20"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OrganicTradeItemCharacteristicsType">
+		<xsd:sequence>
+			<xsd:element name="organicClaimAgency" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="organicTradeItemCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PackagingMarkingType">
+		<xsd:sequence>
+			<xsd:element name="isPackagingMarkedAsRecyclable" type="xsd:boolean"/>
+			<xsd:element name="isPackagingMarkedReturnable" type="xsd:boolean"/>
+			<xsd:element name="isPackagingMarkedWithExpirationDate" type="xsd:boolean"/>
+			<xsd:element name="isPackagingMarkedWithGreenDot" type="xsd:boolean"/>
+			<xsd:element name="isPackagingMarkedWithIngredients" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PackagingMaterialType">
+		<xsd:sequence>
+			<xsd:element name="packagingMaterialCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="packagingMaterialCodeListMaintenanceAgency">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="packagingMaterialCompositionQuantity" type="MeasurementType"/>
+			<xsd:element name="packagingMaterialDescription" type="TextDescriptionType"/>
+			<xsd:element name="packagingTermsAndCondition" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PackagingTypeType">
+		<xsd:sequence>
+			<xsd:element name="packagingTypeCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="packagingTypeDescription" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PriceOnTradeItemType">
+		<xsd:sequence>
+			<xsd:element name="retailPriceOnTradeItem" type="AmountType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PrivateInformationType">
+		<xsd:sequence>
+			<xsd:element name="partyReceivingPrivateData" type="PartyIdentificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemColorDescriptionType">
+		<xsd:sequence>
+			<xsd:element name="colorCodeListAgency">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="colorCodeValue">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="20"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="colorDescription" type="TextDescriptionType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemCountryOfOriginType">
+		<xsd:sequence>
+			<xsd:element name="countryOfOrigin" type="CountryISOCodeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemCouponType">
+		<xsd:sequence>
+			<xsd:element name="couponFamilyCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemDateInformationType">
+		<xsd:sequence>
+			<xsd:element name="effectiveDate" type="xsd:date"/>
+			<xsd:element name="lastChangeDateTime" type="xsd:dateTime"/>
+			<xsd:element name="publicationDate" type="xsd:date"/>
+			<xsd:element name="startAvailabilityDateTime" type="xsd:dateTime"/>
+			<xsd:element name="canceledDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="consumerAvailabilityDateTime" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="discontinuedDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="endAvailabilityDateTime" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemHandlingInformationType">
+		<xsd:sequence>
+			<xsd:element name="handlingInstructionsCode" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="minimumTradeItemLifespanFromTimeOfArrival" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="stackingFactor" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="stackingWeightMaximum" type="MeasurementType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemHierarchyType">
+		<xsd:sequence>
+			<xsd:element name="quantityOfCompleteLayersContainedInATradeItem" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="quantityOfLayersPerPallet" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="quantityOfTradeItemsContainedInACompleteLayer" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="quantityOfTradeItemsPerPallet" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="quantityOfTradeItemsPerPalletLayer" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="quantityOfInnerPack" type="xsd:float" minOccurs="0"/>
+			<xsd:element name="quantityOfNextLevelTradeItemWithinInnerPack" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemMarkingType">
+		<xsd:sequence>
+			<xsd:element name="hasBatchNumber" type="xsd:boolean"/>
+			<xsd:element name="isNonSoldTradeItemReturnable" type="xsd:boolean"/>
+			<xsd:element name="isTradeItemMarkedAsRecyclable" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemMeasurementsType">
+		<xsd:sequence>
+			<xsd:element name="depth" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="grossWeight" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="height" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="isNetContentDeclarationIndicated" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="width" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="diameter" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="drainedWeight" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="genericIngredient" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="genericIngredientStrength" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="ingredientStrength" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="18"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="netContent" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="netWeight" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="pegHorizontal" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="pegVertical" type="MeasurementType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemOrderInformationType">
+		<xsd:sequence>
+			<xsd:element name="orderingLeadTime" type="MeasurementValueType" minOccurs="0"/>
+			<xsd:element name="orderQuantityMaximum" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="9"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="orderQuantityMinimum" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="9"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="orderQuantityMultiple" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="9"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="orderSizingFactor" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:totalDigits value="9"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemPalletInformationType">
+		<xsd:sequence>
+			<xsd:element name="palletTypeCode" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="palletTermsAndConditions" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="2"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemPriceDateInformationType">
+		<xsd:sequence>
+			<xsd:element name="effectiveStartDate" type="xsd:date"/>
+			<xsd:element name="value" type="AmountType"/>
+			<xsd:element name="effectiveEndDate" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemSizeDescriptionType">
+		<xsd:sequence>
+			<xsd:element name="sizeCodeListAgency">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="sizeCodeValue">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="17"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="descriptiveSize" type="TextDescriptionType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemTemperatureInformationType">
+		<xsd:sequence>
+			<xsd:element name="deliveryToDistributionCenterTemperatureMaximum" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="deliveryToDistributionCenterTemperatureMinimum" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="deliveryToMarketTemperatureMaximum" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="deliveryToMarketTemperatureMinimum" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="storageHandlingTemperatureMaximum" type="MeasurementType" minOccurs="0"/>
+			<xsd:element name="storageHandlingTemperatureMinimum" type="MeasurementType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradeItemUnitIndicatorType">
+		<xsd:sequence>
+			<xsd:element name="isTradeItemABaseUnit" type="xsd:boolean"/>
+			<xsd:element name="isTradeItemAConsumerUnit" type="xsd:boolean"/>
+			<xsd:element name="isTradeItemADespatchUnit" type="xsd:boolean"/>
+			<xsd:element name="isTradeItemAnInvoiceUnit" type="xsd:boolean"/>
+			<xsd:element name="isTradeItemAnOrderableUnit" type="xsd:boolean"/>
+			<xsd:element name="isTradeItemAVariableUnit" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

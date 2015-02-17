@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.UserSubclassMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.UserSubclassHolder" >
+    <id column="USER_OID" property="userOid" jdbcType="DECIMAL" />
+    <id column="SUBCLASS_OID" property="subclassOid" jdbcType="DECIMAL" />
+  </resultMap>
+    
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.UserSubclassHolder" >
+    select USER_OID, SUBCLASS_OID
+    from USER_SUBCLASS
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="subclassOid != null" >
+        AND SUBCLASS_OID = #{subclassOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.UserSubclassHolder" >
+    delete from USER_SUBCLASS
+    <where>
+      <if test="userOid != null" >
+        USER_OID = #{userOid,jdbcType=DECIMAL}
+      </if>
+      <if test="subclassOid != null" >
+        AND SUBCLASS_OID = #{subclassOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.UserSubclassHolder" >
+    insert into USER_SUBCLASS (USER_OID, SUBCLASS_OID)
+    values (#{userOid,jdbcType=DECIMAL}, #{subclassOid,jdbcType=DECIMAL})
+  </insert>
+  
+</mapper>

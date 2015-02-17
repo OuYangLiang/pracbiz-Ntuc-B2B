@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="buyerStore" extends="pracbiz-default" namespace="/buyerStore"> 
+        
+        <action name="init" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="init">
+            <result>/WEB-INF/views/core/buyerStore/summary.jsp</result>
+        </action>
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="viewStore" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="viewStore">
+            <result>/WEB-INF/views/core/buyerStore/viewStore.jsp</result>
+        </action>
+        
+        <action name="viewArea" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="viewArea">
+            <result>/WEB-INF/views/core/buyerStore/viewArea.jsp</result>
+        </action>
+        
+        <action name="assignStore" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="assignStore">
+            <result>/WEB-INF/views/core/buyerStore/assignStore.jsp</result>
+            <result name="input">/WEB-INF/views/core/buyerStore/summary.jsp</result>
+        </action>
+        
+        <action name="saveAssignStore" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="saveAssignStore">
+        	<interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/buyerStore/assignStore.jsp</result>
+            <result type="redirect">/buyerStore/init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="assignArea" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="assignArea">
+            <result>/WEB-INF/views/core/buyerStore/assignArea.jsp</result>
+            <result name="input">/WEB-INF/views/core/buyerStore/summary.jsp</result>
+        </action>
+        
+        <action name="saveAssignArea" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="saveAssignArea">
+        	<interceptor-ref name="token"/>
+            <interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input">/WEB-INF/views/core/buyerStore/assignArea.jsp</result>
+            <result type="redirect">/buyerStore/init.action?keepSp=Y</result>
+        </action>
+        
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+
+		<action name="exportStoreExcel" class="com.pracbiz.b2bportal.core.action.BuyerStoreAction" method="exportExcel" >
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+			<result name="input">
+				/WEB-INF/views/core/buyerStore/summary.jsp
+			</result>
+        </action>
+        
+    </package>
+</struts>

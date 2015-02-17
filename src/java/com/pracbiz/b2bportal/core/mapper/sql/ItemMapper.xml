@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.ItemMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    <id column="ITEM_OID" property="itemOid" jdbcType="BIGINT" />
+    <result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="DOC_OID" property="docOid" jdbcType="DECIMAL" />
+    <result column="ITEM_DESC" property="itemDesc" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ITEM_CODE" property="supplierItemCode" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="COLOUR_CODE" property="colourCode" jdbcType="DECIMAL" />
+    <result column="COLOUR_DESC" property="colourDesc" jdbcType="VARCHAR" />
+    <result column="SIZE_CODE" property="sizeCode" jdbcType="BIT" />
+    <result column="SIZE_DESC" property="sizeDesc" jdbcType="VARCHAR" />
+    <result column="UOM" property="uom" jdbcType="VARCHAR" />
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+    <result column="CLASS_DESC" property="classDesc" jdbcType="VARCHAR" />
+    <result column="SUBCLASS_CODE" property="subclassCode" jdbcType="VARCHAR" />
+    <result column="SUBCLASS_DESC" property="subclassDesc" jdbcType="VARCHAR" />
+    <result column="UNIT_COST" property="unitCost" jdbcType="DECIMAL" />
+    <result column="RETAIL_PRICE" property="retailPrice" jdbcType="DECIMAL" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="BuyerItemCodeResultMap" type="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    <result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+	<result column="ITEM_OID" property="itemOid" jdbcType="DECIMAL" />
+	<result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ClassAndSubclassMap" type="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR" />
+	<result column="CLASS_DESC" property="classDesc" jdbcType="VARCHAR" />
+	<result column="SUBCLASS_CODE" property="subclassCode" jdbcType="VARCHAR" />
+	<result column="SUBCLASS_DESC" property="subclassDesc" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ITEM_OID, BUYER_ITEM_CODE, BUYER_OID, DOC_OID, ITEM_DESC, SUPPLIER_ITEM_CODE, BRAND, 
+    COLOUR_CODE, COLOUR_DESC, SIZE_CODE, SIZE_DESC, UOM, CLASS_CODE, CLASS_DESC, SUBCLASS_CODE, 
+    SUBCLASS_DESC, UNIT_COST, RETAIL_PRICE, ACTIVE, CREATE_DATE, UPDATE_DATE
+  </sql>
+
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from ITEM
+    <where>
+      <if test="itemOid != null" >
+        ITEM_OID = #{itemOid,jdbcType=BIGINT}
+      </if>
+      <if test="buyerItemCode != null" >
+        AND BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="docOid != null" >
+        AND DOC_OID = #{docOid,jdbcType=DECIMAL}
+      </if>
+      <if test="itemDesc != null" >
+        AND ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        AND SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        AND BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        AND COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        AND COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        AND SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        AND SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="uom != null" >
+        AND UOM = #{uom,jdbcType=VARCHAR}
+      </if>
+      <if test="classCode != null" >
+        AND CLASS_CODE = #{classCode,jdbcType=VARCHAR}
+      </if>
+      <if test="classDesc != null" >
+        AND CLASS_DESC = #{classDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassCode != null" >
+        AND SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassDesc != null" >
+        AND SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="unitCost != null" >
+        AND UNIT_COST = #{unitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="retailPrice != null" >
+        AND RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    delete from ITEM
+    <where>
+      <if test="itemOid != null" >
+        ITEM_OID = #{itemOid,jdbcType=BIGINT}
+      </if>
+      <if test="buyerItemCode != null" >
+        AND BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="docOid != null" >
+        AND DOC_OID = #{docOid,jdbcType=DECIMAL}
+      </if>
+      <if test="itemDesc != null" >
+        AND ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        AND SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        AND BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        AND COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        AND COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        AND SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        AND SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="uom != null" >
+        AND UOM = #{uom,jdbcType=VARCHAR}
+      </if>
+      <if test="classCode != null" >
+        AND CLASS_CODE = #{classCode,jdbcType=VARCHAR}
+      </if>
+      <if test="classDesc != null" >
+        AND CLASS_DESC = #{classDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassCode != null" >
+        AND SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassDesc != null" >
+        AND SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="unitCost != null" >
+        AND UNIT_COST = #{unitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="retailPrice != null" >
+        AND RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" useGeneratedKeys="true" keyProperty="itemOid">
+    insert into ITEM (ITEM_OID, BUYER_ITEM_CODE, BUYER_OID, DOC_OID, ITEM_DESC, SUPPLIER_ITEM_CODE, BRAND, 
+    COLOUR_CODE, COLOUR_DESC, SIZE_CODE, SIZE_DESC, UOM, CLASS_CODE, CLASS_DESC, SUBCLASS_CODE, 
+    SUBCLASS_DESC, UNIT_COST, RETAIL_PRICE, ACTIVE, CREATE_DATE, UPDATE_DATE)
+    values (#{itemOid,jdbcType=BIGINT}, #{buyerItemCode,jdbcType=VARCHAR}, #{buyerOid,jdbcType=DECIMAL}, 
+      #{docOid,jdbcType=DECIMAL}, #{itemDesc,jdbcType=VARCHAR}, #{supplierItemCode,jdbcType=VARCHAR}, 
+      #{brand,jdbcType=VARCHAR}, #{colourCode,jdbcType=VARCHAR}, #{colourDesc,jdbcType=VARCHAR}, 
+      #{sizeCode,jdbcType=VARCHAR}, #{sizeDesc,jdbcType=VARCHAR}, #{uom,jdbcType=VARCHAR}, 
+      #{classCode,jdbcType=VARCHAR}, #{classDesc,jdbcType=VARCHAR}, #{subclassCode,jdbcType=VARCHAR}, 
+      #{subclassDesc,jdbcType=VARCHAR}, #{unitCost,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL},
+	  #{active,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    update ITEM
+    <set >
+      <if test="buyerItemCode != null" >
+        BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="docOid != null" >
+        DOC_OID = #{docOid,jdbcType=DECIMAL},
+      </if>
+      <if test="itemDesc != null" >
+        ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierItemCode != null" >
+        SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="br!= null" >
+        BR= #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="colourCode != null" >
+        COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      </if>
+      <if test="colourDesc != null" >
+        COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeCode != null" >
+        SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeDesc != null" >
+        SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="uom != null" >
+        UOM = #{uom,jdbcType=VARCHAR},
+      </if>
+      <if test="classCode != null" >
+        CLASS_CODE = #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null" >
+        CLASS_DESC = #{classDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="subclassCode != null" >
+        SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subclassDesc != null" >
+        SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCost != null" >
+        UNIT_COST = #{unitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null" >
+        RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="active != null" >
+        ACTIVE = #{active,jdbcType=BIT},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ITEM_OID = #{itemOid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    update ITEM
+    set BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      DOC_OID = #{docOid,jdbcType=DECIMAL},
+      ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      BRAND= #{brand,jdbcType=VARCHAR},
+      COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      UOM = #{uom,jdbcType=VARCHAR},
+      CLASS_CODE = #{classCode,jdbcType=VARCHAR},
+      CLASS_DESC = #{classDesc,jdbcType=VARCHAR},
+      SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR},
+      SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR},
+      UNIT_COST = #{unitCost,jdbcType=DECIMAL},
+      RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL},
+      ACTIVE = #{active,jdbcType=BIT},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where ITEM_OID = #{itemOid,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectCountOfItem" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" resultType="int" >
+    select count(*) from ITEM
+    <where>
+      <if test="itemOid != null" >
+        ITEM_OID = #{itemOid,jdbcType=BIGINT}
+      </if>
+      <if test="buyerItemCode != null" >
+        AND BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="docOid != null" >
+        AND DOC_OID = #{docOid,jdbcType=DECIMAL}
+      </if>
+      <if test="itemDesc != null" >
+        AND ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        AND SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        AND BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        AND COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        AND COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        AND SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        AND SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="uom != null" >
+        AND UOM = #{uom,jdbcType=VARCHAR}
+      </if>
+      <if test="classCode != null" >
+        AND CLASS_CODE = #{classCode,jdbcType=VARCHAR}
+      </if>
+      <if test="classDesc != null" >
+        AND CLASS_DESC = #{classDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassCode != null" >
+        AND SUBCLASS_CODE = #{subclassCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subclassDesc != null" >
+        AND SUBCLASS_DESC = #{subclassDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="unitCost != null" >
+        AND UNIT_COST = #{unitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="retailPrice != null" >
+        AND RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="active != null" >
+        AND ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateDate != null" >
+        AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectBuyerItemCodeByBuyerOid" resultMap="BuyerItemCodeResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    	ITEM_OID, BUYER_ITEM_CODE
+    from ITEM WHERE BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+
+  <select id="selectItemByBuyerOidAndBuyerItemCode" resultMap="BuyerItemCodeResultMap" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    select 
+		ITEM_OID, BUYER_ITEM_CODE, CLASS_CODE
+	from ITEM WHERE
+		BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+        AND BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectClassAndSubclassCodeByBuyerOid" resultMap="ClassAndSubclassMap" parameterType="com.pracbiz.b2bportal.core.holder.ItemHolder" >
+    select distinct
+    	 CLASS_CODE, CLASS_DESC, SUBCLASS_CODE, SUBCLASS_DESC
+    from ITEM
+    <where>
+      <if test="buyerOid != null" >
+        AND BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectActiveItemsByUserOid" resultType="java.lang.String" parameterType="java.util.Map" >
+  SELECT ITEM_CODE FROM (
+  SELECT concat(BUYER_ITEM_CODE,'-',I.BUYER_OID) ITEM_CODE, I.BUYER_OID FROM ITEM I, CLASS C, USER_CLASS UC
+    WHERE I.CLASS_CODE = C.CLASS_CODE
+    AND I.BUYER_OID = C.BUYER_OID
+    AND C.CLASS_OID = UC.CLASS_OID
+    AND UC.USER_OID = #{userOid,jdbcType=DECIMAL}
+  UNION
+  SELECT concat(BUYER_ITEM_CODE,'-',I.BUYER_OID) ITEM_CODE, I.BUYER_OID FROM ITEM I, CLASS C, SUBCLASS SC, USER_SUBCLASS USC
+    WHERE I.CLASS_CODE = C.CLASS_CODE
+    AND I.BUYER_OID = C.BUYER_OID
+    AND I.SUBCLASS_CODE = SC.SUBCLASS_CODE
+    AND C.CLASS_OID = SC.CLASS_OID
+    AND SC.SUBCLASS_OID = USC.SUBCLASS_OID
+    AND USC.USER_OID = #{userOid,jdbcType=DECIMAL}
+	) VIEW1 WHERE (VIEW1.BUYER_OID = (SELECT BUYER_OID FROM USER_PROFILE WHERE USER_OID = #{userOid,jdbcType=DECIMAL}) 
+	OR VIEW1.BUYER_OID IN (SELECT COMPANY_OID FROM ALLOWED_ACCESS_COMPANY WHERE USER_OID = #{userOid,jdbcType=DECIMAL}))
+  </select>
+</mapper>

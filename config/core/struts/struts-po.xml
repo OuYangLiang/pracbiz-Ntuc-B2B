@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="po" extends="pracbiz-default" namespace="/po"> 
+        <action name="init" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="init">
+            <result>/WEB-INF/views/core/purchaseOrder/summary.jsp</result>
+        </action>
+        
+        <action name="search" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="search" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        <action name="data" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="data">
+            <result type="json">
+                <param name="root">gridRlt</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="invoiceData" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="invoiceData">
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initGenerateInv" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="initGenerateInv">
+            <result name="CON" type="redirect">generateInvForCn.action?docOid=${selectedPo.poOid}</result>
+            <result name="SOR" type="chain">initGenerateInvForSor</result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="initGenerateInvForSor" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="initGenerateInvForSor">
+            <result type="chain">generateInvForSor</result>
+            <result name="SOR">/WEB-INF/views/core/purchaseOrder/selectStore.jsp</result>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="generateInvForSor" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="generateInvForSor">
+        	<result>/WEB-INF/views/core/purchaseOrder/generateInvForSor.jsp</result>
+            <result name="input">/WEB-INF/views/core/purchaseOrder/selectStore.jsp</result>
+        </action>
+        
+        <action name="generateInvForCn" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="generateInvForCn">
+        	<result>/WEB-INF/views/core/purchaseOrder/generateInvForCn.jsp</result>
+        	<result name="input">/WEB-INF/views/core/purchaseOrder/generateInvForCn.jsp</result>
+        </action>
+        
+       	<action name="save" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="save">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveAndSent" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="saveAndSent">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+             <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+		
+		<action name="print" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="printPdf">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">rptResult</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">inline;filename="${rptFileName}"</param>
+			</result>
+		</action>
+		
+		<action name="putParamIntoSession" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="putParamIntoSession" >
+            <result name="success" type="stream">
+                <param name="inputName">neverMind</param>
+            </result>
+        </action>
+        
+        
+        <action name="exportExcel" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="exportExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+        </action>
+        
+        <action name="initEditDeliveryDate" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="initEditDeliveryDate">
+            <result type="json">
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveEditDeliveryDate" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="saveEditDeliveryDate">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result type="json">
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+
+		<action name="exportSummaryExcel" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="exportSummaryExcel">
+            <interceptor-ref name="b2bportalDefaultStackWithoutHeaderSetting" />
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">rptResult</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">
+                    attachment;filename="${rptFileName}"</param>
+            </result>
+			<result name="input" type="redirect">init.action?keepSp=Y</result>
+        </action>
+        
+        <action name="saveCn" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="saveCn">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+            <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        
+        <action name="saveAndSentCn" class="com.pracbiz.b2bportal.core.action.PurchaseOrderAction" method="saveAndSentCn">
+			<interceptor-ref name="b2bportalDefaultStack"/>
+			<interceptor-ref name="b2bportalCsrfStack"/>
+            <result name="input" type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+             <result type="json">
+                <param name="root"></param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+    </package>
+</struts>

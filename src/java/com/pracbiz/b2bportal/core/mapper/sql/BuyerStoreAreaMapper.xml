@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.BuyerStoreAreaMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.BuyerStoreAreaHolder" >
+    <id column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <id column="AREA_OID" property="areaOid" jdbcType="DECIMAL" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BUYER_CODE, AREA_OID, AREA_CODE, AREA_NAME, CREATE_DATE, UPDATE_DATE 
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreAreaHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from BUYER_STORE_AREA
+    <where>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="areaOid != null" >
+        and AREA_OID = #{areaOid,jdbcType=DECIMAL}
+      </if>
+      <if test="areaCode != null" >
+        and AREA_CODE = #{areaCode,jdbcType=VARCHAR}
+      </if>
+      <if test="areaName != null" >
+        and area_NAME = #{areaName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreAreaHolder" >
+    delete from BUYER_STORE_AREA
+    <where>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="areaOid != null" >
+        and AREA_OID = #{areaOid,jdbcType=DECIMAL}
+      </if>
+      <if test="areaCode != null" >
+        and AREA_CODE = #{areaCode,jdbcType=VARCHAR}
+      </if>
+      <if test="areaName != null" >
+        and AREA_NAME = #{areaName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreAreaHolder" >
+    insert into BUYER_STORE_AREA (BUYER_CODE, AREA_OID, AREA_CODE, AREA_NAME, 
+      CREATE_DATE, UPDATE_DATE)
+    values (#{buyerCode,jdbcType=VARCHAR}, #{areaOid,jdbcType=DECIMAL}, #{areaCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreAreaHolder" >
+    update BUYER_STORE_AREA
+    <set >
+      <if test="areaCode != null" >
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      and AREA_OID = #{areaOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.BuyerStoreAreaHolder" >
+    UPDATE BUYER_STORE_AREA
+    SET AREA_CODE = #{areaCode,jdbcType=VARCHAR}, 
+      AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    WHERE BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      and AREA_OID = #{areaOid,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="selectBuyerStoreAreasByUserOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT BSA.BUYER_CODE, BSA.AREA_OID, BSA.AREA_CODE, BSA.AREA_NAME, BSA.CREATE_DATE, BSA.UPDATE_DATE
+        FROM BUYER_STORE_AREA BSA WHERE
+		IF ((SELECT 1 FROM BUYER_STORE_AREA_USER WHERE USER_OID=#{userOid,jdbcType=DECIMAL}
+		AND AREA_OID=-2) IS NOT NULL, BSA.BUYER_CODE=(SELECT B.BUYER_CODE FROM BUYER B,USER_PROFILE U 
+		WHERE B.BUYER_OID=U.BUYER_OID AND U.USER_OID=#{userOid,jdbcType=DECIMAL}),
+		EXISTS (SELECT 1 FROM BUYER_STORE_AREA_USER BSAU WHERE USER_OID=#{userOid,jdbcType=DECIMAL} AND BSA.AREA_OID=BSAU.AREA_OID));
+   </select>
+  
+   <select id="selectBuyerStoreAreaFromTmpAreaUserByUserOid" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+        SELECT B.BUYER_CODE, B.AREA_OID, B.AREA_CODE, B.AREA_NAME, B.CREATE_DATE, B.UPDATE_DATE 
+        FROM T_BUYER_STORE_AREA_USER T, BUYER_STORE_AREA B
+        WHERE T.AREA_OID = B.AREA_OID
+        AND T.USER_OID = #{userOid,jdbcType=DECIMAL} 
+   </select>
+  
+</mapper>

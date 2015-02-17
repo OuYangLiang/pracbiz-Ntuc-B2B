@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<appConfig>
+	<validation>
+		<!-- pattern of type validation -->
+		<patterns>
+            <!-- Role Id -->
+            <pattern key="ROLE_ID"><![CDATA[^[A-Za-z0-9_]*$]]></pattern>
+			
+			<!-- Digit Number -->
+			<pattern key="DIGIT_NUMBER"><![CDATA[^[0-9]*$]]></pattern>
+			
+			<!-- Phone Number-->
+			<pattern key="PHONE_NUMBER"><![CDATA[^[(]?(\d+)([/\s-()]?(\d+)[)]?)*$]]></pattern>
+			
+			<!-- Fax-->
+			<pattern key="FAX_NUMBER"><![CDATA[^[(]?(\d+)([/\s-()]?(\d+)[)]?)*$]]></pattern>
+			
+			<!-- Mobile Phone Number-->
+			<pattern key="MOBILE_NUMBER"><![CDATA[^[\+]?(\d+)$]]></pattern>
+			
+			<!-- Postal Code-->
+			<pattern key="POSTAL_CODE"><![CDATA[^[0-9]*$]]></pattern>
+			
+			<!-- Email Address -->
+			<pattern key="EMAIL_ADDRESS"><![CDATA[^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$]]></pattern>
+			
+			<!-- Login Password # -->
+			<pattern key="LOGIN_PASSWORD"><![CDATA[^[[0-9][a-z][A-Z]]+$]]></pattern>
+			
+			<!-- Login id # -->
+			<pattern key="LOGIN_ID"><![CDATA[^(\w{1}[a-zA-Z0-9_\.\'\@]*)|^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$]]></pattern>
+			
+			<!-- Group Id -->
+            <pattern key="GROUP_ID"><![CDATA[^[A-Za-z0-9_]*$]]></pattern>
+            
+            <!-- Supplier Code -->
+            <pattern key="SUPPLIER_CODE"><![CDATA[^[a-zA-Z0-9-]+$]]></pattern>
+            
+            <!-- Buyer Code -->
+            <pattern key="BUYER_CODE"><![CDATA[^[a-zA-Z0-9-]+$]]></pattern>
+            
+            <!-- Mail Box -->
+            <pattern key="MAIL_BOX"><![CDATA[^[a-zA-Z0-9][\w]{0,9}$]]></pattern>
+            
+            <!-- Invoice No -->
+			<pattern key="INV_NO"><![CDATA[^[[0-9][a-z][A-Z]-\(\)\/]+$]]></pattern>
+			
+			<!-- Delivery No -->
+			<pattern key="DELIVERY_NO"><![CDATA[^[[0-9][a-z][A-Z]-\(\)\/]+$]]></pattern>
+		</patterns>
+	</validation>
+</appConfig>

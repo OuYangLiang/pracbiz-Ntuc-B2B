@@ -1,0 +1,39 @@
+<decorators defaultdir="/WEB-INF/views/decorator">
+    <!-- Any urls that are excluded will never be decorated by Sitemesh -->
+    <excludes>
+        <pattern>/404*</pattern> 
+        <pattern>/500*</pattern>
+    	<pattern>/ajax*</pattern>
+    	<pattern>*.jsp</pattern>
+    	<pattern>/admin/initCommonFig.action</pattern>
+    	<pattern>/admin/initHsekeep.action</pattern>
+    	<pattern>/admin/initPwdRule.action</pattern>
+    	<pattern>/admin/initMsg.action</pattern>
+    	<pattern>/admin/initMsgSummaryPageSetting.action</pattern>
+    	<pattern>/admin/getSummary*</pattern>
+    	<pattern>/admin/initEditRetailerPrivilege.action</pattern>
+    	<pattern>/admin/getPrivilegeDetail*</pattern>
+		<pattern>/admin/initEmailConfig.action</pattern>
+    	<pattern>/jobControl/tutorial.action*</pattern>
+    </excludes>
+
+    <decorator name="commonLogin" page="commonLoginTemplate.jsp">
+        <pattern>/login*</pattern>
+        <pattern>/logout*</pattern>
+        <pattern>/home*</pattern>
+        <pattern>/forgetPassword*</pattern>
+        <pattern>/changePassword*</pattern>
+    	<pattern>/user/setPassword*</pattern>
+        <pattern>/user/savePassword*</pattern>
+        <pattern>/access*</pattern>
+        <pattern>/adAuthFailed*</pattern>
+    </decorator>
+    
+    <decorator name="popupWindown" page="popupTemplate.jsp">
+        <pattern>/popup*</pattern>
+    </decorator>
+    
+    <decorator name="main" page="main.jsp">
+		<pattern>/*</pattern>
+    </decorator>
+</decorators>

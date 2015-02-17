@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.SummaryPageSettingMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.SummaryPageSettingHolder" >
+    <id column="SETTING_OID" property="settingOid" jdbcType="DECIMAL" />
+    <result column="PAGE_ID" property="pageId" jdbcType="CHAR" />
+    <result column="ACCESS_TYPE" property="accessType" jdbcType="CHAR" />
+    <result column="PAGE_DESC" property="pageDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SETTING_OID, PAGE_ID, ACCESS_TYPE, PAGE_DESC
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.SummaryPageSettingHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUMMARY_PAGE_SETTING
+    <where>
+      <if test="settingOid != null" >
+        SETTING_OID = #{settingOid,jdbcType=DECIMAL}
+      </if>
+      <if test="pageId != null" >
+        and PAGE_ID = #{pageId,jdbcType=CHAR}
+      </if>
+      <if test="accessType != null" >
+        and ACCESS_TYPE = #{accessType,jdbcType=CHAR}
+      </if>
+      <if test="pageDesc != null" >
+        and PAGE_DESC = #{pageDesc,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.SummaryPageSettingHolder" >
+    delete from SUMMARY_PAGE_SETTING
+    <where>
+      <if test="settingOid != null" >
+        SETTING_OID = #{settingOid,jdbcType=DECIMAL}
+      </if>
+      <if test="pageId != null" >
+        and PAGE_ID = #{pageId,jdbcType=CHAR}
+      </if>
+      <if test="accessType != null" >
+        and ACCESS_TYPE = #{accessType,jdbcType=CHAR}
+      </if>
+      <if test="pageDesc != null" >
+        and PAGE_DESC = #{pageDesc,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.SummaryPageSettingHolder" >
+    insert into SUMMARY_PAGE_SETTING (SETTING_OID, PAGE_ID, ACCESS_TYPE, 
+      PAGE_DESC)
+    values (#{settingOid,jdbcType=DECIMAL}, #{pageId,jdbcType=CHAR}, #{accessType,jdbcType=CHAR}, 
+      #{pageDesc,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.SummaryPageSettingHolder" >
+    update SUMMARY_PAGE_SETTING
+    <set >
+      <if test="pageId != null" >
+        PAGE_ID = #{pageId,jdbcType=CHAR},
+      </if>
+      <if test="accessType != null" >
+        ACCESS_TYPE = #{accessType,jdbcType=CHAR},
+      </if>
+      <if test="pageDesc != null" >
+        PAGE_DESC = #{pageDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SETTING_OID = #{settingOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.SummaryPageSettingHolder" >
+    update SUMMARY_PAGE_SETTING
+    set PAGE_ID = #{pageId,jdbcType=CHAR},
+      ACCESS_TYPE = #{accessType,jdbcType=CHAR},
+      PAGE_DESC = #{pageDesc,jdbcType=VARCHAR}
+    where SETTING_OID = #{settingOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

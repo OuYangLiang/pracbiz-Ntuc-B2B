@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="summaryMatchingReport" class="com.pracbiz.b2bportal.core.report.excel.SummaryMatchingReport" />
+    <bean id="outstandingMatchingReport" class="com.pracbiz.b2bportal.core.report.excel.OutstandingMatchingReport" />
+    <bean id="invoiceExportingReport" class="com.pracbiz.b2bportal.core.report.excel.InvoiceExportingReport" />
+    <bean id="buyerResolutionReport" class="com.pracbiz.b2bportal.core.report.excel.BuyerResolutionReport" />
+    <bean id="supplierResolutionReport" class="com.pracbiz.b2bportal.core.report.excel.SupplierResolutionReport" />
+    <bean id="standardMatchingReport" class="com.pracbiz.b2bportal.core.report.excel.StandardMatchingReport" />
+	<bean id="grnDisputeSummaryReport" class="com.pracbiz.b2bportal.core.report.excel.GrnDisputeSummaryReport" />
+	<bean id="dnDiscrepancyReport" class="com.pracbiz.b2bportal.core.report.excel.DnDiscrepancyReport" />
+	<bean id="dnSupplierResolutionReport" class="com.pracbiz.b2bportal.core.report.excel.DnSupplierResolutionReport" />
+	<bean id="dnBuyerResolutionReport" class="com.pracbiz.b2bportal.core.report.excel.DnBuyerResolutionReport" />
+	<bean id="dnOutstandingReport" class="com.pracbiz.b2bportal.core.report.excel.DnOutstandingReport" />
+	<bean id="missingGrnReport" class="com.pracbiz.b2bportal.core.report.excel.MissingGrnReport" />
+	<bean id="missingGiReport" class="com.pracbiz.b2bportal.core.report.excel.MissingGiReport" />
+	<bean id="dnExportingReport" class="com.pracbiz.b2bportal.core.report.excel.DnExportingReport" />
+	<bean id="rtvGiDnReport" class="com.pracbiz.b2bportal.core.report.excel.RtvGiDnReport" />
+	
+	<!--Default Engine -->
+	<bean id="standardPOExcelDefaultEngine" class="com.pracbiz.b2bportal.core.report.excel.DefaultStandardPoExcelReportEngine" />
+	
+	<!--Tangs Customized Engine -->
+	<bean id="customizedTangsPOExcelEngine" class="com.pracbiz.b2bportal.customized.tangs.report.excel.CustomizedTangsPoExcelReportEngine"/>
+</beans>

@@ -1,0 +1,44 @@
+<html>
+<body style="font-size:12px;font-family:Arial,Helvetica,sans-serif">
+
+Failed to upload the following files into the B2B system.
+<ul>
+#foreach($ERROR_FILE in $ERROR_FILES)
+    <li>$ERROR_FILE</li>
+#end
+<br/>
+<br/>
+</ul>
+
+
+
+#if($ERROR_FILE_MAP)
+#foreach($KEY in $ERROR_FILE_MAP.keySet())
+    <b><u>$KEY</u></b><ul>
+#foreach($VALUE in $ERROR_FILE_MAP.get($KEY))
+    <li>$VALUE</li>
+#end
+</ul>
+<br/>
+<br/>
+#end
+#end
+
+
+#if($ERRORS)
+<b><u>List of Errors</u></b>
+<ul>
+#foreach($ERROR in $ERRORS)
+    <li>$ERROR</li>
+#end
+</ul>
+<br/>
+<br/>
+#end
+
+
+ PracBiz B2B Portal System<br/>
+ Customer Support<br/><br/>
+Server Url: <a href="$appUrl">$appUrl</a>
+</body>
+</html>

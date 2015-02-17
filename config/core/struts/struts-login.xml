@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="login" extends="pracbiz-default" namespace="/"> 
+        <action name="home" class="com.pracbiz.b2bportal.core.action.LoginAction" method="init">
+            <interceptor-ref name="b2bPortalLoginStack"/>
+            <result name="loginWithOutMsg">/WEB-INF/views/core/login/login.jsp</result>
+        </action>
+        
+        <action name="main" class="com.pracbiz.b2bportal.core.action.LoginAction" method="main">
+        	<result name="success">/WEB-INF/views/core/welcome.jsp</result>
+        </action>
+        
+        <action name="login"  class="com.pracbiz.b2bportal.core.action.LoginAction" method="login">
+        	<interceptor-ref name="b2bPortalLoginStack"/>
+        	<result type="chain">loginWithOutMsg</result>
+        </action>
+        
+        <action name="loginWithMsg" class="com.pracbiz.b2bportal.core.action.LoginAction" method="loginWithMsg">
+        	<interceptor-ref name="b2bPortalLoginStack"/>
+        	<result type="redirect">main.action</result>
+        	<result name="passwordExpired">/WEB-INF/views/core/login/changePassword.jsp</result>
+            <result name="input">/WEB-INF/views/core/login/loginWithMsg.jsp</result>
+        </action>
+        
+        <action name="loginWithOutMsg" class="com.pracbiz.b2bportal.core.action.LoginAction" method="loginWithOutMsg">
+        	<interceptor-ref name="b2bPortalLoginStack"/>
+        	<result type="redirect">main.action</result>
+        	<result name="passwordExpired">/WEB-INF/views/core/login/changePassword.jsp</result>
+            <result name="input">/WEB-INF/views/core/login/login.jsp</result>
+        </action>
+        
+        <action name="logout"  class="com.pracbiz.b2bportal.core.action.LoginAction" method="logout">
+            <interceptor-ref name="b2bPortalLoginStack"/>
+            <result type="redirect">home.action</result>
+        </action>
+    </package>
+</struts>

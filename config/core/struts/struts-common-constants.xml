@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.i18n.reload" value="flase" />
+    <constant name="struts.configuration.xml.reload" value="flase" />
+    <constant name="struts.ui.theme" value="custom-default" />
+    <constant name="struts.action.extension" value="action,,do"/>
+    <constant name="struts.custom.i18n.resources" 
+        value="message-code,message-global,message-pagelabel,web-title" />
+        
+    <constant name="struts.convention.action.suffix" value="Controller"/>
+    <constant name="struts.convention.action.mapAllMatches" value="true"/>
+    <constant name="struts.convention.default.parent.package" value="pracbizrest-default"/>
+    <constant name="struts.convention.package.locators" value="rest"/>
+    <constant name="struts.convention.package.locators.disable" value="false" />
+    <constant name="struts.convention.action.name.lowercase" value="true"/>
+    <constant name="struts.convention.action.name.separator" value="-"/>
+	<constant name="struts.convention.package.locators.basePackage" value="com.pracbiz.b2bportal.core.action.rest" />
+  	<constant name="struts.convention.exclude.parentClassLoader" value="false" />
+	<constant name="struts.convention.action.disableJarScanning" value="false"/>
+	<constant name="struts.convention.action.includeJars" value=".*?/B2BPortal*.*?jar(!/)?"/>
+	
+	<constant name="struts.mapper.class" value="org.apache.struts2.dispatcher.mapper.PrefixBasedActionMapper" />
+    <constant name="struts.mapper.prefixMapping" value="/service:rest,:struts"/>
+</struts>

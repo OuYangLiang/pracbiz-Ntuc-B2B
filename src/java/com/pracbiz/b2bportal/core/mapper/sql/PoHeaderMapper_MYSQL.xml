@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.PoHeaderMapper">
+  <resultMap id="summaryResultMap" type="com.pracbiz.b2bportal.core.holder.extension.PoSummaryHolder">
+     <id column="DOC_OID" property="docOid" jdbcType="DECIMAL" />
+     <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+     <result column="PO_TYPE" property="poType" jdbcType="CHAR" />
+     <result column="PO_NO" property="poNo" jdbcType="VARCHAR" />
+     <result column="PO_DATE" property="poDate" jdbcType="TIMESTAMP" />
+     <result column="EXPIRY_DATE" property="expiryDate" jdbcType="TIMESTAMP" />
+     <result column="DELIVERY_DATE_FROM" property="deliveryDateFrom" jdbcType="TIMESTAMP" />
+     <result column="DELIVERY_DATE_TO" property="deliveryDateTo" jdbcType="TIMESTAMP" />
+     <result column="SENT_DATE" property="sentDate" jdbcType="TIMESTAMP" />
+     <result column="CTRL_STATUS" property="poStatus" jdbcType="CHAR" />
+     <result column="READ_STATUS" property="readStatus" jdbcType="CHAR" />
+     <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+     <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+     <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+     <result column="OUT_DATE" property="outDate" jdbcType="TIMESTAMP" />
+     <result column="PROC_DATE" property="procDate" jdbcType="TIMESTAMP" />
+     <result column="CREATE_DATE" property="receivedDate" jdbcType="TIMESTAMP" />
+     <result column="PO_SUB_TYPE" property="poSubType" jdbcType="CHAR" />
+	 <result column="CTRL_STATUS" property="ctrlStatus" jdbcType="VARCHAR" />
+	 <result column="PO_OID" property="poOid" jdbcType="DECIMAL"/>
+	 <result column="LOCATION_COUNT" property="locationCount" jdbcType="DECIMAL" />
+	 <result column="DUPLICATE"  property="duplicate" jdbcType="BIT" />
+	 <result column="READ_DATE"  property="readDate" jdbcType="TIMESTAMP" />
+	 <result column="DETAIL_COUNT" property="detailCount" jdbcType="DECIMAL"/>
+	 <result column="TOTAL_COST" property="totalCost" jdbcType="DECIMAL"></result>
+	 <result column="PO_SUB_TYPE2" property="poSubType2" jdbcType="VARCHAR"></result>
+	 <result column="INVOICE_NO" property="invoiceNo" jdbcType="VARCHAR"></result>
+	 <result column="STORE_CODE" property="storeCode" jdbcType="VARCHAR"></result>
+  </resultMap>
+  
+  <sql id="Grid_Column_List">
+    M.DOC_OID, M.SUPPLIER_CODE, P.PO_TYPE, P.PO_NO, P.PO_DATE, P.DELIVERY_DATE_FROM, P.DELIVERY_DATE_TO, P.EXPIRY_DATE, M.SENT_DATE,
+    P.CTRL_STATUS, M.READ_STATUS, M.BUYER_CODE, M.BUYER_NAME, M.SUPPLIER_NAME,
+    M.OUT_DATE, M.PROC_DATE, M.CREATE_DATE, P.PO_SUB_TYPE, P.PO_OID, P.DUPLICATE, M.READ_DATE, P.TOTAL_COST, P.PO_SUB_TYPE2
+  </sql>
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.PoSummaryHolder" resultType="int">
+  	SELECT COUNT(*) FROM MSG_TRANSACTIONS M, PO_HEADER P
+  	<!-- handle group constraint for buyer user. -->
+  	<if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+  	     <if test="listOid != null">
+  	     ,FAVOURITE_LIST_SUPPLIER FLS
+  	     </if>
+  	     <if test="listOid == null">
+  	     ,GROUP_SUPPLIER GS 
+  	     </if>
+  	</if>
+  	<!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+    </if>
+	<!-- handle supplier set --> 
+	<if test="setOid != null and validSupplierSet == true ">
+		, SUPPLIER S
+	</if>
+	WHERE M.DOC_OID=P.PO_OID
+	<if test="msgType != null" >
+		AND M.MSG_TYPE = #{msgType,jdbcType=VARCHAR}
+	</if>
+	<if test="poNo != null" >
+		AND P.PO_NO like concat(#{poNo,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="poDateFrom != null" >
+	<![CDATA[
+        AND P.PO_DATE >= #{poDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="poDateTo != null" >
+	<![CDATA[
+        AND P.PO_DATE <= #{poDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="deliveryDateFrom != null" >
+	<![CDATA[
+        AND P.DELIVERY_DATE_TO >= #{deliveryDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="deliveryDateTo != null" >
+	<![CDATA[
+        AND P.DELIVERY_DATE_FROM <= #{deliveryDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="sentDateFrom != null" >
+	<![CDATA[
+        AND M.SENT_DATE >= #{sentDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="sentDateTo != null" >
+	<![CDATA[
+        AND M.SENT_DATE <= #{sentDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="receivedDateFrom != null" >
+	<![CDATA[
+        AND M.CREATE_DATE >= #{receivedDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="receivedDateTo != null" >
+	<![CDATA[
+        AND M.CREATE_DATE <= #{receivedDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="poStatus != null" >
+		AND P.CTRL_STATUS = #{poStatus,jdbcType=VARCHAR}
+	</if>
+	<if test="poType != null" >
+		AND P.PO_TYPE = #{poType,jdbcType=VARCHAR}
+	</if>
+	<if test="readStatus != null" >
+		AND M.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+	</if>
+	<!-- handle group constraint for buyer user. -->
+	<if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+	   <if test="listOid != null">
+	       AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+	       AND P.SUPPLIER_OID = FLS.SUPPLIER_OID
+	   </if>
+	   <if test="listOid == null">
+			AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+			AND P.SUPPLIER_OID = GS.SUPPLIER_OID
+	   </if>
+	</if>
+	<!-- handle group constraint for supplier user. -->
+	<if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+		AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+		AND GTP.TP_OID = TP.TP_OID
+		AND TP.BUYER_SUPPLIER_CODE = P.SUPPLIER_CODE
+		AND TP.BUYER_OID = P.BUYER_OID
+	</if>
+	<if test="visiable == false">
+       AND 1 = 2
+    </if>
+	<!-- current is buyer type user or store type user, add restrict by buyer store access -->
+	<if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+      <if test="buyerStoreAccessList != null and !buyerStoreAccessList.isEmpty()">
+          AND EXISTS( SELECT 1 FROM PO_LOCATION PL WHERE PL.LOCATION_CODE IN 
+          <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+          </foreach>
+          AND P.PO_OID = PL.PO_OID)
+      </if>
+      <if test="buyerStoreAccessList == null or buyerStoreAccessList.isEmpty()">
+          AND 1=2
+      </if>
+    </if>
+    <if test="storeCode != null">
+        AND EXISTS( SELECT 1 FROM PO_LOCATION PL WHERE PL.LOCATION_CODE = #{storeCode,jdbcType=VARCHAR}
+        AND P.PO_OID = PL.PO_OID)
+    </if>
+    <if test="currentUserBuyerOid != null">
+        AND (P.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} 
+        <if test="accessCompanyOids != null and !accessCompanyOids.isEmpty()">
+	        OR P.BUYER_OID IN 
+	        <foreach collection="accessCompanyOids" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+        </if>
+        )
+    </if>
+    <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false">
+        AND M.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+    </if>
+	<if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+		AND M.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+	</if>
+	<if test="buyerOid != null and buyerOid != -1">
+		AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+	</if>
+	<if test="supplierCode != null">
+		AND M.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="setOid != null and validSupplierSet == true ">
+		AND S.SUPPLIER_OID = P.SUPPLIER_OID
+		AND S.SET_OID = #{setOid,jdbcType=DECIMAL} 
+		<if test="supplierOid != null and supplierOid != -1">
+			AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+		</if>
+	</if>
+	<if test="supplierName != null">
+		AND M.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="poSubType2 != null" >
+		AND P.PO_SUB_TYPE2 = #{poSubType2,jdbcType=VARCHAR}
+	</if>
+	<if test="poSubType2 == null and quickPoFlag == true">
+		AND P.PO_SUB_TYPE2 = 'ZQO'
+	</if>
+	<if test="poSubType2 == null and quickPoFlag == false">
+		AND (P.PO_SUB_TYPE2 != 'ZQO' OR P.PO_SUB_TYPE2 IS NULL)
+	</if>
+  </select>
+  
+  <select id="getListOfSummary" resultMap="summaryResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.PoSummaryHolder"  >
+  	SELECT 
+    <include refid="Grid_Column_List" />
+    , (SELECT COUNT(*) FROM PO_LOCATION PL WHERE P.PO_OID = PL.PO_OID) AS LOCATION_COUNT
+	, (SELECT COUNT(*) FROM PO_DETAIL PD WHERE P.PO_OID = PD.PO_OID) AS DETAIL_COUNT
+	, <![CDATA[(SELECT GROUP_CONCAT(LOCATION_CODE SEPARATOR ' new-line ') FROM PO_LOCATION PL WHERE P.PO_OID = PL.PO_OID) AS STORE_CODE]]>
+    FROM  MSG_TRANSACTIONS M, PO_HEADER P
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+         <if test="listOid != null">
+         ,FAVOURITE_LIST_SUPPLIER FLS
+         </if>
+         <if test="listOid == null">
+         ,GROUP_SUPPLIER GS 
+         </if>
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+    </if>
+	<!-- handle supplier set --> 
+	<if test="setOid != null and validSupplierSet == true ">
+		, SUPPLIER S
+	</if>
+    WHERE M.DOC_OID=P.PO_OID
+	<if test="msgType != null" >
+		AND M.MSG_TYPE = #{msgType,jdbcType=VARCHAR}
+	</if>
+	<if test="poNo != null" >
+		AND P.PO_NO like concat(#{poNo,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="poDateFrom != null" >
+	<![CDATA[
+        AND P.PO_DATE >= #{poDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="poDateTo != null" >
+	<![CDATA[
+        AND P.PO_DATE <= #{poDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="deliveryDateFrom != null" >
+    <![CDATA[
+        AND P.DELIVERY_DATE_TO >= #{deliveryDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+    </if>
+    <if test="deliveryDateTo != null" >
+    <![CDATA[
+        AND P.DELIVERY_DATE_FROM <= #{deliveryDateTo,jdbcType=TIMESTAMP}
+    ]]>
+    </if>
+	<if test="sentDateFrom != null" >
+	<![CDATA[
+        AND M.SENT_DATE >= #{sentDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="sentDateTo != null" >
+	<![CDATA[
+        AND M.SENT_DATE <= #{sentDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="receivedDateFrom != null" >
+	<![CDATA[
+        AND M.CREATE_DATE >= #{receivedDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="receivedDateTo != null" >
+	<![CDATA[
+        AND M.CREATE_DATE <= #{receivedDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="poStatus != null" >
+		AND P.CTRL_STATUS = #{poStatus,jdbcType=VARCHAR}
+	</if>
+	<if test="poType != null" >
+		AND P.PO_TYPE = #{poType,jdbcType=VARCHAR}
+	</if>
+	<if test="readStatus != null" >
+        AND M.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+    </if>
+	<!-- handle group constraint for buyer user. -->
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+       <if test="listOid != null">
+           AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+           AND P.SUPPLIER_OID = FLS.SUPPLIER_OID
+       </if>
+       <if test="listOid == null">
+            AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+            AND P.SUPPLIER_OID = GS.SUPPLIER_OID
+       </if>
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+        AND GTP.TP_OID = TP.TP_OID
+        AND TP.BUYER_SUPPLIER_CODE = P.SUPPLIER_CODE
+        AND TP.BUYER_OID = P.BUYER_OID
+    </if>
+    <if test="visiable == false">
+       AND 1 = 2
+    </if>
+    <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+    <if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+      <if test="buyerStoreAccessList != null and !buyerStoreAccessList.isEmpty()">
+          AND EXISTS( SELECT 1 FROM PO_LOCATION PL WHERE PL.LOCATION_CODE IN 
+          <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+          </foreach>
+          AND P.PO_OID = PL.PO_OID)
+      </if>
+      <if test="buyerStoreAccessList == null or buyerStoreAccessList.isEmpty()">
+          AND 1=2
+      </if>
+    </if>
+    <if test="storeCode != null">
+        AND EXISTS( SELECT 1 FROM PO_LOCATION PL WHERE PL.LOCATION_CODE = #{storeCode,jdbcType=VARCHAR}
+        AND P.PO_OID = PL.PO_OID)
+    </if>
+    <if test="currentUserBuyerOid != null">
+        AND (P.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} 
+        <if test="accessCompanyOids != null and !accessCompanyOids.isEmpty()">
+            OR P.BUYER_OID IN 
+            <foreach collection="accessCompanyOids" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+        </if>
+        )
+    </if>
+    <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false ">
+        AND M.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+    </if>
+	<if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+		AND M.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+	</if>
+	<if test="buyerOid != null and buyerOid != -1">
+		AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+	</if>
+	<if test="supplierCode != null">
+        AND M.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="setOid != null and validSupplierSet == true">
+		AND S.SUPPLIER_OID = P.SUPPLIER_OID
+		AND S.SET_OID = #{setOid,jdbcType=DECIMAL} 
+		<if test="supplierOid != null and supplierOid != -1">
+			AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+		</if>
+	</if>
+    <if test="supplierName != null">
+        AND M.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="poSubType2 != null" >
+		AND P.PO_SUB_TYPE2 = #{poSubType2,jdbcType=VARCHAR}
+	</if>
+	<if test="poSubType2 == null and quickPoFlag == true">
+		AND P.PO_SUB_TYPE2 = "ZQO"
+	</if>
+	<if test="poSubType2 == null and quickPoFlag == false">
+		AND (P.PO_SUB_TYPE2 != "ZQO" OR P.PO_SUB_TYPE2 IS NULL)
+	</if>
+	<if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+    </if>
+        limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+  
+   <select id="getListOfSummaryQuickPo" resultMap="summaryResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.PoSummaryHolder"  >
+  	SELECT 
+    <include refid="Grid_Column_List" />
+    , (SELECT COUNT(*) FROM PO_LOCATION PL WHERE P.PO_OID = PL.PO_OID) AS LOCATION_COUNT
+	, (SELECT COUNT(*) FROM PO_DETAIL PD WHERE P.PO_OID = PD.PO_OID) AS DETAIL_COUNT
+	, (CASE 
+		     WHEN  (SELECT I.INV_NO IS NOT NULL  FROM INV_HEADER I WHERE P.PO_OID = I.PO_OID AND (I.CTRL_STATUS = 'NEW' OR I.CTRL_STATUS = 'SUBMIT'))  THEN (SELECT INV_NO  FROM INV_HEADER I WHERE P.PO_OID = I.PO_OID AND (I.CTRL_STATUS = 'NEW' OR I.CTRL_STATUS = 'SUBMIT'))
+ 			 ELSE 
+             (SELECT  STRING_VALUE FROM PO_HEADER_EXTENDED HEX WHERE P.PO_OID = HEX.PO_OID AND FIELD_NAME = 'BNAME')
+             END) AS INVOICE_NO
+    , <![CDATA[(SELECT GROUP_CONCAT(LOCATION_CODE SEPARATOR ' new-line ') FROM PO_LOCATION PL WHERE P.PO_OID = PL.PO_OID) AS STORE_CODE]]>
+    FROM  MSG_TRANSACTIONS M, PO_HEADER P
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+         <if test="listOid != null">
+         ,FAVOURITE_LIST_SUPPLIER FLS
+         </if>
+         <if test="listOid == null">
+         ,GROUP_SUPPLIER GS 
+         </if>
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+    </if>
+	<!-- handle supplier set --> 
+	<if test="setOid != null and validSupplierSet == true ">
+		, SUPPLIER S
+	</if>
+    WHERE M.DOC_OID=P.PO_OID
+	<if test="msgType != null" >
+		AND M.MSG_TYPE = #{msgType,jdbcType=VARCHAR}
+	</if>
+	<if test="poNo != null" >
+		AND P.PO_NO like concat(#{poNo,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="poDateFrom != null" >
+	<![CDATA[
+        AND P.PO_DATE >= #{poDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="poDateTo != null" >
+	<![CDATA[
+        AND P.PO_DATE <= #{poDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="deliveryDateFrom != null" >
+    <![CDATA[
+        AND P.DELIVERY_DATE >= #{deliveryDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+    </if>
+    <if test="deliveryDateTo != null" >
+    <![CDATA[
+        AND P.DELIVERY_DATE <= #{deliveryDateTo,jdbcType=TIMESTAMP}
+    ]]>
+    </if>
+	<if test="sentDateFrom != null" >
+	<![CDATA[
+        AND M.SENT_DATE >= #{sentDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="sentDateTo != null" >
+	<![CDATA[
+        AND M.SENT_DATE <= #{sentDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="receivedDateFrom != null" >
+	<![CDATA[
+        AND M.CREATE_DATE >= #{receivedDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="receivedDateTo != null" >
+	<![CDATA[
+        AND M.CREATE_DATE <= #{receivedDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="poStatus != null" >
+		AND P.CTRL_STATUS = #{poStatus,jdbcType=VARCHAR}
+	</if>
+	<if test="poType != null" >
+		AND P.PO_TYPE = #{poType,jdbcType=VARCHAR}
+	</if>
+	<if test="readStatus != null" >
+        AND M.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+    </if>
+	<!-- handle group constraint for buyer user. -->
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+       <if test="listOid != null">
+           AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+           AND P.SUPPLIER_OID = FLS.SUPPLIER_OID
+       </if>
+       <if test="listOid == null">
+            AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+            AND P.SUPPLIER_OID = GS.SUPPLIER_OID
+       </if>
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+        AND GTP.TP_OID = TP.TP_OID
+        AND TP.BUYER_SUPPLIER_CODE = P.SUPPLIER_CODE
+        AND TP.BUYER_OID = P.BUYER_OID
+    </if>
+    <if test="visiable == false">
+       AND 1 = 2
+    </if>
+    <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+    <if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+      <if test="buyerStoreAccessList != null and !buyerStoreAccessList.isEmpty()">
+          AND EXISTS( SELECT 1 FROM PO_LOCATION PL WHERE PL.LOCATION_CODE IN 
+          <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+          </foreach>
+          AND P.PO_OID = PL.PO_OID)
+      </if>
+      <if test="buyerStoreAccessList == null or buyerStoreAccessList.isEmpty()">
+          AND 1=2
+      </if>
+    </if>
+    <if test="storeCode != null">
+        AND EXISTS( SELECT 1 FROM PO_LOCATION PL WHERE PL.LOCATION_CODE = #{storeCode,jdbcType=VARCHAR}
+        AND P.PO_OID = PL.PO_OID)
+    </if>
+    <if test="currentUserBuyerOid != null">
+        AND (M.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} OR M.BUYER_OID IN 
+        (SELECT AAC.COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID=#{currentUserOid,jdbcType=DECIMAL}))
+    </if>
+    <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false ">
+        AND M.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+    </if>
+	<if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+		AND M.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+	</if>
+	<if test="buyerOid != null and buyerOid != -1">
+		AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+	</if>
+	<if test="supplierCode != null">
+        AND M.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="setOid != null and validSupplierSet == true">
+		AND S.SUPPLIER_OID = P.SUPPLIER_OID
+		AND S.SET_OID = #{setOid,jdbcType=DECIMAL} 
+		<if test="supplierOid != null and supplierOid != -1">
+			AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+		</if>
+	</if>
+    <if test="supplierName != null">
+        AND M.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="poSubType2 != null" >
+		AND P.PO_SUB_TYPE2 = #{poSubType2,jdbcType=VARCHAR}
+	</if>
+	<if test="poSubType2 == null and quickPoFlag == true">
+		AND P.PO_SUB_TYPE2 = 'ZQO'
+	</if>
+	<if test="poSubType2 == null and quickPoFlag == false">
+		AND (P.PO_SUB_TYPE2 != 'ZQO' OR P.PO_SUB_TYPE2 IS NULL)
+	</if>
+	<if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+    </if>
+        limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+</mapper>

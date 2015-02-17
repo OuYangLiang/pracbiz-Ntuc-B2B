@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.ToolTipMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.ToolTipHolder" >
+    <id column="FIELD_OID" property="fieldOid" jdbcType="DECIMAL" />
+    <id column="TOOLTIP_FIELD_OID" property="tooltipFieldOid" jdbcType="DECIMAL" />
+    <result column="SHOW_ORDER" property="showOrder" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="paramResultMap" type="com.pracbiz.b2bportal.core.holder.extension.ToolTipExHolder" >
+    <result column="FIELD_ID" property="fieldId" jdbcType="VARCHAR" />
+    <result column="TOOLTIP_FIELD_ID" property="tooltipFieldId" jdbcType="VARCHAR" />
+    <result column="TOOLTIP_FIELD_LABEL_KEY" property="tooltipFieldLabelKey" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FIELD_OID, TOOLTIP_FIELD_OID, SHOW_ORDER
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.ToolTipHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from TOOLTIP
+    <where>
+        <if test="fieldOid != null">
+            FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+        </if>
+        <if test="tooltipFieldOid != null">
+            AND TOOLTIP_FIELD_OID = #{tooltipFieldOid,jdbcType=DECIMAL}
+        </if>
+        <if test="showOrder != null">
+            AND SHOW_ORDER = #{showOrder,jdbcType=INTEGER}
+        </if>
+    </where>
+    order by SHOW_ORDER asc;
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.ToolTipHolder" >
+    delete from TOOLTIP
+    <where>
+        <if test="fieldOid != null">
+            FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+        </if>
+        <if test="tooltipFieldOid != null">
+           AND TOOLTIP_FIELD_OID = #{tooltipFieldOid,jdbcType=DECIMAL}
+        </if>
+        <if test="showOrder != null">
+            AND SHOW_ORDER = #{showOrder,jdbcType=INTEGER}
+        </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.ToolTipHolder" >
+    insert into TOOLTIP (FIELD_OID, TOOLTIP_FIELD_OID, SHOW_ORDER
+      )
+    values (#{fieldOid,jdbcType=DECIMAL}, #{tooltipFieldOid,jdbcType=DECIMAL}, #{showOrder,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.ToolTipHolder" >
+    update TOOLTIP
+    <set >
+      <if test="showOrder != null">
+          SHOW_ORDER = #{showOrder,jdbcType=INTEGER}
+      </if>
+    </set>
+    where FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+      and TOOLTIP_FIELD_OID = #{tooltipFieldOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.ToolTipHolder" >
+    update TOOLTIP
+    set SHOW_ORDER = #{showOrder,jdbcType=INTEGER}
+    where FIELD_OID = #{fieldOid,jdbcType=DECIMAL}
+      and TOOLTIP_FIELD_OID = #{tooltipFieldOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectAvailableTooltip" resultMap="paramResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.ToolTipExHolder" >
+    SELECT S1.FIELD_ID,V.TOOLTIP_FIELD_ID,V.TOOLTIP_FIELD_LABEL_KEY FROM (
+    	SELECT T.FIELD_OID,T.SHOW_ORDER,
+    		T.TOOLTIP_FIELD_OID,
+			S.FIELD_ID AS TOOLTIP_FIELD_ID,
+			S.FIELD_COLUMN AS TOOLTIP_FIELD_COLUMN,
+			S.FIELD_LABEL_KEY AS TOOLTIP_FIELD_LABEL_KEY
+		FROM TOOLTIP T, SUMMARY_FIELD S 
+		WHERE T.TOOLTIP_FIELD_OID = S.FIELD_OID) V, SUMMARY_FIELD S1, SUMMARY_PAGE_SETTING SP
+	WHERE V.FIELD_OID = S1.FIELD_OID AND S1.SETTING_OID = SP.SETTING_OID 
+    and SP.PAGE_ID = #{pageId,jdbcType=VARCHAR} 
+    and SP.ACCESS_TYPE = #{accessType,jdbcType=VARCHAR} order by V.SHOW_ORDER asc;
+    
+  </select>
+</mapper>

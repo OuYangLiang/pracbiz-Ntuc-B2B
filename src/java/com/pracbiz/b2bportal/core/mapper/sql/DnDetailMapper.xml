@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.DnDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.extension.DnDetailExHolder" >
+    <id column="DN_OID" property="dnOid" jdbcType="DECIMAL" />
+    <id column="LINE_SEQ_NO" property="lineSeqNo" jdbcType="INTEGER" />
+    <result column="BUYER_ITEM_CODE" property="buyerItemCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ITEM_CODE" property="supplierItemCode" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="ITEM_DESC" property="itemDesc" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="COLOUR_CODE" property="colourCode" jdbcType="VARCHAR" />
+    <result column="COLOUR_DESC" property="colourDesc" jdbcType="VARCHAR" />
+    <result column="SIZE_CODE" property="sizeCode" jdbcType="VARCHAR" />
+    <result column="SIZE_DESC" property="sizeDesc" jdbcType="VARCHAR" />
+    <result column="PO_NO" property="poNo" jdbcType="VARCHAR" />
+    <result column="PO_DATE" property="poDate" jdbcType="DATE" />
+    <result column="INV_NO" property="invNo" jdbcType="VARCHAR" />
+    <result column="INV_DATE" property="invDate" jdbcType="DATE" />
+    <result column="PACKING_FACTOR" property="packingFactor" jdbcType="DECIMAL" />
+    <result column="DEBIT_BASE_UNIT" property="debitBaseUnit" jdbcType="CHAR" />
+    <result column="ORDER_UOM" property="orderUom" jdbcType="VARCHAR" />
+    <result column="DEBIT_QTY" property="debitQty" jdbcType="DECIMAL" />
+    <result column="UNIT_COST" property="unitCost" jdbcType="DECIMAL" />
+    <result column="COST_DISCOUNT_AMOUNT" property="costDiscountAmount" jdbcType="DECIMAL" />
+    <result column="COST_DISCOUNT_PERCENT" property="costDiscountPercent" jdbcType="DECIMAL" />
+    <result column="RETAIL_DISCOUNT_AMOUNT" property="retailDiscountAmount" jdbcType="DECIMAL" />
+    <result column="NET_UNIT_COST" property="netUnitCost" jdbcType="DECIMAL" />
+    <result column="ITEM_COST" property="itemCost" jdbcType="DECIMAL" />
+    <result column="ITEM_SHARED_CODE" property="itemSharedCode" jdbcType="DECIMAL" />
+    <result column="ITEM_GROSS_COST" property="itemGrossCost" jdbcType="DECIMAL" />
+    <result column="RETAIL_PRICE" property="retailPrice" jdbcType="DECIMAL" />
+    <result column="ITEM_RETAIL_AMOUNT" property="itemRetailAmount" jdbcType="DECIMAL" />
+    <result column="ITEM_REMARKS" property="itemRemarks" jdbcType="VARCHAR" />
+    <result column="DISPUTE_PRICE" property="disputePrice" jdbcType="DECIMAL" />
+    <result column="DISPUTE_PRICE_REMARKS" property="disputePriceRemarks" jdbcType="VARCHAR" />
+    <result column="DISPUTE_QTY" property="disputeQty" jdbcType="DECIMAL" />
+    <result column="DISPUTE_QTY_REMARKS" property="disputeQtyRemarks" jdbcType="VARCHAR" />
+    <result column="PRICE_STATUS" property="priceStatus" jdbcType="CHAR" />
+    <result column="PRICE_STATUS_ACTION_REMARKS" property="priceStatusActionRemarks" jdbcType="VARCHAR" />
+    <result column="PRICE_STATUS_ACTION_BY" property="priceStatusActionBy" jdbcType="VARCHAR" />
+    <result column="PRICE_STATUS_ACTION_DATE" property="priceStatusActionDate" jdbcType="TIMESTAMP" />
+    <result column="QTY_STATUS" property="qtyStatus" jdbcType="CHAR" />
+    <result column="QTY_STATUS_ACTION_REMARKS" property="qtyStatusActionRemarks" jdbcType="VARCHAR" />
+    <result column="QTY_STATUS_ACTION_BY" property="qtyStatusActionBy" jdbcType="VARCHAR" />
+    <result column="QTY_STATUS_ACTION_DATE" property="qtyStatusActionDate" jdbcType="TIMESTAMP" />
+    <result column="CONFIRM_PRICE" property="confirmPrice" jdbcType="DECIMAL" />
+    <result column="CONFIRM_QTY" property="confirmQty" jdbcType="DECIMAL" />
+    <result column="LINE_REF_NO" property="lineRefNo" jdbcType="VARCHAR"/>
+    <result column="CLASS_CODE" property="classCode" jdbcType="VARCHAR"/>
+    <result column="SUBCLASS_CODE" property="subclassCode" jdbcType="VARCHAR"/>
+    <result column="PRICE_STATUS_ACTION_BY_NAME" property="priceStatusActionByName" jdbcType="VARCHAR" />
+    <result column="QTY_STATUS_ACTION_BY_NAME" property="qtyStatusActionByName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    VIEW1.DN_OID, VIEW1.LINE_SEQ_NO, VIEW1.BUYER_ITEM_CODE, VIEW1.SUPPLIER_ITEM_CODE, VIEW1.BARCODE, VIEW1.ITEM_DESC, VIEW1.BRAND, 
+    VIEW1.COLOUR_CODE, VIEW1.COLOUR_DESC, VIEW1.SIZE_CODE, VIEW1.SIZE_DESC, VIEW1.PO_NO, VIEW1.PO_DATE, VIEW1.INV_NO, VIEW1.INV_DATE,
+    VIEW1.PACKING_FACTOR, VIEW1.DEBIT_BASE_UNIT, VIEW1.ORDER_UOM, VIEW1.DEBIT_QTY, VIEW1.UNIT_COST, VIEW1.COST_DISCOUNT_AMOUNT,
+    VIEW1.COST_DISCOUNT_PERCENT, VIEW1.RETAIL_DISCOUNT_AMOUNT, VIEW1.NET_UNIT_COST, VIEW1.ITEM_COST, VIEW1.ITEM_SHARED_CODE,
+    VIEW1.ITEM_GROSS_COST, VIEW1.RETAIL_PRICE, VIEW1.ITEM_RETAIL_AMOUNT, VIEW1.ITEM_REMARKS, VIEW1.DISPUTE_PRICE, VIEW1.DISPUTE_PRICE_REMARKS,
+    VIEW1.DISPUTE_QTY, VIEW1.DISPUTE_QTY_REMARKS, VIEW1.PRICE_STATUS, VIEW1.PRICE_STATUS_ACTION_REMARKS, VIEW1.PRICE_STATUS_ACTION_BY,
+    VIEW1.PRICE_STATUS_ACTION_DATE, VIEW1.QTY_STATUS, VIEW1.QTY_STATUS_ACTION_REMARKS, VIEW1.QTY_STATUS_ACTION_BY,
+    VIEW1.QTY_STATUS_ACTION_DATE, VIEW1.CONFIRM_PRICE, VIEW1.CONFIRM_QTY, VIEW1.LINE_REF_NO, VIEW1.CLASS_CODE, VIEW1.SUBCLASS_CODE, DH.BUYER_OID
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.DnDetailHolder" >
+    select 
+    VIEW1.DN_OID, VIEW1.LINE_SEQ_NO, VIEW1.BUYER_ITEM_CODE, VIEW1.SUPPLIER_ITEM_CODE, VIEW1.BARCODE, VIEW1.ITEM_DESC, VIEW1.BRAND, 
+    VIEW1.COLOUR_CODE, VIEW1.COLOUR_DESC, VIEW1.SIZE_CODE, VIEW1.SIZE_DESC, VIEW1.PO_NO, VIEW1.PO_DATE, VIEW1.INV_NO, VIEW1.INV_DATE,
+    VIEW1.PACKING_FACTOR, VIEW1.DEBIT_BASE_UNIT, VIEW1.ORDER_UOM, VIEW1.DEBIT_QTY, VIEW1.UNIT_COST, VIEW1.COST_DISCOUNT_AMOUNT,
+    VIEW1.COST_DISCOUNT_PERCENT, VIEW1.RETAIL_DISCOUNT_AMOUNT, VIEW1.NET_UNIT_COST, VIEW1.ITEM_COST, VIEW1.ITEM_SHARED_CODE,
+    VIEW1.ITEM_GROSS_COST, VIEW1.RETAIL_PRICE, VIEW1.ITEM_RETAIL_AMOUNT, VIEW1.ITEM_REMARKS, VIEW1.DISPUTE_PRICE, VIEW1.DISPUTE_PRICE_REMARKS,
+    VIEW1.DISPUTE_QTY, VIEW1.DISPUTE_QTY_REMARKS, VIEW1.PRICE_STATUS, VIEW1.PRICE_STATUS_ACTION_REMARKS, VIEW1.PRICE_STATUS_ACTION_BY,
+    VIEW1.PRICE_STATUS_ACTION_DATE, VIEW1.QTY_STATUS, VIEW1.QTY_STATUS_ACTION_REMARKS,VIEW1.QTY_STATUS_ACTION_BY,
+    VIEW1.QTY_STATUS_ACTION_DATE, VIEW1.CONFIRM_PRICE, VIEW1.CONFIRM_QTY, VIEW1.LINE_REF_NO,
+    Concat((select USER_NAME from USER_PROFILE WHERE LOGIN_ID = VIEW1.PRICE_STATUS_ACTION_BY), '(', VIEW1.PRICE_STATUS_ACTION_BY, ')') AS PRICE_STATUS_ACTION_BY_NAME, 
+    Concat((select USER_NAME from USER_PROFILE WHERE LOGIN_ID = VIEW1.QTY_STATUS_ACTION_BY), '(', VIEW1.QTY_STATUS_ACTION_BY, ')') AS QTY_STATUS_ACTION_BY_NAME,  
+    I.CLASS_CODE, I.SUBCLASS_CODE FROM (select 
+    DD.*, DH.BUYER_OID
+    from DN_DETAIL DD, DN_HEADER DH where DD.DN_OID = DH.DN_OID
+      <if test="dnOid != null" >
+        and DD.DN_OID = #{dnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and DD.LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="buyerItemCode != null" >
+        and DD.BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and DD.SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and DD.BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and DD.ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and DD.BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and DD.COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and DD.COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and DD.SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and DD.SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="poNo != null" >
+        and DD.PO_NO = #{poNo,jdbcType=VARCHAR}
+      </if>
+      <if test="poDate != null" >
+        and DD.PO_DATE = #{poDate,jdbcType=DATE}
+      </if>
+      <if test="invNo != null" >
+        and DD.INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invDate != null" >
+        and DD.INV_DATE = #{invDate,jdbcType=DATE}
+      </if>
+      <if test="packingFactor != null" >
+        and DD.PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="debitBaseUnit != null" >
+        and DD.DEBIT_BASE_UNIT = #{debitBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="orderUom != null" >
+        and DD.ORDER_UOM = #{orderUom,jdbcType=VARCHAR}
+      </if>
+      <if test="debitQty != null" >
+        and DD.DEBIT_QTY = #{debitQty,jdbcType=DECIMAL}
+      </if>
+      <if test="unitCost != null" >
+        and DD.UNIT_COST = #{unitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="costDiscountAmount != null" >
+        and DD.COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="costDiscountPercent != null" >
+        and DD.COST_DISCOUNT_PERCENT = #{costDiscountPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="retailDiscountAmount != null" >
+        and DD.RETAIL_DISCOUNT_AMOUNT = #{retailDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="netUnitCost != null" >
+        and DD.NET_UNIT_COST = #{netUnitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null" >
+        and DD.ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemSharedCode != null" >
+        and DD.ITEM_SHARED_CODE = #{itemSharedCode,jdbcType=DECIMAL}
+      </if>
+      <if test="itemGrossCost != null" >
+        and DD.ITEM_GROSS_COST = #{itemGrossCost,jdbcType=DECIMAL}
+      </if>
+      <if test="retailPrice != null" >
+        and DD.RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRetailAmount != null" >
+        and DD.ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRemarks != null" >
+        and DD.ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="disputePrice != null" >
+        and DD.DISPUTE_PRICE = #{disputePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="disputePriceRemarks != null" >
+        and DD.DISPUTE_PRICE_REMARKS = #{disputePriceRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="disputeQty != null" >
+        and DD.DISPUTE_QTY = #{disputeQty,jdbcType=DECIMAL}
+      </if>
+      <if test="disputeQtyRemarks != null" >
+        and DD.DISPUTE_QTY_REMARKS = #{disputeQtyRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatus != null" >
+        and DD.PRICE_STATUS = #{priceStatus,jdbcType=CHAR}
+      </if>
+      <if test="priceStatusActionRemarks != null" >
+        and DD.PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatusActionBy != null" >
+        and DD.PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatusActionDate != null" >
+        and DD.PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="qtyStatus != null" >
+        and DD.QTY_STATUS = #{qtyStatus,jdbcType=CHAR}
+      </if>
+      <if test="qtyStatusActionRemarks != null" >
+        and DD.QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="qtyStatusActionBy != null" >
+        and DD.QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="qtyStatusActionDate != null" >
+        and DD.QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="confirmPrice != null" >
+        and DD.CONFIRM_PRICE = #{confirmPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="confirmQty != null" >
+        and DD.CONFIRM_QTY = #{confirmQty,jdbcType=DECIMAL}
+      </if>
+      <if test="lineRefNo != null" >
+        and DD.LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+      ) VIEW1 LEFT JOIN ITEM I ON VIEW1.BUYER_ITEM_CODE = I.BUYER_ITEM_CODE AND VIEW1.BUYER_OID = I.BUYER_OID
+      
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.DnDetailHolder" >
+    delete from DN_DETAIL
+    <where>
+      <if test="dnOid != null" >
+        DN_OID = #{dnOid,jdbcType=DECIMAL}
+      </if>
+      <if test="lineSeqNo != null" >
+        and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+      </if>
+      <if test="buyerItemCode != null" >
+        and BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierItemCode != null" >
+        and SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="barcode != null" >
+        and BARCODE = #{barcode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null" >
+        and ITEM_DESC = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and BRAND = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="colourCode != null" >
+        and COLOUR_CODE = #{colourCode,jdbcType=VARCHAR}
+      </if>
+      <if test="colourDesc != null" >
+        and COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeCode != null" >
+        and SIZE_CODE = #{sizeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sizeDesc != null" >
+        and SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="poNo != null" >
+        and PO_NO = #{poNo,jdbcType=VARCHAR}
+      </if>
+      <if test="poDate != null" >
+        and PO_DATE = #{poDate,jdbcType=DATE}
+      </if>
+      <if test="invNo != null" >
+        and INV_NO = #{invNo,jdbcType=VARCHAR}
+      </if>
+      <if test="invDate != null" >
+        and INV_DATE = #{invDate,jdbcType=DATE}
+      </if>
+      <if test="packingFactor != null" >
+        and PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL}
+      </if>
+      <if test="debitBaseUnit != null" >
+        and DEBIT_BASE_UNIT = #{debitBaseUnit,jdbcType=CHAR}
+      </if>
+      <if test="orderUom != null" >
+        and ORDER_UOM = #{orderUom,jdbcType=VARCHAR}
+      </if>
+      <if test="debitQty != null" >
+        and DEBIT_QTY = #{debitQty,jdbcType=DECIMAL}
+      </if>
+      <if test="unitCost != null" >
+        and UNIT_COST = #{unitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="costDiscountAmount != null" >
+        and COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="costDiscountPercent != null" >
+        and COST_DISCOUNT_PERCENT = #{costDiscountPercent,jdbcType=DECIMAL}
+      </if>
+      <if test="retailDiscountAmount != null" >
+        and RETAIL_DISCOUNT_AMOUNT = #{retailDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="netUnitCost != null" >
+        and NET_UNIT_COST = #{netUnitCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemCost != null" >
+        and ITEM_COST = #{itemCost,jdbcType=DECIMAL}
+      </if>
+      <if test="itemSharedCode != null" >
+        and ITEM_SHARED_CODE = #{itemSharedCode,jdbcType=DECIMAL}
+      </if>
+      <if test="itemGrossCost != null" >
+        and ITEM_GROSS_COST = #{itemGrossCost,jdbcType=DECIMAL}
+      </if>
+      <if test="retailPrice != null" >
+        and RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRetailAmount != null" >
+        and ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="itemRemarks != null" >
+        and ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="disputePrice != null" >
+        and DISPUTE_PRICE = #{disputePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="disputePriceRemarks != null" >
+        and DISPUTE_PRICE_REMARKS = #{disputePriceRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="disputeQty != null" >
+        and DISPUTE_QTY = #{disputeQty,jdbcType=DECIMAL}
+      </if>
+      <if test="disputeQtyRemarks != null" >
+        and DISPUTE_QTY_REMARKS = #{disputeQtyRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatus != null" >
+        and PRICE_STATUS = #{priceStatus,jdbcType=CHAR}
+      </if>
+      <if test="priceStatusActionRemarks != null" >
+        and PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatusActionBy != null" >
+        and PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="priceStatusActionDate != null" >
+        and PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="qtyStatus != null" >
+        and QTY_STATUS = #{qtyStatus,jdbcType=CHAR}
+      </if>
+      <if test="qtyStatusActionRemarks != null" >
+        and QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR}
+      </if>
+      <if test="qtyStatusActionBy != null" >
+        and QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR}
+      </if>
+      <if test="qtyStatusActionDate != null" >
+        and QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="confirmPrice != null" >
+        and CONFIRM_PRICE = #{confirmPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="confirmQty != null" >
+        and CONFIRM_QTY = #{confirmQty,jdbcType=DECIMAL}
+      </if>
+      <if test="lineRefNo != null" >
+        and LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.DnDetailHolder" >
+    insert into DN_DETAIL (DN_OID, LINE_SEQ_NO, BUYER_ITEM_CODE, 
+      SUPPLIER_ITEM_CODE, BARCODE, ITEM_DESC, 
+      BRAND, COLOUR_CODE, COLOUR_DESC, 
+      SIZE_CODE, SIZE_DESC, PO_NO, 
+      PO_DATE, INV_NO, INV_DATE, PACKING_FACTOR, 
+      DEBIT_BASE_UNIT, ORDER_UOM, DEBIT_QTY, 
+      UNIT_COST, COST_DISCOUNT_AMOUNT, COST_DISCOUNT_PERCENT, 
+      RETAIL_DISCOUNT_AMOUNT, NET_UNIT_COST, ITEM_COST, 
+      ITEM_SHARED_CODE, ITEM_GROSS_COST, RETAIL_PRICE, 
+      ITEM_RETAIL_AMOUNT, ITEM_REMARKS, DISPUTE_PRICE, 
+      DISPUTE_PRICE_REMARKS, DISPUTE_QTY, DISPUTE_QTY_REMARKS, 
+      PRICE_STATUS, PRICE_STATUS_ACTION_REMARKS, PRICE_STATUS_ACTION_BY, 
+      PRICE_STATUS_ACTION_DATE, QTY_STATUS, QTY_STATUS_ACTION_REMARKS, 
+      QTY_STATUS_ACTION_BY, QTY_STATUS_ACTION_DATE, 
+      CONFIRM_PRICE, CONFIRM_QTY, LINE_REF_NO)
+    values (#{dnOid,jdbcType=DECIMAL}, #{lineSeqNo,jdbcType=INTEGER}, #{buyerItemCode,jdbcType=VARCHAR}, 
+      #{supplierItemCode,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
+      #{brand,jdbcType=VARCHAR}, #{colourCode,jdbcType=VARCHAR}, #{colourDesc,jdbcType=VARCHAR}, 
+      #{sizeCode,jdbcType=VARCHAR}, #{sizeDesc,jdbcType=VARCHAR}, #{poNo,jdbcType=VARCHAR}, 
+      #{poDate,jdbcType=DATE}, #{invNo,jdbcType=VARCHAR}, #{invDate,jdbcType=DATE}, #{packingFactor,jdbcType=DECIMAL}, 
+      #{debitBaseUnit,jdbcType=CHAR}, #{orderUom,jdbcType=VARCHAR}, #{debitQty,jdbcType=DECIMAL}, 
+      #{unitCost,jdbcType=DECIMAL}, #{costDiscountAmount,jdbcType=DECIMAL}, #{costDiscountPercent,jdbcType=DECIMAL}, 
+      #{retailDiscountAmount,jdbcType=DECIMAL}, #{netUnitCost,jdbcType=DECIMAL}, #{itemCost,jdbcType=DECIMAL}, 
+      #{itemSharedCode,jdbcType=DECIMAL}, #{itemGrossCost,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, 
+      #{itemRetailAmount,jdbcType=DECIMAL}, #{itemRemarks,jdbcType=VARCHAR}, #{disputePrice,jdbcType=DECIMAL}, 
+      #{disputePriceRemarks,jdbcType=VARCHAR}, #{disputeQty,jdbcType=DECIMAL}, #{disputeQtyRemarks,jdbcType=VARCHAR}, 
+      #{priceStatus,jdbcType=CHAR}, #{priceStatusActionRemarks,jdbcType=VARCHAR}, #{priceStatusActionBy,jdbcType=VARCHAR}, 
+      #{priceStatusActionDate,jdbcType=TIMESTAMP}, #{qtyStatus,jdbcType=CHAR}, #{qtyStatusActionRemarks,jdbcType=VARCHAR}, 
+      #{qtyStatusActionBy,jdbcType=VARCHAR}, #{qtyStatusActionDate,jdbcType=TIMESTAMP}, 
+      #{confirmPrice,jdbcType=DECIMAL}, #{confirmQty,jdbcType=DECIMAL}, #{lineRefNo,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.DnDetailHolder" >
+    update DN_DETAIL
+    <set >
+      <if test="buyerItemCode != null" >
+        BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierItemCode != null" >
+        SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        BARCODE = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null" >
+        ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="colourCode != null" >
+        COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      </if>
+      <if test="colourDesc != null" >
+        COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeCode != null" >
+        SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeDesc != null" >
+        SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="poNo != null" >
+        PO_NO = #{poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poDate != null" >
+        PO_DATE = #{poDate,jdbcType=DATE},
+      </if>
+      <if test="invNo != null" >
+        INV_NO = #{invNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invDate != null" >
+        INV_DATE = #{invDate,jdbcType=DATE},
+      </if>
+      <if test="packingFactor != null" >
+        PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      </if>
+      <if test="debitBaseUnit != null" >
+        DEBIT_BASE_UNIT = #{debitBaseUnit,jdbcType=CHAR},
+      </if>
+      <if test="orderUom != null" >
+        ORDER_UOM = #{orderUom,jdbcType=VARCHAR},
+      </if>
+      <if test="debitQty != null" >
+        DEBIT_QTY = #{debitQty,jdbcType=DECIMAL},
+      </if>
+      <if test="unitCost != null" >
+        UNIT_COST = #{unitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="costDiscountAmount != null" >
+        COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="costDiscountPercent != null" >
+        COST_DISCOUNT_PERCENT = #{costDiscountPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="retailDiscountAmount != null" >
+        RETAIL_DISCOUNT_AMOUNT = #{retailDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="netUnitCost != null" >
+        NET_UNIT_COST = #{netUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="itemCost != null" >
+        ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+      </if>
+      <if test="itemSharedCode != null" >
+        ITEM_SHARED_CODE = #{itemSharedCode,jdbcType=DECIMAL},
+      </if>
+      <if test="itemGrossCost != null" >
+        ITEM_GROSS_COST = #{itemGrossCost,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null" >
+        RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="itemRetailAmount != null" >
+        ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="itemRemarks != null" >
+        ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="disputePrice != null" >
+        DISPUTE_PRICE = #{disputePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="disputePriceRemarks != null" >
+        DISPUTE_PRICE_REMARKS = #{disputePriceRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="disputeQty != null" >
+        DISPUTE_QTY = #{disputeQty,jdbcType=DECIMAL},
+      </if>
+      <if test="disputeQtyRemarks != null" >
+        DISPUTE_QTY_REMARKS = #{disputeQtyRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStatus != null" >
+        PRICE_STATUS = #{priceStatus,jdbcType=CHAR},
+      </if>
+      <if test="priceStatusActionRemarks != null" >
+        PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStatusActionBy != null" >
+        PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStatusActionDate != null" >
+        PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qtyStatus != null" >
+        QTY_STATUS = #{qtyStatus,jdbcType=CHAR},
+      </if>
+      <if test="qtyStatusActionRemarks != null" >
+        QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyStatusActionBy != null" >
+        QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyStatusActionDate != null" >
+        QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmPrice != null" >
+        CONFIRM_PRICE = #{confirmPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmQty != null" >
+        CONFIRM_QTY = #{confirmQty,jdbcType=DECIMAL}
+      </if>
+      <if test="lineRefNo != null" >
+        LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where DN_OID = #{dnOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.DnDetailHolder" >
+    update DN_DETAIL
+    set BUYER_ITEM_CODE = #{buyerItemCode,jdbcType=VARCHAR},
+      SUPPLIER_ITEM_CODE = #{supplierItemCode,jdbcType=VARCHAR},
+      BARCODE = #{barcode,jdbcType=VARCHAR},
+      ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      COLOUR_CODE = #{colourCode,jdbcType=VARCHAR},
+      COLOUR_DESC = #{colourDesc,jdbcType=VARCHAR},
+      SIZE_CODE = #{sizeCode,jdbcType=VARCHAR},
+      SIZE_DESC = #{sizeDesc,jdbcType=VARCHAR},
+      PO_NO = #{poNo,jdbcType=VARCHAR},
+      PO_DATE = #{poDate,jdbcType=DATE},
+      INV_NO = #{invNo,jdbcType=VARCHAR},
+      INV_DATE = #{invDate,jdbcType=DATE},
+      PACKING_FACTOR = #{packingFactor,jdbcType=DECIMAL},
+      DEBIT_BASE_UNIT = #{debitBaseUnit,jdbcType=CHAR},
+      ORDER_UOM = #{orderUom,jdbcType=VARCHAR},
+      DEBIT_QTY = #{debitQty,jdbcType=DECIMAL},
+      UNIT_COST = #{unitCost,jdbcType=DECIMAL},
+      COST_DISCOUNT_AMOUNT = #{costDiscountAmount,jdbcType=DECIMAL},
+      COST_DISCOUNT_PERCENT = #{costDiscountPercent,jdbcType=DECIMAL},
+      RETAIL_DISCOUNT_AMOUNT = #{retailDiscountAmount,jdbcType=DECIMAL},
+      NET_UNIT_COST = #{netUnitCost,jdbcType=DECIMAL},
+      ITEM_COST = #{itemCost,jdbcType=DECIMAL},
+      ITEM_SHARED_CODE = #{itemSharedCode,jdbcType=DECIMAL},
+      ITEM_GROSS_COST = #{itemGrossCost,jdbcType=DECIMAL},
+      RETAIL_PRICE = #{retailPrice,jdbcType=DECIMAL},
+      ITEM_RETAIL_AMOUNT = #{itemRetailAmount,jdbcType=DECIMAL},
+      ITEM_REMARKS = #{itemRemarks,jdbcType=VARCHAR},
+      DISPUTE_PRICE = #{disputePrice,jdbcType=DECIMAL},
+      DISPUTE_PRICE_REMARKS = #{disputePriceRemarks,jdbcType=VARCHAR},
+      DISPUTE_QTY = #{disputeQty,jdbcType=DECIMAL},
+      DISPUTE_QTY_REMARKS = #{disputeQtyRemarks,jdbcType=VARCHAR},
+      PRICE_STATUS = #{priceStatus,jdbcType=CHAR},
+      PRICE_STATUS_ACTION_REMARKS = #{priceStatusActionRemarks,jdbcType=VARCHAR},
+      PRICE_STATUS_ACTION_BY = #{priceStatusActionBy,jdbcType=VARCHAR},
+      PRICE_STATUS_ACTION_DATE = #{priceStatusActionDate,jdbcType=TIMESTAMP},
+      QTY_STATUS = #{qtyStatus,jdbcType=CHAR},
+      QTY_STATUS_ACTION_REMARKS = #{qtyStatusActionRemarks,jdbcType=VARCHAR},
+      QTY_STATUS_ACTION_BY = #{qtyStatusActionBy,jdbcType=VARCHAR},
+      QTY_STATUS_ACTION_DATE = #{qtyStatusActionDate,jdbcType=TIMESTAMP},
+      CONFIRM_PRICE = #{confirmPrice,jdbcType=DECIMAL},
+      CONFIRM_QTY = #{confirmQty,jdbcType=DECIMAL},
+      LINE_REF_NO = #{lineRefNo,jdbcType=VARCHAR}
+    where DN_OID = #{dnOid,jdbcType=DECIMAL}
+      and LINE_SEQ_NO = #{lineSeqNo,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,129 @@
+body {
+    background-image: url(./img/login_bg.jpg);
+    margin:0;
+    padding:0;
+}
+
+
+.login_top_bg {
+	background-image: url(./img/ui-bg_gloss-wave_55_5c9ccc_500x100.png);
+	background-repeat: repeat-x;
+	margin:0;
+	padding:0;
+}
+
+
+.login_txt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	color: #333333;
+	font-weight:bold;
+}
+
+
+.login_bg {
+	background-image: url(./img/login-content-bg.gif);
+	background-repeat:repeat;
+}
+
+
+.login_bg2 {
+	background-image: url(./img/login_bg.jpg);
+	background-repeat: repeat-y;
+	background-position: right;
+}
+
+
+.login_txt_bt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:18px;
+	line-height: 25px;
+	color: #666666;
+	font-weight: bold;
+}
+
+
+.txt_bt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+
+li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666666;
+}
+
+
+.help {
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+
+a:link {
+	font-size: 12px;
+	line-height: 25px;
+	text-decoration: none;
+}
+
+
+a:hover {
+	font-size: 12px;
+	line-height: 25px;
+	color: #FF93B0;
+	text-decoration: none;
+}
+
+
+a:visited {
+	font-size: 12px;
+	line-height: 25px;
+	color: #333333;
+	text-decoration: none;
+}
+
+
+#footer{
+    border:0;
+	padding:0px;
+	margin:0;
+	background: url(./img/ui-bg_gloss-wave_55_5c9ccc_500x100.png) !important;
+}
+
+
+#footer .data{
+	font-family:"Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+
+#footer .seperator{
+	padding:0px 10px 0px 2px;
+	font-size:12px;
+}
+
+
+#footer .title{
+	padding:3px 10px 0px 2px;
+	font-family:"Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#fff;
+	clear:both;
+}
+	

@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.GiHeaderMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.GiHeaderHolder" >
+    <id column="GI_OID" property="giOid" jdbcType="DECIMAL" />
+    <result column="GI_NO" property="giNo" jdbcType="VARCHAR" />
+    <result column="DOC_ACTION" property="docAction" jdbcType="CHAR" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="GI_DATE" property="giDate" jdbcType="DATE" />
+    <result column="RTV_NO" property="rtvNo" jdbcType="VARCHAR" />
+    <result column="RTV_DATE" property="rtvDate" jdbcType="DATE" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="BUYER_OID" property="buyerOid" jdbcType="DECIMAL" />
+    <result column="BUYER_CODE" property="buyerCode" jdbcType="VARCHAR" />
+    <result column="BUYER_NAME" property="buyerName" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+    <result column="ISSUING_STORE_CODE" property="issuingStoreCode" jdbcType="VARCHAR" />
+    <result column="ISSUING_STORE_NAME" property="issuingStoreName" jdbcType="VARCHAR" />
+    <result column="TOTAL_ISSUED_QTY" property="totalIssuedQty" jdbcType="DECIMAL" />
+    <result column="COLLECTED_BY" property="collectedBy" jdbcType="VARCHAR" />
+    <result column="ITEM_COUNT" property="itemCount" jdbcType="INTEGER" />
+    <result column="TOTAL_COST" property="totalCost" jdbcType="DECIMAL" />
+    <result column="GI_REMARKS" property="giRemarks" jdbcType="VARCHAR" />
+	<result column="CTRL_STATUS" property="giStatus" jdbcType="VARCHAR" />
+	<result column="DUPLICATE"  property="duplicate" jdbcType="BIT"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    GI_OID, GI_NO, DOC_ACTION, ACTION_DATE, GI_DATE, RTV_NO, RTV_DATE, CREATE_DATE, BUYER_OID, 
+    BUYER_CODE, BUYER_NAME, SUPPLIER_OID, SUPPLIER_CODE, SUPPLIER_NAME, ISSUING_STORE_CODE, 
+    ISSUING_STORE_NAME, TOTAL_ISSUED_QTY, COLLECTED_BY, ITEM_COUNT, TOTAL_COST, GI_REMARKS, CTRL_STATUS, DUPLICATE
+  </sql>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.GiHeaderHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from GI_HEADER
+    <where>
+      <if test="giOid != null" >
+        GI_OID = #{giOid,jdbcType=DECIMAL}
+      </if>
+      <if test="giNo != null" >
+        and GI_NO = #{giNo,jdbcType=VARCHAR}
+      </if>
+      <if test="docAction != null" >
+        and DOC_ACTION = #{docAction,jdbcType=CHAR}
+      </if>
+      <if test="actionDate != null" >
+        and ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="giDate != null" >
+        and GI_DATE = #{giDate,jdbcType=DATE}
+      </if>
+      <if test="rtvNo != null" >
+        and RTV_NO = #{rtvNo,jdbcType=VARCHAR}
+      </if>
+      <if test="rtvDate != null" >
+        and RTV_DATE = #{rtvDate,jdbcType=DATE}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="buyerOid != null" >
+        and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        and SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="issuingStoreCode != null" >
+        and ISSUING_STORE_CODE = #{issuingStoreCode,jdbcType=VARCHAR}
+      </if>
+      <if test="issuingStoreName != null" >
+        and ISSUING_STORE_NAME = #{issuingStoreName,jdbcType=VARCHAR}
+      </if>
+      <if test="totalIssuedQty != null" >
+        and TOTAL_ISSUED_QTY = #{totalIssuedQty,jdbcType=DECIMAL}
+      </if>
+      <if test="collectedBy != null" >
+        and COLLECTED_BY = #{collectedBy,jdbcType=VARCHAR}
+      </if>
+      <if test="itemCount != null" >
+        and ITEM_COUNT = #{itemCount,jdbcType=INTEGER}
+      </if>
+      <if test="totalCost != null" >
+        and TOTAL_COST = #{totalCost,jdbcType=DECIMAL}
+      </if>
+      <if test="giRemarks != null" >
+        and GI_REMARKS = #{giRemarks,jdbcType=VARCHAR}
+      </if>
+	  <if test="giStatus != null" >
+        and CTRL_STATUS = #{giStatus,jdbcType=VARCHAR}
+      </if>
+	  <if test="duplicate != null" >
+        and DUPLICATE = #{duplicate,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.GiHeaderHolder" >
+    delete from GI_HEADER
+    <where>
+      <if test="giOid != null" >
+        GI_OID = #{giOid,jdbcType=DECIMAL}
+      </if>
+      <if test="giNo != null" >
+        and GI_NO = #{giNo,jdbcType=VARCHAR}
+      </if>
+      <if test="docAction != null" >
+        and DOC_ACTION = #{docAction,jdbcType=CHAR}
+      </if>
+      <if test="actionDate != null" >
+        and ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="giDate != null" >
+        and GI_DATE = #{giDate,jdbcType=DATE}
+      </if>
+      <if test="rtvNo != null" >
+        and RTV_NO = #{rtvNo,jdbcType=VARCHAR}
+      </if>
+      <if test="rtvDate != null" >
+        and RTV_DATE = #{rtvDate,jdbcType=DATE}
+      </if>
+      <if test="createDate != null" >
+        and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="buyerOid != null" >
+        and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerCode != null" >
+        and BUYER_CODE = #{buyerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null" >
+        and BUYER_NAME = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierOid != null" >
+        and SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierCode != null" >
+        and SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierName != null" >
+        and SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR}
+      </if>
+      <if test="issuingStoreCode != null" >
+        and ISSUING_STORE_CODE = #{issuingStoreCode,jdbcType=VARCHAR}
+      </if>
+      <if test="issuingStoreName != null" >
+        and ISSUING_STORE_NAME = #{issuingStoreName,jdbcType=VARCHAR}
+      </if>
+      <if test="totalIssuedQty != null" >
+        and TOTAL_ISSUED_QTY = #{totalIssuedQty,jdbcType=DECIMAL}
+      </if>
+      <if test="collectedBy != null" >
+        and COLLECTED_BY = #{collectedBy,jdbcType=VARCHAR}
+      </if>
+      <if test="itemCount != null" >
+        and ITEM_COUNT = #{itemCount,jdbcType=INTEGER}
+      </if>
+      <if test="totalCost != null" >
+        and TOTAL_COST = #{totalCost,jdbcType=DECIMAL}
+      </if>
+      <if test="giRemarks != null" >
+        and GI_REMARKS = #{giRemarks,jdbcType=VARCHAR}
+      </if>
+	  <if test="giStatus != null" >
+        and CTRL_STATUS = #{giStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="duplicate != null" >
+        and DUPLICATE = #{duplicate,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.GiHeaderHolder" >
+    insert into GI_HEADER (GI_OID, GI_NO, DOC_ACTION, 
+      ACTION_DATE, GI_DATE, RTV_NO, 
+      RTV_DATE, CREATE_DATE, BUYER_OID, 
+      BUYER_CODE, BUYER_NAME, SUPPLIER_OID, 
+      SUPPLIER_CODE, SUPPLIER_NAME, ISSUING_STORE_CODE, 
+      ISSUING_STORE_NAME, TOTAL_ISSUED_QTY, COLLECTED_BY, 
+      ITEM_COUNT, TOTAL_COST, GI_REMARKS, CTRL_STATUS, DUPLICATE
+      )
+    values (#{giOid,jdbcType=DECIMAL}, #{giNo,jdbcType=VARCHAR}, #{docAction,jdbcType=CHAR}, 
+      #{actionDate,jdbcType=TIMESTAMP}, #{giDate,jdbcType=DATE}, #{rtvNo,jdbcType=VARCHAR}, 
+      #{rtvDate,jdbcType=DATE}, #{createDate,jdbcType=TIMESTAMP}, #{buyerOid,jdbcType=DECIMAL}, 
+      #{buyerCode,jdbcType=VARCHAR}, #{buyerName,jdbcType=VARCHAR}, #{supplierOid,jdbcType=DECIMAL}, 
+      #{supplierCode,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{issuingStoreCode,jdbcType=VARCHAR}, 
+      #{issuingStoreName,jdbcType=VARCHAR}, #{totalIssuedQty,jdbcType=DECIMAL}, #{collectedBy,jdbcType=VARCHAR}, 
+      #{itemCount,jdbcType=INTEGER}, #{totalCost,jdbcType=DECIMAL}, #{giRemarks,jdbcType=VARCHAR},
+      #{giStatus,jdbcType=VARCHAR}, #{duplicate, jdbcType=BIT}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.GiHeaderHolder" >
+    update GI_HEADER
+    <set >
+      <if test="giNo != null" >
+        GI_NO = #{giNo,jdbcType=VARCHAR},
+      </if>
+      <if test="docAction != null" >
+        DOC_ACTION = #{docAction,jdbcType=CHAR},
+      </if>
+      <if test="actionDate != null" >
+        ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="giDate != null" >
+        GI_DATE = #{giDate,jdbcType=DATE},
+      </if>
+      <if test="rtvNo != null" >
+        RTV_NO = #{rtvNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rtvDate != null" >
+        RTV_DATE = #{rtvDate,jdbcType=DATE},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyerOid != null" >
+        BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerCode != null" >
+        BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null" >
+        BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOid != null" >
+        SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierCode != null" >
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="issuingStoreCode != null" >
+        ISSUING_STORE_CODE = #{issuingStoreCode,jdbcType=VARCHAR},
+      </if>
+      <if test="issuingStoreName != null" >
+        ISSUING_STORE_NAME = #{issuingStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalIssuedQty != null" >
+        TOTAL_ISSUED_QTY = #{totalIssuedQty,jdbcType=DECIMAL},
+      </if>
+      <if test="collectedBy != null" >
+        COLLECTED_BY = #{collectedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCount != null" >
+        ITEM_COUNT = #{itemCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalCost != null" >
+        TOTAL_COST = #{totalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="giRemarks != null" >
+        GI_REMARKS = #{giRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="giStatus != null" >
+        and CTRL_STATUS = #{giStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="duplicate != null" >
+        and DUPLICATE = #{duplicate,jdbcType=BIT}
+      </if>
+    </set>
+    where GI_OID = #{giOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.GiHeaderHolder" >
+    update GI_HEADER
+    set GI_NO = #{giNo,jdbcType=VARCHAR},
+      DOC_ACTION = #{docAction,jdbcType=CHAR},
+      ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      GI_DATE = #{giDate,jdbcType=DATE},
+      RTV_NO = #{rtvNo,jdbcType=VARCHAR},
+      RTV_DATE = #{rtvDate,jdbcType=DATE},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      BUYER_OID = #{buyerOid,jdbcType=DECIMAL},
+      BUYER_CODE = #{buyerCode,jdbcType=VARCHAR},
+      BUYER_NAME = #{buyerName,jdbcType=VARCHAR},
+      SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL},
+      SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      ISSUING_STORE_CODE = #{issuingStoreCode,jdbcType=VARCHAR},
+      ISSUING_STORE_NAME = #{issuingStoreName,jdbcType=VARCHAR},
+      TOTAL_ISSUED_QTY = #{totalIssuedQty,jdbcType=DECIMAL},
+      COLLECTED_BY = #{collectedBy,jdbcType=VARCHAR},
+      ITEM_COUNT = #{itemCount,jdbcType=INTEGER},
+      TOTAL_COST = #{totalCost,jdbcType=DECIMAL},
+      GI_REMARKS = #{giRemarks,jdbcType=VARCHAR},
+      CTRL_STATUS = #{giStatus, jdbcType=VARCHAR},
+      DUPLICATE = #{duplicate, jdbcType=BIT}
+    where GI_OID = #{giOid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectGiHeadersWithoutDn" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.GiHeaderHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from GI_HEADER GH where not exists 
+    (select 1 from DN_HEADER DH where GH.GI_NO = DH.GI_NO AND GH.BUYER_OID = DH.BUYER_OID AND GH.SUPPLIER_CODE = DH.SUPPLIER_CODE) 
+    and CTRL_STATUS != 'OUTDATED'
+    and BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectAllRecordToExport" resultMap="summaryResultMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.GrnSummaryHolder">
+	SELECT
+	<include refid="Grid_Column_List"/>
+	,(SELECT COUNT(*) FROM GI_DETAIL GD WHERE GD.GI_OID = G.GI_OID) AS DETAIL_COUNT 
+	FROM MSG_TRANSACTIONS M,GI_HEADER G
+	<!-- handle group constraint for buyer user. -->
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+         <if test="listOid != null">
+         ,FAVOURITE_LIST_SUPPLIER FLS
+         </if>
+         <if test="listOid == null">
+         ,GROUP_SUPPLIER GS 
+         </if>
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        ,GROUP_TRADING_PARTNER GTP, TRADING_PARTNER TP
+    </if>
+	<!-- handle supplier set --> 
+	<if test="setOid != null and validSupplierSet == true ">
+		, SUPPLIER S
+	</if>
+	WHERE M.DOC_OID=G.GI_OID
+	<if test="giNo != null">
+		AND G.GI_NO like concat('%',#{giNo,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="rtvNo != null">
+		AND G.RTV_NO like concat('%',#{rtvNo,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="giDateFrom != null">
+	<![CDATA[
+		AND G.GI_DATE >= #{giDateFrom,jdbcType=TIMESTAMP}
+	]]>
+	</if>
+	<if test="giDateTo != null">
+	<![CDATA[
+		AND G.GI_DATE <= #{giDateTo,jdbcType=TIMESTAMP}
+	]]>
+	</if>
+	<if test="sentDateFrom != null">
+	<![CDATA[
+		AND M.SENT_DATE >= #{sentDateFrom,jdbcType=TIMESTAMP}
+	]]>
+	</if>
+	<if test="sentDateTo != null">
+	<![CDATA[
+		AND M.SENT_DATE <= #{sentDateTo,jdbcType=TIMESTAMP}
+	]]>
+	</if>
+	<if test="receivedDateFrom != null" >
+	<![CDATA[
+		AND M.CREATE_DATE >= #{receivedDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="receivedDateTo != null" >
+	<![CDATA[
+        AND M.CREATE_DATE <= #{receivedDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="rtvDateFrom != null" >
+	<![CDATA[
+		AND G.RTV_DATE >= #{rtvDateFrom,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="rtvDateTo != null" >
+	<![CDATA[
+        AND G.RTV_DATE <= #{rtvDateTo,jdbcType=TIMESTAMP}
+    ]]>
+	</if>
+	<if test="readStatus != null" >
+        AND M.READ_STATUS = #{readStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="giStatus != null" >
+        AND G.CTRL_STATUS = #{giStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="storeCode != null" >
+        AND G.ISSUING_STORE_CODE = #{storeCode,jdbcType=VARCHAR}
+    </if>
+	<!-- handle group constraint for buyer user. -->
+    <if test="(currentUserType == 2 or currentUserType == 4) and visiable == true and fullGroupPriv == false">
+       <if test="listOid != null">
+           AND FLS.LIST_OID = #{listOid,jdbcType=DECIMAL}
+           AND G.SUPPLIER_OID = FLS.SUPPLIER_OID
+       </if>
+       <if test="listOid == null">
+            AND GS.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+            AND G.SUPPLIER_OID = GS.SUPPLIER_OID
+       </if>
+    </if>
+    <!-- handle group constraint for supplier user. -->
+    <if test="(currentUserType == 3 or currentUserType == 5) and visiable == true and currentUserGroupOid != null and fullGroupPriv == false">
+        AND GTP.GROUP_OID = #{currentUserGroupOid,jdbcType=DECIMAL}
+        AND GTP.TP_OID = TP.TP_OID
+        AND TP.BUYER_SUPPLIER_CODE = G.SUPPLIER_CODE
+        AND TP.BUYER_OID = G.BUYER_OID
+    </if>
+    <if test="visiable == false">
+       AND 1 = 2
+    </if>
+    <!-- current is buyer type user or store type user, add restrict by buyer store access -->
+    <if test="(currentUserType == 2 or currentUserType == 4 or currentUserType == 6 or currentUserType == 7) and allStoreFlag == false">
+       <if test="buyerStoreAccessList != null">
+           AND (G.ISSUING_STORE_CODE IN
+           <foreach collection="buyerStoreAccessList" index="index" item="item" open="(" separator="," close=")">
+               #{item}
+           </foreach>
+           OR G.ISSUING_STORE_CODE IS NULL)
+       </if>
+       <if test="buyerStoreAccessList == null">
+           AND 1=2
+       </if>
+    </if>
+    <if test="currentUserBuyerOid != null">
+        AND (M.BUYER_OID = #{currentUserBuyerOid,jdbcType=DECIMAL} OR M.BUYER_OID IN 
+        (SELECT AAC.COMPANY_OID FROM ALLOWED_ACCESS_COMPANY AAC WHERE AAC.USER_OID=#{currentUserOid,jdbcType=DECIMAL}))
+    </if>
+    <if test="currentUserSupplierOid != null and setOid == null and validSupplierSet == false">
+        AND M.SUPPLIER_OID = #{currentUserSupplierOid,jdbcType=DECIMAL}
+    </if>
+    <if test="supplierOid != null and supplierOid != -1 and setOid == null and validSupplierSet == false">
+        AND M.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+    <if test="buyerOid != null and buyerOid != -1">
+        AND M.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+    </if>
+    <if test="supplierCode != null">
+        AND M.SUPPLIER_CODE like concat('%',#{supplierCode,jdbcType=VARCHAR},'%')
+    </if>
+	<if test="setOid != null and validSupplierSet == true ">
+		AND G.SUPPLIER_OID = S.SUPPLIER_OID
+		AND S.SET_OID = #{setOid,jdbcType=DECIMAL}
+		<if test="supplierOid != null and supplierOid != -1">
+			AND S.SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+		</if> 
+	</if>
+    <if test="supplierName != null">
+        AND M.SUPPLIER_NAME like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+    </if>
+	<if test="storeCode != null">
+		AND G.ISSUING_STORE_CODE like concat('%', #{storeCode, jdbcType=VARCHAR},'%')		
+	</if>
+	<if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+    </if>
+  </select>
+</mapper>

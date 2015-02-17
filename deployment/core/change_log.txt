@@ -1,0 +1,3147 @@
+-- svn version: 4785
+-- update by: YouWenWu 
+
+-- Remarks:
+-- Add new business rule 'SkipMatching'.
+
+-- sql patch:
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(6900, 'Matching', 'PoInvGrnDn', 'SkipMatching', 'Skip do 3 ways matching.', 'BusinessRule.Matching.PoInvGrnDn.SkipMatching');
+
+-- ======================================================================================================================================================
+
+-- svn version: 4786
+-- update by: YouWenWu 
+
+-- Remarks:
+-- Drop table PO_CLASS, PO_SUBCLASS, add table DOC_CLASS, DOC_SUBCLASS.
+
+-- sql patch:
+-- drop table if exists DOC_CLASS,DOC_SUBCLASS;
+
+CREATE TABLE DOC_CLASS(
+    DOC_OID      DECIMAL(38, 0)    NOT NULL,
+    CLASS_OID    DECIMAL(38, 0)    NOT NULL,
+    PRIMARY KEY (CLASS_OID, DOC_OID)
+)ENGINE=INNODB
+;
+
+CREATE TABLE DOC_SUBCLASS(
+    DOC_OID         DECIMAL(38, 0)    NOT NULL,
+    SUBCLASS_OID    DECIMAL(38, 0)    NOT NULL,
+    PRIMARY KEY (SUBCLASS_OID, DOC_OID)
+)ENGINE=INNODB
+;
+
+ALTER TABLE DOC_CLASS ADD
+    FOREIGN KEY (CLASS_OID)
+    REFERENCES CLASS(CLASS_OID)
+;
+
+ALTER TABLE DOC_CLASS ADD 
+    FOREIGN KEY (DOC_OID)
+    REFERENCES MSG_TRANSACTIONS(DOC_OID)
+;
+
+ALTER TABLE DOC_SUBCLASS ADD 
+    FOREIGN KEY (SUBCLASS_OID)
+    REFERENCES SUBCLASS(SUBCLASS_OID)
+;
+
+ALTER TABLE DOC_SUBCLASS ADD 
+    FOREIGN KEY (DOC_OID)
+    REFERENCES MSG_TRANSACTIONS(DOC_OID)
+;
+
+
+-- ======================================================================================================================================================
+-- svn version: 4790
+-- update by: LiYong 
+
+-- Remarks:
+-- Add new 'watson_inv_export_job'.
+
+-- sql patch:
+INSERT INTO JOB(JOB_OID, JOB_NAME, JOB_GROUP, TRIGGER_NAME, TRIGGER_GROUP, JOB_DESCRIPTION, CRON_EXPRESSION, ENABLED)
+VALUES(15, 'Watsons_Inv_Export_Job', 'B2B-GROUP', 'watsonsInvExportJobTrigger', 'B2B-GROUP', 'The job to export watsons inv file.', '0 59 23 * * ?', TRUE);
+
+
+INSERT INTO QRTZ_JOB_DETAILS(JOB_NAME, JOB_GROUP, DESCRIPTION, JOB_CLASS_NAME, IS_DURABLE, IS_VOLATILE, IS_STATEFUL, REQUESTS_RECOVERY, JOB_DATA)
+VALUES ('Watsons_Inv_Export_Job', 'B2B-GROUP', 'The job to export watsons inv file.', 'com.pracbiz.b2bportal.customized.watsons.eai.backend.WatsonsInvExportJob', FALSE, FALSE, FALSE, FALSE, NULL);
+
+INSERT INTO QRTZ_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, JOB_NAME, JOB_GROUP, IS_VOLATILE, DESCRIPTION, NEXT_FIRE_TIME, PREV_FIRE_TIME, PRIORITY, TRIGGER_STATE, TRIGGER_TYPE, START_TIME, END_TIME, CALENDAR_NAME, MISFIRE_INSTR, JOB_DATA)
+VALUES('watsonsInvExportJobTrigger', 'B2B-GROUP', 'Watsons_Inv_Export_Job', 'B2B-GROUP', false, NULL, '0000000000000', '0000000000000', 5, 'WAITING', 'CRON', '0000000000000', NULL, NULL, 2, NULL);
+
+INSERT INTO QRTZ_CRON_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, CRON_EXPRESSION, TIME_ZONE_ID)
+VALUES('watsonsInvExportJobTrigger', 'B2B-GROUP', '0 59 23 * * ?', NULL);
+
+-- ======================================================================================================================================================
+-- svn version: 4804
+-- update by: YouWenWu
+
+-- Remarks:
+-- Add new table CC_HEADER, CC_HEADER_EXTENDED, CC_DETAIL, CC_DETAIL_EXTENDED.
+
+-- sql patch:
+
+
+CREATE TABLE CC_DETAIL(
+    INV_OID               DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO           INTEGER           NOT NULL,
+    BUYER_ITEM_CODE       VARCHAR(20)       NOT NULL,
+    SUPPLIER_ITEM_CODE    VARCHAR(20),
+    BARCODE               VARCHAR(50),
+    ITEM_DESC             VARCHAR(100),
+    BRAND                 VARCHAR(20),
+    COLOUR_CODE           VARCHAR(20),
+    COLOUR_DESC           VARCHAR(50),
+    SIZE_CODE             VARCHAR(20),
+    SIZE_DESC             VARCHAR(50),
+    PACKING_FACTOR        DECIMAL(8, 2),
+    INV_BASE_UNIT         CHAR(1),
+    INV_UOM               VARCHAR(20)       NOT NULL,
+    INV_QTY               DECIMAL(10, 4)    NOT NULL,
+    FOC_BASE_UNIT         CHAR(1),
+    FOC_UOM               VARCHAR(20),
+    FOC_QTY               DECIMAL(10, 4),
+    UNIT_PRICE            DECIMAL(15, 4),
+    DISCOUNT_AMOUNT       DECIMAL(15, 4)    NOT NULL,
+    DISCOUNT_PERCENT      DECIMAL(4, 2),
+    NET_PRICE             DECIMAL(15, 4),
+    ITEM_AMOUNT           DECIMAL(15, 4)    NOT NULL,
+    NET_AMOUNT            DECIMAL(15, 4)    NOT NULL,
+    ITEM_SHARED_COST      DECIMAL(15, 4),
+    ITEM_GROSS_AMOUNT     DECIMAL(15, 4),
+    ITEM_REMARKS          VARCHAR(100),
+    LINE_REF_NO           VARCHAR(20),
+    PRIMARY KEY (LINE_SEQ_NO, INV_OID)
+)ENGINE=INNODB
+;
+
+
+CREATE TABLE CC_DETAIL_EXTENDED(
+    INV_OID         DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO     INTEGER           NOT NULL,
+    FIELD_NAME      VARCHAR(30)       NOT NULL,
+    FIELD_TYPE      CHAR(1)           NOT NULL,
+    INT_VALUE       INTEGER,
+    FLOAT_VALUE     DECIMAL(15, 4),
+    STRING_VALUE    VARCHAR(255),
+    BOOL_VALUE      BOOLEAN,
+    DATE_VALUE      DATETIME,
+    PRIMARY KEY (FIELD_NAME, LINE_SEQ_NO, INV_OID)
+)ENGINE=INNODB
+;
+
+
+CREATE TABLE CC_HEADER(
+    INV_OID                        DECIMAL(38, 0)    NOT NULL,
+    INV_NO                         VARCHAR(20)       NOT NULL,
+    DOC_ACTION                     CHAR(1)           NOT NULL,
+    ACTION_DATE                    DATETIME          NOT NULL,
+    INV_TYPE                       CHAR(3)           NOT NULL,
+    INV_DATE                       DATETIME          NOT NULL,
+    PO_NO                          VARCHAR(20),
+    PO_DATE                        DATE,
+    DELIVERY_DATE                  DATETIME          NOT NULL,
+    BUYER_OID                      DECIMAL(38, 0)    NOT NULL,
+    BUYER_CODE                     VARCHAR(20)       NOT NULL,
+    BUYER_NAME                     VARCHAR(100)      NOT NULL,
+    BUYER_ADDR1                    VARCHAR(100),
+    BUYER_ADDR2                    VARCHAR(100),
+    BUYER_ADDR3                    VARCHAR(100),
+    BUYER_ADDR4                    VARCHAR(100),
+    BUYER_CITY                     VARCHAR(50),
+    BUYER_STATE                    VARCHAR(50),
+    BUYER_CTRY_CODE                CHAR(2)           NOT NULL,
+    BUYER_POSTAL_CODE              VARCHAR(15),
+    DEPT_CODE                      VARCHAR(20),
+    DEPT_NAME                      VARCHAR(100),
+    SUB_DEPT_CODE                  VARCHAR(20),
+    SUB_DEPT_NAME                  VARCHAR(100),
+    SUPPLIER_OID                   DECIMAL(38, 0),
+    SUPPLIER_CODE                  VARCHAR(20)       NOT NULL,
+    SUPPLIER_NAME                  VARCHAR(100),
+    SUPPLIER_ADDR1                 VARCHAR(100),
+    SUPPLIER_ADDR2                 VARCHAR(100),
+    SUPPLIER_ADDR3                 VARCHAR(100),
+    SUPPLIER_ADDR4                 VARCHAR(100),
+    SUPPLIER_CITY                  VARCHAR(50),
+    SUPPLIER_STATE                 VARCHAR(50),
+    SUPPLIER_CTRY_CODE             CHAR(2)           NOT NULL,
+    SUPPLIER_POSTAL_CODE           VARCHAR(15),
+    STORE_CODE                     VARCHAR(20),
+    STORE_NAME                     VARCHAR(100),
+    STORE_ADDR1                    VARCHAR(100),
+    STORE_ADDR2                    VARCHAR(100),
+    STORE_ADDR3                    VARCHAR(100),
+    STORE_ADDR4                    VARCHAR(100),
+    STORE_CITY                     VARCHAR(50),
+    STORE_STATE                    VARCHAR(50),
+    STORE_CTRY_CODE                CHAR(2),
+    STORE_POSTAL_CODE              VARCHAR(15),
+    PAY_TERM_CODE                  VARCHAR(20),
+    PAY_TERM_DESC                  VARCHAR(100),
+    PAY_INSTRUCT                   VARCHAR(500),
+    ADDITIONAL_DISCOUNT_AMOUNT     DECIMAL(15, 4)    NOT NULL,
+    ADDITIONAL_DISCOUNT_PERCENT    DECIMAL(4, 2),
+    INV_AMOUNT_NO_VAT              DECIMAL(15, 4)    NOT NULL,
+    VAT_AMOUNT                     DECIMAL(15, 4)    NOT NULL,
+    INV_AMOUNT_WITH_VAT            DECIMAL(15, 4)    NOT NULL,
+    VAT_RATE                       DECIMAL(4, 2)     NOT NULL,
+    FOOTER_LINE_1                  VARCHAR(100),
+    FOOTER_LINE_2                  VARCHAR(100),
+    FOOTER_LINE_3                  VARCHAR(100),
+    FOOTER_LINE_4                  VARCHAR(100),
+    INV_REMARKS                    VARCHAR(500),
+    CTRL_STATUS                    ENUM('NEW','AMENDED','OUTDATED') NOT NULL,
+    PRIMARY KEY (INV_OID)
+)ENGINE=INNODB
+;
+
+CREATE TABLE CC_HEADER_EXTENDED(
+    INV_OID         DECIMAL(38, 0)    NOT NULL,
+    FIELD_NAME      VARCHAR(30)       NOT NULL,
+    FIELD_TYPE      CHAR(1)           NOT NULL,
+    INT_VALUE       INTEGER,
+    FLOAT_VALUE     DECIMAL(15, 4),
+    STRING_VALUE    VARCHAR(255),
+    BOOL_VALUE      BOOLEAN,
+    DATE_VALUE      DATETIME,
+    PRIMARY KEY (FIELD_NAME, INV_OID)
+)ENGINE=INNODB
+;
+
+ALTER TABLE CC_DETAIL ADD 
+    FOREIGN KEY (INV_OID)
+    REFERENCES CC_HEADER(INV_OID)
+;
+
+ALTER TABLE CC_DETAIL_EXTENDED ADD 
+    FOREIGN KEY (INV_OID, LINE_SEQ_NO)
+    REFERENCES CC_DETAIL(INV_OID, LINE_SEQ_NO)
+;
+
+ALTER TABLE CC_HEADER ADD 
+    FOREIGN KEY (INV_OID)
+    REFERENCES MSG_TRANSACTIONS(DOC_OID)
+;
+
+ALTER TABLE CC_HEADER_EXTENDED ADD 
+    FOREIGN KEY (INV_OID)
+    REFERENCES CC_HEADER(INV_OID)
+;
+-- ======================================================================================================================================================
+-- svn version: 4811
+-- update by: YouWenWu
+
+-- Remarks:
+-- Add new column 'DUPLICATE' for table CC_HEADER.
+
+-- sql patch:
+ALTER TABLE CC_HEADER ADD COLUMN `DUPLICATE` BOOLEAN NOT NULL AFTER `CTRL_STATUS`;
+
+-- ======================================================================================================================================================
+-- svn version: 4812
+-- update by: liyong
+
+-- Remarks:
+-- Add new table doc type CC for outbound(credit claim).
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(42, 'HSEKEEP', 'CC', 'OUTBOUND', 'Housekeeping days for CC.', NULL, 100, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+-- ======================================================================================================================================================
+-- svn version: 4815
+-- update by: liyong
+
+-- Remarks:
+-- Add new module and operation access for credit claim.
+
+Insert into MODULE(MODULE_ID, MODULE_NAME, MODULE_TITLE_KEY, PARENT_ID, MODULE_LEVEL, SHOWABLE, SHOW_SORT, MODULE_LINK)
+VALUES('9011', 'Credit Claim', NULL, '9000', 2, TRUE, 9011, '/cc/init.action');
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901101', 'Credit Claim - [Search]', 0, FALSE, 'SEARCH', '9011', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901101', '/cc/search.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901101', '/cc/data.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901102', 'Credit Claim - [Print Pdf]', 0, FALSE, 'OTHER', '9011', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901102', '/cc/print.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901101');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901102');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901102');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901102');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901102');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901102');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901102');
+
+-- Credit Claim Summary Page Setting for buyer
+
+
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (19, 'P010','B','Credit Claim Summary');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1901,'invNo', 'INV_NO', 'cc.summary.grid.invNo', 1, 8, 1, 2, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1902,'buyerCode', 'BUYER_CODE', 'cc.summary.grid.buyerCode', 0, 7, 1, 1, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1903,'buyerName', 'BUYER_NAME', 'cc.summary.grid.buyerName', 0, 7, 1, 2, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1904,'supplierCode', 'SUPPLIER_CODE', 'cc.summary.grid.supplierCode', 1, 7, 1, 1, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1905,'supplierName', 'SUPPLIER_NAME', 'cc.summary.grid.supplierName', 0, 7, 1, 4, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1906,'receivedDate', 'CREATE_DATE', 'cc.summary.grid.createDate', 0, 7, 1, 16, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1907,'procDate', 'PROC_DATE', 'cc.summary.grid.procDate', 0, 7, 1, 12, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1908,'sentDate', 'SENT_DATE', 'cc.summary.grid.sentDate', 1, 7, 1, 7, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1909,'outDate', 'OUT_DATE', 'cc.summary.grid.outDate', 0, 7, 1, 11, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1910,'readStatus', 'READ_STATUS', 'cc.summary.grid.readStatus', 1, 7, 1, 11, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1911,'invDate', 'INV_DATE', 'cc.summary.grid.invDate', 1, 7, 1, 3, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1912,'poNo', 'PO_NO', 'cc.summary.grid.poNo', 1, 7, 1, 4, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1913,'poDate', 'PO_DATE', 'cc.summary.grid.poDate', 1, 7, 1, 5, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1914,'invRemarks', 'INV_REMARKS', 'cc.summary.grid.invRemarks', 1, 8, 1, 9, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1915,'invType', 'INV_TYPE', 'cc.summary.grid.invType', 1, 6, 1, 6, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1916,'invAmountWithVat', 'INV_AMOUNT_WITH_VAT', 'cc.summary.grid.invAmountWithVat', 0, 10, 1, 15, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1917,'vatRate', 'VAT_RATE', 'cc.summary.grid.vatRate', 0, 8, 1, 13, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1918,'vatAmount', 'VAT_AMOUNT', 'cc.summary.grid.vatAmount', 0, 6, 1, 8, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (1919,'ccStatus', 'CTRL_STATUS', 'cc.summary.grid.ccStatus', 1, 7, 1, 10, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1920,'readDate', 'READ_DATE', 'cc.summary.grid.readDate', 1, 7, 1, 21, 19);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1921,'storeCode', 'STORE_CODE', 'cc.summary.grid.storeCode', 1, 7, 1, 2, 19);
+
+
+-- Credit Claim Summary Page Setting for supplier
+
+
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (20, 'P010','S','Credit Claim Summary');
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2001,'invNo', 'INV_NO', 'cc.summary.grid.invNo', 1, 7, 1, 2, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2002,'buyerCode', 'BUYER_CODE', 'cc.summary.grid.buyerCode', 1, 6, 1, 1, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2003,'buyerName', 'BUYER_NAME', 'cc.summary.grid.buyerName', 0, 7, 1, 2, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2004,'supplierCode', 'SUPPLIER_CODE', 'cc.summary.grid.supplierCode', 0, 7, 1, 3, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2005,'supplierName', 'SUPPLIER_NAME', 'cc.summary.grid.supplierName', 0, 7, 1, 4, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2006,'receivedDate', 'CREATE_DATE', 'cc.summary.grid.createDate', 1, 7, 1, 8, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2007,'procDate', 'PROC_DATE', 'cc.summary.grid.procDate', 0, 7, 1, 12, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2008,'sentDate', 'SENT_DATE', 'cc.summary.grid.sentDate', 0, 8, 1, 10, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2009,'outDate', 'OUT_DATE', 'cc.summary.grid.outDate', 0, 7, 1, 11, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2010,'readStatus', 'READ_STATUS', 'cc.summary.grid.readStatus', 0, 7, 1, 19, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2011,'invDate', 'INV_DATE', 'cc.summary.grid.invDate', 1, 6, 1, 3, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2012,'poNo', 'PO_NO', 'cc.summary.grid.poNo', 1, 7, 1, 4, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2013,'poDate', 'PO_DATE', 'cc.summary.grid.poDate', 1, 6, 1, 5, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2014,'invRemarks', 'INV_REMARKS', 'cc.summary.grid.invRemarks', 1, 9, 1, 9, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2015,'invType', 'INV_TYPE', 'cc.summary.grid.invType', 1, 6, 1, 6, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2016,'invAmountWithVat', 'INV_AMOUNT_WITH_VAT', 'cc.summary.grid.invAmountWithVat', 1, 12, 1, 7, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2017,'vatRate', 'VAT_RATE', 'cc.summary.grid.vatRate', 0, 8, 1, 13, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2018,'vatAmount', 'VAT_AMOUNT', 'cc.summary.grid.vatAmount', 0, 8, 1, 14, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2019,'ccStatus', 'CTRL_STATUS', 'cc.summary.grid.ccStatus', 1, 7, 1, 10, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2020,'readDate', 'READ_DATE', 'cc.summary.grid.readDate', 0, 7, 1, 22, 20);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2021,'storeCode', 'STORE_CODE', 'cc.summary.grid.storeCode', 1, 7, 1, 2, 20);
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4827
+-- update by: yinchi
+
+-- Remarks:
+-- add supplier and store user taskList operation.
+
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '000101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '000101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '000101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '000101');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4837
+-- update by: youwenwu
+
+-- Remarks:
+-- add CASH_DISCOUNT_AMOUNT and CASH_DISCOUNT_PERCENT for table INV_HEADER.
+
+
+ALTER TABLE `INV_HEADER` ADD COLUMN `CASH_DISCOUNT_AMOUNT` DECIMAL(15,4) NOT NULL AFTER `ADDITIONAL_DISCOUNT_PERCENT`,
+ ADD COLUMN `CASH_DISCOUNT_PERCENT` DECIMAL(4,2) AFTER `CASH_DISCOUNT_AMOUNT`;
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4840
+-- update by: youwenwu
+
+-- Remarks:
+-- add business rule DiscountForDetailEditable and CashDiscountEditable
+
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(1400, 'PoConvertInv', 'SorPO', 'DiscountForDetailEditable', 'Detail Trade discount information can be changed.', 'BusinessRule.PoConvertInv.SorPO.DiscountForDetailEditable');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(1500, 'PoConvertInv', 'SorPO', 'CashDiscountEditable', 'Cash discount information can be changed.', 'BusinessRule.PoConvertInv.SorPO.CashDiscountEditable');
+
+
+-- ======================================================================================================================================================
+-- svn version: 4842
+-- update by: youwenwu
+
+-- Remarks:
+-- add CLOSED_BY and CLOSED_REMARKS for table PO_INV_GRN_DN_MATCHING.
+
+
+ALTER TABLE `PO_INV_GRN_DN_MATCHING` ADD COLUMN `CLOSED_BY` VARCHAR(50) AFTER `CLOSED`,
+ ADD COLUMN `CLOSED_REMARKS` VARCHAR(255) AFTER `CLOSED_DATE`;
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4877
+-- update by: youwenwu
+
+-- Remarks:
+-- remove business rule DnGeneratingJobInvMaxBuffingDays,BufferingDaysBasedOnInv, add DnGeneratingJobMatchingMaxBuffingDays DnGeneratingJobMatchingMinBuffingDays
+
+DELETE FROM BUYER_RULE WHERE RULE_OID IN (7, 3400);
+DELETE FROM BUSINESS_RULE WHERE RULE_OID IN (7, 3400);
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(9, 'Global', 'Global', 'DnGeneratingJobMatchingMaxBuffingDays', 'DN generate job matching max buffering days.', 'BusinessRule.Global.Global.DnGeneratingJobMatchingMaxBuffingDays');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(10, 'Global', 'Global', 'DnGeneratingJobMatchingMinBuffingDays', 'DN generate job matching min buffering days.', 'BusinessRule.Global.Global.DnGeneratingJobMatchingMinBuffingDays');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4881
+-- update by: youwenwu
+
+-- Remarks:
+-- add LOCATION_CONTACT_TEL for table PO_lOCATION
+
+ALTER TABLE PO_LOCATION ADD COLUMN `LOCATION_CONTACT_TEL` VARCHAR(30) AFTER `LOCATION_POSTAL_CODE`;
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4891
+-- update by: youwenwu
+
+-- Remarks:
+-- add business rule PreventItemsNotExistInPO for GRN and INV
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(13100, 'GRN', 'Global', 'PreventItemsNotExistInPO', 'Prevent GRNs contain items does not exist in corresponding PO', 'BusinessRule.GRN.Global.PreventItemsNotExistInPO');
+
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(14000, 'INV', 'Global', 'PreventItemsNotExistInPO', 'Prevent INVs contain items does not exist in corresponding PO', 'BusinessRule.INV.Global.PreventItemsNotExistInPO');
+
+
+-- ======================================================================================================================================================
+-- svn version: 4893
+-- update by: liyong
+
+-- Remarks:
+-- Add operation for export excel and export summary excel on summary page.
+
+-- Return to Vendor
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900203', 'Return to Vendor - [Export Excel]', 0, FALSE, 'OTHER', '9002', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900203', '/rtv/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900204', 'Return to Vendor - [Export Summary Excel]', 0, FALSE, 'OTHER', '9002', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900204', '/rtv/exportSummaryExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900203');
+
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900204');
+
+-- Goods Receipt Note
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900305', 'Goods Receipt Note - [Export Excel]', 0, FALSE, 'OTHER', '9003', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900305', '/grn/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900306', 'Goods Receipt Note - [Export Summary Excel]', 0, FALSE, 'OTHER', '9003', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900306', '/grn/exportSummaryExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900305');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900305');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900305');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900305');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900305');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900305');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900306');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900306');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900306');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900306');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900306');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900306');
+
+-- E-Invoice
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900407', 'E-Inovice - [Export Excel]', 0, FALSE, 'OTHER', '9004', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900407', '/inv/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900408', 'E-Inovice - [Export Summary Excel]', 0, FALSE, 'OTHER', '9004', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900408', '/inv/exportSummaryExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900407');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900407');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900407');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900407');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900407');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900407');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900408');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900408');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900408');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900408');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900408');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900408');
+
+
+-- Debit Note
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900511', 'Debit Note - [Export Excel]', 0, FALSE, 'OTHER', '9005', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900511', '/dn/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900512', 'Debit Note - [Export Summary Excel]', 0, FALSE, 'OTHER', '9005', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900512', '/dn/exportSummaryExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900511');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900511');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900511');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900511');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900511');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900511');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900512');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900512');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900512');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900512');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900512');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900512');
+
+-- Payment Advice
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900703', 'Payment Advice - [Export Excel]', 0, FALSE, 'OTHER', '9007', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900703', '/pn/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900704', 'Payment Advice - [Export Summary Excel]', 0, FALSE, 'OTHER', '9007', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900704', '/pn/exportSummaryExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900703');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900703');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900703');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900703');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900703');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900703');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900704');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '900704');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900704');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '900704');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '900704');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '900704');
+
+-- Goods Issue
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901003', 'Goods Issue - [Export Excel]', 0, FALSE, 'OTHER', '9010', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901003', '/gi/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901004', 'Goods Issue - [Export Summary Excel]', 0, FALSE, 'OTHER', '9010', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901004', '/gi/exportSummaryExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901003');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901003');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901003');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901003');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901003');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901003');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901004');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901004');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901004');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901004');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901004');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901004');
+
+-- Credit Claim 
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901103', 'Credit Claim - [Export Excel]', 0, FALSE, 'OTHER', '9011', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901103', '/cc/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901104', 'Credit Claim - [Export Summary Excel]', 0, FALSE, 'OTHER', '9011', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901104', '/cc/exportSummaryExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901103');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901103');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901103');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901103');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901103');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901103');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901104');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901104');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901104');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901104');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901104');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901104');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4909
+-- update by: youwenwu
+
+-- Remarks:
+-- delete business rule AmtPoPlusDnLargerInv.
+
+DELETE FROM BUYER_RULE WHERE RULE_OID=5000;
+DELETE FROM BUSINESS_RULE WHERE RULE_OID=5000;
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4934
+-- update by: liyong
+
+-- Remarks:
+-- Add new module named 'Quick Purchase Order' and its operation url.
+
+Insert into MODULE(MODULE_ID, MODULE_NAME, MODULE_TITLE_KEY, PARENT_ID, MODULE_LEVEL, SHOWABLE, SHOW_SORT, MODULE_LINK)
+VALUES('9012', 'Quick Purchase Order', NULL, '9000', 2, TRUE, 9012, '/quickPo/init.action');
+
+-- Quick Purchase Order
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901201', 'Quick Purchase Order - [Search]', 0, FALSE, 'SEARCH', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901201', '/quickPo/search.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901201', '/quickPo/data.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901201', '/quickPo/searchSession.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901201', '/quickPo/dataSession.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901202', 'Quick Purchase Order - [Generate Invoice]', 1, FALSE, 'OTHER', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/generateInv.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/invoiceData.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/po/save.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/saveAndSent.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901203', 'Quick Purchase Order - [Print Pdf]', 2, FALSE, 'OTHER', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901203', '/quickPo/print.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901204', 'Quick Purchase Order - [Export Excel]', 3, FALSE, 'OTHER', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901204', '/quickPo/exportExcel.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901205', 'Quick Purchase Order - [Edit Delivery Date]', 4, FALSE, 'OTHER', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901205', '/quickPo/initEditDeliveryDate.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901205', '/quickPo/saveEditDeliveryDate.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901206', 'Quick Purchase Order - [Export Summary Excel]', 5, FALSE, 'OTHER', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901206', '/quickPo/exportSummaryExcel.action', FALSE, TRUE);
+
+
+-- Quick Purchase Order
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901201');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901201');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901201');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901201');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901201');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901201');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901202');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901202');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901203');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901204');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901205');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901205');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901206');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901206');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901206');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901206');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '901206');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '901206');
+
+
+-- Quick Purchase Order Summary Page Setting for buyer
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (21, 'P011','B','Quick Purchase Order Summary');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2101,'supplierCode', 'SUPPLIER_CODE', 'quick.po.summary.grid.supplierCode', 1, 15, 1, 1, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY,  AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2102,'poType', 'PO_TYPE', 'quick.po.summary.grid.poType', 1, 8, 1, 5, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2103,'poNo', 'PO_NO', 'quick.po.summary.grid.poNo', 1, 12, 1, 2, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2104,'poDate', 'PO_DATE', 'quick.po.summary.grid.poDate', 1, 10, 1, 3, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2105,'deliveryDate', 'DELIVERY_DATE', 'quick.po.summary.grid.deliveryDate', 1, 10, 1, 4, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2106,'sentDate', 'SENT_DATE', 'quick.po.summary.grid.sentDate', 1, 10, 1, 6, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2107,'ctrlStatus', 'CTRL_STATUS', 'quick.po.summary.grid.poStatus', 1, 15, 1, 7, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2108,'readStatus', 'READ_STATUS', 'quick.po.summary.grid.readStatus', 0, 7, 1, 14, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2109,'buyerName', 'BUYER_NAME', 'quick.po.summary.grid.buyerName', 0, 7, 1, 2, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2110,'supplierName', 'SUPPLIER_NAME', 'quick.po.summary.grid.supplierName', 0, 7, 1, 4, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2111,'outDate', 'OUT_DATE', 'quick.po.summary.grid.outDate', 0, 7, 1, 10, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2112,'procDate', 'PROC_DATE', 'quick.po.summary.grid.procDate', 0, 7, 1, 11, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2113,'buyerCode', 'BUYER_CODE', 'quick.po.summary.grid.buyerCode', 0, 7, 1, 1, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2114,'receivedDate', 'CREATE_DATE', 'quick.po.summary.grid.receivedDate', 0, 7, 1, 12, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2115,'readDate', 'READ_DATE', 'quick.po.summary.grid.readDate', 0, 7, 1, 15, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2116,'poSubType2', 'PO_SUB_TYPE2', 'quick.po.summary.grid.poSubType2', 1, 7, 1, 16, 21);
+
+-- Quick Purchase Order Summary Page Setting for supplier
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (22, 'P011','S','Quick Purchase Order Summary');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2201,'buyerCode', 'BUYER_CODE', 'quick.po.summary.grid.buyerCode', 1, 10, 1, 1, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY,  AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2202,'poType', 'PO_TYPE', 'quick.po.summary.grid.poType', 1, 7, 1, 5, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2203,'poNo', 'PO_NO', 'quick.po.summary.grid.poNo', 1, 10, 1, 2, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2204,'poDate', 'PO_DATE', 'quick.po.summary.grid.poDate', 1, 10, 1, 3, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2205,'deliveryDate', 'DELIVERY_DATE', 'quick.po.summary.grid.deliveryDate', 1, 10, 1, 4, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2206,'receivedDate', 'CREATE_DATE', 'quick.po.summary.grid.receivedDate', 1, 13, 1, 6, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2207,'poStatus', 'CTRL_STATUS', 'quick.po.summary.grid.poStatus', 1, 12, 1, 7, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2208,'readStatus', 'READ_STATUS', 'quick.po.summary.grid.readStatus', 1, 7, 1, 8, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2209,'buyerName', 'BUYER_NAME', 'quick.po.summary.grid.buyerName', 0, 7, 1, 2, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2210,'supplierName', 'SUPPLIER_NAME', 'quick.po.summary.grid.supplierName', 0, 7, 1, 4, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2211,'outDate', 'OUT_DATE', 'quick.po.summary.grid.outDate', 0, 7, 1, 10, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2212,'procDate', 'PROC_DATE', 'quick.po.summary.grid.procDate', 0, 7, 1, 11, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2213,'sentDate', 'SENT_DATE', 'quick.po.summary.grid.sentDate', 0, 8, 1, 9, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2214,'supplierCode', 'SUPPLIER_CODE', 'quick.po.summary.grid.supplierCode', 0, 7, 1, 3, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2215,'readDate', 'READ_DATE', 'quick.po.summary.grid.readDate', 0, 7, 1, 15, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2216,'poSubType2', 'PO_SUB_TYPE2', 'quick.po.summary.grid.poSubType2', 1, 8, 1, 16, 22);
+
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4950
+-- update by: youwenwu
+
+-- Remarks:
+-- correct the wrong spelling 'invoice', remove operation of invoice and payment advice for store user.
+
+DELETE FROM ROLE_OPERATION WHERE OPN_ID IN (900407,900408,900703,900704)
+AND EXISTS(SELECT 1 FROM ROLE R WHERE ROLE_OPERATION.ROLE_OID = R.ROLE_OID AND R.USER_TYPE_OID IN (6,7));
+
+DELETE FROM T_ROLE_OPERATION WHERE OPN_ID IN (900407,900408,900703,900704)
+AND EXISTS(SELECT 1 FROM T_ROLE R WHERE T_ROLE_OPERATION.ROLE_OID = R.ROLE_OID AND R.USER_TYPE_OID IN (6,7));
+
+DELETE FROM USER_TYPE_OPERATION WHERE OPN_ID in (900407,900408,900703,900704);
+
+
+-- ======================================================================================================================================================
+-- svn version: 4952
+-- update by: YouWenWu
+
+-- Remarks:
+-- Add new column 'CLOSED_REMARKS' for table DN_HEADER, add field closed remarks for dn summary page.
+
+-- sql patch:
+ALTER TABLE DN_HEADER ADD COLUMN `CLOSED_REMARKS` VARCHAR(255) AFTER `CLOSED_DATE`;
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (934,'closedRemarks', 'CLOSED_REMARKS', 'dn.summary.grid.closedRemarks', 0, 7, 1, 34, 9);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1034,'closedRemarks', 'CLOSED_REMARKS', 'dn.summary.grid.closedRemarks', 0, 7, 1, 34, 10);
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4955
+-- update by: YouWenWu
+
+-- Remarks:
+-- Add field closed by, closed date for dn summary page.
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (935,'closedBy', 'CLOSED_BY', 'dn.summary.grid.closedBy', 0, 7, 1, 35, 9);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (936,'closedDate', 'CLOSED_DATE', 'dn.summary.grid.closedDate', 0, 7, 1, 36, 9);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1035,'closedBy', 'CLOSED_BY', 'dn.summary.grid.closedBy', 0, 7, 1, 35, 10);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1036,'closedDate', 'CLOSED_DATE', 'dn.summary.grid.closedDate', 0, 7, 1, 36, 10);
+
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4960
+-- update by: YouWenWu
+
+-- Remarks:
+-- change inv status 'VOID_AMENDED' to 'VOID_OUTDATED'.
+
+ALTER TABLE INV_HEADER MODIFY COLUMN `CTRL_STATUS` ENUM('NEW','SUBMIT','VOID','VOID_AMENDED','VOID_OUTDATED') NOT NULL;
+
+UPDATE INV_HEADER SET CTRL_STATUS = 'VOID_OUTDATED' WHERE CTRL_STATUS='VOID_AMENDED';
+
+ALTER TABLE INV_HEADER MODIFY COLUMN `CTRL_STATUS` ENUM('NEW','SUBMIT','VOID','VOID_OUTDATED') NOT NULL;
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4972
+-- update by: YouWenWu
+
+-- Remarks:
+-- add business rule AutoAcceptQtyInvLessGrn, AutoAcceptPriceInvLessPo, PreventItemsNotExistInRTV.
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7000, 'Matching', 'PoInvGrnDn', 'AutoAcceptQtyInvLessGrn', 'Auto Accept if Invoice Qty < GRN Qty.', 'BusinessRule.Matching.PoInvGrnDn.AutoAcceptQtyInvLessGrn');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7100, 'Matching', 'PoInvGrnDn', 'AutoAcceptPriceInvLessPo', 'Auto Accept if Invoice price < PO price.', 'BusinessRule.Matching.PoInvGrnDn.AutoAcceptPriceInvLessPo');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(15000, 'GI', 'Global', 'PreventItemsNotExistInRtv', 'Prevent GIs contain items does not exist in corresponding RTV', 'BusinessRule.GI.Global.PreventItemsNotExistInRtv');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 4981
+-- update by: liyong
+
+-- Remarks:
+-- Add operation of edit invoice NO. on quick PO's summary page.
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901207', 'Quick Purchase Order - [Edit Invoice No]', 6, FALSE, 'OTHER', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901207', '/quickPo/initEditInvoiceNo.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901207', '/quickPo/saveEditInvoiceNo.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901208', 'Quick Purchase Order - [Batch Generate Invoice]', 7, FALSE, 'OTHER', '9012', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901208', '/quickPo/initBatchGenerateInv.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901208', '/quickPo/saveBatchGenerateInv.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901208', '/quickPo/saveAndSentBatchGenerateInv.action', FALSE, TRUE);
+
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901207');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901207');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901208');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901208');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2117,'totalCost', 'TOTAL_COST', 'quick.po.summary.grid.totalCost', 1, 8, 1, 17, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2118,'invoiceNo', 'INVOICE_NO', 'quick.po.summary.grid.invNo', 1, 8, 1, 4, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2217,'totalCost', 'TOTAL_COST', 'quick.po.summary.grid.totalCost', 1, 8, 1, 17, 22);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2218,'invoiceNo', 'INVOICE_NO', 'quick.po.summary.grid.invNo', 1, 8, 1, 4, 22);
+
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5010
+-- update by: liyong
+
+-- Remarks:
+-- Adjust quick PO's summary field width.
+
+UPDATE SUMMARY_FIELD SET FIELD_WIDTH = 10 WHERE FIELD_OID = 2101;
+UPDATE SUMMARY_FIELD SET FIELD_WIDTH = 10 WHERE FIELD_OID = 2103;
+UPDATE SUMMARY_FIELD SET FIELD_WIDTH = 10 WHERE FIELD_OID = 2107;
+UPDATE SUMMARY_FIELD SET FIELD_WIDTH = 10 WHERE FIELD_OID = 2115;
+UPDATE SUMMARY_FIELD SET FIELD_WIDTH = 10 WHERE FIELD_OID = 2206;
+UPDATE SUMMARY_FIELD SET FIELD_WIDTH = 10 WHERE FIELD_OID = 2207;
+UPDATE SUMMARY_FIELD SET FIELD_WIDTH = 10 WHERE FIELD_OID = 2215;
+
+
+
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5028
+-- update by: youwenwu
+
+-- Remarks:
+-- Add sales date related tables. change business rule desc "Auto generate Dn from Gi"  to "Auto generate Dn for RTV"
+
+
+-- 
+-- TABLE: SALES_DATE 
+--
+
+CREATE TABLE SALES_DATE(
+    SALES_OID      DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO    INTEGER           NOT NULL,
+    SALES_DATE     DATE              NOT NULL,
+    PRIMARY KEY (LINE_SEQ_NO, SALES_OID)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_DATE_LOCATION_DETAIL 
+--
+
+CREATE TABLE SALES_DATE_LOCATION_DETAIL(
+    SALES_OID               DECIMAL(38, 0)    NOT NULL,
+    DETAIL_LINE_SEQ_NO      INTEGER           NOT NULL,
+    DATE_LINE_SEQ_NO        INTEGER           NOT NULL,
+    LOCATION_LINE_SEQ_NO    INTEGER           NOT NULL,
+    SALES_QTY               DECIMAL(15, 4)    NOT NULL,
+    SALES_PRICE             DECIMAL(15, 4),
+    SALES_AMOUNT            DECIMAL(15, 4),
+    VAT_AMOUNT              DECIMAL(15, 4),
+    LINE_REF_NO             VARCHAR(20),
+    PRIMARY KEY (DETAIL_LINE_SEQ_NO, DATE_LINE_SEQ_NO, SALES_OID, LOCATION_LINE_SEQ_NO)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_DATE_LOCATION_DETAIL_EXTENDED 
+--
+
+CREATE TABLE SALES_DATE_LOCATION_DETAIL_EXTENDED(
+    FIELD_NAME              VARCHAR(30)       NOT NULL,
+    FIELD_TYPE              CHAR(1)           NOT NULL,
+    INT_VALUE               INTEGER,
+    FLOAT_VALUE             DECIMAL(15, 4),
+    STRING_VALUE            VARCHAR(255),
+    BOOL_VALUE              BOOLEAN,
+    DATE_VALUE              DATETIME,
+    SALES_OID               DECIMAL(38, 0)    NOT NULL,
+    DETAIL_LINE_SEQ_NO      INTEGER           NOT NULL,
+    DATE_LINE_SEQ_NO        INTEGER           NOT NULL,
+    LOCATION_LINE_SEQ_NO    INTEGER           NOT NULL,
+    PRIMARY KEY (FIELD_NAME, SALES_OID, DETAIL_LINE_SEQ_NO, DATE_LINE_SEQ_NO, LOCATION_LINE_SEQ_NO)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_DETAIL 
+--
+
+CREATE TABLE SALES_DETAIL(
+    SALES_OID                DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO              INTEGER           NOT NULL,
+    POS_ID                   VARCHAR(20),
+    RECEIPT_NO               VARCHAR(20),
+    RECEIPT_DATE             DATETIME,
+    BUYER_ITEM_CODE          VARCHAR(20)       NOT NULL,
+    SUPPLIER_ITEM_CODE       VARCHAR(20),
+    BARCODE                  VARCHAR(50),
+    ITEM_DESC                VARCHAR(100),
+    BRAND                    VARCHAR(20),
+    DEPT_CODE                VARCHAR(20),
+    DEPT_NAME                VARCHAR(100),
+    SUB_DEPT_CODE            VARCHAR(20),
+    SUB_DEPT_NAME            VARCHAR(100),
+    COLOUR_CODE              VARCHAR(20),
+    COLOUR_DESC              VARCHAR(50),
+    SIZE_CODE                VARCHAR(20),
+    SIZE_DESC                VARCHAR(50),
+    PACKING_FACTOR           CHAR(1)           NOT NULL,
+    SALES_BASE_UNIT          VARCHAR(20)       NOT NULL,
+    SALES_UOM                VARCHAR(20),
+    SALES_QTY                DECIMAL(10, 4)    NOT NULL,
+    ITEM_COST                DECIMAL(15, 4),
+    ITEM_SALES_AMOUNT        DECIMAL(15, 4),
+    SALES_DISCOUNT_AMOUNT    DECIMAL(15, 4),
+    VAT_AMOUNT               DECIMAL(15, 4),
+    ITEM_NET_SALES_AMOUNT    DECIMAL(15, 4),
+    ITEM_REMARKS             VARCHAR(100),
+    PRIMARY KEY (SALES_OID, LINE_SEQ_NO)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_DETAIL_EXTENDED 
+--
+
+CREATE TABLE SALES_DETAIL_EXTENDED(
+    SALES_OID       DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO     INTEGER           NOT NULL,
+    FIELD_NAME      VARCHAR(30)       NOT NULL,
+    FIELD_TYPE      CHAR(1)           NOT NULL,
+    INT_VALUE       INTEGER,
+    FLOAT_VALUE     DECIMAL(15, 4),
+    STRING_VALUE    VARCHAR(255),
+    BOOL_VALUE      BOOLEAN,
+    DATE_VALUE      DATETIME,
+    PRIMARY KEY (FIELD_NAME, LINE_SEQ_NO, SALES_OID)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_HEADER 
+--
+
+CREATE TABLE SALES_HEADER(
+    SALES_OID                   DECIMAL(38, 0)    NOT NULL,
+    SALES_NO                    VARCHAR(20)       NOT NULL,
+    DOC_ACTION                  CHAR(1)           NOT NULL,
+    ACTION_DATE                 DATETIME          NOT NULL,
+    SALES_DATA_TYPE             VARCHAR(3)        NOT NULL,
+    SALES_DATE                  DATE              NOT NULL,
+    BUYER_OID                   DECIMAL(38, 0)    NOT NULL,
+    BUYER_CODE                  VARCHAR(20)       NOT NULL,
+    BUYER_NAME                  VARCHAR(100),
+    BUYER_ADDR1                 VARCHAR(100),
+    BUYER_ADDR2                 VARCHAR(100),
+    BUYER_ADDR3                 VARCHAR(100),
+    BUYER_ADDR4                 VARCHAR(100),
+    BUYER_CITY                  VARCHAR(50),
+    BUYER_STATE                 VARCHAR(50),
+    BUYER_CTRY_CODE             CHAR(2)           NOT NULL,
+    BUYER_POSTAL_CODE           VARCHAR(15),
+    SUPPLIER_OID                DECIMAL(38, 0)    NOT NULL,
+    SUPPLIER_CODE               VARCHAR(20)       NOT NULL,
+    SUPPLIER_NAME               VARCHAR(100),
+    SUPPLIER_ADDR1              VARCHAR(100),
+    SUPPLIER_ADDR2              VARCHAR(100),
+    SUPPLIER_ADDR3              VARCHAR(100),
+    SUPPLIER_ADDR4              VARCHAR(100),
+    SUPPLIER_CITY               VARCHAR(50),
+    SUPPLIER_STATE              VARCHAR(50),
+    SUPPLIER_CTRY_CODE          CHAR(2)           NOT NULL,
+    SUPPLIER_POSTAL_CODE        VARCHAR(15),
+    STORE_CODE                  VARCHAR(20),
+    STORE_NAME                  VARCHAR(100),
+    STORE_ADDR1                 VARCHAR(100),
+    STORE_ADDR2                 VARCHAR(100),
+    STORE_ADDR3                 VARCHAR(100),
+    STORE_ADDR4                 VARCHAR(100),
+    STORE_CITY                  VARCHAR(50),
+    STORE_STATE                 VARCHAR(50),
+    STORE_CTRY_CODE             CHAR(2)           NOT NULL,
+    STORE_POSTAL_CODE           VARCHAR(15),
+    TOTAL_QTY                   DECIMAL(15, 4),
+    TOTAL_GROSS_SALES_AMOUNT    DECIMAL(15, 4),
+    TOTAL_DISCOUNT_AMOUNT       DECIMAL(15, 4),
+    TOTAL_VAT_AMOUNT            DECIMAL(15, 4),
+    TOTAL_NET_SALES_AMOUNT      DECIMAL(15, 4),
+    PERIOD_START_DATE           DATE,
+    PERIOD_END_DATE             DATE,
+    PRIMARY KEY (SALES_OID)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_HEADER_EXTENDED 
+--
+
+CREATE TABLE SALES_HEADER_EXTENDED(
+    SALES_OID       DECIMAL(38, 0)    NOT NULL,
+    FIELD_NAME      VARCHAR(30)       NOT NULL,
+    FIELD_TYPE      CHAR(1)           NOT NULL,
+    INT_VALUE       INTEGER,
+    FOLAT_VALUE     DECIMAL(15, 4),
+    STRING_VALUE    VARCHAR(255),
+    BOOL_VALUE      BOOLEAN,
+    DATE_VALUE      DATETIME,
+    PRIMARY KEY (SALES_OID, FIELD_NAME)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_LOCATION 
+--
+
+CREATE TABLE SALES_LOCATION(
+    SALES_OID               DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO             INTEGER           NOT NULL,
+    LOCATION_CODE           VARCHAR(20)       NOT NULL,
+    LOCATION_NAME           VARCHAR(100),
+    LOCATION_ADDR1          VARCHAR(100),
+    LOCATION_ADDR2          VARCHAR(100),
+    LOCATION_ADDR3          VARCHAR(100),
+    LOCATION_ADDR4          VARCHAR(100),
+    LOCATION_CITY           VARCHAR(50),
+    LOCATION_STATE          VARCHAR(50),
+    LOCATION_CTRY_CODE      CHAR(2)           NOT NULL,
+    LOCATION_POSTAL_CODE    VARCHAR(15),
+    LOCATION_CONTACT_TEL    VARCHAR(30),
+    PRIMARY KEY (SALES_OID, LINE_SEQ_NO)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: SALES_DATE 
+--
+
+ALTER TABLE SALES_DATE ADD 
+    FOREIGN KEY (SALES_OID)
+    REFERENCES SALES_HEADER(SALES_OID)
+;
+
+
+-- 
+-- TABLE: SALES_DATE_LOCATION_DETAIL 
+--
+
+ALTER TABLE SALES_DATE_LOCATION_DETAIL ADD 
+    FOREIGN KEY (SALES_OID, DETAIL_LINE_SEQ_NO)
+    REFERENCES SALES_DETAIL(SALES_OID, LINE_SEQ_NO)
+;
+
+ALTER TABLE SALES_DATE_LOCATION_DETAIL ADD 
+    FOREIGN KEY (SALES_OID, DATE_LINE_SEQ_NO)
+    REFERENCES SALES_DATE(SALES_OID, LINE_SEQ_NO)
+;
+
+ALTER TABLE SALES_DATE_LOCATION_DETAIL ADD 
+    FOREIGN KEY (SALES_OID, LOCATION_LINE_SEQ_NO)
+    REFERENCES SALES_LOCATION(SALES_OID, LINE_SEQ_NO)
+;
+
+ALTER TABLE SALES_DATE_LOCATION_DETAIL ADD 
+    FOREIGN KEY (SALES_OID)
+    REFERENCES SALES_HEADER(SALES_OID)
+;
+
+
+-- 
+-- TABLE: SALES_DATE_LOCATION_DETAIL_EXTENDED 
+--
+
+ALTER TABLE SALES_DATE_LOCATION_DETAIL_EXTENDED ADD 
+    FOREIGN KEY (SALES_OID, DETAIL_LINE_SEQ_NO, DATE_LINE_SEQ_NO, LOCATION_LINE_SEQ_NO)
+    REFERENCES SALES_DATE_LOCATION_DETAIL(SALES_OID, DETAIL_LINE_SEQ_NO, DATE_LINE_SEQ_NO, LOCATION_LINE_SEQ_NO)
+;
+
+
+-- 
+-- TABLE: SALES_DETAIL 
+--
+
+ALTER TABLE SALES_DETAIL ADD 
+    FOREIGN KEY (SALES_OID)
+    REFERENCES SALES_HEADER(SALES_OID)
+;
+
+
+-- 
+-- TABLE: SALES_DETAIL_EXTENDED 
+--
+
+ALTER TABLE SALES_DETAIL_EXTENDED ADD 
+    FOREIGN KEY (SALES_OID, LINE_SEQ_NO)
+    REFERENCES SALES_DETAIL(SALES_OID, LINE_SEQ_NO)
+;
+
+
+-- 
+-- TABLE: SALES_HEADER 
+--
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (SALES_OID)
+    REFERENCES MSG_TRANSACTIONS(DOC_OID)
+;
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (SUPPLIER_OID)
+    REFERENCES SUPPLIER(SUPPLIER_OID)
+;
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (BUYER_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (SUPPLIER_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (STORE_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (BUYER_OID)
+    REFERENCES BUYER(BUYER_OID)
+;
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (BUYER_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+ALTER TABLE SALES_HEADER ADD 
+    FOREIGN KEY (STORE_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+
+-- 
+-- TABLE: SALES_HEADER_EXTENDED 
+--
+
+ALTER TABLE SALES_HEADER_EXTENDED ADD 
+    FOREIGN KEY (SALES_OID)
+    REFERENCES SALES_HEADER(SALES_OID)
+;
+
+
+-- 
+-- TABLE: SALES_LOCATION 
+--
+
+ALTER TABLE SALES_LOCATION ADD 
+    FOREIGN KEY (SALES_OID)
+    REFERENCES SALES_HEADER(SALES_OID)
+;
+
+ALTER TABLE SALES_LOCATION ADD 
+    FOREIGN KEY (LOCATION_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+
+UPDATE BUSINESS_RULE SET RULE_DESC = 'Auto generate Dn for RTV' WHERE RULE_OID=3800;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5035
+-- update by: youwenwu
+
+-- Remarks:
+-- Add PERIOD_START_DATE, PERIOD_END_DATE CLOUMN FOR PO_HEADER
+
+ALTER TABLE PO_HEADER ADD COLUMN `PERIOD_START_DATE` DATE AFTER `DUPLICATE`;
+ALTER TABLE PO_HEADER ADD COLUMN `PERIOD_END_DATE` DATE AFTER `PERIOD_START_DATE`;
+
+
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5029
+-- update by: youwenwu
+
+-- Remarks:
+-- remove business rule ItemDiscountEditable,ItemAmountEditable,ItemSharedCostEditable,TradeDiscountEditable,CashDiscountEditable
+
+DELETE FROM BUYER_RULE WHERE RULE_OID IN (700, 800, 900, 1000);
+DELETE FROM BUSINESS_RULE WHERE RULE_OID IN (700, 800, 900, 1000);
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(2000, 'PoConvertInv', 'ConPO', 'ItemDiscountEditable', 'Item discount can be changed.', 'BusinessRule.PoConvertInv.ConPO.ItemDiscountEditable');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(2100, 'PoConvertInv', 'ConPO', 'ItemAmountEditable', 'Item amount can be changed.', 'BusinessRule.PoConvertInv.ConPO.ItemAmountEditable');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(2200, 'PoConvertInv', 'ConPO', 'ItemSharedCostEditable', 'Item shared cost can be changed.', 'BusinessRule.PoConvertInv.ConPO.ItemSharedCostEditable');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(2300, 'PoConvertInv', 'ConPO', 'TradeDiscountEditable', 'Trade discount can be changed.', 'BusinessRule.PoConvertInv.ConPO.TradeEditable');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(2400, 'PoConvertInv', 'ConPO', 'CashDiscountEditable', 'Cash discount can be changed.', 'BusinessRule.PoConvertInv.ConPO.CashDiscountEditable');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5044
+-- update by: yinchi
+
+-- Remarks:
+-- add a new kind file sales data .
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(43, 'HSEKEEP', 'DSD', 'OUTBOUND', 'Housekeeping days for DSD.', NULL, 100, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 
+-- update by: liyong
+
+-- Remarks:
+-- Edit delivery date operation is unnecessary of quick po .
+
+DELETE FROM USER_TYPE_OPERATION WHERE OPN_ID = (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Edit Delivery Date]');
+DELETE FROM BUYER_OPERATION WHERE OPN_ID = (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Edit Delivery Date]');
+DELETE FROM ROLE_OPERATION WHERE OPN_ID =  (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Edit Delivery Date]');
+DELETE FROM OPERATION_URL WHERE OPN_ID = (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Edit Delivery Date]');
+DELETE FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Edit Delivery Date]';
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5054
+-- update by: youwenwu
+
+-- Remarks:
+-- correct the wrong spelling in table field .
+
+ALTER TABLE SALES_DETAIL MODIFY COLUMN `PACKING_FACTOR` DECIMAL(8, 2) NOT NULL;
+ALTER TABLE SALES_DETAIL MODIFY COLUMN `SALES_BASE_UNIT` CHAR(1) NOT NULL;
+ALTER TABLE SALES_HEADER MODIFY COLUMN `BUYER_CTRY_CODE` CHAR(2);
+ALTER TABLE SALES_HEADER MODIFY COLUMN `SUPPLIER_CTRY_CODE` CHAR(2);
+ALTER TABLE SALES_HEADER MODIFY COLUMN `STORE_CTRY_CODE` CHAR(2);
+ALTER TABLE SALES_HEADER_EXTENDED CHANGE `FOLAT_VALUE` `FLOAT_VALUE` DECIMAL(15, 4);
+ALTER TABLE SALES_LOCATION MODIFY COLUMN `LOCATION_CTRY_CODE` CHAR(2);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5055
+-- update by: liyong
+
+-- Remarks:
+-- Adjust the operation url about quick po generate invoice .
+
+
+DELETE FROM BUYER_GIVEN_SUPPLIER_OPERATION WHERE OPN_ID = (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Batch Generator Invoice]');
+DELETE FROM OPERATION_URL WHERE OPN_ID = (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Batch Generator Invoice]');
+DELETE FROM ROLE_OPERATION WHERE OPN_ID = (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Batch Generator Invoice]');
+DELETE FROM USER_TYPE_OPERATION WHERE OPN_ID = (SELECT OPN_ID FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Batch Generator Invoice]');
+DELETE FROM OPERATION WHERE OPN_DESC = 'Quick Purchase Order - [Batch Generator Invoice]';
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/save.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/saveAndSent.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/initBatchGenerateInv.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/saveBatchGenerateInv.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901202', '/quickPo/saveAndSentBatchGenerateInv.action', FALSE, TRUE);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5059
+-- update by: yinchi
+
+-- Remarks:
+-- Adjust the operation url and summary fields about Sales Data.
+
+
+Insert into MODULE(MODULE_ID, MODULE_NAME, MODULE_TITLE_KEY, PARENT_ID, MODULE_LEVEL, SHOWABLE, SHOW_SORT, MODULE_LINK)
+VALUES('9013', 'Daily Sales Data', NULL, '9000', 2, TRUE, 9013, '/sales/init.action');
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901301', 'Daily Sales Data - [Search]', 0, FALSE, 'SEARCH', '9013', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901301', '/sales/search.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901301', '/sales/data.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901301');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901301');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901301');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901301');
+
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (23, 'P012','B','Sales Data Summary');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2301,'supplierCode', 'SUPPLIER_CODE', 'sales.summary.grid.supplierCode', 1, 10, 1, 1, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY,  AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2302,'salesDataType', 'SALES_DATA_TYPE', 'sales.summary.grid.salesDataType', 1, 8, 1, 5, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2303,'salesNo', 'SALES_NO', 'sales.summary.grid.salesNo', 1, 10, 1, 2, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2304,'salesDate', 'SALES_DATE', 'sales.summary.grid.salesDate', 1, 10, 1, 3, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2305,'periodStartDate', 'PERIOD_START_DATE', 'sales.summary.grid.periodStartDate', 0, 10, 1, 4, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2306,'periodEndDate', 'PERIOD_END_DATE', 'sales.summary.grid.periodEndDate', 0, 10, 1, 7, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2307,'sentDate', 'SENT_DATE', 'sales.summary.grid.sentDate', 1, 10, 1, 6, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2308,'readStatus', 'READ_STATUS', 'sales.summary.grid.readStatus', 0, 7, 1, 14, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2309,'buyerName', 'BUYER_NAME', 'sales.summary.grid.buyerName', 0, 7, 1, 2, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2310,'supplierName', 'SUPPLIER_NAME', 'sales.summary.grid.supplierName', 0, 7, 1, 4, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2311,'outDate', 'OUT_DATE', 'sales.summary.grid.outDate', 0, 7, 1, 10, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2312,'procDate', 'PROC_DATE', 'sales.summary.grid.procDate', 0, 7, 1, 11, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2313,'buyerCode', 'BUYER_CODE', 'sales.summary.grid.buyerCode', 0, 7, 1, 1, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2314,'receivedDate', 'CREATE_DATE', 'sales.summary.grid.receivedDate', 0, 7, 1, 12, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2315,'readDate', 'READ_DATE', 'sales.summary.grid.readDate', 0, 7, 1, 10, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2316,'storeCode', 'STORE_CODE', 'sales.summary.grid.storeCode', 1, 7, 1, 3, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2317,'storeName', 'STORE_NAME', 'sales.summary.grid.storeName', 0, 7, 1, 3, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2318,'totalQty', 'TOTAL_QTY', 'sales.summary.grid.totalQty', 1, 7, 1, 16, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2319,'totalGrossSalesAmount', 'TOTAL_GROSS_SALES_AMOUNT', 'sales.summary.grid.totalGrossSalesAmount', 1, 7, 1, 17, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2320,'totalDiscountAmount', 'TOTAL_DISCOUNT_AMOUNT', 'sales.summary.grid.totalDiscountAmount', 1, 7, 1, 18, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2321,'totalVatAmount', 'TOTAL_VAT_AMOUNT', 'sales.summary.grid.totalVatAmount', 1, 7, 1, 19, 23);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2322,'totalNetSalesAmount', 'TOTAL_NET_SALES_AMOUNT', 'sales.summary.grid.totalNetSalesAmount', 1, 7, 1, 20, 23);
+
+
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (24, 'P012','S','Sales Data Summary');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2401,'buyerCode', 'BUYER_CODE', 'sales.summary.grid.buyerCode', 1, 10, 1, 1, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY,  AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2402,'salesDataType', 'SALES_DATA_TYPE', 'sales.summary.grid.salesDataType', 1, 7, 1, 5, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2403,'salesNo', 'SALES_NO', 'sales.summary.grid.salesNo', 1, 10, 1, 2, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2404,'salesDate', 'SALES_DATE', 'sales.summary.grid.salesDate', 1, 10, 1, 3, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2405,'periodStartDate', 'PERIOD_START_DATE', 'sales.summary.grid.periodStartDate', 0, 10, 1, 4, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2406,'periodEndDate', 'PERIOD_END_DATE', 'sales.summary.grid.periodEndDate', 0, 10, 1, 7, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2407,'receivedDate', 'CREATE_DATE', 'sales.summary.grid.receivedDate', 0, 10, 1, 6, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2408,'readStatus', 'READ_STATUS', 'sales.summary.grid.readStatus', 0, 7, 1, 8, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2409,'buyerName', 'BUYER_NAME', 'sales.summary.grid.buyerName', 0, 7, 1, 2, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2410,'supplierName', 'SUPPLIER_NAME', 'sales.summary.grid.supplierName', 0, 7, 1, 4, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2411,'outDate', 'OUT_DATE', 'sales.summary.grid.outDate', 0, 7, 1, 10, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2412,'procDate', 'PROC_DATE', 'sales.summary.grid.procDate', 0, 7, 1, 11, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2413,'sentDate', 'SENT_DATE', 'sales.summary.grid.sentDate', 0, 8, 1, 9, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2414,'supplierCode', 'SUPPLIER_CODE', 'sales.summary.grid.supplierCode', 0, 7, 1, 3, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2415,'readDate', 'READ_DATE', 'sales.summary.grid.readDate', 0, 7, 1, 10, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2416,'storeCode', 'STORE_CODE', 'sales.summary.grid.storeCode', 1, 8, 1, 3, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2417,'storeName', 'STORE_NAME', 'sales.summary.grid.storeName', 0, 7, 1, 3, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2418,'totalQty', 'TOTAL_QTY', 'sales.summary.grid.totalQty', 1, 10, 1, 13, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2419,'totalGrossSalesAmount', 'TOTAL_GROSS_SALES_AMOUNT', 'sales.summary.grid.totalGrossSalesAmount', 1, 11, 1, 14, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2420,'totalDiscountAmount', 'TOTAL_DISCOUNT_AMOUNT', 'sales.summary.grid.totalDiscountAmount', 1, 11, 1, 15, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2421,'totalVatAmount', 'TOTAL_VAT_AMOUNT', 'sales.summary.grid.totalVatAmount', 1, 10, 1, 16, 24);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2422,'totalNetSalesAmount', 'TOTAL_NET_SALES_AMOUNT', 'sales.summary.grid.totalNetSalesAmount', 1, 10, 1, 17, 24);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5065
+-- update by: YinChi 
+
+-- Remarks:
+-- Change all 'Goods Issue' to 'Goods Issued'.
+
+-- sql patch:
+UPDATE MODULE SET MODULE_NAME = 'Goods Issued' WHERE MODULE_ID = 9010;
+UPDATE OPERATION SET OPN_DESC = 'Goods Issued - [Search]' WHERE OPN_ID = 901001;
+UPDATE OPERATION SET OPN_DESC = 'Goods Issued - [Print Pdf]' WHERE OPN_ID = 901002;
+UPDATE OPERATION SET OPN_DESC = 'Goods Issued - [Export Excel]' WHERE OPN_ID = 901003;
+UPDATE OPERATION SET OPN_DESC = 'Goods Issued - [Export Summary Excel]' WHERE OPN_ID = 901004;
+UPDATE SUMMARY_PAGE_SETTING SET PAGE_DESC = 'Goods Issued Summary' WHERE SETTING_OID = 17;
+UPDATE SUMMARY_PAGE_SETTING SET PAGE_DESC = 'Goods Issued Summary' WHERE SETTING_OID = 18;
+
+-- ======================================================================================================================================================
+-- svn version: 5077
+-- update by: youwenwu
+
+-- Remarks:
+-- Add table BUYER_MSG_SETTING_REPORT , alter table BUYER_MSG_SETTING.
+
+
+CREATE TABLE BUYER_MSG_SETTING_REPORT(
+    BUYER_OID            DECIMAL(38, 0)    NOT NULL,
+    MSG_TYPE             VARCHAR(20)       NOT NULL,
+    SUB_TYPE             VARCHAR(20)       DEFAULT 'Default' NOT NULL,
+    CUSTOMIZED_REPORT    BOOLEAN           NOT NULL,
+    REPORT_TEMPLATE      VARCHAR(30),
+    PRIMARY KEY (BUYER_OID, MSG_TYPE, SUB_TYPE)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+ALTER TABLE BUYER_MSG_SETTING_REPORT ADD 
+    FOREIGN KEY (BUYER_OID, MSG_TYPE)
+    REFERENCES BUYER_MSG_SETTING(BUYER_OID, MSG_TYPE)
+;
+
+
+ALTER TABLE BUYER_MSG_SETTING DROP COLUMN CUSTOMIZED_REPORT;
+ALTER TABLE BUYER_MSG_SETTING DROP COLUMN REPORT_TEMPLATE;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5086
+-- update by: YinChi
+
+-- Remarks:
+-- Add new business rule GI and GRN.
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(13200, 'GRN', 'Global', 'PreventItemsLessThanPO', 'Block GRNs which items less than corresponding PO', 'BusinessRule.GRN.Global.PreventItemsLessThanPO');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(13300, 'GRN', 'Global', 'PreventItemsQtyMoreThanPO', 'Block GRNs which contain items qty more than corresponding PO', 'BusinessRule.GRN.Global.PreventItemsQtyMoreThanPO');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(15100, 'GI', 'Global', 'PreventItemsLessThanRtv', 'Block GIs which items less than corresponding RTV', 'BusinessRule.GI.Global.PreventItemsLessThanRtv');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(15200, 'GI', 'Global', 'PreventItemsQtyMoreThanRtv', 'Block GIs which contain items qty more than corresponding RTV', 'BusinessRule.GI.Global.PreventItemsQtyMoreThanRtv');
+
+UPDATE BUSINESS_RULE SET RULE_DESC = 'Block GRNs which contain items does not exist in corresponding PO' WHERE RULE_OID = 13100;
+UPDATE BUSINESS_RULE SET RULE_DESC = 'Block INVs which contain items does not exist in corresponding PO' WHERE RULE_OID = 14000;
+UPDATE BUSINESS_RULE SET RULE_DESC = 'Block GIs which contain items does not exist in corresponding RTV' WHERE RULE_OID = 15000;
+
+DELETE FROM BUYER_RULE WHERE RULE_OID = 11200;
+DELETE FROM BUSINESS_RULE WHERE RULE_OID = 11200;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5086
+-- update by: YinChi
+
+-- Remarks:
+-- Add new operation print sales data pdf.
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901302', 'Daily Sales Data - [Print Pdf]', 0, FALSE, 'SEARCH', '9013', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901302', '/sales/print.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901302');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901302');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901302');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901302');
+
+
+-- ======================================================================================================================================================
+-- svn version: 
+-- update by: YinChi
+
+-- Remarks:
+-- update the dn send job's name and RTV DN Generate Job's description.
+
+UPDATE QRTZ_JOB_DETAILS SET DESCRIPTION = 'The job to generate DN from RTV includes export DN.' WHERE JOB_NAME = 'RTV_DN_Generate_Job';
+
+UPDATE JOB SET JOB_DESCRIPTION = 'The job to generate DN from RTV includes export DN.' WHERE JOB_OID = 14;
+
+UPDATE JOB SET JOB_NAME = 'DN_Send_Job' WHERE JOB_NAME = 'DN_Sent_Job';
+
+DELETE FROM QRTZ_CRON_TRIGGERS WHERE TRIGGER_NAME = 'docSendJobTrigger';
+
+DELETE FROM QRTZ_TRIGGERS WHERE TRIGGER_NAME = 'docSendJobTrigger';
+
+DELETE FROM QRTZ_JOB_DETAILS WHERE JOB_NAME = 'DN_Sent_Job';
+
+
+INSERT INTO QRTZ_JOB_DETAILS(JOB_NAME, JOB_GROUP, DESCRIPTION, JOB_CLASS_NAME, IS_DURABLE, IS_VOLATILE, IS_STATEFUL, REQUESTS_RECOVERY, JOB_DATA)
+VALUES ('DN_Send_Job', 'B2B-GROUP', 'The job to send auto generated DN to suppliers.', 'com.pracbiz.b2bportal.customized.unity.eai.backend.DocSendJob', FALSE, FALSE, FALSE, FALSE, NULL);
+
+INSERT INTO QRTZ_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, JOB_NAME, JOB_GROUP, IS_VOLATILE, DESCRIPTION, NEXT_FIRE_TIME, PREV_FIRE_TIME, PRIORITY, TRIGGER_STATE, TRIGGER_TYPE, START_TIME, END_TIME, CALENDAR_NAME, MISFIRE_INSTR, JOB_DATA)
+VALUES('docSendJobTrigger', 'B2B-GROUP', 'DN_Send_Job', 'B2B-GROUP', false, NULL, '0000000000000', '0000000000000', 5, 'WAITING', 'CRON', '0000000000000', NULL, NULL, 2, NULL);
+
+INSERT INTO QRTZ_CRON_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, CRON_EXPRESSION, TIME_ZONE_ID)
+VALUES('docSendJobTrigger', 'B2B-GROUP', '0 0 21 * * ?', NULL);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5110
+-- update by: Youwenwu
+
+-- Remarks:
+-- allow deliver_date to be null in po_header.
+ALTER TABLE PO_HEADER MODIFY COLUMN `DELIVERY_DATE` DATETIME;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5128
+-- update by: Youwenwu
+
+-- Remarks:
+-- allow deliver_date to be null in inv_header.
+ALTER TABLE INV_HEADER MODIFY COLUMN `DELIVERY_DATE` DATETIME;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5137
+-- update by: Youwenwu
+
+-- Remarks:
+-- add new business rule ContinueProcessErrorBatch.
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(11, 'Global', 'Global', 'ContinueProcessErrorBatch', 'Mule continue to process batch file with errors.', 'BusinessRule.Global.Global.ContinueProcessErrorBatch');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5152
+-- update by: Youwenwu
+
+-- Remarks:
+-- add REVISED_DATE FOR TABLE PO_INV_GRN_DN_MATCHING_DETAIL.
+ALTER TABLE PO_INV_GRN_DN_MATCHING ADD COLUMN `REVISED_DATE` DATETIME AFTER `REVISED`;
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 
+-- update by: Liyong
+
+-- Remarks:
+-- Adjust the consignment type from 'CN' to 'CON'.
+UPDATE PO_HEADER SET PO_TYPE = 'CON' WHERE PO_TYPE = 'CN';
+UPDATE INV_HEADER SET INV_TYPE = 'CON' WHERE INV_TYPE = 'CN';
+UPDATE BUYER_MSG_SETTING_REPORT SET SUB_TYPE = 'CON' WHERE SUB_TYPE = 'CN' AND (MSG_TYPE = 'INV' OR MSG_TYPE = 'PO');
+
+
+
+-- ======================================================================================================================================================
+-- svn version:5178 
+-- update by: Youwenwu
+
+-- Remarks:
+-- Add CN related tables.
+-- 
+-- TABLE: CN_DETAIL 
+--
+
+CREATE TABLE CN_DETAIL(
+    CN_OID                    DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO               INTEGER           NOT NULL,
+    BUYER_ITEM_CODE           VARCHAR(20)       NOT NULL,
+    SUPPLIER_ITEM_CODE        VARCHAR(20),
+    BARCODE                   VARCHAR(50),
+    ITEM_DESC                 VARCHAR(100),
+    BRAND                     VARCHAR(20),
+    COLOUR_CODE               VARCHAR(20),
+    COLOUR_DESC               VARCHAR(50),
+    SIZE_CODE                 VARCHAR(20),
+    SIZE_DESC                 VARCHAR(50),
+    PO_NO                     VARCHAR(20),
+    PO_DATE                   DATE,
+    INV_NO                    VARCHAR(20),
+    INV_DATE                  DATE,
+    RTV_NO                    VARCHAR(20),
+    RTV_DATE                  DATE,
+    GI_NO                     VARCHAR(20),
+    GI_DATE                   DATE,
+    PACKING_FACTOR            DECIMAL(8, 2),
+    CREDIT_BASE_UNIT          CHAR(1),
+    CREDIT_UOM                VARCHAR(20),
+    CREDIT_QTY                DECIMAL(10, 4),
+    UNIT_COST                 DECIMAL(15, 4),
+    COST_DISCOUNT_AMOUNT      DECIMAL(15, 4),
+    COST_DISCOUNT_PERCENT     DECIMAL(4, 2),
+    RETAIL_DISCOUNT_AMOUNT    DECIMAL(15, 4),
+    NET_UNIT_COST             DECIMAL(15, 4),
+    ITEM_COST                 DECIMAL(15, 4),
+    ITEM_SHARED_CODE          DECIMAL(15, 4),
+    ITEM_GROSS_COST           DECIMAL(15, 4),
+    RETAIL_PRICE              DECIMAL(15, 4),
+    ITEM_RETAIL_AMOUNT        DECIMAL(15, 4),
+    ITEM_REMARKS              VARCHAR(100),
+    LINE_REF_NO               VARCHAR(20),
+    PRIMARY KEY (LINE_SEQ_NO, CN_OID)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: CN_DETAIL_EXTENDED 
+--
+
+CREATE TABLE CN_DETAIL_EXTENDED(
+    CN_OID          DECIMAL(38, 0)    NOT NULL,
+    LINE_SEQ_NO     INTEGER           NOT NULL,
+    FIELD_NAME      VARCHAR(30)       NOT NULL,
+    FIELD_TYPE      CHAR(1)           NOT NULL,
+    INT_VALUE       INTEGER,
+    FLOAT_VALUE     DECIMAL(15, 4),
+    STRING_VALUE    VARCHAR(255),
+    BOOL_VALUE      BOOLEAN,
+    DATE_VALUE      DATETIME,
+    PRIMARY KEY (FIELD_NAME, CN_OID, LINE_SEQ_NO)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: CN_HEADER 
+--
+
+CREATE TABLE CN_HEADER(
+    CN_OID                  DECIMAL(38, 0)    NOT NULL,
+    CN_NO                   VARCHAR(20)       NOT NULL,
+    DOC_ACTION              CHAR(1)           NOT NULL,
+    ACTION_DATE             DATETIME          NOT NULL,
+    CN_TYPE                 ENUM('CON')       NOT NULL,
+    CN_TYPE_DESC            VARCHAR(50),
+    CN_DATE                 DATE              NOT NULL,
+    PO_NO                   VARCHAR(20),
+    PO_DATE                 DATE,
+    INV_NO                  VARCHAR(20),
+    INV_DATE                DATE,
+    RTV_NO                  VARCHAR(20),
+    RTV_DATE                DATE,
+    GI_NO                   VARCHAR(20),
+    GI_DATE                 DATE,
+    BUYER_OID               DECIMAL(38, 0)    NOT NULL,
+    BUYER_CODE              VARCHAR(20)       NOT NULL,
+    BUYER_NAME              VARCHAR(100)      NOT NULL,
+    BUYER_ADDR1             VARCHAR(100),
+    BUYER_ADDR2             VARCHAR(100),
+    BUYER_ADDR3             VARCHAR(100),
+    BUYER_ADDR4             VARCHAR(100),
+    BUYER_CITY              VARCHAR(50),
+    BUYER_STATE             VARCHAR(50),
+    BUYER_CTRY_CODE         CHAR(2)           NOT NULL,
+    BUYER_POSTAL_CODE       VARCHAR(15),
+    DEPT_CODE               VARCHAR(20),
+    DEPT_NAME               VARCHAR(100),
+    SUB_DEPT_CODE           VARCHAR(20),
+    SUB_DEPT_NAME           VARCHAR(100),
+    SUPPLIER_OID            DECIMAL(38, 0)    NOT NULL,
+    SUPPLIER_CODE           VARCHAR(20)       NOT NULL,
+    SUPPLIER_NAME           VARCHAR(100),
+    SUPPLIER_ADDR1          VARCHAR(100),
+    SUPPLIER_ADDR2          VARCHAR(100),
+    SUPPLIER_ADDR3          VARCHAR(100),
+    SUPPLIER_ADDR4          VARCHAR(100),
+    SUPPLIER_CITY           VARCHAR(50),
+    SUPPLIER_STATE          VARCHAR(50),
+    SUPPLIER_CTRY_CODE      CHAR(2)           NOT NULL,
+    SUPPLIER_POSTAL_CODE    VARCHAR(15),
+    STORE_CODE              VARCHAR(20),
+    STORE_NAME              VARCHAR(100),
+    STORE_ADDR1             VARCHAR(100),
+    STORE_ADDR2             VARCHAR(100),
+    STORE_ADDR3             VARCHAR(100),
+    STORE_ADDR4             VARCHAR(100),
+    STORE_CITY              VARCHAR(50),
+    STORE_STATE             VARCHAR(50),
+    STORE_CTRY_CODE         CHAR(2)           NOT NULL,
+    STORE_POSTAL_CODE       VARCHAR(15),
+    TOTAL_COST              DECIMAL(15, 4)    NOT NULL,
+    TOTAL_VAT               DECIMAL(15, 4)    NOT NULL,
+    TOTAL_COST_WITH_VAT     DECIMAL(15, 4)    NOT NULL,
+    VAT_RATE                DECIMAL(4, 2)     NOT NULL,
+    REASON_CODE             VARCHAR(20),
+    REASON_DESC             VARCHAR(100),
+    CN_REMARKS              VARCHAR(500),
+    CTRL_STATUS             ENUM('NEW', 'AMENDED', 'OUTDATED') NOT NULL,
+    DUPLICATE               BOOLEAN           NOT NULL,
+    PRIMARY KEY (CN_OID)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8
+;
+
+
+
+-- 
+-- TABLE: CN_HEADER_EXTENDED 
+--
+
+CREATE TABLE CN_HEADER_EXTENDED(
+    CN_OID          DECIMAL(38, 0)    NOT NULL,
+    FIELD_NAME      VARCHAR(30)       NOT NULL,
+    FIELD_TYPE      CHAR(1)           NOT NULL,
+    INT_VALUE       INTEGER,
+    FLOAT_VALUE     DECIMAL(15, 4),
+    STRING_VALUE    VARCHAR(255),
+    BOOL_VALUE      BOOLEAN,
+    DATE_VALUE      DATETIME,
+    PRIMARY KEY (FIELD_NAME, CN_OID)
+)ENGINE=INNODB   DEFAULT CHARSET=utf8
+;
+
+-- 
+-- TABLE: CN_DETAIL 
+--
+
+ALTER TABLE CN_DETAIL ADD 
+    FOREIGN KEY (CN_OID)
+    REFERENCES CN_HEADER(CN_OID)
+;
+
+
+-- 
+-- TABLE: CN_DETAIL_EXTENDED 
+--
+
+ALTER TABLE CN_DETAIL_EXTENDED ADD 
+    FOREIGN KEY (CN_OID, LINE_SEQ_NO)
+    REFERENCES CN_DETAIL(CN_OID, LINE_SEQ_NO)
+;
+
+
+-- 
+-- TABLE: CN_HEADER 
+--
+
+ALTER TABLE CN_HEADER ADD 
+    FOREIGN KEY (CN_OID)
+    REFERENCES MSG_TRANSACTIONS(DOC_OID)
+;
+
+ALTER TABLE CN_HEADER ADD 
+    FOREIGN KEY (BUYER_OID)
+    REFERENCES BUYER(BUYER_OID)
+;
+
+ALTER TABLE CN_HEADER ADD 
+    FOREIGN KEY (SUPPLIER_OID)
+    REFERENCES SUPPLIER(SUPPLIER_OID)
+;
+
+ALTER TABLE CN_HEADER ADD 
+    FOREIGN KEY (BUYER_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+ALTER TABLE CN_HEADER ADD 
+    FOREIGN KEY (SUPPLIER_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+ALTER TABLE CN_HEADER ADD 
+    FOREIGN KEY (STORE_CTRY_CODE)
+    REFERENCES COUNTRY(CTRY_CODE)
+;
+
+
+-- 
+-- TABLE: CN_HEADER_EXTENDED 
+--
+
+ALTER TABLE CN_HEADER_EXTENDED ADD 
+    FOREIGN KEY (CN_OID)
+    REFERENCES CN_HEADER(CN_OID)
+;
+
+-- ======================================================================================================================================================
+-- svn version: 5183
+-- update by: Youwenwu
+
+-- Remarks:
+-- Change table DN_DETAIL .
+
+ALTER TABLE CN_DETAIL ADD COLUMN `REASON_CODE` VARCHAR(20) AFTER `ITEM_RETAIL_AMOUNT`;
+ALTER TABLE CN_DETAIL ADD COLUMN `REASON_DESC` VARCHAR(100) AFTER `REASON_CODE`;
+ALTER TABLE CN_DETAIL DROP COLUMN `ITEM_REMARKS`;
+
+-- add CN msg type.
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(44, 'HSEKEEP', 'CN', 'INBOUND', 'Housekeeping days for Credit Note.', NULL, 100, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+-- ======================================================================================================================================================
+-- svn version: 5186
+-- update by: Youwenwu
+
+-- Remarks:
+-- Change table DN_DETAIL, change table SALES_LOCTION .
+ALTER TABLE CN_DETAIL CHANGE `ITEM_SHARED_CODE` `ITEM_SHARED_COST` DECIMAL(15, 4);
+ALTER TABLE SALES_DATE_LOCATION_DETAIL CHANGE COLUMN `SALES_QTY` `SALES_QTY` DECIMAL(10, 4) NOT NULL AFTER `LOCATION_LINE_SEQ_NO`;
+ALTER TABLE SALES_DATE_LOCATION_DETAIL ADD COLUMN `ITEM_COST` DECIMAL(15, 4) AFTER `SALES_QTY`;
+ALTER TABLE SALES_DATE_LOCATION_DETAIL CHANGE COLUMN `SALES_PRICE` `SALES_PRICE` DECIMAL(15, 4) AFTER `ITEM_COST`;
+ALTER TABLE SALES_DATE_LOCATION_DETAIL CHANGE COLUMN `SALES_AMOUNT` `SALES_AMOUNT` DECIMAL(15, 4) AFTER `SALES_PRICE`;
+ALTER TABLE SALES_DATE_LOCATION_DETAIL ADD COLUMN `SALES_DISCOUNT_AMOUNT` DECIMAL(15, 4) AFTER `SALES_AMOUNT`;
+ALTER TABLE SALES_DATE_LOCATION_DETAIL CHANGE COLUMN `VAT_AMOUNT` `VAT_AMOUNT` DECIMAL(15, 4) AFTER `SALES_DISCOUNT_AMOUNT`;
+ALTER TABLE SALES_DATE_LOCATION_DETAIL ADD COLUMN `NET_SALES_AMOUNT` DECIMAL(15, 4) AFTER `VAT_AMOUNT`;
+
+
+-- ======================================================================================================================================================
+-- svn version:5190 
+-- update by: Youwenwu
+-- Alter table CN_HEADER, DN_HEADER, PO_HEADER, add Credit Note related sql record.
+ALTER TABLE CN_HEADER MODIFY COLUMN `BUYER_CTRY_CODE` CHAR(2);
+ALTER TABLE CN_HEADER MODIFY COLUMN `SUPPLIER_CTRY_CODE` CHAR(2);
+ALTER TABLE CN_HEADER MODIFY COLUMN `STORE_CTRY_CODE` CHAR(2);
+ALTER TABLE CN_HEADER MODIFY COLUMN `CTRL_STATUS` ENUM('NEW', 'SUBMIT', 'VOID','VOID_OUTDATED') NOT NULL;
+ALTER TABLE DN_HEADER MODIFY COLUMN `BUYER_CTRY_CODE` CHAR(2);
+ALTER TABLE DN_HEADER MODIFY COLUMN `SUPPLIER_CTRY_CODE` CHAR(2);
+ALTER TABLE DN_HEADER ADD FOREIGN KEY (STORE_CTRY_CODE) REFERENCES COUNTRY(CTRY_CODE);
+ALTER TABLE PO_HEADER MODIFY COLUMN `CTRL_STATUS` ENUM('NEW', 'INVOICED', 'PARTIAL_INVOICED', 'CANCELLED', 'CANCELLED_INVOICED', 'AMENDED', 'OUTDATED','CREDITED') NOT NULL;
+
+
+Insert into MODULE(MODULE_ID, MODULE_NAME, MODULE_TITLE_KEY, PARENT_ID, MODULE_LEVEL, SHOWABLE, SHOW_SORT, MODULE_LINK)
+VALUES('9014', 'Credit Note', NULL, '9000', 2, TRUE, 9014, '/cn/init.action');
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901401', 'Credit Note - [Search]', 0, FALSE, 'SEARCH', '9014', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901401', '/cn/search.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901401', '/cn/data.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901402', 'Credit Note - [Print Pdf]', 0, FALSE, 'OTHER', '9014', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901402', '/cn/print.action', FALSE, TRUE);
+
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901401');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901401');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901401');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901401');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901402');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901402');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901402');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901402');
+
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (25, 'P013','B','Credit Note Summary');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2501,'cnNo', 'CN_NO', 'cn.summary.grid.cnNo', 1, 10, 1, 1, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2502,'cnType', 'CN_TYPE', 'cn.summary.grid.cnType', 1, 10, 1, 2, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2503,'cnTypeDesc', 'CN_TYPE_DESC', 'cn.summary.grid.cnTypeDesc', 1, 10, 1, 3, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2504,'cnDate', 'CN_DATE', 'cn.summary.grid.cnDate', 1, 10, 1, 4, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2505,'poNo', 'PO_NO', 'cn.summary.grid.poNo', 1, 10, 1, 5, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2506,'poDate', 'PO_DATE', 'cn.summary.grid.poDate', 1, 10, 1, 6, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2507,'invNo', 'INV_NO', 'cn.summary.grid.invNo', 1, 10, 1, 7, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2508,'invDate', 'INV_DATE', 'cn.summary.grid.invDate', 1, 10, 1, 8, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2509,'rtvNo', 'RTV_NO', 'cn.summary.grid.rtvNo', 1, 10, 1, 9, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2510,'rtvDate', 'RTV_DATE', 'cn.summary.grid.rtvDate', 1, 10, 1, 10, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2511,'giNo', 'GI_NO', 'cn.summary.grid.giNo', 1, 10, 1, 11, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2512,'giDate', 'GI_DATE', 'cn.summary.grid.giDate', 1, 10, 1, 12, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2513,'buyerCode', 'BUYER_CODE', 'cn.summary.grid.buyerCode', 1, 10, 1, 13, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2514,'buyerName', 'BUYER_NAME', 'cn.summary.grid.buyerName', 1, 10, 1, 14, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2515,'supplierCode', 'SUPPLIER_CODE', 'cn.summary.grid.supplierCode', 1, 10, 1, 15, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2516,'supplierName', 'SUPPLIER_NAME', 'cn.summary.grid.supplierName', 1, 10, 1, 16, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2517,'storeCode', 'STORE_CODE', 'cn.summary.grid.storeCode', 1, 10, 1, 17, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2518,'storeName', 'STORE_NAME', 'cn.summary.grid.storeName', 1, 10, 1, 18, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2519,'cnRemarks', 'CN_REMARKS', 'cn.summary.grid.cnRemarks', 1, 10, 1, 19, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2520,'ctrlStatus', 'CTRL_STATUS', 'cn.summary.grid.ctrlStatus', 1, 10, 1, 20, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2521,'duplicate', 'DUPLICATE', 'cn.summary.grid.duplicate', 1, 10, 1, 21, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2522,'createDate', 'CREATE_DATE', 'cn.summary.grid.createDate', 1, 10, 1, 22, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2523,'sentDate', 'PROC_DATE', 'cn.summary.grid.sentDate', 1, 10, 1, 23, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2524,'procDate', 'SENT_DATE', 'cn.summary.grid.procDate', 1, 10, 1, 24, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2525,'outDate', 'OUT_DATE', 'cn.summary.grid.outDate', 1, 10, 1, 25, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2526,'readStatus', 'READ_STATUS', 'cn.summary.grid.readStatus', 1, 10, 1, 26, 25);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2527,'readDate', 'READ_DATE', 'cn.summary.grid.readDate', 1, 10, 1, 27, 25);
+
+
+INSERT INTO SUMMARY_PAGE_SETTING  (SETTING_OID, PAGE_ID, ACCESS_TYPE,PAGE_DESC)  
+VALUES (26, 'P013','S','Credit Note Summary');
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2601,'cnNo', 'CN_NO', 'cn.summary.grid.cnNo', 1, 10, 1, 1, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2602,'cnType', 'CN_TYPE', 'cn.summary.grid.cnType', 1, 10, 1, 2, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2603,'cnTypeDesc', 'CN_TYPE_DESC', 'cn.summary.grid.cnTypeDesc', 1, 10, 1, 3, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2604,'cnDate', 'CN_DATE', 'cn.summary.grid.cnDate', 1, 10, 1, 4, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2605,'poNo', 'PO_NO', 'cn.summary.grid.poNo', 1, 10, 1, 5, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2606,'poDate', 'PO_DATE', 'cn.summary.grid.poDate', 1, 10, 1, 6, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2607,'invNo', 'INV_NO', 'cn.summary.grid.invNo', 1, 10, 1, 7, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2608,'invDate', 'INV_DATE', 'cn.summary.grid.invDate', 1, 10, 1, 8, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2609,'rtvNo', 'RTV_NO', 'cn.summary.grid.rtvNo', 1, 10, 1, 9, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2610,'rtvDate', 'RTV_DATE', 'cn.summary.grid.rtvDate', 1, 10, 1, 10, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2611,'giNo', 'GI_NO', 'cn.summary.grid.giNo', 1, 10, 1, 11, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2612,'giDate', 'GI_DATE', 'cn.summary.grid.giDate', 1, 10, 1, 12, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2613,'buyerCode', 'BUYER_CODE', 'cn.summary.grid.buyerCode', 1, 10, 1, 13, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2614,'buyerName', 'BUYER_NAME', 'cn.summary.grid.buyerName', 1, 10, 1, 14, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2615,'supplierCode', 'SUPPLIER_CODE', 'cn.summary.grid.supplierCode', 1, 10, 1, 15, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2616,'supplierName', 'SUPPLIER_NAME', 'cn.summary.grid.supplierName', 1, 10, 1, 16, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2617,'storeCode', 'STORE_CODE', 'cn.summary.grid.storeCode', 1, 10, 1, 17, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2618,'storeName', 'STORE_NAME', 'cn.summary.grid.storeName', 1, 10, 1, 18, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2619,'cnRemarks', 'CN_REMARKS', 'cn.summary.grid.cnRemarks', 1, 10, 1, 19, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2620,'ctrlStatus', 'CTRL_STATUS', 'cn.summary.grid.ctrlStatus', 1, 10, 1, 20, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2621,'duplicate', 'DUPLICATE', 'cn.summary.grid.duplicate', 1, 10, 1, 21, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2622,'createDate', 'CREATE_DATE', 'cn.summary.grid.createDate', 1, 10, 1, 22, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2623,'sentDate', 'PROC_DATE', 'cn.summary.grid.sentDate', 1, 10, 1, 23, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2624,'procDate', 'SENT_DATE', 'cn.summary.grid.procDate', 1, 10, 1, 24, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2625,'outDate', 'OUT_DATE', 'cn.summary.grid.outDate', 1, 10, 1, 25, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2626,'readStatus', 'READ_STATUS', 'cn.summary.grid.readStatus', 1, 10, 1, 26, 26);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2627,'readDate', 'READ_DATE', 'cn.summary.grid.readDate', 1, 10, 1, 27, 26);
+
+
+-- ======================================================================================================================================================
+-- svn version:5194 
+-- update by: LiYong
+-- Add operation url for save credit note record.
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900102', '/po/saveCn.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900102', '/po/saveAndSentCn.action', FALSE, TRUE);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5198
+-- update by: YinChi
+
+-- Remarks:
+-- Add new operation of export excel of Daily Sales Data .
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901303', 'Daily Sales Data - [Export Excel]', 3, FALSE, 'OTHER', '9013', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901303', '/sales/exportExcel.action', FALSE, TRUE);
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '901303');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901303');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '901303');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901303');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5198
+-- update by: YinChi
+
+-- Remarks:
+-- Add new business rule NeedValidate and NeedValidateConsignmentPo.
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(16000, 'DSD', 'Global', 'NeedValidate', 'Need validate Daily Sales Data Logic', 'BusinessRule.GI.Global.NeedValidate'); 
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(12001, 'PO', 'Global', 'NeedValidateConsignmentPo', 'Need validate consignment PO Logic', 'BusinessRule.PO.Global.NeedValidateConsignmentPo');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5202
+-- update by: Youwenwu
+
+-- Remarks:
+-- Add send Credit Note operation.
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('901403', 'Credit Note - [send]', 0, FALSE, 'OTHER', '9014', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('901403', '/cn/send.action', FALSE, TRUE);
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(3, '901403');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(5, '901403');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5224
+-- update by: Youwenwu
+
+-- Remarks:
+-- rename DN TYPE ENUM, add new field for dn and cn summary page.
+update DN_HEADER SET DN_TYPE='STK_QOC' WHERE DN_TYPE='STK' AND INV_NO IS NOT NULL;
+update DN_HEADER SET DN_TYPE='CST_IOC' WHERE DN_TYPE='IOC' AND INV_NO IS NOT NULL;
+update DN_HEADER SET DN_TYPE='STK_RTV' WHERE DN_TYPE='STK' AND RTV_NO IS NOT NULL;
+alter table MSG_TRANSACTIONS add column `GENERATED_ON_PORTAL` BOOLEAN NOT NULL;
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (937,'generatedOnPortal', 'GENERATED_ON_PORTAL', 'dn.summary.grid.generatedOnPortal', 0, 7, 1, 37, 9);
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1037,'generatedOnPortal', 'GENERATED_ON_PORTAL', 'dn.summary.grid.generatedOnPortal', 0, 7, 1, 37, 10);
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2528,'generatedOnProtal', 'GENERATED_ON_PORTAL', 'cn.summary.grid.generatedOnPortal', 0, 7, 1, 28, 25);
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2628,'generatedOnPortal', 'GENERATED_ON_PORTAL', 'cn.summary.grid.generatedOnPortal', 0, 7, 1, 28, 26);
+
+-- ======================================================================================================================================================
+-- svn version: 5229
+-- update by: Youwenwu
+
+-- Remarks:
+-- add OLD_INV_NO to table INV_HEADER
+alter table INV_HEADER add column `OLD_INV_NO` VARCHAR(20) after `PO_OID`;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5237
+-- update by: Youwenwu
+-- Remarks: change the definition for column GENERATED_ON_PORTAL.
+
+alter table MSG_TRANSACTIONS modify column `GENERATED_ON_PORTAL` BOOLEAN DEFAULT false NOT NULL;
+
+-- ======================================================================================================================================================
+-- svn version: 5245
+-- update by: Youwenwu
+-- Remarks: add generate batch invoice for po.
+
+alter table MSG_TRANSACTIONS modify column `GENERATED_ON_PORTAL` BOOLEAN DEFAULT false;
+Insert into MODULE(MODULE_ID, MODULE_NAME, MODULE_TITLE_KEY, PARENT_ID, MODULE_LEVEL, SHOWABLE, SHOW_SORT, MODULE_LINK)
+VALUES('21001', 'Generate Batch Invoice', NULL, '21001', 1, TRUE, 21001, '/testDocs/initGenerateBatchInvoice.action');
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('2100101', 'Generate Batch Invoice - [Other]', 0, FALSE, 'SEARCH', '21001', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('2100101', '/testDocs/initGenerateBatchInvoice.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('2100101', '/testDocs/checkGenerateBatchInvoice.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('2100101', '/testDocs/saveGenerateBatchInvoice.action', FALSE, TRUE);
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '2100101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '2100101');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5251
+-- update by: LiYong
+-- Remarks: add buisness rule of missing gi min and max buffering days.
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(12, 'Global', 'Global', 'DailyNotificationJobMissingGiMinBufferingDays', 'Daily notification job min missing Gi buffering days.', 'BusinessRule.Global.Global.DailyNotificationJobMissingGiMinBufferingDays');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(13, 'Global', 'Global', 'DailyNotificationJobMissingGiMaxBufferingDays', 'Daily notification job max missing Gi buffering days.', 'BusinessRule.Global.Global.DailyNotificationJobMissingGiMaxBufferingDays');
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7200, 'Matching', 'PoInvGrnDn', 'MissingGiNotificationRecipients', 'Missing GI notification recipients.', 'BusinessRule.Matching.PoInvGrnDn.MissingGiNotificationRecipients');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5261
+-- update by: Youwenwu
+-- Remarks: add new business rules.
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(4100, 'Dn', 'Backend', 'PriceDiscrepancyRecipients', 'Price Discrepancy report recipients.', 'BusinessRule.Dn.Backend.PriceDiscrepancyRecipients');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(4200, 'Dn', 'Backend', 'QtyDiscrepancyRecipients', 'Qty Discrepancy report recipients.', 'BusinessRule.Dn.Backend.QtyDiscrepancyRecipients');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(4300, 'Dn', 'Backend', 'AllowSupplierDisputeMatchingDn', 'Allow Supplier to dispute DN for PO-INV-GRN matching.', 'BusinessRule.Dn.Backend.AllowSupplierDisputeMatchingDn');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(4400, 'Dn', 'Backend', 'DiscrepancyReportToUser', 'Send Discrepancy report to store/GCM users.', 'BusinessRule.Dn.Backend.DiscrepancyReportToUser');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7300, 'Matching', 'PoInvGrnDn', 'PriceDiscrepancyRecipients', 'Price Discrepancy recipients.', 'BusinessRule.Matching.PoInvGrnDn.PriceDiscrepancyRecipients');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7400, 'Matching', 'PoInvGrnDn', 'QtyDiscrepancyRecipients', 'Qty Discrepancy recipients.', 'BusinessRule.Matching.PoInvGrnDn.QtyDiscrepancyRecipients');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7500, 'Matching', 'PoInvGrnDn', 'DiscrepancyReportToUser', 'Send Discrepancy report to store/GCM users.', 'BusinessRule.Matching.PoInvGrnDn.DiscrepancyReportToUser');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5262
+-- update by: LiYong
+-- Remarks: add mudule MissgingGiReport and its opeartion url.
+
+Insert into MODULE(MODULE_ID, MODULE_NAME, MODULE_TITLE_KEY, PARENT_ID, MODULE_LEVEL, SHOWABLE, SHOW_SORT, MODULE_LINK)
+VALUES('11005', 'Missing GI Report', NULL, '11000', 2, TRUE, 11005, '/missingGiReport/init.action');
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('1100501', 'Missing GI Report - [Export Excel]', 0, FALSE, 'OTHER', '11005', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100501', '/missingGiReport/printExcel.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '1100501');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '1100501');
+
+-- ======================================================================================================================================================
+-- svn version: 5265
+-- update by: Youwenwu
+-- Remarks: add new business rules.
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7600, 'Matching', 'PoInvGrnDn', 'AutoCloseRejectedRecord', 'Auto closing of rejected unmatched records.', 'BusinessRule.Matching.PoInvGrnDn.AutoCloseRejectedRecord');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(4500, 'Dn', 'Backend', 'AutoCloseAcceptedRecord', 'Auto closing of accepted disputed records.', 'BusinessRule.Dn.Backend.AutoCloseAcceptedRecord');=======
+
+
+-- ======================================================================================================================================================
+-- svn version: 5270
+-- update by: YinChi
+-- Remarks: add new field ACCEPT_FLAG for matching table.
+
+ALTER TABLE PO_INV_GRN_DN_MATCHING ADD COLUMN ACCEPT_FLAG TINYINT(1) NOT NULL AFTER PO_STORE_NAME;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5270
+-- update by: YouWenwu
+-- Remarks: change table doc_class, doc_subclass.
+
+CREATE TABLE TMP_DOC_CLASS SELECT DOC_OID, CLASS_CODE FROM DOC_CLASS DC, `CLASS` C WHERE DC.CLASS_OID = C.CLASS_OID;
+CREATE TABLE TMP_DOC_SUBCLASS SELECT DOC_OID, CLASS_CODE, SUBCLASS_CODE FROM DOC_SUBCLASS DS, SUBCLASS S, CLASS C 
+WHERE DS.SUBCLASS_OID = S.SUBCLASS_OID AND C.CLASS_OID = S.CLASS_OID;
+
+DROP TABLE DOC_CLASS;
+DROP TABLE DOC_SUBCLASS;
+
+
+CREATE TABLE DOC_CLASS(
+    DOC_OID       DECIMAL(38, 0)    NOT NULL,
+    CLASS_CODE    VARCHAR(20)       NOT NULL,
+    PRIMARY KEY (DOC_OID, CLASS_CODE)
+)ENGINE=INNODB
+;
+
+CREATE TABLE DOC_SUBCLASS(
+    DOC_OID          DECIMAL(38, 0)    NOT NULL,
+    CLASS_CODE       VARCHAR(20)       NOT NULL,
+    SUBCLASS_CODE    VARCHAR(20)       NOT NULL,
+    PRIMARY KEY (DOC_OID, SUBCLASS_CODE, CLASS_CODE)
+)ENGINE=INNODB
+;
+
+
+ALTER TABLE DOC_CLASS ADD 
+    FOREIGN KEY (DOC_OID)
+    REFERENCES MSG_TRANSACTIONS(DOC_OID)
+;
+
+
+ALTER TABLE DOC_SUBCLASS ADD
+    FOREIGN KEY (DOC_OID)
+    REFERENCES MSG_TRANSACTIONS(DOC_OID)
+;
+
+INSERT INTO DOC_CLASS(DOC_OID, CLASS_CODE) SELECT DOC_OID, CLASS_CODE FROM TMP_DOC_CLASS;
+INSERT INTO DOC_SUBCLASS(DOC_OID, CLASS_CODE, SUBCLASS_CODE) SELECT DOC_OID, CLASS_CODE, SUBCLASS_CODE FROM TMP_DOC_SUBCLASS;
+
+DROP TABLE TMP_DOC_CLASS;
+DROP TABLE TMP_DOC_SUBCLASS;
+
+-- ======================================================================================================================================================
+-- svn version: 5326
+-- update by: Youwenwu
+-- Remarks: add new field ACCEPT_FLAG for matching table.
+
+ALTER TABLE DN_HEADER ADD COLUMN PRICE_DISPUTED BOOLEAN AFTER CLOSED_REMARKS;
+ALTER TABLE DN_HEADER ADD COLUMN QTY_DISPUTED BOOLEAN AFTER CLOSED_REMARKS;
+UPDATE DN_HEADER DH SET DH.PRICE_DISPUTED = TRUE WHERE DISPUTE = TRUE AND EXISTS (SELECT 1 FROM DN_DETAIL DD WHERE UNIT_COST <> DISPUTE_PRICE
+AND DD.DN_OID = DH.DN_OID);
+UPDATE DN_HEADER DH SET DH.QTY_DISPUTED = TRUE WHERE DISPUTE = TRUE AND EXISTS (SELECT 1 FROM DN_DETAIL DD WHERE DEBIT_QTY <> DISPUTE_QTY
+AND DD.DN_OID = DH.DN_OID);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5331
+-- update by: YinChi
+-- Remarks: add DN task list operation.
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('000101', '/taskList/checkPendingDn.action', FALSE, TRUE);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5335
+-- update by: Youwenwu
+-- Remarks: add new field EXPORTED_DATE for dn header table, add new business rule.
+
+ALTER TABLE DN_HEADER ADD COLUMN EXPORTED_DATE DATETIME AFTER EXPORTED;
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(4600, 'Dn', 'Backend', 'DnExportingRecipients', 'DN Exporting report recipients.', 'BusinessRule.Dn.Backend.DnExportingRecipients');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5335
+-- update by: YinChi
+-- Remarks: add new operations of DN Discrepancy Report.
+
+Insert into MODULE(MODULE_ID, MODULE_NAME, MODULE_TITLE_KEY, PARENT_ID, MODULE_LEVEL, SHOWABLE, SHOW_SORT, MODULE_LINK)
+VALUES('11006', 'DN Discrepancy Report', NULL, '11000', 2, TRUE, 11006, '/dnDiscrepancyReport/init.action');
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('1100601', 'Dn Discrepancy Report - [Export Excel]', 0, FALSE, 'OTHER', '11006', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100601', '/dnDiscrepancyReport/printExcel.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100601', '/dnDiscrepancyReport/checkExcelData.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '1100601');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '1100601');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5338
+-- update by: Youwenwu
+-- Remarks: add new field for common setting.
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(45, 'CTRL', 'CURRENT_GST', NULL, 'Current GST percent for supplier.', NULL, 7, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(46, 'CTRL', 'NEW_GST', NULL, 'New GST percent for supplier.', NULL, 7, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(47, 'CTRL', 'NEW_GST_FROM_DATE', NULL, 'From Date.', NULL, NULL, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+-- ======================================================================================================================================================
+-- svn version: 5340
+-- update by: Youwenwu
+-- Remarks: add new field for common setting.
+-- ChangeSupplierGstJob
+INSERT INTO QRTZ_JOB_DETAILS(JOB_NAME, JOB_GROUP, DESCRIPTION, JOB_CLASS_NAME, IS_DURABLE, IS_VOLATILE, IS_STATEFUL, REQUESTS_RECOVERY, JOB_DATA)
+VALUES ('Change_Supplier_Gst_Job', 'B2B-GROUP', 'The job to export watsons inv file.', 'com.pracbiz.b2bportal.core.eai.backend.ChangeSupplierGstJob', FALSE, FALSE, FALSE, FALSE, NULL);
+
+INSERT INTO QRTZ_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, JOB_NAME, JOB_GROUP, IS_VOLATILE, DESCRIPTION, NEXT_FIRE_TIME, PREV_FIRE_TIME, PRIORITY, TRIGGER_STATE, TRIGGER_TYPE, START_TIME, END_TIME, CALENDAR_NAME, MISFIRE_INSTR, JOB_DATA)
+VALUES('changeSupplierGstJobTrigger', 'B2B-GROUP', 'Change_Supplier_Gst_Job', 'B2B-GROUP', false, NULL, '0000000000000', '0000000000000', 5, 'WAITING', 'CRON', '0000000000000', NULL, NULL, 2, NULL);
+
+INSERT INTO QRTZ_CRON_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, CRON_EXPRESSION, TIME_ZONE_ID)
+VALUES('changeSupplierGstJobTrigger', 'B2B-GROUP', '0 59 23 * * ?', NULL);
+
+INSERT INTO JOB(JOB_OID, JOB_NAME, JOB_GROUP, TRIGGER_NAME, TRIGGER_GROUP, JOB_DESCRIPTION, CRON_EXPRESSION, ENABLED)
+VALUES(16, 'Change_Supplier_Gst_Job', 'B2B-GROUP', 'changeSupplierGstJobTrigger', 'B2B-GROUP', 'The job to change supplier gst percent.', '0 59 23 * * ?', TRUE);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5358
+-- update by: Youwenwu
+-- Remarks: change operation description.
+UPDATE OPERATION SET OPN_DESC='PO-INV-GRN-DN Matching - [Price Approval]' WHERE OPN_ID='1000106';
+UPDATE OPERATION SET OPN_DESC='PO-INV-GRN-DN Matching - [QTY Approval]' WHERE OPN_ID='1000105';
+UPDATE OPERATION SET OPN_DESC='Debit Note - [Qty Approval]' WHERE OPN_ID='900509';
+UPDATE OPERATION SET OPN_DESC='Debit Note - [Price Approval]' WHERE OPN_ID='900508';
+UPDATE OPERATION SET OPN_DESC='Purchase Order - [View PDF]' WHERE OPN_ID='900103';
+UPDATE OPERATION SET OPN_DESC='Return to Vendor - [View PDF]' WHERE OPN_ID='900202';
+UPDATE OPERATION SET OPN_DESC='Goods Receipt Note - [View PDF]' WHERE OPN_ID='900302';
+UPDATE OPERATION SET OPN_DESC='E-Invoice - [View PDF]' WHERE OPN_ID='900402';
+UPDATE OPERATION SET OPN_DESC='Debit Note - [View PDF]' WHERE OPN_ID='900502';
+UPDATE OPERATION SET OPN_DESC='Delivery Order - [View PDF]' WHERE OPN_ID='900602';
+UPDATE OPERATION SET OPN_DESC='Payment Advice - [View PDF]' WHERE OPN_ID='900702';
+UPDATE OPERATION SET OPN_DESC='Goods Issued - [View PDF]' WHERE OPN_ID='901002';
+UPDATE OPERATION SET OPN_DESC='Credit Claim - [View PDF]' WHERE OPN_ID='901102';
+UPDATE OPERATION SET OPN_DESC='Quick Purchase Order - [View PDF]' WHERE OPN_ID='901203';
+UPDATE OPERATION SET OPN_DESC='Daily Sales Data - [View PDF]' WHERE OPN_ID='901302';
+UPDATE OPERATION SET OPN_DESC='Credit Note - [View PDF]' WHERE OPN_ID='901402';
+
+
+-- ======================================================================================================================================================
+-- svn version: 5365
+-- update by: YinChi
+-- Remarks: refactor the operation of report module.
+
+update OPERATION set OPN_DESC = 'Tracking Report - [DN Outstanding Report]' where OPN_ID = '1100201';
+
+update OPERATION set OPN_DESC = 'Data Export Report - [E-Invoice Export Report]' where OPN_ID = '1100301';
+
+update MODULE SET MODULE_NAME = 'Tracking Report' WHERE MODULE_ID = 11002;
+update MODULE SET MODULE_NAME = 'Data Export Report' WHERE MODULE_ID = 11003;
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100201', '/trackingReport/dnResolution.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('1100202', 'Tracking Report - [DN Outstanding Report]', 0, FALSE, 'OTHER', '11002', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100202', '/trackingReport/printExcel.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100202', '/trackingReport/checkExcelData.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100202', '/trackingReport/dnOutstanding.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('1100203', 'Tracking Report - [Matching Resolution Report]', 0, FALSE, 'OTHER', '11002', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100203', '/trackingReport/printExcel.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100203', '/trackingReport/checkExcelData.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100203', '/trackingReport/matchingResolution.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('1100204', 'Tracking Report - [Matching Outstanding Report]', 0, FALSE, 'OTHER', '11002', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100204', '/trackingReport/printExcel.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100204', '/trackingReport/checkExcelData.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100204', '/trackingReport/matchingOutstanding.action', FALSE, TRUE);
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100301', '/dataExportReport/invExport.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('1100302', 'Data Export Reports - [DN Export Report]', 0, FALSE, 'OTHER', '11003', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100302', '/dataExportReport/printExcel.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100302', '/dataExportReport/checkExcelData.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100302', '/dataExportReport/dnExport.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '1100202');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '1100202');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '1100203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '1100203');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '1100204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '1100204');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '1100302');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '1100302');
+
+delete FROM OPERATION_URL WHERE OPN_ID='1100501';
+delete FROM BUYER_OPERATION WHERE OPN_ID='1100501';
+delete FROM ROLE_OPERATION WHERE OPN_ID='1100501';
+delete FROM USER_TYPE_OPERATION WHERE OPN_ID='1100501';
+delete FROM OPERATION WHERE OPN_ID='1100501';
+delete FROM MODULE WHERE MODULE_ID='11005';
+
+UPDATE MODULE SET MODULE_LINK = '/missingDocsReport/init.action' WHERE MODULE_ID = '11004';
+
+UPDATE MODULE SET MODULE_NAME = 'Missing Docs Report' WHERE MODULE_ID = '11004';
+
+UPDATE OPERATION SET OPN_DESC = 'Missing Docs Report - [GRN Report]' WHERE OPN_ID='1100401';
+
+UPDATE OPERATION_URL SET ACCESS_URL = '/missingDocsReport/printExcel.action' WHERE OPN_ID='1100401';
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100401', '/missingDocsReport/missGrn.action', FALSE, TRUE);
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('1100402', 'Missing Docs Report - [GI Report]', 0, FALSE, 'OTHER', '11004', '', TRUE);
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100402', '/missingDocsReport/printExcel.action', FALSE, TRUE);
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100402', '/missingDocsReport/missGi.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '1100402');
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '1100402');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5369
+-- update by: YinChi
+-- Remarks: all two new operations for missing grn and gi report.
+
+
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100401', '/missingDocsReport/checkExcelData.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('1100402', '/missingDocsReport/checkExcelData.action', FALSE, TRUE);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5372
+-- update by: Youwenwu
+-- Remarks: change operation description.
+ALTER TABLE BUYER_MSG_SETTING ADD COLUMN ERROR_RCPS_ADDRS VARCHAR(255) AFTER RCPS_ADDRS;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5379
+-- update by: LiYong
+-- Remarks: Add  store field display on GI, PO, RTV summary page.
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1716,'storeCode', 'ISSUING_STORE_CODE', 'gi.summary.grid.storeCode', 1, 7, 1, 12, 17);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (1816,'storeCode', 'ISSUING_STORE_CODE', 'gi.summary.grid.storeCode', 1, 7, 1, 12, 18);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (117,'storeCode', 'STORE_CODE', 'po.summary.grid.storeCode', 1, 7, 1, 17, 1);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (217,'storeCode', 'STORE_CODE', 'po.summary.grid.storeCode', 1, 7, 1, 17, 2);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (518,'storeCode', 'STORE_CODE', 'rtv.summary.grid.storeCode', 1, 7, 1, 18, 5);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (618,'storeCode', 'STORE_CODE', 'rtv.summary.grid.storeCode', 1, 7, 1, 14, 6);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2119,'storeCode', 'STORE_CODE', 'quick.po.summary.grid.storeCode', 1, 8, 1, 18, 21);
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID) 
+VALUES (2219,'storeCode', 'STORE_CODE', 'quick.po.summary.grid.storeCode', 1, 8, 1, 18, 22);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5385
+-- update by: YinChi
+-- Remarks: update operation name of DN Resolution Report.
+
+
+update OPERATION set OPN_DESC = 'Tracking Report - [DN Resolution Report]' where OPN_ID = '1100201';
+
+
+-- ======================================================================================================================================================
+-- svn version: 5386
+-- update by: YinChi
+-- Remarks: give the operations of missing docs report, read status report, matching descrepancy report to store.
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '1100101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '1100101');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '1100401');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '1100401');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '1100402');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '1100402');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '1000301');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '1000301');
+
+-- ======================================================================================================================================================
+-- svn version: 5391
+-- update by: LiYong
+-- Remarks:Add a buisness rule of dispute alert window, and adjust the description from 'RTV DN generate job auto no dispute buffering days.' to 'Auto close no dispute RTV-DN buffering days'.
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(14, 'Global', 'Global', 'RTVDnDisputeAlertWindow', 'RTV-DN dispute alert window.', 'BusinessRule.Global.Global.RTVDnDisputeAlertWindow');
+
+UPDATE BUSINESS_RULE SET RULE_DESC = 'Auto close no dispute RTV-DN buffering days.' WHERE RULE_ID='RTVDnGeneratingJobBuffingDays' AND FUNC_ID = 'Global' AND FUNC_GROUP = 'Global';
+
+
+-- ======================================================================================================================================================
+-- svn version: 5392
+-- update by: Youwenwu
+-- Remarks:Add DELIVERY_NO into table INV_HEADER;
+
+ALTER TABLE INV_HEADER ADD COLUMN DELIVERY_NO VARCHAR(20) AFTER PO_DATE; 
+
+
+-- ======================================================================================================================================================
+-- svn version: 5394
+-- update by: YinChi
+-- Remarks: update the operation name of all Administration module.
+
+update OPERATION SET OPN_DESC = 'Admin-Common - [View]' WHERE OPN_ID = '100001';
+update OPERATION SET OPN_DESC = 'Admin-Common - [Update]' WHERE OPN_ID = '100002';
+update OPERATION SET OPN_DESC = 'Admin-Housekeeping - [View]' WHERE OPN_ID = '100003';
+update OPERATION SET OPN_DESC = 'Admin-Housekeeping - [Update]' WHERE OPN_ID = '100004';
+update OPERATION SET OPN_DESC = 'Admin-Password Rule - [View]' WHERE OPN_ID = '100005';
+update OPERATION SET OPN_DESC = 'Admin-Password Rule - [Update]' WHERE OPN_ID = '100006';
+update OPERATION SET OPN_DESC = 'Admin-Password Dictionary - [Upload]' WHERE OPN_ID = '100007';
+update OPERATION SET OPN_DESC = 'Admin-Password Dictionary - [Download]' WHERE OPN_ID = '100008';
+update OPERATION SET OPN_DESC = 'Admin-Reserve Message - [Search]' WHERE OPN_ID = '100009';
+update OPERATION SET OPN_DESC = 'Admin-Reserve Message - [Create]' WHERE OPN_ID = '100010';
+update OPERATION SET OPN_DESC = 'Admin-Reserve Message - [View]' WHERE OPN_ID = '100011';
+update OPERATION SET OPN_DESC = 'Admin-Reserve Message - [Update]' WHERE OPN_ID = '100012';
+update OPERATION SET OPN_DESC = 'Admin-Reserve Message - [Delete]' WHERE OPN_ID = '100013';
+update OPERATION SET OPN_DESC = 'Admin-Summary Page Setting - [View]' WHERE OPN_ID = '100014';
+update OPERATION SET OPN_DESC = 'Admin-Summary Page Setting - [Update]' WHERE OPN_ID = '100015';
+update OPERATION SET OPN_DESC = 'Admin-Retailer Privilege - [View]' WHERE OPN_ID = '100016';
+update OPERATION SET OPN_DESC = 'Admin-Retailer Privilege - [Update]' WHERE OPN_ID = '100017';
+update OPERATION SET OPN_DESC = 'Admin-Email Configuration - [View]' WHERE OPN_ID = '100018';
+update OPERATION SET OPN_DESC = 'Admin-Email Configuration - [Update]' WHERE OPN_ID = '100019';
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5396
+-- update by: LiYong
+-- Remarks:Adjust the field 'action' to unsorted and correct the 'disputeWindow' field column ;
+
+UPDATE SUMMARY_FIELD SET SORTABLE = FALSE WHERE FIELD_OID = 931;
+UPDATE SUMMARY_FIELD SET SORTABLE = FALSE WHERE FIELD_OID = 1031;
+UPDATE SUMMARY_FIELD SET FIELD_COLUMN = 'DISPUTE_WINDOW' WHERE FIELD_OID = 933;
+UPDATE SUMMARY_FIELD SET FIELD_COLUMN = 'DISPUTE_WINDOW' WHERE FIELD_OID = 1033;
+
+-- ======================================================================================================================================================
+
+-- svn version: 5411
+-- update by: YouWenWu 
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7700, 'Matching', 'PoInvGrnDn', 'AutoRejectBuyerLossUnmatchedRecord', 'Auto reject unmatched records which contains items that PO price > INV price or GRN qty > INV qty.', 'BusinessRule.Matching.PoInvGrnDn.AutoRejectBuyerLossUnmatchedRecord');
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5421
+-- update by: LiYong
+-- Remarks:1.Add buisness rule of disable payment instructions. 2.Adjust the report template value from 'normal' to 'std_w_color_size' , 'normal2' to 'std_wo_color_size' if there are two template.;
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(15, 'Global', 'Global', 'DisableInvoicePaymentInstructions', 'Disable supplier select Payment Instructions of invoice.', 'BusinessRule.Global.Global.DisableInvoicePaymentInstructions');
+
+UPDATE BUYER_MSG_SETTING_REPORT SET REPORT_TEMPLATE = 'std_w_color_size' WHERE REPORT_TEMPLATE = 'normal' AND MSG_TYPE IN('DN', 'GI', 'GRN', 'INV', 'RTV', 'PO', 'DSD', 'CN');
+UPDATE BUYER_MSG_SETTING_REPORT SET REPORT_TEMPLATE = 'std_wo_color_size' WHERE REPORT_TEMPLATE = 'normal2' AND MSG_TYPE IN('DN', 'GI', 'GRN', 'INV', 'RTV');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5428
+-- update by: YinChi
+-- Remarks: add three new control parameter in administration common config;
+
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(48, 'CTRL', 'MAX_PDF_COUNT', NULL, 'property of list transaction docs print pdf', NULL, 100, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(49, 'CTRL', 'MAX_EXCEL_COUNT', NULL, 'property of list transaction docs export excel', NULL, 100, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(50, 'CTRL', 'MAX_SUMMARY_EXCEL_COUNT', NULL, 'property of list transaction docs export sum excel', NULL, 100, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5444
+-- update by: YouWenWu
+-- Remarks: add Database_Upgrade_Job;
+
+INSERT INTO JOB(JOB_OID, JOB_NAME, JOB_GROUP, TRIGGER_NAME, TRIGGER_GROUP, JOB_DESCRIPTION, CRON_EXPRESSION, ENABLED)
+VALUES(17, 'Database_Upgrade_Job', 'B2B-GROUP', 'databaseUpgradeJobTrigger', 'B2B-GROUP', 'The job to upgrade datebase.', '0 59 23 * * ?', TRUE);
+
+INSERT INTO QRTZ_JOB_DETAILS(JOB_NAME, JOB_GROUP, DESCRIPTION, JOB_CLASS_NAME, IS_DURABLE, IS_VOLATILE, IS_STATEFUL, REQUESTS_RECOVERY, JOB_DATA)
+VALUES ('Database_Upgrade_Job', 'B2B-GROUP', 'The job to upgrade datebase.', 'com.pracbiz.b2bportal.core.eai.backend.DatabaseUpgradeJob', FALSE, FALSE, FALSE, FALSE, NULL);
+
+INSERT INTO QRTZ_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, JOB_NAME, JOB_GROUP, IS_VOLATILE, DESCRIPTION, NEXT_FIRE_TIME, PREV_FIRE_TIME, PRIORITY, TRIGGER_STATE, TRIGGER_TYPE, START_TIME, END_TIME, CALENDAR_NAME, MISFIRE_INSTR, JOB_DATA)
+VALUES('databaseUpgradeJobTrigger', 'B2B-GROUP', 'Database_Upgrade_Job', 'B2B-GROUP', false, NULL, '0000000000000', '0000000000000', 5, 'WAITING', 'CRON', '0000000000000', NULL, NULL, 2, NULL);
+
+INSERT INTO QRTZ_CRON_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, CRON_EXPRESSION, TIME_ZONE_ID)
+VALUES('databaseUpgradeJobTrigger', 'B2B-GROUP', '0 59 23 * * ?', NULL);
+
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5444
+-- update by: YouWenWu
+-- Remarks: add LIVE_DATE in table SUPPLIER;
+-- ======================================================================================================================================================
+-- svn version: 5444
+-- update by: YouWenWu
+-- Remarks: add LIVE_DATE in table SUPPLIER;
+ALTER TABLE SUPPLIER ADD COLUMN `LIVE_DATE` DATE AFTER SET_OID;
+
+INSERT INTO JOB(JOB_OID, JOB_NAME, JOB_GROUP, TRIGGER_NAME, TRIGGER_GROUP, JOB_DESCRIPTION, CRON_EXPRESSION, ENABLED)
+VALUES(18, 'Supplier_Live_Job', 'B2B-GROUP', 'supplierLiveJobTrigger', 'B2B-GROUP', 'The job to make supplier alive.', '0 59 23 * * ?', TRUE);
+
+INSERT INTO QRTZ_JOB_DETAILS(JOB_NAME, JOB_GROUP, DESCRIPTION, JOB_CLASS_NAME, IS_DURABLE, IS_VOLATILE, IS_STATEFUL, REQUESTS_RECOVERY, JOB_DATA)
+VALUES ('Supplier_Live_Job', 'B2B-GROUP', 'The job to make supplier alive.', 'com.pracbiz.b2bportal.core.eai.backend.SupplierLiveJob', FALSE, FALSE, FALSE, FALSE, NULL);
+
+INSERT INTO QRTZ_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, JOB_NAME, JOB_GROUP, IS_VOLATILE, DESCRIPTION, NEXT_FIRE_TIME, PREV_FIRE_TIME, PRIORITY, TRIGGER_STATE, TRIGGER_TYPE, START_TIME, END_TIME, CALENDAR_NAME, MISFIRE_INSTR, JOB_DATA)
+VALUES('supplierLiveJobTrigger', 'B2B-GROUP', 'Supplier_Live_Job', 'B2B-GROUP', false, NULL, '0000000000000', '0000000000000', 5, 'WAITING', 'CRON', '0000000000000', NULL, NULL, 2, NULL);
+
+INSERT INTO QRTZ_CRON_TRIGGERS(TRIGGER_NAME, TRIGGER_GROUP, CRON_EXPRESSION, TIME_ZONE_ID)
+VALUES('supplierLiveJobTrigger', 'B2B-GROUP', '0 59 23 * * ?', NULL);
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(51, 'HSEKEEP', 'SL', 'OUTBOUND', 'Housekeeping days for SL.', NULL, 100, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+ALTER TABLE INV_HEADER MODIFY `CASH_DISCOUNT_AMOUNT` DECIMAL(15, 4);
+
+-- ======================================================================================================================================================
+-- svn version: 5461
+-- update by: YinChi
+-- Remarks: add parant user type supplier user to buyer admin;
+
+insert into PARENT_USER_TYPE(USER_TYPE_OID, PARENT_USER_TYPE_OID) VALUES(5, 2);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5475
+-- update by: Youwenwu
+-- Remarks: add send resolution and outstanding by group function;
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(4700, 'Dn', 'Backend', 'SendResolutionAndOutstandingByGroup', 'Send Resolution and outstanding report by group.', 'BusinessRule.Dn.Backend.SendResolutionAndOutstandingByGroup');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7800, 'Matching', 'PoInvGrnDn', 'SendResolutionAndOutstandingByGroup', 'Send Resolution and outstanding report by group.', 'BusinessRule.Matching.PoInvGrnDn.SendResolutionAndOutstandingByGroup');
+
+insert into OPERATION(OPN_ID, OPN_DESC, OPN_ORDER, IMPLICIT, OPT_TYPE, MODULE_ID, BUTTON_TITLE_KEY, NEED_AUTH)
+VALUES('900513', 'Debit Note - [CloseWithoutEdit]', 0, FALSE, 'OTHER', '9005', '', TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900513', '/dn/initCloseWithoutEdit.action', FALSE, TRUE);
+insert into OPERATION_URL(OPN_ID, ACCESS_URL, IMPLICIT, NEED_AUTH)
+VALUES('900513', '/dn/saveClose.action', FALSE, TRUE);
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(2, '900513');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(4, '900513');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5478
+-- update by: YinChi
+-- Remarks: add dn discrepancy report privilege to store;
+
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(6, '1100601');
+insert into USER_TYPE_OPERATION(USER_TYPE_OID, OPN_ID) VALUES(7, '1100601');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5486
+-- update by: YinChi
+-- Remarks: add max day of report setting in common config;
+
+DELETE FROM BUYER_RULE WHERE RULE_OID=5300;
+DELETE FROM BUSINESS_RULE WHERE RULE_OID=5300;
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(52, 'CTRL', 'MAX_DAY_OF_REPORT', NULL, 'Maximum day allowed to export.', NULL, 1, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5496
+-- update by: YinChi
+-- Remarks: change the delivery date to delivery date from and delivery date to;
+
+ALTER TABLE PO_HEADER CHANGE COLUMN DELIVERY_DATE DELIVERY_DATE_FROM DATETIME;
+ALTER TABLE PO_HEADER ADD COLUMN DELIVERY_DATE_TO DATETIME AFTER DELIVERY_DATE_FROM;
+
+UPDATE SUMMARY_FIELD SET FIELD_ID='deliveryDateFrom', FIELD_COLUMN='DELIVERY_DATE_FROM', FIELD_LABEL_KEY='po.summary.grid.deliveryDateFrom' WHERE FIELD_OID=105;
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (118,'deliveryDateTo', 'DELIVERY_DATE_TO', 'po.summary.grid.deliveryDateTo', 1, 10, 1, 5, 1);
+
+UPDATE SUMMARY_FIELD SET FIELD_ID='deliveryDateFrom', FIELD_COLUMN='DELIVERY_DATE_FROM', FIELD_LABEL_KEY='po.summary.grid.deliveryDateFrom' WHERE FIELD_OID=205;
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (218,'deliveryDateTo', 'DELIVERY_DATE_TO', 'po.summary.grid.deliveryDateTo', 1, 10, 1, 5, 2);
+
+UPDATE SUMMARY_FIELD SET FIELD_ID='deliveryDateFrom', FIELD_COLUMN='DELIVERY_DATE_FROM', FIELD_LABEL_KEY='quick.po.summary.grid.deliveryDateFrom' WHERE FIELD_OID=2105;
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2120,'deliveryDateTo', 'DELIVERY_DATE_TO', 'quick.po.summary.grid.deliveryDateTo', 1, 10, 1, 5, 21);
+
+UPDATE SUMMARY_FIELD SET FIELD_ID='deliveryDateFrom', FIELD_COLUMN='DELIVERY_DATE_FROM', FIELD_LABEL_KEY='quick.po.summary.grid.deliveryDateFrom' WHERE FIELD_OID=2205;
+
+INSERT INTO SUMMARY_FIELD (FIELD_OID, FIELD_ID, FIELD_COLUMN, FIELD_LABEL_KEY, AVAILABLE, FIELD_WIDTH, SORTABLE, SHOW_ORDER, SETTING_OID)
+VALUES (2220,'deliveryDateTo', 'DELIVERY_DATE_TO', 'quick.po.summary.grid.deliveryDateTo', 1, 10, 1, 5, 22);
+
+
+-- ======================================================================================================================================================
+-- svn version: 5501
+-- update by: LiYong
+-- Remarks: add new column 'ANNOUNCEMENT_TYPE' of RESERVE_MESSAGE table.;
+
+ALTER TABLE RESERVE_MESSAGE ADD COLUMN ANNOUNCEMENT_TYPE ENUM('BUYER','SUPPLIER','BOTH') NOT NULL;
+
+
+-- ======================================================================================================================================================
+-- svn version: 5523
+-- update by: YinChi
+-- Remarks: add new business rule IgnoreExpiryDate.;
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(1600, 'PoConvertInv', 'SorPO', 'IgnoreExpiryDate', 'Ignore expiry date.', 'BusinessRule.PoConvertInv.SorPO.IgnoreExpiryDate');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5531
+-- update by: LiYong
+-- Remarks: add new business rule for RTV-GI-DN Report.;
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(16, 'Global', 'Global', 'RtvGiDnQtyTolerance', 'RTV-GI-DN qty tolerance value.', 'BusinessRule.Global.Global.RtvGiDnQtyTolerance');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(17, 'Global', 'Global', 'RtvGiDnQtyToleranceType', 'RTV-GI-DN qty tolerance value type.', 'BusinessRule.Global.Global.RtvGiDnQtyToleranceType');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(18, 'Global', 'Global', 'RtvGiDnPriceTolerance', 'RTV-GI-DN price tolerance value.', 'BusinessRule.Global.Global.RtvGiDnPriceTolerance');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(19, 'Global', 'Global', 'RtvGiDnPriceToleranceType', 'RTV-GI-DN price tolerance value type.', 'BusinessRule.Global.Global.RtvGiDnPriceToleranceType');
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(20, 'Global', 'Global', 'RtvGiDnReportGeneratingDateRange', 'RTV-GI-DN Generating Report Date Rage.', 'BusinessRule.Global.Global.RtvGiDnReportGeneratingDateRange');
+
+insert into BUSINESS_RULE(RULE_OID, FUNC_GROUP, FUNC_ID, RULE_ID, RULE_DESC, RULE_DESC_KEY)
+values(7900, 'Matching', 'PoInvGrnDn', 'RtvGiDnExceptionReportRecipients', 'RTV-GI-DN Exception Report recipients.', 'BusinessRule.Matching.PoInvGrnDn.RtvGiDnExceptionReportRecipients');
+
+
+-- ======================================================================================================================================================
+-- svn version: 5535
+-- update by: Youwenwu
+-- Remarks: add index for PO_INV_GRN_DN_MATCHING.
+
+ALTER TABLE PO_INV_GRN_DN_MATCHING ADD INDEX MULTY_INDEX1(MATCHING_STATUS, INV_STATUS, SUPPLIER_STATUS, BUYER_STATUS, PRICE_STATUS, QTY_STATUS, PO_DATE);
+ALTER TABLE PO_INV_GRN_DN_MATCHING ADD INDEX MULTY_INDEX2(MATCHING_STATUS, INV_STATUS, SUPPLIER_STATUS, BUYER_STATUS, PRICE_STATUS, QTY_STATUS, PO_NO);
+
+
+
+-- ======================================================================================================================================================
+-- svn version: 5537
+-- update by: YinChi
+-- Remarks: Rename the module of "Task List" to "My Task".
+
+UPDATE MODULE SET MODULE_NAME = 'My Task' WHERE MODULE_ID = '0001';
+
+
+
+-- ======================================================================================================================================================
+-- svn version:  5556
+-- update by: LiYong
+-- Remarks: add biz rule of file size limit.
+
+insert into CONTROL_PARAMETER(PARAM_OID, SECT_ID, PARAM_ID, CAT_ID, PARAM_DESC, STRING_VALUE, NUM_VALUE, DATE_VALUE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VALID)
+VALUES(53, 'CTRL', 'ZIP_FILE_SIZE_LIMIT', NULL, 'Zip file when size exceed limit.', NULL, 1, NULL, now(), 'SYSTEM', NULL, NULL, TRUE);
+
+
+
+-- ======================================================================================================================================================
+-- svn version:  5558
+-- update by: YouWenWu
+-- Remarks: add IGNORE_NOTIFICATION for table `GROUP`
+
+ALTER TABLE `GROUP` ADD COLUMN `IGNORE_NOTIFICATION` BOOLEAN AFTER `GROUP_TYPE`;
+UPDATE `GROUP` SET IGNORE_NOTIFICATION = FALSE;
+ALTER TABLE `GROUP` MODIFY COLUMN `IGNORE_NOTIFICATION` BOOLEAN NOT NULL;
+ALTER TABLE `T_GROUP` ADD COLUMN `IGNORE_NOTIFICATION` BOOLEAN AFTER `GROUP_TYPE`;
+UPDATE `T_GROUP` SET IGNORE_NOTIFICATION = FALSE;
+ALTER TABLE `T_GROUP` MODIFY COLUMN `IGNORE_NOTIFICATION` BOOLEAN NOT NULL;
+
+
+-- ======================================================================================================================================================
+-- svn version:  5570
+-- update by: YinChi
+-- Remarks: add new field AUDIT_FINISHED for DOC_CLASS and DOC_SUBCLASS table.
+
+ALTER TABLE DOC_SUBCLASS ADD COLUMN AUDIT_FINISHED BOOLEAN NOT NULL AFTER SUBCLASS_CODE;
+
+ALTER TABLE DOC_CLASS DROP FOREIGN KEY DOC_CLASS_ibfk_1;
+ALTER TABLE DOC_SUBCLASS DROP FOREIGN KEY DOC_SUBCLASS_ibfk_1;
+
+
+-- ======================================================================================================================================================
+-- svn version:  5590
+-- update by: YouWenWu
+-- Remarks: add index on table PO_HEADER, MSG_TRANSACTIONS.
+
+ALTER TABLE PO_HEADER ADD INDEX INX_PODATE(BUYER_OID, PO_DATE);
+ALTER TABLE MSG_TRANSACTIONS ADD INDEX INX_SENTDATE(BUYER_OID, SENT_DATE);

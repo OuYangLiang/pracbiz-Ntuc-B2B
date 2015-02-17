@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="standardGRNDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardGrnReportEngine" />
+	<bean id="standardGRN2DefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardGrn2ReportEngine" />
+	<bean id="standardDNDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardDnReportEngine" />
+	<bean id="standardDN2DefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardDn2ReportEngine" />
+	<bean id="standardPNDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardPnReportEngine" />
+	<bean id="standardINVDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardInvReportEngine" />
+	<bean id="standardINV2DefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardInv2ReportEngine" />
+	<bean id="standardRTVDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardRtvReportEngine" />
+	<bean id="standardRTV2DefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardRtv2ReportEngine" />
+	<bean id="standardPODefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardPoReportEngine" />
+	<bean id="standardGiDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardGiReportEngine" />
+    <bean id="standardGi2DefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardGi2ReportEngine" />
+    <bean id="standardCcDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardCcReportEngine" />
+    <bean id="standardSalesDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardSalesReportEngine" />
+    <bean id="standardCnDefaultEngine" class="com.pracbiz.b2bportal.core.report.DefaultStandardCnReportEngine" />
+	
+    <!--Unity Customized Engine -->
+	<bean id="customizedUnityPO1Engine" class="com.pracbiz.b2bportal.customized.unity.report.CustomizedUnityPoReportEngine" />
+	<bean id="customizedUnityPN1Engine" class="com.pracbiz.b2bportal.customized.unity.report.CustomizedUnityPnReportEngine" />
+	<bean id="customizedUnityGRN1Engine" class="com.pracbiz.b2bportal.customized.unity.report.CustomizedUnityGrnReportEngine" />
+	<bean id="customizedUnityRTV1Engine" class="com.pracbiz.b2bportal.customized.unity.report.CustomizedUnityRtvReportEngine" />
+	<bean id="customizedUnityCC1Engine" class="com.pracbiz.b2bportal.customized.unity.report.CustomizedUnityCcReportEngine" />
+	
+	<!--FairPrice Customized Engine -->
+	<bean id="customizedFairPricePO1Engine" class="com.pracbiz.b2bportal.customized.fairprice.report.CustomizedFairPricePoReportEngine" />
+	<bean id="customizedFairPriceRTV1Engine" class="com.pracbiz.b2bportal.customized.fairprice.report.CustomizedFairPriceRtvReportEngine" />
+	<bean id="customizedFairPriceBuyerResolutionAcceptedReportEngine" class="com.pracbiz.b2bportal.customized.fairprice.report.CustomizedFairPriceBuyerResolutionAcceptedReportEngine" />
+	<bean id="customizedFairPriceBuyerResolutionOthersReportEngine" class="com.pracbiz.b2bportal.customized.fairprice.report.CustomizedFairPriceBuyerResolutionOthersReportEngine" />
+	
+	<!--Tangs Customized Engine -->
+	<bean id="customizedTangsPO1Engine" class="com.pracbiz.b2bportal.customized.tangs.report.CustomizedTangsPoReportEngine"/>
+	<bean id="customizedTangsGr1Engine" class="com.pracbiz.b2bportal.customized.tangs.report.CustomizedTangsGrReportEngine" />
+	<bean id="customizedTangsSales1Engine" class="com.pracbiz.b2bportal.customized.tangs.report.CustomizedTangsSalesReportEngine"/>
+	<bean id="customizedTangsInv1Engine" class="com.pracbiz.b2bportal.customized.tangs.report.CustomizedTangsInvReportEngine" />
+	<bean id="customizedTangsCn1Engine" class="com.pracbiz.b2bportal.customized.tangs.report.CustomizedTangsCnReportEngine" />
+	
+	<!--Watsons Customized Engine -->
+	<bean id="customizedWatsonsPO1Engine" class="com.pracbiz.b2bportal.customized.watsons.report.CustomizedWatsonsPoReportEngine"></bean>
+</beans>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <package name="taskList" extends="pracbiz-default" namespace="/taskList"> 
+        <action name="init" class="com.pracbiz.b2bportal.core.action.TaskListAction" method="init">
+            <result>/WEB-INF/views/core/taskList/taskList.jsp</result>
+        </action>
+        <action name="checkPendingUser" class="com.pracbiz.b2bportal.core.action.TaskListAction" method="getPendingUserCount">
+            <result type="json">
+                <param name="root">userCount</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        <action name="checkPendingRole" class="com.pracbiz.b2bportal.core.action.TaskListAction" method="getPendingRoleCount">
+            <result type="json">
+                <param name="root">roleCount</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        <action name="checkPendingGroup" class="com.pracbiz.b2bportal.core.action.TaskListAction" method="getPendingGroupCount">
+            <result type="json">
+                <param name="root">groupCount</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        <action name="checkUnreadInv" class="com.pracbiz.b2bportal.core.action.TaskListAction" method="getUnreadInvoiceCount">
+            <result type="json">
+                <param name="root">invCount</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        <action name="checkPendingPIGD" class="com.pracbiz.b2bportal.core.action.TaskListAction" method="getPendingPIGDCount">
+            <result type="json">
+                <param name="root">holder</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+        <action name="checkPendingDn" class="com.pracbiz.b2bportal.core.action.TaskListAction" method="getPendingDnCount">
+            <result type="json">
+                <param name="root">holder</param>
+                <param name="ignoreHierarchy">false</param>
+            </result>
+        </action>
+    </package>
+</struts>

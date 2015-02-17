@@ -1,0 +1,7 @@
+<html>
+    <body>
+    For the rejected invoices which buyer status is "Rejected", please manually void the corresponding invoice and regenerate a new invoice.
+    <br></br>
+    Server Url: <a href="$appUrl">$appUrl</a>
+    </body>
+</html>

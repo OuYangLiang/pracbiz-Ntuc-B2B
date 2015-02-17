@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.UserTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.UserTypeHolder" >
+    <id column="USER_TYPE_OID" property="userTypeOid" jdbcType="DECIMAL" />
+    <result column="USER_TYPE_ID" property="userTypeId" jdbcType="VARCHAR" />
+    <result column="USER_TYPE_DESC" property="userTypeDesc" jdbcType="VARCHAR" />
+    <result column="GROUP_TYPE" property="groupType" jdbcType="CHAR" />
+    <result column="ROLE_TYPE" property="roleType" jdbcType="CHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    USER_TYPE_OID, USER_TYPE_ID, USER_TYPE_DESC, GROUP_TYPE, 
+    ROLE_TYPE
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from USER_TYPE
+    <where>
+      <if test="userTypeOid != null" >
+        USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userTypeId != null" >
+        AND USER_TYPE_ID = #{userTypeId,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeDesc != null" >
+        AND USER_TYPE_DESC = #{userTypeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="groupType != null" >
+        AND GROUP_TYPE = #{groupType,jdbcType=CHAR}
+      </if>
+      <if test="roleType != null" >
+        AND ROLE_TYPE = #{roleType,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeHolder" >
+    delete from USER_TYPE
+    <where>
+      <if test="userTypeOid != null" >
+        USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+      </if>
+      <if test="userTypeId != null" >
+        AND USER_TYPE_ID = #{userTypeId,jdbcType=VARCHAR}
+      </if>
+      <if test="userTypeDesc != null" >
+        AND USER_TYPE_DESC = #{userTypeDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="groupType != null" >
+        AND GROUP_TYPE = #{groupType,jdbcType=CHAR}
+      </if>
+      <if test="roleType != null" >
+        AND ROLE_TYPE = #{roleType,jdbcType=CHAR}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeHolder" >
+    insert into USER_TYPE (USER_TYPE_OID, USER_TYPE_ID, USER_TYPE_DESC, GROUP_TYPE, ROLE_TYPE)
+    values (#{userTypeOid,jdbcType=DECIMAL}, #{userTypeId,jdbcType=VARCHAR}, #{userTypeDesc,jdbcType=VARCHAR}, #{groupType,jdbcType=CHAR}, #{roleType,jdbcType=CHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeHolder" >
+    update USER_TYPE
+    <set >
+      <if test="userTypeId != null" >
+        USER_TYPE_ID = #{userTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="userTypeDesc != null" >
+        USER_TYPE_DESC = #{userTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null" >
+        GROUP_TYPE = #{groupType,jdbcType=CHAR},
+      </if>
+      <if test="roleType != null" >
+        ROLE_TYPE = #{roleType,jdbcType=CHAR},
+      </if>
+    </set>
+    where USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.UserTypeHolder" >
+    update USER_TYPE
+    set USER_TYPE_ID = #{userTypeId,jdbcType=VARCHAR},
+      USER_TYPE_DESC = #{userTypeDesc,jdbcType=VARCHAR},
+      GROUP_TYPE = #{groupType,jdbcType=CHAR},
+      ROLE_TYPE = #{roleType,jdbcType=CHAR}
+    where USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectPrivilegedSubUserTypesByUserType" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT U.USER_TYPE_OID, U.USER_TYPE_ID, U.USER_TYPE_DESC, U.GROUP_TYPE, U.ROLE_TYPE
+	FROM USER_TYPE U, PARENT_USER_TYPE P WHERE (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL})
+    ORDER BY USER_TYPE_OID ASC
+  </select>
+  
+  <select id="selectPrivilegedSubUserTypesByUserTypeInclusively" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    SELECT DISTINCT U.USER_TYPE_OID, U.USER_TYPE_ID, U.USER_TYPE_DESC, U.GROUP_TYPE, U.ROLE_TYPE
+    FROM USER_TYPE U, PARENT_USER_TYPE P
+    WHERE U.USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL} OR 
+    (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{userTypeOid,jdbcType=DECIMAL})
+    ORDER BY USER_TYPE_OID ASC
+  </select>
+  
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.CountryMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.CountryHolder" >
+    <id column="CTRY_CODE" property="ctryCode" jdbcType="CHAR" />
+    <result column="CTRY_DESC" property="ctryDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    CTRY_CODE, CTRY_DESC
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.CountryHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from COUNTRY
+    <where>
+      <if test="ctryCode != null" >
+        CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+      </if>
+      <if test="ctryDesc != null" >
+        AND CTRY_DESC = #{ctryDesc,jdbcType=VARCHAR}
+      </if>
+    </where>
+    <if test="sortField != null" >
+      order by ${sortField} ${sortOrder}
+    </if>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.CountryHolder" >
+    delete from COUNTRY
+    <where>
+      <if test="ctryCode != null" >
+        CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+      </if>
+      <if test="ctryDesc != null" >
+        AND CTRY_DESC = #{ctryDesc,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.CountryHolder" >
+    insert into COUNTRY (CTRY_CODE, CTRY_DESC)
+    values (#{ctryCode,jdbcType=CHAR}, #{ctryDesc,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.CountryHolder" >
+    update COUNTRY
+    <set >
+      <if test="ctryDesc != null" >
+        CTRY_DESC = #{ctryDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.CountryHolder" >
+    update COUNTRY
+    set CTRY_DESC = #{ctryDesc,jdbcType=VARCHAR}
+    where CTRY_CODE = #{ctryCode,jdbcType=CHAR}
+  </update>
+</mapper>

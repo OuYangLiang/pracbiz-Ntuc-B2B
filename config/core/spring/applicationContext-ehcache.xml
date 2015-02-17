@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<bean id="defaultCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation">
+			<value>classpath:ehcache.xml</value>
+		</property>
+	</bean>
+
+	<bean id="ehCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref local="defaultCacheManager" />
+		</property>
+		<property name="cacheName">
+			<value>SUMMARY_FIELD_AND-TOOLTIP_CACHE</value>
+		</property>
+	</bean>
+	
+	<bean id="methodCacheInterceptor"
+		class="com.pracbiz.b2bportal.core.interceptor.MethodCacheInterceptor">
+		<property name="cache">
+			<ref local="ehCache" />
+		</property>
+	</bean>
+	<!-- flush cache Interceptor -->
+	<bean id="methodCacheAfterAdvice"
+		class="com.pracbiz.b2bportal.core.advice.MethodCacheAfterAdvice">
+		<property name="cache">
+			<ref local="ehCache" />
+		</property>
+	</bean>
+
+	<bean id="methodCachePointCut"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="methodCacheInterceptor" />
+		</property>
+		<property name="patterns">
+			<list>
+				<value>.*selectSummaryAvailableFieldsByPageIdAndAccessType</value>
+				<value>.*selectTooltipsByPageIdAndAccessType</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="methodCachePointCutAdvice"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="methodCacheAfterAdvice" />
+		</property>
+		<property name="patterns">
+			<list>
+				<value>.*SummaryFieldServiceImpl.insert.*</value>
+				<value>.*SummaryFieldServiceImpl.update.*</value>
+				<value>.*SummaryFieldServiceImpl.delete.*</value>
+				<value>.*ToolTipServiceImpl.insert.*</value>
+				<value>.*ToolTipServiceImpl.update.*</value>
+				<value>.*ToolTipServiceImpl.delete.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="summaryFieldCacheService" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<ref bean="summaryFieldService" />
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>methodCachePointCut</value>
+				<value>methodCachePointCutAdvice</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="toolTipCacheService" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<ref bean="toolTipService" />
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>methodCachePointCut</value>
+				<value>methodCachePointCutAdvice</value>
+			</list>
+		</property>
+	</bean>
+</beans> 

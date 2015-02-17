@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+
+    <field name="userProfile.loginId">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPU0136")}</message>
+        </field-validator>
+        <field-validator type="loginId">
+            <message>
+                ${getText("B2BPU0119")}
+            </message>
+        </field-validator>
+    </field>
+
+    <field name="userProfile.email">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPU0133")}</message>
+        </field-validator>
+        <field-validator type="emailAddress">
+            <message>
+                ${getText("B2BPU0121")}
+            </message>
+        </field-validator>
+    </field>
+
+    <field name="userProfile.loginMode">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPU0139")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="userProfile.userName">
+        <field-validator type="requiredstring">
+            <message>${getText("B2BPU0137")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="userProfile.tel">
+        <field-validator type="phonenumber">
+            <message>${getText("B2BPU0124")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="userProfile.mobile">
+        <field-validator type="mobilenumber">
+            <message>${getText("B2BPU0125")}</message>
+        </field-validator>
+    </field>
+    
+    <field name="userProfile.fax">
+        <field-validator type="faxnumber">
+            <message>${getText("B2BPU0165")}</message>
+        </field-validator>
+    </field>
+</validators>

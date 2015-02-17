@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.AuditTrailMapper" >
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.extension.AuditTrailExHolder" >
+    <id column="ADT_OID" property="auditTrailOid" jdbcType="DECIMAL" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="ACTOR_ACTION" property="actorAction" jdbcType="CHAR" />
+    <result column="ACTOR" property="actor" jdbcType="VARCHAR" />
+    <result column="ACTOR_OID" property="actorOid" jdbcType="DECIMAL" />
+    <result column="CLIENT_IP" property="clientIp" jdbcType="VARCHAR" />
+    <result column="RECORD_KEY" property="recordKey" jdbcType="VARCHAR" />
+    <result column="RECORD_TYPE" property="recordType" jdbcType="VARCHAR" />
+    <result column="RECORD_STATUS" property="recordStatus" jdbcType="CHAR" />
+    <result column="SESSION_OID" property="sessionOid" jdbcType="DECIMAL" />
+    <result column="SESSION_ID" property="sessionId" jdbcType="VARCHAR" />
+    <result column="USER_TYPE_OID" property="userTypeOid" jdbcType="DECIMAL" />
+    <result column="USER_TYPE_DESC" property="userTypeDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.AuditTrailExHolder" resultType="int">
+    SELECT COUNT(*) FROM (SELECT * FROM (
+	SELECT A.ADT_OID,A.ACTION_DATE,A.ACTION_TYPE,A.ACTOR_ACTION,A.ACTOR,A.ACTOR_OID,A.CLIENT_IP,A.RECORD_KEY,A.RECORD_TYPE,
+    A.RECORD_STATUS,A.SESSION_OID,B.USER_TYPE,B.BUYER_OID,B.SUPPLIER_OID,C.SESSION_ID,D.USER_TYPE_DESC
+    FROM AUDIT_TRAIL A LEFT JOIN USER_PROFILE B ON A.ACTOR_OID = B.USER_OID LEFT JOIN AUDIT_SESSION C ON A.SESSION_OID = C.SESSION_OID 
+    LEFT JOIN USER_TYPE D ON B.USER_TYPE=D.USER_TYPE_OID) E 
+    WHERE USER_TYPE in (SELECT DISTINCT U.USER_TYPE_OID FROM USER_TYPE U, PARENT_USER_TYPE P
+        WHERE U.USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL} OR 
+        (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL}))
+    <if test="userTypeOid != null" >
+      AND USER_TYPE = #{userTypeOid,jdbcType=DECIMAL}
+    </if>
+    <if test="dateFrom != null" >
+      <![CDATA[AND ACTION_DATE >= #{dateFrom,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="dateTo != null" >
+      <![CDATA[AND ACTION_DATE <= #{dateTo,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="actorAction != null" >
+      AND ACTOR_ACTION = #{actorAction,jdbcType=CHAR}
+    </if>
+    <if test="actor != null" >
+      AND ACTOR like concat('%',#{actor,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="clientIp != null" >
+      AND CLIENT_IP like concat('%',#{clientIp,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sessionId != null" >
+      AND SESSION_ID like concat('%',#{sessionId,jdbcType=CHAR},'%') 
+    </if>
+    <if test="recordKey != null" >
+      AND RECORD_KEY like concat('%',#{recordKey,jdbcType=VARCHAR},'%') 
+    </if>
+    <if test="recordType != null" >
+      AND RECORD_TYPE = #{recordType,jdbcType=VARCHAR} 
+    </if>
+    <if test="actorOid != null">
+      AND ACTOR_OID = #{actorOid,jdbcType=DECIMAL}
+    </if>
+    <if test="currentUserTypeOid == 2">
+        AND (E.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+        OR IF ((SELECT 1 FROM GROUP_USER GU WHERE GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL}) =1,
+        (IF((SELECT 1 FROM GROUP_SUPPLIER GS,GROUP_USER GU WHERE GS.GROUP_OID=GU.GROUP_OID 
+        AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL} AND GS.SUPPLIER_OID=-1)=1,
+        (EXISTS (SELECT 1 FROM TRADING_PARTNER TP WHERE TP.SUPPLIER_OID=E.SUPPLIER_OID AND TP.BUYER_OID=#{buyerOid,jdbcType=DECIMAL}))
+        ,EXISTS (SELECT 1 FROM GROUP_SUPPLIER GS,GROUP_USER GU WHERE GS.GROUP_OID=GU.GROUP_OID 
+        AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL} AND GS.SUPPLIER_OID=E.SUPPLIER_OID))), 1=2))
+    </if>
+    <if test="currentUserTypeOid == 3">
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+    ) F
+  </select>
+  
+  <select id="getListOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.AuditTrailExHolder"  resultMap="GridMap" >
+    SELECT * FROM (
+    SELECT A.ADT_OID,A.ACTION_DATE,A.ACTION_TYPE,A.ACTOR_ACTION,A.ACTOR,A.ACTOR_OID,A.CLIENT_IP,A.RECORD_KEY,A.RECORD_TYPE,
+    A.RECORD_STATUS,A.SESSION_OID,B.USER_TYPE,B.BUYER_OID,B.SUPPLIER_OID,C.SESSION_ID,D.USER_TYPE_DESC
+    FROM AUDIT_TRAIL A LEFT JOIN USER_PROFILE B ON A.ACTOR_OID = B.USER_OID LEFT JOIN AUDIT_SESSION C ON A.SESSION_OID = C.SESSION_OID 
+    LEFT JOIN USER_TYPE D ON B.USER_TYPE=D.USER_TYPE_OID) E 
+    WHERE USER_TYPE in (SELECT DISTINCT U.USER_TYPE_OID FROM USER_TYPE U, PARENT_USER_TYPE P
+        WHERE U.USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL} OR 
+        (U.USER_TYPE_OID = P.USER_TYPE_OID AND P.PARENT_USER_TYPE_OID = #{currentUserTypeOid,jdbcType=DECIMAL}))
+    <if test="userTypeOid != null" >
+      AND USER_TYPE = #{userTypeOid,jdbcType=DECIMAL}
+    </if>
+    <if test="dateFrom != null" >
+      <![CDATA[AND ACTION_DATE >= #{dateFrom,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="dateTo != null" >
+      <![CDATA[AND ACTION_DATE <= #{dateTo,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="actorAction != null" >
+      AND ACTOR_ACTION = #{actorAction,jdbcType=CHAR}
+    </if>
+    <if test="actor != null" >
+      AND ACTOR like concat('%',#{actor,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="clientIp != null" >
+      AND CLIENT_IP like concat('%',#{clientIp,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sessionId != null" >
+      AND SESSION_ID like concat('%',#{sessionId,jdbcType=CHAR},'%') 
+    </if>
+    <if test="recordKey != null" >
+      AND RECORD_KEY like concat('%',#{recordKey,jdbcType=VARCHAR},'%') 
+    </if>
+    <if test="recordType != null" >
+      AND RECORD_TYPE = #{recordType,jdbcType=VARCHAR}
+    </if>
+    <if test="actorOid != null">
+      AND ACTOR_OID = #{actorOid,jdbcType=DECIMAL}
+    </if>
+    <if test="currentUserTypeOid == 2">
+        AND (E.BUYER_OID = #{buyerOid,jdbcType=DECIMAL}
+        OR IF ((SELECT 1 FROM GROUP_USER GU WHERE GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL}) =1,
+        (IF((SELECT 1 FROM GROUP_SUPPLIER GS,GROUP_USER GU WHERE GS.GROUP_OID=GU.GROUP_OID 
+        AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL} AND GS.SUPPLIER_OID=-1)=1,
+        (EXISTS (SELECT 1 FROM TRADING_PARTNER TP WHERE TP.SUPPLIER_OID=E.SUPPLIER_OID AND TP.BUYER_OID=#{buyerOid,jdbcType=DECIMAL}))
+        ,EXISTS (SELECT 1 FROM GROUP_SUPPLIER GS,GROUP_USER GU WHERE GS.GROUP_OID=GU.GROUP_OID 
+        AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL} AND GS.SUPPLIER_OID=E.SUPPLIER_OID))), 1=2))
+    </if>
+    <if test="currentUserTypeOid == 3">
+        AND SUPPLIER_OID = #{supplierOid,jdbcType=DECIMAL}
+    </if>
+    <if test="sortField != null" >
+      order by ${sortField} ${sortOrder}
+    </if>
+      limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+</mapper>

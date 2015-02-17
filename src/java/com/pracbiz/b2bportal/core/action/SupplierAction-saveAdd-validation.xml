@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+
+	<field name="supplier.supplierCode">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0442")}</message>
+		</field-validator>
+		<field-validator type="supplierCode">
+			<message>${getText("B2BPC0436")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.supplierName">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0466")}</message>
+		</field-validator>
+		<field-validator type="stringlength">
+            <param name="trim">true</param>
+            <param name="minLength">0</param>  
+            <param name="maxLength">100</param>  
+             <message>
+                ${getText("B2BPC0466")}
+             </message>  
+        </field-validator>
+	</field>
+	
+	<field name="supplier.address1">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0481")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.postalCode">
+		<field-validator type="postalCode">
+			<message>${getText("B2BPC0428")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.ctryCode">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0474")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.currCode">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0468")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.contactName">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0482")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.contactTel">
+	    <field-validator type="requiredstring">
+			<message>${getText("B2BPC0478")}</message>
+		</field-validator>
+		<field-validator type="phonenumber">
+			<message>${getText("B2BPC0477")} </message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.contactMobile">
+		<field-validator type="mobilenumber">
+			<message>${getText("B2BPC0479")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.contactFax">
+		<field-validator type="faxnumber">
+			<message>${getText("B2BPC0475")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.contactEmail">
+	    <field-validator type="requiredstring">
+			<message>${getText("B2BPC0483")}</message>
+		</field-validator>
+		<field-validator type="emailAddress">
+			<message>${getText("B2BPC0438")}</message>
+		</field-validator>
+	</field>
+	
+	<field name="supplier.deploymentMode">
+        <field-validator type="required">
+            <message>${getText("B2BPC0488")}</message>
+        </field-validator>
+    </field>
+	
+	<field name="supplier.mboxId">
+		<field-validator type="requiredstring">
+			<message>${getText("B2BPC0443")}</message>
+		</field-validator>
+		<field-validator type="mbox">
+			<message>${getText("B2BPC0431")}</message>
+		</field-validator>
+	</field>
+</validators>

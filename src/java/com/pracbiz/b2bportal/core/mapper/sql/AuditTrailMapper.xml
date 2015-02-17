@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.AuditTrailMapper" >
+  <resultMap id="BaseResultMap" type="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    <id column="ADT_OID" property="auditTrailOid" jdbcType="DECIMAL" />
+    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="CHAR" />
+    <result column="ACTOR_ACTION" property="actorAction" jdbcType="CHAR" />
+    <result column="ACTOR_OID" property="actorOid" jdbcType="DECIMAL" />
+    <result column="ACTOR" property="actor" jdbcType="VARCHAR" />
+    <result column="CLIENT_IP" property="clientIp" jdbcType="VARCHAR" />
+    <result column="RECORD_KEY" property="recordKey" jdbcType="VARCHAR" />
+    <result column="RECORD_TYPE" property="recordType" jdbcType="VARCHAR" />
+    <result column="RECORD_STATUS" property="recordStatus" jdbcType="CHAR" />
+    <result column="SESSION_OID" property="sessionOid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" extends="BaseResultMap" >
+    <result column="XML_CONTENT" property="xmlContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ADT_OID, ACTION_DATE, ACTION_TYPE, ACTOR_ACTION, ACTOR_OID, ACTOR, CLIENT_IP, RECORD_KEY, RECORD_TYPE, 
+    RECORD_STATUS, SESSION_OID
+  </sql>
+  
+  <sql id="Blob_Column_List" >
+    XML_CONTENT
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    from AUDIT_TRAIL
+    <where>
+      <if test="auditTrailOid != null" >
+        ADT_OID = #{auditTrailOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actionDate != null" >
+        AND ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="actionType != null" >
+        AND ACTION_TYPE = #{actionType,jdbcType=CHAR}
+      </if>
+      <if test="actorAction != null" >
+        AND ACTOR_ACTION = #{actorAction,jdbcType=CHAR}
+      </if>
+      <if test="actorOid != null" >
+        AND ACTOR_OID = #{actorOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actor != null" >
+        AND ACTOR = #{actor,jdbcType=VARCHAR}
+      </if>
+      <if test="clientIp != null" >
+        AND CLIENT_IP = #{clientIp,jdbcType=VARCHAR}
+      </if>
+      <if test="recordKey != null" >
+        AND RECORD_KEY = #{recordKey,jdbcType=VARCHAR}
+      </if>
+      <if test="recordType != null" >
+        AND RECORD_TYPE = #{recordType,jdbcType=VARCHAR}
+      </if>
+      <if test="recordStatus != null" >
+        AND RECORD_STATUS = #{recordStatus,jdbcType=CHAR}
+      </if>
+      <if test="xmlContent != null" >
+        AND XML_CONTENT = #{xmlContent,jdbcType=LONGVARCHAR}
+      </if>
+       <if test="sessionOid != null" >
+        SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from AUDIT_TRAIL
+    <where>
+      <if test="auditTrailOid != null" >
+        ADT_OID = #{auditTrailOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actionDate != null" >
+        AND ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="actionType != null" >
+        AND ACTION_TYPE = #{actionType,jdbcType=CHAR}
+      </if>
+      <if test="actorAction != null" >
+        AND ACTOR_ACTION = #{actorAction,jdbcType=CHAR}
+      </if>
+      <if test="actorOid != null" >
+        AND ACTOR_OID = #{actorOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actor != null" >
+        AND ACTOR = #{actor,jdbcType=VARCHAR}
+      </if>
+      <if test="clientIp != null" >
+        AND CLIENT_IP = #{clientIp,jdbcType=VARCHAR}
+      </if>
+      <if test="recordKey != null" >
+        AND RECORD_KEY = #{recordKey,jdbcType=VARCHAR}
+      </if>
+      <if test="recordType != null" >
+        AND RECORD_TYPE = #{recordType,jdbcType=VARCHAR}
+      </if>
+      <if test="recordStatus != null" >
+        AND RECORD_STATUS = #{recordStatus,jdbcType=CHAR}
+      </if>
+      <if test="xmlContent != null" >
+        AND XML_CONTENT = #{xmlContent,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="sessionOid != null" >
+        SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="delete" parameterType="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    delete from AUDIT_TRAIL
+    <where>
+      <if test="auditTrailOid != null" >
+        ADT_OID = #{auditTrailOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actionDate != null" >
+        AND ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="actionType != null" >
+        AND ACTION_TYPE = #{actionType,jdbcType=CHAR}
+      </if>
+      <if test="actorAction != null" >
+        AND ACTOR_ACTION = #{actorAction,jdbcType=CHAR}
+      </if>
+      <if test="actorOid != null" >
+        AND ACTOR_OID = #{actorOid,jdbcType=DECIMAL}
+      </if>
+      <if test="actor != null" >
+        AND ACTOR = #{actor,jdbcType=VARCHAR}
+      </if>
+      <if test="clientIp != null" >
+        AND CLIENT_IP = #{clientIp,jdbcType=VARCHAR}
+      </if>
+      <if test="recordKey != null" >
+        AND RECORD_KEY = #{recordKey,jdbcType=VARCHAR}
+      </if>
+      <if test="recordType != null" >
+        AND RECORD_TYPE = #{recordType,jdbcType=VARCHAR}
+      </if>
+      <if test="recordStatus != null" >
+        AND RECORD_STATUS = #{recordStatus,jdbcType=CHAR}
+      </if>
+      <if test="xmlContent != null" >
+        AND XML_CONTENT = #{xmlContent,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="sessionOid != null" >
+        SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+  
+  <insert id="insert" parameterType="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    insert into AUDIT_TRAIL (ADT_OID, ACTION_DATE, ACTION_TYPE, 
+      ACTOR_ACTION, ACTOR_OID, ACTOR, 
+      CLIENT_IP, RECORD_KEY, RECORD_TYPE, RECORD_STATUS, 
+      XML_CONTENT,SESSION_OID)
+    values (#{auditTrailOid,jdbcType=DECIMAL}, #{actionDate,jdbcType=TIMESTAMP}, #{actionType,jdbcType=CHAR}, 
+      #{actorAction,jdbcType=CHAR}, #{actorOid,jdbcType=DECIMAL}, #{actor,jdbcType=VARCHAR}, 
+      #{clientIp,jdbcType=VARCHAR}, #{recordKey,jdbcType=VARCHAR}, #{recordType,jdbcType=VARCHAR}, #{recordStatus,jdbcType=CHAR}, 
+      #{xmlContent,jdbcType=LONGVARCHAR},#{sessionOid,jdbcType=DECIMAL})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    update AUDIT_TRAIL
+    <set >
+      <if test="actionDate != null" >
+        ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actionType != null" >
+        ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      </if>
+      <if test="actorAction != null" >
+        ACTOR_ACTION = #{actorAction,jdbcType=CHAR},
+      </if>
+      <if test="actorOid != null" >
+        ACTOR_OID = #{actorOid,jdbcType=DECIMAL},
+      </if>
+      <if test="actor != null" >
+        ACTOR = #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        CLIENT_IP = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="recordKey != null" >
+        RECORD_KEY = #{recordKey,jdbcType=VARCHAR},
+      </if>
+      <if test="recordType != null" >
+        RECORD_TYPE = #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null" >
+        RECORD_STATUS = #{recordStatus,jdbcType=CHAR},
+      </if>
+      <if test="xmlContent != null" >
+        XML_CONTENT = #{xmlContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sessionOid != null" >
+        SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where ADT_OID = #{auditTrailOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    update AUDIT_TRAIL
+    set ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      ACTOR_ACTION = #{actorAction,jdbcType=CHAR},
+      ACTOR_OID = #{actorOid,jdbcType=DECIMAL},
+      ACTOR = #{actor,jdbcType=VARCHAR},
+      CLIENT_IP = #{clientIp,jdbcType=VARCHAR},
+      RECORD_KEY = #{recordKey,jdbcType=VARCHAR},
+      RECORD_TYPE = #{recordType,jdbcType=VARCHAR},
+      RECORD_STATUS = #{recordStatus,jdbcType=CHAR},
+      XML_CONTENT = #{xmlContent,jdbcType=LONGVARCHAR},
+      SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+    where ADT_OID = #{auditTrailOid,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.pracbiz.b2bportal.core.holder.AuditTrailHolder" >
+    update AUDIT_TRAIL
+    set ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+      ACTION_TYPE = #{actionType,jdbcType=CHAR},
+      ACTOR_ACTION = #{actorAction,jdbcType=CHAR},
+      ACTOR_OID = #{actorOid,jdbcType=DECIMAL},
+      ACTOR = #{actor,jdbcType=VARCHAR},
+      CLIENT_IP = #{clientIp,jdbcType=VARCHAR},
+      RECORD_KEY = #{recordKey,jdbcType=VARCHAR},
+      RECORD_TYPE = #{recordType,jdbcType=VARCHAR},
+      RECORD_STATUS = #{recordStatus,jdbcType=CHAR},
+      SESSION_OID = #{sessionOid,jdbcType=DECIMAL}
+    where ADT_OID = #{auditTrailOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

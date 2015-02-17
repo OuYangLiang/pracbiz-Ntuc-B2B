@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pracbiz.b2bportal.core.mapper.PopupSupplierMapper" >
+  
+  <resultMap id="GridMap" type="com.pracbiz.b2bportal.core.holder.SupplierHolder" >
+    <id column="SUPPLIER_OID" property="supplierOid" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_CODE" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+    <result column="ADDRESS_1" property="address1" jdbcType="VARCHAR" />
+    <result column="ADDRESS_2" property="address2" jdbcType="VARCHAR" />
+    <result column="ADDRESS_3" property="address3" jdbcType="VARCHAR" />
+    <result column="ADDRESS_4" property="address4" jdbcType="VARCHAR" />
+    <result column="ACTIVE" property="active" jdbcType="BIT" />
+    <result column="BLOCKED" property="blocked" jdbcType="BIT" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="MBOX_ID" property="mboxId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Grid_Column_List" >
+    S.SUPPLIER_OID, S.SUPPLIER_CODE, S.SUPPLIER_NAME, S.ADDRESS_1, S.ADDRESS_2, S.ADDRESS_3 ,S.ADDRESS_4,
+    S.ACTIVE, S.BLOCKED,  S.UPDATE_DATE, S.MBOX_ID
+  </sql>
+  
+  
+  <select id="getCountOfSummary" parameterType="com.pracbiz.b2bportal.core.holder.extension.SupplierExHolder"
+    resultType="int">
+    select count(*) 
+    from (
+        SELECT DISTINCT
+        <include refid="Grid_Column_List" />
+        from SUPPLIER S , TRADING_PARTNER T
+         WHERE S.SUPPLIER_OID = T.SUPPLIER_OID
+      <if test="currentUserTypeOid == 2 or currentUserTypeOid == 4 or currentUserTypeOid == 6 or currentUserTypeOid == 7">
+        AND CASE WHEN -1 in (SELECT GS.SUPPLIER_OID FROM GROUP_SUPPLIER GS,GROUP_USER GU WHERE GS.GROUP_OID=GU.GROUP_OID 
+        AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL}) THEN 1=1 ELSE S.SUPPLIER_OID IN (SELECT GS.SUPPLIER_OID FROM GROUP_SUPPLIER GS,GROUP_USER GU
+        WHERE GS.GROUP_OID=GU.GROUP_OID AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL}) END
+      </if>
+      <if test="supplierCode != null" >
+        AND S.SUPPLIER_CODE like concat('%',#{supplierCode},'%')
+      </if>
+      <if test="supplierName != null" >
+        AND S.SUPPLIER_NAME like concat('%',#{supplierName},'%')
+      </if>
+      <if test="active != null" >
+        AND S.ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND S.BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="mboxId != null" >
+        AND S.MBOX_ID like concat('%',#{mboxId},'%')
+      </if>
+      <if test="buyerOid != null" >
+        AND T.BUYER_OID =  #{buyerOid,jdbcType=DECIMAL}
+      </if>
+    ) view
+    
+  </select>
+  
+  
+  <select id="getListOfSummary" resultMap="GridMap" parameterType="com.pracbiz.b2bportal.core.holder.extension.SupplierExHolder" >
+    SELECT DISTINCT
+    <include refid="Grid_Column_List" />
+    from SUPPLIER S , TRADING_PARTNER T
+         WHERE S.SUPPLIER_OID = T.SUPPLIER_OID
+      <if test="currentUserTypeOid == 2 or currentUserTypeOid == 4 or currentUserTypeOid == 6 or currentUserTypeOid == 7">
+        AND CASE WHEN -1 in (SELECT GS.SUPPLIER_OID FROM GROUP_SUPPLIER GS,GROUP_USER GU WHERE GS.GROUP_OID=GU.GROUP_OID 
+        AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL}) THEN 1=1 ELSE S.SUPPLIER_OID IN (SELECT GS.SUPPLIER_OID FROM GROUP_SUPPLIER GS,GROUP_USER GU
+        WHERE GS.GROUP_OID=GU.GROUP_OID AND GU.USER_OID=#{currentUserOid,jdbcType=DECIMAL}) END
+      </if>
+      <if test="supplierCode != null" >
+        AND S.SUPPLIER_CODE like concat('%',#{supplierCode},'%')
+      </if>
+      <if test="supplierName != null" >
+        AND S.SUPPLIER_NAME like concat('%',#{supplierName},'%')
+      </if>
+      <if test="active != null" >
+        AND S.ACTIVE = #{active,jdbcType=BIT}
+      </if>
+      <if test="blocked != null" >
+        AND S.BLOCKED = #{blocked,jdbcType=BIT}
+      </if>
+      <if test="mboxId != null" >
+        AND S.MBOX_ID like concat('%',#{mboxId},'%')
+      </if>
+      <if test="buyerOid != null" >
+        AND T.BUYER_OID =  #{buyerOid,jdbcType=DECIMAL}
+      </if>
+    <if test="sortField != null" >
+        order by ${sortField} ${sortOrder}
+    </if>
+        limit ${startRecordNum},${numberOfRecordsToSelect}
+  </select>
+  
+</mapper>
